@@ -1,0 +1,23 @@
+{
+  "name": "@mtkruto/browser",
+  "version": "0.0.0",
+  "description": "MTKruto for browsers",
+  "author": "Roj <rojvv@icloud.com>",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MTKruto/MTKruto.git"
+  },
+  "license": "LGPL-3.0-or-later",
+  "main": "./script/mod.js",
+  "module": "./esm/mod.js",
+  "exports": {
+    ".": {
+      "import": "./esm/mod.js",
+      "require": "./script/mod.js"
+    }
+  },
+  "devDependencies": {
+    "@types/object-inspect": "^1.8.1"
+  },
+  "_generatedBy": "dnt@0.39.0"
+}
