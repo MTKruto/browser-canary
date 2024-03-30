@@ -1,4 +1,5 @@
 import { path } from "../0_deps.js";
+import { InputError } from "../0_errors.js";
 import { UNREACHABLE } from "../1_utilities.js";
 import { types } from "../2_tl.js";
 export const resolve = () => Promise.resolve();
@@ -79,7 +80,7 @@ function isDigit(string) {
     const c = string.charCodeAt(0);
     return "0".charCodeAt(0) <= c && c <= "9".charCodeAt(0);
 }
-const errInvalidUsername = (u) => new Error("Invalid username: " + u);
+const errInvalidUsername = (u) => new InputError(`Invalid username: ${u}`);
 function validateUsername(string, ignoreAt = false) {
     string = string.trim();
     if (ignoreAt && string.startsWith("@")) {
