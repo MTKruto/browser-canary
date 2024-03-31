@@ -50,7 +50,7 @@ export const PUBLIC_KEYS = Object.freeze([
     ],
 ]);
 export const INITIAL_DC = "2";
-export const LAYER = 176;
+export const LAYER = 177;
 export const APP_VERSION = "MTKruto 0.1.190";
 // @ts-ignore: lib
 export const DEVICE_MODEL = typeof Deno === "undefined" ? typeof navigator === "undefined" ? typeof process === "undefined" ? "Unknown" : process.platform + "-" + process.arch : (navigator.userAgent.split(" ")[0] || "Unknown") : Deno.build.os + "-" + Deno.build.arch;
