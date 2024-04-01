@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getChatListId = exports.getUsername = exports.isHttpUrl = exports.getFileContents = exports.isChannelPtsUpdate = exports.isPtsUpdate = exports.resolve = void 0;
+exports.getChatListId = exports.getUsername = exports.isHttpUrl = exports.getFileContents = exports.isQtsUpdate = exports.isChannelPtsUpdate = exports.isPtsUpdate = exports.resolve = void 0;
 const _0_deps_js_1 = require("../0_deps.js");
 const _0_errors_js_1 = require("../0_errors.js");
 const _1_utilities_js_1 = require("../1_utilities.js");
@@ -28,6 +28,22 @@ function isChannelPtsUpdate(v) {
         v instanceof _2_tl_js_1.types.UpdateChannelTooLong;
 }
 exports.isChannelPtsUpdate = isChannelPtsUpdate;
+function isQtsUpdate(v) {
+    return v instanceof _2_tl_js_1.types.UpdateNewEncryptedMessage ||
+        v instanceof _2_tl_js_1.types.UpdateMessagePollVote ||
+        v instanceof _2_tl_js_1.types.UpdateBotStopped ||
+        v instanceof _2_tl_js_1.types.UpdateChatParticipant ||
+        v instanceof _2_tl_js_1.types.UpdateChannelParticipant ||
+        v instanceof _2_tl_js_1.types.UpdateBotChatInviteRequester ||
+        v instanceof _2_tl_js_1.types.UpdateBotChatBoost ||
+        v instanceof _2_tl_js_1.types.UpdateBotMessageReaction ||
+        v instanceof _2_tl_js_1.types.UpdateBotMessageReactions ||
+        v instanceof _2_tl_js_1.types.UpdateBotBusinessConnect ||
+        v instanceof _2_tl_js_1.types.UpdateBotNewBusinessMessage ||
+        v instanceof _2_tl_js_1.types.UpdateBotEditBusinessMessage ||
+        v instanceof _2_tl_js_1.types.UpdateBotDeleteBusinessMessage;
+}
+exports.isQtsUpdate = isQtsUpdate;
 async function getFileContents(source, fileName = "") {
     fileName = fileName.trim() || "file";
     let contents;
