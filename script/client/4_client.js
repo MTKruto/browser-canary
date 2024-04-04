@@ -685,7 +685,7 @@ class Client extends Composer {
                     if (ctx.error instanceof _4_errors_js_1.AuthKeyUnregistered && dcId) {
                         try {
                             const exportedAuth = await this.api.auth.exportAuthorization({ dc_id: dcId });
-                            await client.authorize(exportedAuth);
+                            await client.api.auth.importAuthorization(exportedAuth);
                             return true;
                         }
                         catch (err) {
