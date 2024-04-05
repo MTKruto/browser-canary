@@ -13,6 +13,7 @@ var __classPrivateFieldSet = (this && this.__classPrivateFieldSet) || function (
 var _ConnectionWebSocket_instances, _ConnectionWebSocket_webSocket, _ConnectionWebSocket_rMutex, _ConnectionWebSocket_wMutex, _ConnectionWebSocket_buffer, _ConnectionWebSocket_nextResolve, _ConnectionWebSocket_initWs, _ConnectionWebSocket_wasConnected, _ConnectionWebSocket_isConnecting, _ConnectionWebSocket_connectionError, _ConnectionWebSocket_assertConnected, _ConnectionWebSocket_rejectRead;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ConnectionWebSocket = void 0;
+const _0_deps_js_1 = require("../0_deps.js");
 const _1_utilities_js_1 = require("../1_utilities.js");
 const _0_connection_js_1 = require("./0_connection.js");
 const L = (0, _1_utilities_js_1.getLogger)("ConnectionWebSocket");
@@ -118,7 +119,7 @@ _ConnectionWebSocket_webSocket = new WeakMap(), _ConnectionWebSocket_rMutex = ne
             return;
         }
         const unlock = await mutex.lock();
-        const data = new Uint8Array(await new Blob([e.data].map((v) => v instanceof Blob || v instanceof Uint8Array ? v : v instanceof ArrayBuffer ? v : (0, _1_utilities_js_1.UNREACHABLE)())).arrayBuffer());
+        const data = new Uint8Array(await new Blob([e.data].map((v) => v instanceof Blob || v instanceof Uint8Array ? v : v instanceof ArrayBuffer ? v : (0, _0_deps_js_1.unreachable)())).arrayBuffer());
         __classPrivateFieldSet(this, _ConnectionWebSocket_buffer, (0, _1_utilities_js_1.concat)(__classPrivateFieldGet(this, _ConnectionWebSocket_buffer, "f"), data), "f");
         if (__classPrivateFieldGet(this, _ConnectionWebSocket_nextResolve, "f") != null && __classPrivateFieldGet(this, _ConnectionWebSocket_buffer, "f").length >= __classPrivateFieldGet(this, _ConnectionWebSocket_nextResolve, "f")[0]) {
             __classPrivateFieldGet(this, _ConnectionWebSocket_nextResolve, "f")[1].resolve();
