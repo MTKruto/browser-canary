@@ -1,6 +1,5 @@
-import { path } from "../0_deps.js";
+import { path, unreachable } from "../0_deps.js";
 import { InputError } from "../0_errors.js";
-import { UNREACHABLE } from "../1_utilities.js";
 export const resolve = () => Promise.resolve();
 export async function getFileContents(source, fileName = "") {
     fileName = fileName.trim() || "file";
@@ -27,7 +26,7 @@ export async function getFileContents(source, fileName = "") {
                 fileName = path.basename(path_);
             }
             else {
-                UNREACHABLE();
+                unreachable();
             }
         }
         const res = await fetch(url);
@@ -122,7 +121,7 @@ export function getChatListId(chatList) {
         case "archived":
             return 1;
         default:
-            UNREACHABLE();
+            unreachable();
     }
 }
 export function checkMessageId(messageId) {

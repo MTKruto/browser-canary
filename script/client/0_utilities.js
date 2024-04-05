@@ -3,7 +3,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.checkInlineQueryId = exports.checkCallbackQueryId = exports.checkArray = exports.checkPollOption = exports.checkStoryId = exports.checkMessageId = exports.getChatListId = exports.getUsername = exports.isHttpUrl = exports.getFileContents = exports.resolve = void 0;
 const _0_deps_js_1 = require("../0_deps.js");
 const _0_errors_js_1 = require("../0_errors.js");
-const _1_utilities_js_1 = require("../1_utilities.js");
 const resolve = () => Promise.resolve();
 exports.resolve = resolve;
 async function getFileContents(source, fileName = "") {
@@ -31,7 +30,7 @@ async function getFileContents(source, fileName = "") {
                 fileName = _0_deps_js_1.path.basename(path_);
             }
             else {
-                (0, _1_utilities_js_1.UNREACHABLE)();
+                (0, _0_deps_js_1.unreachable)();
             }
         }
         const res = await fetch(url);
@@ -129,7 +128,7 @@ function getChatListId(chatList) {
         case "archived":
             return 1;
         default:
-            (0, _1_utilities_js_1.UNREACHABLE)();
+            (0, _0_deps_js_1.unreachable)();
     }
 }
 exports.getChatListId = getChatListId;
