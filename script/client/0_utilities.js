@@ -19,55 +19,12 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.isMtprotoFunction = exports.checkInlineQueryId = exports.checkCallbackQueryId = exports.checkArray = exports.checkPollOption = exports.checkStoryId = exports.checkMessageId = exports.getChatListId = exports.getUsername = exports.isHttpUrl = exports.getFileContents = exports.resolve = void 0;
+exports.isMtprotoFunction = exports.checkInlineQueryId = exports.checkCallbackQueryId = exports.checkArray = exports.checkPollOption = exports.checkStoryId = exports.checkMessageId = exports.getChatListId = exports.getUsername = exports.isHttpUrl = exports.resolve = void 0;
 const _0_deps_js_1 = require("../0_deps.js");
 const _0_errors_js_1 = require("../0_errors.js");
 const _2_tl_js_1 = require("../2_tl.js");
 const resolve = () => Promise.resolve();
 exports.resolve = resolve;
-async function getFileContents(source, fileName = "") {
-    fileName = fileName.trim() || "file";
-    let contents;
-    if (source instanceof Uint8Array) {
-        contents = source;
-    }
-    else {
-        let url;
-        try {
-            url = new URL(source).toString();
-        }
-        catch {
-            if (typeof source === "string") {
-                let path_;
-                if (_0_deps_js_1.path.isAbsolute(source)) {
-                    path_ = source;
-                }
-                else {
-                    // @ts-ignore: lib
-                    path_ = _0_deps_js_1.path.join(Deno.cwd(), source);
-                }
-                url = _0_deps_js_1.path.toFileUrl(path_).toString();
-                fileName = _0_deps_js_1.path.basename(path_);
-            }
-            else {
-                (0, _0_deps_js_1.unreachable)();
-            }
-        }
-        const res = await fetch(url);
-        if (fileName == "file") {
-            const contentType = res.headers.get("content-type");
-            if (contentType?.includes("image/png")) {
-                fileName += ".png";
-            }
-            else if (contentType?.includes("image/jpeg")) {
-                fileName += ".jpg";
-            }
-        }
-        contents = await res.arrayBuffer().then((v) => new Uint8Array(v));
-    }
-    return [contents, fileName];
-}
-exports.getFileContents = getFileContents;
 function isHttpUrl(string) {
     try {
         return new URL(string).protocol.startsWith("http");
