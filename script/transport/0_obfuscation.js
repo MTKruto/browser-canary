@@ -20,11 +20,12 @@
  */
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getObfuscationParameters = void 0;
+const _0_deps_js_1 = require("../0_deps.js");
 const _1_utilities_js_1 = require("../1_utilities.js");
 async function getObfuscationParameters(protocol, connection) {
     let init;
     while (true) {
-        init = (0, _1_utilities_js_1.concat)(crypto.getRandomValues(new Uint8Array(56)), (0, _1_utilities_js_1.bufferFromBigInt)(protocol, 4, false), crypto.getRandomValues(new Uint8Array(4)));
+        init = (0, _0_deps_js_1.concat)([crypto.getRandomValues(new Uint8Array(56)), (0, _1_utilities_js_1.bufferFromBigInt)(protocol, 4, false), crypto.getRandomValues(new Uint8Array(4))]);
         if (init[0] == 0xEF) {
             continue;
         }
@@ -48,7 +49,7 @@ async function getObfuscationParameters(protocol, connection) {
     const decryptKey = initRev.slice(8, 8 + 32);
     const decryptIv = initRev.slice(40, 40 + 16);
     const decryptionCTR = new _1_utilities_js_1.CTR(decryptKey, decryptIv);
-    await connection.write((0, _1_utilities_js_1.concat)(init.subarray(0, 56), encryptedInit.subarray(56, 56 + 8)));
+    await connection.write((0, _0_deps_js_1.concat)([init.subarray(0, 56), encryptedInit.subarray(56, 56 + 8)]));
     return { encryptionCTR, decryptionCTR };
 }
 exports.getObfuscationParameters = getObfuscationParameters;

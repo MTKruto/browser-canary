@@ -29,10 +29,10 @@ var __classPrivateFieldGet = (this && this.__classPrivateFieldGet) || function (
     return kind === "m" ? f : kind === "a" ? f.call(receiver) : f ? f.value : state.get(receiver);
 };
 var _FileManager_instances, _a, _FileManager_c, _FileManager_Lupload, _FileManager_MAX_CHUNK_SIZE, _FileManager_BIG_FILE_THRESHOLD, _FileManager_getFileContents, _FileManager_downloadInner, _FileManager_CUSTOM_EMOJI_TTL;
-import { extension, path } from "../0_deps.js";
+import { concat, extension, path } from "../0_deps.js";
 import { unreachable } from "../0_deps.js";
 import { ConnectionError, InputError } from "../0_errors.js";
-import { concat, drop, getLogger, getRandomId, kilobyte, megabyte, minute, mod } from "../1_utilities.js";
+import { drop, getLogger, getRandomId, kilobyte, megabyte, minute, mod } from "../1_utilities.js";
 import { as, types } from "../2_tl.js";
 import { constructSticker, deserializeFileId, FileType, PhotoSourceType, serializeFileId, toUniqueFileId } from "../3_types.js";
 import { STICKER_SET_NAME_TTL } from "../4_constants.js";
@@ -155,7 +155,7 @@ export class FileManager {
         while (true) {
             const result = await reader.read();
             if (result.value) {
-                buffer = concat(buffer, result.value);
+                buffer = concat([buffer, result.value]);
                 totalRead += result.value.byteLength;
             }
             if (result.done || buffer.byteLength >= chunkSize) {

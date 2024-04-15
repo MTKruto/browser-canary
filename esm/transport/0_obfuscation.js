@@ -17,11 +17,12 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-import { bufferFromBigInt, concat, CTR } from "../1_utilities.js";
+import { concat } from "../0_deps.js";
+import { bufferFromBigInt, CTR } from "../1_utilities.js";
 export async function getObfuscationParameters(protocol, connection) {
     let init;
     while (true) {
-        init = concat(crypto.getRandomValues(new Uint8Array(56)), bufferFromBigInt(protocol, 4, false), crypto.getRandomValues(new Uint8Array(4)));
+        init = concat([crypto.getRandomValues(new Uint8Array(56)), bufferFromBigInt(protocol, 4, false), crypto.getRandomValues(new Uint8Array(4))]);
         if (init[0] == 0xEF) {
             continue;
         }
@@ -45,6 +46,6 @@ export async function getObfuscationParameters(protocol, connection) {
     const decryptKey = initRev.slice(8, 8 + 32);
     const decryptIv = initRev.slice(40, 40 + 16);
     const decryptionCTR = new CTR(decryptKey, decryptIv);
-    await connection.write(concat(init.subarray(0, 56), encryptedInit.subarray(56, 56 + 8)));
+    await connection.write(concat([init.subarray(0, 56), encryptedInit.subarray(56, 56 + 8)]));
     return { encryptionCTR, decryptionCTR };
 }

@@ -17,7 +17,8 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-import { bigIntFromBuffer, bufferFromBigInt, concat, getRandomBigInt, mod, modExp, sha256 } from "../1_utilities.js";
+import { concat } from "../0_deps.js";
+import { bigIntFromBuffer, bufferFromBigInt, getRandomBigInt, mod, modExp, sha256 } from "../1_utilities.js";
 import { types } from "../2_tl.js";
 export function isSafePrime(primeBytes, g) {
     // deno-fmt-ignore
@@ -55,7 +56,7 @@ export function isSafePrime(primeBytes, g) {
 // H(data) := sha256(data)
 export const h = sha256;
 // SH(data, salt) := H(salt | data | salt)
-export const sh = (data, salt) => h(concat(salt, data, salt));
+export const sh = (data, salt) => h(concat([salt, data, salt]));
 // PH1(password, salt1, salt2) := SH(SH(password, salt1), salt2)
 export const ph1 = async (password, salt1, salt2) => await sh(await sh(password, salt1), salt2);
 export async function pbkdf2(password, salt, iterations) {
@@ -82,7 +83,7 @@ export function pad(bigint) {
         return bufferFromBigInt(bigint, 256, false);
     }
     else {
-        return concat(new Uint8Array(256 - bigint.length), bigint);
+        return concat([new Uint8Array(256 - bigint.length), bigint]);
     }
 }
 export async function checkPassword(password_, ap) {
@@ -116,7 +117,7 @@ export async function checkPassword(password_, ap) {
     // g_b := srp_B
     const gB = bigIntFromBuffer(srpB, false);
     // k := H(p | g)
-    const k = bigIntFromBuffer(await h(concat(pad(p), pad(g))), false);
+    const k = bigIntFromBuffer(await h(concat([pad(p), pad(g)])), false);
     let u = 0n;
     let a = 0n;
     let gA = 0n;
@@ -125,7 +126,7 @@ export async function checkPassword(password_, ap) {
         // g_a := pow(g, a) mod p
         gA = modExp(BigInt(g), a, p);
         if (isGoodModExpFirst(gA, p)) {
-            u = bigIntFromBuffer(await sha256(concat(pad(gA), pad(gB))), false);
+            u = bigIntFromBuffer(await sha256(concat([pad(gA), pad(gB)])), false);
             if (u > 0n) {
                 break;
             }
@@ -148,7 +149,14 @@ export async function checkPassword(password_, ap) {
     const kA = await h(pad(sA));
     // M1 := H(H(p) xor H(g) | H(salt1) | H(salt2) | g_a | g_b | k_a)
     const hG = await h(pad(g));
-    const m1 = await h(concat((await h(pad(p))).map((v, i) => v ^ hG[i]), await h(salt1), await h(salt2), pad(gA), pad(gB), kA));
+    const m1 = await h(concat([
+        (await h(pad(p))).map((v, i) => v ^ hG[i]),
+        await h(salt1),
+        await h(salt2),
+        pad(gA),
+        pad(gB),
+        kA,
+    ]));
     return new types.InputCheckPasswordSRP({
         srp_id: srpId,
         A: pad(gA),

@@ -29,8 +29,8 @@ var __classPrivateFieldSet = (this && this.__classPrivateFieldSet) || function (
     return (kind === "a" ? f.call(receiver, value) : f ? f.value = value : state.set(receiver, value)), value;
 };
 var _ConnectionWebSocket_instances, _ConnectionWebSocket_webSocket, _ConnectionWebSocket_rMutex, _ConnectionWebSocket_wMutex, _ConnectionWebSocket_buffer, _ConnectionWebSocket_nextResolve, _ConnectionWebSocket_initWs, _ConnectionWebSocket_wasConnected, _ConnectionWebSocket_isConnecting, _ConnectionWebSocket_connectionError, _ConnectionWebSocket_assertConnected, _ConnectionWebSocket_rejectRead;
-import { unreachable } from "../0_deps.js";
-import { concat, getLogger, Mutex } from "../1_utilities.js";
+import { concat, unreachable } from "../0_deps.js";
+import { getLogger, Mutex } from "../1_utilities.js";
 import { ConnectionUnframed } from "./0_connection.js";
 const L = getLogger("ConnectionWebSocket");
 const errConnectionNotOpen = new Error("Connection not open");
@@ -135,7 +135,7 @@ _ConnectionWebSocket_webSocket = new WeakMap(), _ConnectionWebSocket_rMutex = ne
         }
         const unlock = await mutex.lock();
         const data = new Uint8Array(await new Blob([e.data].map((v) => v instanceof Blob || v instanceof Uint8Array ? v : v instanceof ArrayBuffer ? v : unreachable())).arrayBuffer());
-        __classPrivateFieldSet(this, _ConnectionWebSocket_buffer, concat(__classPrivateFieldGet(this, _ConnectionWebSocket_buffer, "f"), data), "f");
+        __classPrivateFieldSet(this, _ConnectionWebSocket_buffer, concat([__classPrivateFieldGet(this, _ConnectionWebSocket_buffer, "f"), data]), "f");
         if (__classPrivateFieldGet(this, _ConnectionWebSocket_nextResolve, "f") != null && __classPrivateFieldGet(this, _ConnectionWebSocket_buffer, "f").length >= __classPrivateFieldGet(this, _ConnectionWebSocket_nextResolve, "f")[0]) {
             __classPrivateFieldGet(this, _ConnectionWebSocket_nextResolve, "f")[1].resolve();
             __classPrivateFieldSet(this, _ConnectionWebSocket_nextResolve, null, "f");

@@ -20,6 +20,7 @@
  */
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.checkPassword = exports.pad = exports.isGoodModExpFirst = exports.ph2 = exports.pbkdf2 = exports.ph1 = exports.sh = exports.h = exports.isSafePrime = void 0;
+const _0_deps_js_1 = require("../0_deps.js");
 const _1_utilities_js_1 = require("../1_utilities.js");
 const _2_tl_js_1 = require("../2_tl.js");
 function isSafePrime(primeBytes, g) {
@@ -59,7 +60,7 @@ exports.isSafePrime = isSafePrime;
 // H(data) := sha256(data)
 exports.h = _1_utilities_js_1.sha256;
 // SH(data, salt) := H(salt | data | salt)
-const sh = (data, salt) => (0, exports.h)((0, _1_utilities_js_1.concat)(salt, data, salt));
+const sh = (data, salt) => (0, exports.h)((0, _0_deps_js_1.concat)([salt, data, salt]));
 exports.sh = sh;
 // PH1(password, salt1, salt2) := SH(SH(password, salt1), salt2)
 const ph1 = async (password, salt1, salt2) => await (0, exports.sh)(await (0, exports.sh)(password, salt1), salt2);
@@ -91,7 +92,7 @@ function pad(bigint) {
         return (0, _1_utilities_js_1.bufferFromBigInt)(bigint, 256, false);
     }
     else {
-        return (0, _1_utilities_js_1.concat)(new Uint8Array(256 - bigint.length), bigint);
+        return (0, _0_deps_js_1.concat)([new Uint8Array(256 - bigint.length), bigint]);
     }
 }
 exports.pad = pad;
@@ -126,7 +127,7 @@ async function checkPassword(password_, ap) {
     // g_b := srp_B
     const gB = (0, _1_utilities_js_1.bigIntFromBuffer)(srpB, false);
     // k := H(p | g)
-    const k = (0, _1_utilities_js_1.bigIntFromBuffer)(await (0, exports.h)((0, _1_utilities_js_1.concat)(pad(p), pad(g))), false);
+    const k = (0, _1_utilities_js_1.bigIntFromBuffer)(await (0, exports.h)((0, _0_deps_js_1.concat)([pad(p), pad(g)])), false);
     let u = 0n;
     let a = 0n;
     let gA = 0n;
@@ -135,7 +136,7 @@ async function checkPassword(password_, ap) {
         // g_a := pow(g, a) mod p
         gA = (0, _1_utilities_js_1.modExp)(BigInt(g), a, p);
         if (isGoodModExpFirst(gA, p)) {
-            u = (0, _1_utilities_js_1.bigIntFromBuffer)(await (0, _1_utilities_js_1.sha256)((0, _1_utilities_js_1.concat)(pad(gA), pad(gB))), false);
+            u = (0, _1_utilities_js_1.bigIntFromBuffer)(await (0, _1_utilities_js_1.sha256)((0, _0_deps_js_1.concat)([pad(gA), pad(gB)])), false);
             if (u > 0n) {
                 break;
             }
@@ -158,7 +159,14 @@ async function checkPassword(password_, ap) {
     const kA = await (0, exports.h)(pad(sA));
     // M1 := H(H(p) xor H(g) | H(salt1) | H(salt2) | g_a | g_b | k_a)
     const hG = await (0, exports.h)(pad(g));
-    const m1 = await (0, exports.h)((0, _1_utilities_js_1.concat)((await (0, exports.h)(pad(p))).map((v, i) => v ^ hG[i]), await (0, exports.h)(salt1), await (0, exports.h)(salt2), pad(gA), pad(gB), kA));
+    const m1 = await (0, exports.h)((0, _0_deps_js_1.concat)([
+        (await (0, exports.h)(pad(p))).map((v, i) => v ^ hG[i]),
+        await (0, exports.h)(salt1),
+        await (0, exports.h)(salt2),
+        pad(gA),
+        pad(gB),
+        kA,
+    ]));
     return new _2_tl_js_1.types.InputCheckPasswordSRP({
         srp_id: srpId,
         A: pad(gA),
