@@ -17,12 +17,28 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-export declare function modExp(a: bigint, b: bigint, n: bigint): bigint;
-export declare function mod(n: bigint, m: bigint): bigint;
-export declare function mod(n: number, m: number): number;
-export declare function bigIntFromBuffer(buffer: Uint8Array, little?: boolean, signed?: boolean): bigint;
-export declare function getRandomBigInt(byteLength: number, little?: boolean, signed?: boolean): bigint;
-/** Get a random ID. Useful when calling API functions directly. */
-export declare function getRandomId(number: true): number;
-export declare function getRandomId(): bigint;
-export declare function gcd(a: bigint, b: bigint): bigint;
+import { enums } from "../2_tl.js";
+/** @unlisted */
+export interface _VideoChatCommon {
+    id: string;
+}
+/** @unlisted */
+export interface _VideoChatNotEndedCommon {
+    title: string;
+    liveStream: boolean;
+    participantCount: number;
+}
+/** @unlisted */
+export interface VideoChatActive extends _VideoChatCommon, _VideoChatNotEndedCommon {
+    recording: boolean;
+}
+/** @unlisted */
+export interface VideoChatScheduled extends _VideoChatCommon, _VideoChatNotEndedCommon {
+    scheduledFor: Date;
+}
+/** @unlisted */
+export interface VideoChatEnded extends _VideoChatCommon {
+    duration: number;
+}
+export type VideoChat = VideoChatActive | VideoChatScheduled | VideoChatEnded;
+export declare function constructVideoChat(call: enums.GroupCall): VideoChat;
