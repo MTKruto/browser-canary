@@ -17,10 +17,11 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-import { ConnectionUnframed } from "./0_connection.js";
-export declare class ConnectionWebSocket extends ConnectionUnframed implements ConnectionUnframed {
+import { Connection } from "./0_connection.js";
+export declare class ConnectionWebSocket implements Connection {
     #private;
     private readonly url;
+    stateChangeHandler?: Connection["stateChangeHandler"];
     constructor(url: string | URL);
     get connected(): boolean;
     open(): Promise<void>;
