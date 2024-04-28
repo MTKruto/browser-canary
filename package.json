@@ -19,5 +19,5 @@
   "devDependencies": {
     "@types/object-inspect": "^1.8.1"
   },
-  "_generatedBy": "dnt@0.40.0"
+  "_generatedBy": "dnt@dev"
 }
