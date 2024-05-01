@@ -20,8 +20,5 @@
       "require": "./script/1_utilities.js"
     }
   },
-  "devDependencies": {
-    "@types/object-inspect": "^1.8.1"
-  },
   "_generatedBy": "dnt@dev"
 }
