@@ -51,9 +51,7 @@ class StoryManager {
         if (typeof source === "string") {
             const fileId = __classPrivateFieldGet(this, _StoryManager_c, "f").messageManager.resolveFileId(source, _3_types_js_1.FileType.Photo);
             if (fileId != null) {
-                media = new _2_tl_js_1.types.InputMediaPhoto({
-                    id: new _2_tl_js_1.types.InputPhoto(fileId),
-                });
+                media = { _: "inputMediaPhoto", id: { ...fileId, _: "inputPhoto" } };
             }
         }
         if (media == null) {
@@ -64,14 +62,10 @@ class StoryManager {
                 const file = await __classPrivateFieldGet(this, _StoryManager_c, "f").fileManager.upload(source, params, null, "video" in content);
                 const mimeType = (0, _0_deps_js_1.contentType)(file.name.split(".").slice(-1)[0]) ?? "application/octet-stream";
                 if ("video" in content) {
-                    media = new _2_tl_js_1.types.InputMediaUploadedDocument({
-                        file,
-                        attributes: [new _2_tl_js_1.types.DocumentAttributeFilename({ file_name: file.name }), new _2_tl_js_1.types.DocumentAttributeVideo({ w: 720, h: 1280, duration: content.duration })],
-                        mime_type: mimeType,
-                    });
+                    media = { _: "inputMediaUploadedDocument", file, attributes: [{ _: "documentAttributeFilename", file_name: file.name }, { _: "documentAttributeVideo", w: 720, h: 1280, duration: content.duration }], mime_type: mimeType };
                 }
                 else {
-                    media = new _2_tl_js_1.types.InputMediaUploadedPhoto({ file });
+                    media = { _: "inputMediaUploadedPhoto", file };
                 }
             }
         }
@@ -88,28 +82,17 @@ class StoryManager {
                 mediaAreas.push(await (0, _3_types_js_1.storyInteractiveAreaToTlObject)(area, __classPrivateFieldGet(this, _StoryManager_c, "f").getEntity));
             }
         }
-        const updates = await __classPrivateFieldGet(this, _StoryManager_c, "f").api.stories.sendStory({
-            peer,
-            random_id: randomId,
-            media,
-            privacy_rules: privacyRules,
-            caption,
-            entities,
-            noforwards: params?.protectContent ? true : undefined,
-            period: params?.activeFor,
-            pinned: params?.highlight ? true : undefined,
-            media_areas: mediaAreas,
-        });
+        const updates = await __classPrivateFieldGet(this, _StoryManager_c, "f").invoke({ _: "stories.sendStory", peer, random_id: randomId, media, privacy_rules: privacyRules, caption, entities, noforwards: params?.protectContent ? true : undefined, period: params?.activeFor, pinned: params?.highlight ? true : undefined, media_areas: mediaAreas });
         return await __classPrivateFieldGet(this, _StoryManager_instances, "m", _StoryManager_updatesToStory).call(this, updates);
     }
     async getStories(chatId, storyIds) {
         await __classPrivateFieldGet(this, _StoryManager_c, "f").storage.assertUser("getStories");
         (0, _0_utilities_js_1.checkArray)(storyIds, _0_utilities_js_1.checkStoryId);
         const peer = await __classPrivateFieldGet(this, _StoryManager_c, "f").getInputPeer(chatId);
-        const stories_ = await __classPrivateFieldGet(this, _StoryManager_c, "f").api.stories.getStoriesByID({ peer, id: storyIds });
+        const stories_ = await __classPrivateFieldGet(this, _StoryManager_c, "f").invoke({ _: "stories.getStoriesByID", peer, id: storyIds });
         const stories = new Array();
         for (const story of stories_.stories) {
-            stories.push(await (0, _3_types_js_1.constructStory)(story[_2_tl_js_1.as](_2_tl_js_1.types.StoryItem), (0, _2_tl_js_1.inputPeerToPeer)(peer), __classPrivateFieldGet(this, _StoryManager_c, "f").getEntity));
+            stories.push(await (0, _3_types_js_1.constructStory)((0, _2_tl_js_1.as)("storyItem", story), (0, _2_tl_js_1.inputPeerToPeer)(peer), __classPrivateFieldGet(this, _StoryManager_c, "f").getEntity));
         }
         return stories;
     }
@@ -120,7 +103,7 @@ class StoryManager {
     async deleteStories(chatId, storyIds) {
         await __classPrivateFieldGet(this, _StoryManager_c, "f").storage.assertUser("deleteStories");
         const peer = await __classPrivateFieldGet(this, _StoryManager_c, "f").getInputPeer(chatId);
-        await __classPrivateFieldGet(this, _StoryManager_c, "f").api.stories.deleteStories({ peer, id: storyIds });
+        await __classPrivateFieldGet(this, _StoryManager_c, "f").invoke({ _: "stories.deleteStories", peer, id: storyIds });
     }
     async deleteStory(chatId, storyId) {
         await __classPrivateFieldGet(this, _StoryManager_c, "f").storage.assertUser("deleteStory");
@@ -143,15 +126,15 @@ class StoryManager {
         await this.removeStoriesFromHighlights(chatId, [storyId]);
     }
     static canHandleUpdate(update) {
-        return update instanceof _2_tl_js_1.types.UpdateStory;
+        return (0, _2_tl_js_1.is)("updateStory", update);
     }
     async handleUpdate(update) {
-        if (update.story instanceof _2_tl_js_1.types.StoryItemDeleted) {
+        if ((0, _2_tl_js_1.is)("storyItemDeleted", update.story)) {
             const chatId = (0, _2_tl_js_1.peerToChatId)(update.peer);
             const storyId = update.story.id;
             return { deletedStory: { chatId, storyId } };
         }
-        else if (update.story instanceof _2_tl_js_1.types.StoryItem) {
+        else if ((0, _2_tl_js_1.is)("storyItem", update.story)) {
             const story = await (0, _3_types_js_1.constructStory)(update.story, update.peer, __classPrivateFieldGet(this, _StoryManager_c, "f").getEntity);
             return { story };
         }
@@ -162,9 +145,9 @@ class StoryManager {
 }
 exports.StoryManager = StoryManager;
 _StoryManager_c = new WeakMap(), _StoryManager_instances = new WeakSet(), _StoryManager_updatesToStory = async function _StoryManager_updatesToStory(updates) {
-    if (updates instanceof _2_tl_js_1.types.Updates) {
-        const updateStory = updates.updates.find((v) => v instanceof _2_tl_js_1.types.UpdateStory);
-        if (updateStory && updateStory.story instanceof _2_tl_js_1.types.StoryItem) {
+    if ((0, _2_tl_js_1.is)("updates", updates)) {
+        const updateStory = updates.updates.find((v) => (0, _2_tl_js_1.is)("updateStory", v));
+        if (updateStory && (0, _2_tl_js_1.is)("storyItem", updateStory.story)) {
             return await (0, _3_types_js_1.constructStory)(updateStory.story, updateStory.peer, __classPrivateFieldGet(this, _StoryManager_c, "f").getEntity);
         }
     }
@@ -172,5 +155,5 @@ _StoryManager_c = new WeakMap(), _StoryManager_instances = new WeakSet(), _Story
 }, _StoryManager_togglePinned = async function _StoryManager_togglePinned(chatId, storyIds, pinned) {
     (0, _0_utilities_js_1.checkArray)(storyIds, _0_utilities_js_1.checkStoryId);
     const peer = await __classPrivateFieldGet(this, _StoryManager_c, "f").getInputPeer(chatId);
-    await __classPrivateFieldGet(this, _StoryManager_c, "f").api.stories.togglePinned({ peer, id: storyIds, pinned });
+    await __classPrivateFieldGet(this, _StoryManager_c, "f").invoke({ _: "stories.togglePinned", peer, id: storyIds, pinned });
 };

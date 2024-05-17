@@ -17,14 +17,14 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-import { enums, types } from "../2_tl.js";
+import { Api } from "../2_tl.js";
 import { Update } from "../3_types.js";
 import { C } from "./1_types.js";
-type ReactionManagerUpdate = types.UpdateBotMessageReactions | types.UpdateBotMessageReaction | types.UpdateMessageReactions | types.UpdateChannelMessageViews | types.UpdateChannelMessageForwards;
+type ReactionManagerUpdate = Api.updateBotMessageReactions | Api.updateBotMessageReaction | Api.updateMessageReactions | Api.updateChannelMessageViews | Api.updateChannelMessageForwards;
 export declare class ReactionManager {
     #private;
     constructor(c: C);
-    static canHandleUpdate(update: enums.Update): update is ReactionManagerUpdate;
+    static canHandleUpdate(update: Api.Update): update is ReactionManagerUpdate;
     handleUpdate(update: ReactionManagerUpdate): Promise<Update | null>;
 }
 export {};

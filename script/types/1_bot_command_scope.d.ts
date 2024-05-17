@@ -17,7 +17,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-import { enums } from "../2_tl.js";
+import { Api } from "../2_tl.js";
 import { InputPeerGetter } from "./_getters.js";
 import { ID } from "./0_id.js";
 /** @unlisted */
@@ -54,5 +54,5 @@ export interface BotCommandScopeChatMember {
 }
 /** A type specifying where bot commads are available. */
 export type BotCommandScope = BotCommandScopeDefault | BotCommandScopeAllPrivateChats | BotCommandScopeAllGroupChats | BotCommandScopeAllChatAdministrators | BotCommandScopeChat | BotCommandScopeChatAdministrators | BotCommandScopeChatMember;
-export declare function botCommandScopeToTlObject(scope: BotCommandScope, getInputPeer: InputPeerGetter): Promise<enums.BotCommandScope>;
+export declare function botCommandScopeToTlObject(scope: BotCommandScope, getInputPeer: InputPeerGetter): Promise<Api.BotCommandScope>;
 //# sourceMappingURL=1_bot_command_scope.d.ts.map

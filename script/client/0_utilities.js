@@ -147,15 +147,18 @@ function checkInlineQueryId(id) {
     }
 }
 exports.checkInlineQueryId = checkInlineQueryId;
+const MTPROTO_FUNCTIONS = [
+    "ping",
+    "ping_delay_disconnect",
+    "req_pq_multi",
+    "rpc_drop_answer",
+    "get_future_salts",
+    "destroy_session",
+    "destroy_auth_key",
+    "req_DH_params",
+    "set_client_DH_params",
+];
 function isMtprotoFunction(value) {
-    return value instanceof _2_tl_js_1.functions.ping ||
-        value instanceof _2_tl_js_1.functions.ping_delay_disconnect ||
-        value instanceof _2_tl_js_1.functions.req_pq_multi ||
-        value instanceof _2_tl_js_1.functions.rpc_drop_answer ||
-        value instanceof _2_tl_js_1.functions.get_future_salts ||
-        value instanceof _2_tl_js_1.functions.destroy_session ||
-        value instanceof _2_tl_js_1.functions.destroy_auth_key ||
-        value instanceof _2_tl_js_1.functions.req_DH_params ||
-        value instanceof _2_tl_js_1.functions.set_client_DH_params;
+    return (0, _2_tl_js_1.isOneOf)(MTPROTO_FUNCTIONS, value);
 }
 exports.isMtprotoFunction = isMtprotoFunction;

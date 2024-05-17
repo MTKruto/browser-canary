@@ -18,7 +18,6 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 import { toUnixTimestamp } from "../1_utilities.js";
-import { types } from "../2_tl.js";
 export function constructChatMemberRights(rights) {
     return {
         canSendMessages: rights.send_messages ? true : false,
@@ -41,7 +40,8 @@ export function constructChatMemberRights(rights) {
     };
 }
 export function chatMemberRightsToTlObject(rights, untilDate) {
-    return new types.ChatBannedRights({
+    return {
+        _: "chatBannedRights",
         until_date: untilDate ? toUnixTimestamp(untilDate) : 0,
         send_messages: rights?.canSendMessages ? true : undefined,
         send_audios: rights?.canSendAudio ? true : undefined,
@@ -60,5 +60,5 @@ export function chatMemberRightsToTlObject(rights, untilDate) {
         invite_users: rights?.canInviteUsers ? true : undefined,
         pin_messages: rights?.canPinMessages ? true : undefined,
         manage_topics: rights?.canManageTopics ? true : undefined,
-    });
+    };
 }

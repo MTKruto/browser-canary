@@ -330,14 +330,14 @@ exports.toUniqueFileId = toUniqueFileId;
 function getPhotoFileId(photo) {
     const sizes = photo.sizes
         .map((v) => {
-        if (v instanceof _2_tl_js_1.types.PhotoSizeProgressive) {
-            return new _2_tl_js_1.types.PhotoSize({ type: v.type, w: v.w, h: v.h, size: Math.max(...v.sizes) });
+        if ((0, _2_tl_js_1.is)("photoSizeProgressive", v)) {
+            return { _: "photoSize", type: v.type, w: v.w, h: v.h, size: Math.max(...v.sizes) };
         }
         else {
             return v;
         }
     })
-        .filter((v) => v instanceof _2_tl_js_1.types.PhotoSize)
+        .filter((v) => (0, _2_tl_js_1.is)("photoSize", v))
         .sort((a, b) => a.size - b.size);
     const largest = sizes.slice(-1)[0];
     const { dc_id: dcId, id, access_hash: accessHash, file_reference: fileReference } = photo;

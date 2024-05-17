@@ -17,7 +17,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-import { types } from "../2_tl.js";
+import { Api } from "../2_tl.js";
 import { InlineQueryResult } from "./4_inline_query_result.js";
 /** An answer to an inline query. */
 export interface InlineQueryAnswer {
@@ -28,5 +28,5 @@ export interface InlineQueryAnswer {
     /** A parameter that can be passed to next queries with the same text to yield more results. */
     nextOffset?: string;
 }
-export declare function constructInlineQueryAnswer(results: types.messages.BotResults): InlineQueryAnswer;
+export declare function constructInlineQueryAnswer(results: Api.messages_BotResults): InlineQueryAnswer;
 //# sourceMappingURL=5_inline_query_answer.d.ts.map

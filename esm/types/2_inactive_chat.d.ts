@@ -17,7 +17,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-import { enums } from "../2_tl.js";
+import { Api } from "../2_tl.js";
 import { ChatP } from "./1_chat_p.js";
 /** An inactive chat. */
 export interface InactiveChat {
@@ -26,5 +26,5 @@ export interface InactiveChat {
     /** The chat that has been marked as inactive. */
     chat: ChatP;
 }
-export declare function constructInactiveChat(chat_: enums.Chat, lastActivity: number): InactiveChat;
+export declare function constructInactiveChat(chat_: Api.Chat, lastActivity: number): InactiveChat;
 //# sourceMappingURL=2_inactive_chat.d.ts.map

@@ -17,13 +17,13 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-import { enums, functions, ReadObject, TLObject, types } from "../2_tl.js";
+import { Api, ReadObject } from "../2_tl.js";
 import { ClientAbstract } from "./0_client_abstract.js";
 import { ClientAbstractParams } from "./0_client_abstract.js";
 export type ErrorSource = "deserialization" | "decryption" | "unknown";
 export interface Handlers {
     serverSaltReassigned?: (newServerSalt: bigint) => void;
-    updates?: (updates: enums.Updates | enums.Update, call: TLObject | null, callback?: () => void) => void;
+    updates?: (updates: Api.Updates | Api.Update, call: Api.AnyType | null, callback?: () => void) => void;
     result?: (result: ReadObject, callback: () => void) => void;
     error?: (err: unknown, source: ErrorSource) => void;
 }
@@ -47,8 +47,6 @@ export declare class ClientEncrypted extends ClientAbstract {
     get authKey(): Uint8Array;
     set serverSalt(serverSalt: bigint);
     get serverSalt(): bigint;
-    invoke<T extends (functions.Function<unknown> | types.Type) = functions.Function<unknown>>(function_: T): Promise<T extends functions.Function<unknown> ? T["__R"] : void>;
-    invoke<T extends (functions.Function<unknown> | types.Type) = functions.Function<unknown>>(function_: T, noWait: true): Promise<void>;
-    invoke<T extends (functions.Function<unknown> | types.Type) = functions.Function<unknown>>(function_: T, noWait?: boolean): Promise<T | void>;
+    invoke<T extends Api.AnyObject<P>, P extends Api.Function, R extends unknown = Promise<T["_"] extends keyof Api.Functions ? Api.ReturnType<Api.Functions[T["_"]]> : never>>(function_: T, noWait?: boolean): Promise<R | void>;
 }
 //# sourceMappingURL=1_client_encrypted.d.ts.map

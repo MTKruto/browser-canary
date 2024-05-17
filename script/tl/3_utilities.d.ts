@@ -17,18 +17,18 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-import { enums, types } from "./2_types.js";
+import * as Api from "./0_api.js";
 export declare function getChannelChatId(channelId: bigint): number;
-export type AnyEntity = types.User | types.Channel | types.ChannelForbidden | types.Chat | types.ChatForbidden;
-export declare function peerToChatId(peer: enums.Peer | enums.InputPeer | AnyEntity | types.ChannelFull | types.UserFull | types.ChatFull | {
+export type AnyEntity = Api.user | Api.channel | Api.channelForbidden | Api.chat | Api.chatForbidden;
+export declare function peerToChatId(peer: Api.Peer | Api.InputPeer | AnyEntity | Api.channelFull | Api.UserFull | Api.chatFull | {
     channel_id: bigint;
 } | {
     user_id: bigint;
 } | {
     chat_id: bigint;
 }): number;
-export declare function chatIdToPeer(chatId: number): enums.Peer;
+export declare function chatIdToPeer(chatId: number): Api.Peer;
 export declare function chatIdToPeerId(chatId: number): bigint;
 export declare function getChatIdPeerType(chatId: number): "user" | "chat" | "channel";
-export declare function inputPeerToPeer(inputPeer: enums.InputPeer): enums.Peer;
+export declare function inputPeerToPeer(inputPeer: Api.InputPeer): Api.Peer;
 //# sourceMappingURL=3_utilities.d.ts.map

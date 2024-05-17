@@ -17,7 +17,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-import { types } from "../2_tl.js";
+import { Api } from "../2_tl.js";
 /** A link preview. */
 export interface LinkPreview {
     /** Whether link preview is disabled. */
@@ -31,5 +31,5 @@ export interface LinkPreview {
     /** Whether the preview is to be shown above the message's text. */
     aboveText?: boolean;
 }
-export declare function constructLinkPreview(media: types.MessageMediaWebPage, invert?: boolean): LinkPreview;
+export declare function constructLinkPreview(media: Api.messageMediaWebPage, invert?: boolean): LinkPreview;
 //# sourceMappingURL=0_link_preview.d.ts.map

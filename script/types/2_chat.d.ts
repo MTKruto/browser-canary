@@ -17,7 +17,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-import { types } from "../2_tl.js";
+import { Api } from "../2_tl.js";
 import { EntityGetter } from "./_getters.js";
 import { OpeningHours } from "./0_opening_hours.js";
 import { ChatPChannel, ChatPGroup, ChatPPrivate, ChatPSupergroup } from "./1_chat_p.js";
@@ -59,5 +59,5 @@ export interface ChatPrivate extends ChatBase, ChatPPrivate {
  * A chat with more fields.
  */
 export type Chat = ChatChannel | ChatSupergroup | ChatGroup | ChatPrivate;
-export declare function constructChat(fullChat: types.UserFull | types.ChatFull | types.ChannelFull, getEntity: EntityGetter): Promise<Chat>;
+export declare function constructChat(fullChat: Api.userFull | Api.chatFull | Api.channelFull, getEntity: EntityGetter): Promise<Chat>;
 //# sourceMappingURL=2_chat.d.ts.map

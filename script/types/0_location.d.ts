@@ -17,7 +17,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-import { types } from "../2_tl.js";
+import { Api } from "../2_tl.js";
 /** A shared location. */
 export interface Location {
     /** The latitude of the location. */
@@ -33,5 +33,5 @@ export interface Location {
     /** The maximum distance for proximity alerts on approaching another chat member in meters. Must be in the range 1-100,000. */
     proximityAlertRadius?: number;
 }
-export declare function constructLocation(geo_: types.MessageMediaGeo | types.MessageMediaGeoLive | types.GeoPoint): Location;
+export declare function constructLocation(geo_: Api.messageMediaGeo | Api.messageMediaGeoLive | Api.geoPoint): Location;
 //# sourceMappingURL=0_location.d.ts.map

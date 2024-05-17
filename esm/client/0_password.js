@@ -19,7 +19,7 @@
  */
 import { concat } from "../0_deps.js";
 import { bigIntFromBuffer, bufferFromBigInt, getRandomBigInt, mod, modExp, sha256 } from "../1_utilities.js";
-import { types } from "../2_tl.js";
+import { is } from "../2_tl.js";
 export function isSafePrime(primeBytes, g) {
     // deno-fmt-ignore
     const goodPrime = new Uint8Array([
@@ -89,8 +89,7 @@ export function pad(bigint) {
 export async function checkPassword(password_, ap) {
     const password = new TextEncoder().encode(password_);
     const algo = ap.current_algo;
-    if (!(algo instanceof
-        types.PasswordKdfAlgoSHA256SHA256PBKDF2HMACSHA512iter100000SHA256ModPow)) {
+    if (!(is("passwordKdfAlgoSHA256SHA256PBKDF2HMACSHA512iter100000SHA256ModPow", algo))) {
         throw new Error("Unexpected algorithm");
     }
     // g := algo.g
@@ -157,9 +156,5 @@ export async function checkPassword(password_, ap) {
         pad(gB),
         kA,
     ]));
-    return new types.InputCheckPasswordSRP({
-        srp_id: srpId,
-        A: pad(gA),
-        M1: m1,
-    });
+    return { _: "inputCheckPasswordSRP", srp_id: srpId, A: pad(gA), M1: m1 };
 }

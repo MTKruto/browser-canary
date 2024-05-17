@@ -23,10 +23,10 @@ exports.reactionEqual = exports.reactionToTlObject = exports.constructReaction =
 const _0_deps_js_1 = require("../0_deps.js");
 const _2_tl_js_1 = require("../2_tl.js");
 function constructReaction(reaction) {
-    if (reaction instanceof _2_tl_js_1.types.ReactionEmoji) {
+    if ((0, _2_tl_js_1.is)("reactionEmoji", reaction)) {
         return { type: "emoji", emoji: reaction.emoticon };
     }
-    else if (reaction instanceof _2_tl_js_1.types.ReactionCustomEmoji) {
+    else if ((0, _2_tl_js_1.is)("reactionCustomEmoji", reaction)) {
         return { type: "customEmoji", id: String(reaction.document_id) };
     }
     else {
@@ -35,7 +35,7 @@ function constructReaction(reaction) {
 }
 exports.constructReaction = constructReaction;
 function reactionToTlObject(reaction) {
-    return reaction.type == "emoji" ? new _2_tl_js_1.types.ReactionEmoji({ emoticon: reaction.emoji }) : new _2_tl_js_1.types.ReactionCustomEmoji({ document_id: BigInt(reaction.id) });
+    return reaction.type == "emoji" ? ({ _: "reactionEmoji", emoticon: reaction.emoji }) : ({ _: "reactionCustomEmoji", document_id: BigInt(reaction.id) });
 }
 exports.reactionToTlObject = reactionToTlObject;
 function reactionEqual(left, right) {

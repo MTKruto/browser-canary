@@ -17,7 +17,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-import { enums, types } from "../2_tl.js";
+import { Api } from "../2_tl.js";
 import { ID, Story, Update } from "../3_types.js";
 import { InputStoryContent } from "../types/1_input_story_content.js";
 import { CreateStoryParams } from "./0_params.js";
@@ -28,7 +28,7 @@ type C = C_ & {
     fileManager: FileManager;
     messageManager: MessageManager;
 };
-type StoryManagerUpdate = types.UpdateStory;
+type StoryManagerUpdate = Api.updateStory;
 export declare class StoryManager {
     #private;
     constructor(c: C);
@@ -41,7 +41,7 @@ export declare class StoryManager {
     addStoryToHighlights(chatId: ID, storyId: number): Promise<void>;
     removeStoriesFromHighlights(chatId: ID, storyIds: number[]): Promise<void>;
     removeStoryFromHighlights(chatId: ID, storyId: number): Promise<void>;
-    static canHandleUpdate(update: enums.Update): update is StoryManagerUpdate;
+    static canHandleUpdate(update: Api.Update): update is StoryManagerUpdate;
     handleUpdate(update: StoryManagerUpdate): Promise<Update | null>;
 }
 export {};

@@ -32,7 +32,7 @@ var _ChatListManager_instances, _ChatListManager_c, _ChatListManager_LgetChats, 
 import { unreachable } from "../0_deps.js";
 import { InputError } from "../0_errors.js";
 import { getLogger, toUnixTimestamp } from "../1_utilities.js";
-import { peerToChatId, types } from "../2_tl.js";
+import { is, peerToChatId } from "../2_tl.js";
 import { constructChat, constructChatListItem, constructChatListItem3, constructChatListItem4, getChatListItemOrder } from "../3_types.js";
 import { getChatListId } from "./0_utilities.js";
 export class ChatListManager {
@@ -141,28 +141,28 @@ export class ChatListManager {
         return chats;
     }
     static canHandleUpdate(update) {
-        return update instanceof types.UpdateNewMessage || update instanceof types.UpdateNewChannelMessage || update instanceof types.UpdatePinnedDialogs || update instanceof types.UpdateFolderPeers || update instanceof types.UpdateChannel || update instanceof types.UpdateChat || update instanceof types.UpdateUser || update instanceof types.UpdateUserName;
+        return is("updateNewMessage", update) || is("updateNewChannelMessage", update) || is("updatePinnedDialogs", update) || is("updateFolderPeers", update) || is("updateChannel", update) || is("updateChat", update) || is("updateUser", update) || is("updateUserName", update);
     }
     async handleUpdate(update) {
-        if (update instanceof types.UpdateNewMessage || update instanceof types.UpdateNewChannelMessage || update instanceof types.UpdateEditMessage || update instanceof types.UpdateEditChannelMessage) {
-            if (update.message instanceof types.Message || update.message instanceof types.MessageService) {
+        if (is("updateNewMessage", update) || is("updateNewChannelMessage", update) || is("updateEditMessage", update) || is("updateEditChannelMessage", update)) {
+            if (is("message", update.message) || is("messageService", update.message)) {
                 const chatId = peerToChatId(update.message.peer_id);
                 await this.reassignChatLastMessage(chatId);
             }
         }
-        else if (update instanceof types.UpdatePinnedDialogs) {
+        else if (is("updatePinnedDialogs", update)) {
             await __classPrivateFieldGet(this, _ChatListManager_instances, "m", _ChatListManager_handleUpdatePinnedDialogs).call(this, update);
         }
-        else if (update instanceof types.UpdateFolderPeers) {
+        else if (is("updateFolderPeers", update)) {
             await __classPrivateFieldGet(this, _ChatListManager_instances, "m", _ChatListManager_handleUpdateFolderPeers).call(this, update);
         }
-        else if (update instanceof types.UpdateChannel) {
+        else if (is("updateChannel", update)) {
             await __classPrivateFieldGet(this, _ChatListManager_instances, "m", _ChatListManager_handleUpdateChannel).call(this, update);
         }
-        else if (update instanceof types.UpdateChat) {
+        else if (is("updateChat", update)) {
             await __classPrivateFieldGet(this, _ChatListManager_instances, "m", _ChatListManager_handleUpdateChat).call(this, update);
         }
-        else if (update instanceof types.UpdateUser || update instanceof types.UpdateUserName) {
+        else if (is("updateUser", update) || is("updateUserName", update)) {
             await __classPrivateFieldGet(this, _ChatListManager_instances, "m", _ChatListManager_handleUpdateUser).call(this, update);
         }
         else {
@@ -268,7 +268,7 @@ _ChatListManager_c = new WeakMap(), _ChatListManager_LgetChats = new WeakMap(), 
     __classPrivateFieldSet(this, _ChatListManager_pinnedChatsLoaded, true, "f");
 }, _ChatListManager_fetchPinnedChats = async function _ChatListManager_fetchPinnedChats(listId = null) {
     if (listId == null || listId == 0) {
-        const dialogs = await __classPrivateFieldGet(this, _ChatListManager_c, "f").api.messages.getPinnedDialogs({ folder_id: 0 });
+        const dialogs = await __classPrivateFieldGet(this, _ChatListManager_c, "f").invoke({ _: "messages.getPinnedDialogs", folder_id: 0 });
         const pinnedChats = new Array();
         for (const dialog of dialogs.dialogs) {
             pinnedChats.push(peerToChatId(dialog.peer));
@@ -277,7 +277,7 @@ _ChatListManager_c = new WeakMap(), _ChatListManager_LgetChats = new WeakMap(), 
         await __classPrivateFieldGet(this, _ChatListManager_c, "f").storage.setPinnedChats(0, __classPrivateFieldGet(this, _ChatListManager_pinnedChats, "f"));
     }
     if (listId == null || listId == 1) {
-        const dialogs = await __classPrivateFieldGet(this, _ChatListManager_c, "f").api.messages.getPinnedDialogs({ folder_id: 1 });
+        const dialogs = await __classPrivateFieldGet(this, _ChatListManager_c, "f").invoke({ _: "messages.getPinnedDialogs", folder_id: 1 });
         const pinnedArchiveChats = new Array();
         for (const dialog of dialogs.dialogs) {
             pinnedArchiveChats.push(peerToChatId(dialog.peer));
@@ -358,35 +358,35 @@ _ChatListManager_c = new WeakMap(), _ChatListManager_LgetChats = new WeakMap(), 
     }
     await __classPrivateFieldGet(this, _ChatListManager_c, "f").storage.setPinnedChats(listId, await __classPrivateFieldGet(this, _ChatListManager_instances, "m", _ChatListManager_getPinnedChats).call(this, listId));
 }, _ChatListManager_handleUpdateChannel = async function _ChatListManager_handleUpdateChannel(update) {
-    const peer = new types.PeerChannel(update);
+    const peer = { ...update, _: "peerChannel" };
     const channel = await __classPrivateFieldGet(this, _ChatListManager_c, "f").getEntity(peer);
     const chatId = peerToChatId(peer);
     await __classPrivateFieldGet(this, _ChatListManager_c, "f").storage.setFullChat(chatId, null);
     if (channel != null && "left" in channel && channel.left) {
         await __classPrivateFieldGet(this, _ChatListManager_instances, "m", _ChatListManager_removeChat).call(this, chatId);
     }
-    else if (channel instanceof types.ChannelForbidden) {
+    else if (is("channelForbidden", channel)) {
         await __classPrivateFieldGet(this, _ChatListManager_instances, "m", _ChatListManager_removeChat).call(this, chatId);
     }
-    else if (channel instanceof types.Channel) {
+    else if (is("channel", channel)) {
         await __classPrivateFieldGet(this, _ChatListManager_instances, "m", _ChatListManager_updateOrAddChat).call(this, chatId);
     }
 }, _ChatListManager_handleUpdateChat = async function _ChatListManager_handleUpdateChat(update) {
-    const peer = new types.PeerChat(update);
+    const peer = { ...update, _: "peerChat" };
     const chat = await __classPrivateFieldGet(this, _ChatListManager_c, "f").getEntity(peer);
     const chatId = peerToChatId(peer);
     await __classPrivateFieldGet(this, _ChatListManager_c, "f").storage.setFullChat(chatId, null);
     if (chat != null && "left" in chat && chat.left) {
         await __classPrivateFieldGet(this, _ChatListManager_instances, "m", _ChatListManager_removeChat).call(this, chatId);
     }
-    else if (chat instanceof types.ChatForbidden) {
+    else if (is("chatForbidden", chat)) {
         await __classPrivateFieldGet(this, _ChatListManager_instances, "m", _ChatListManager_removeChat).call(this, chatId);
     }
-    else if (chat instanceof types.Chat) {
+    else if (is("chat", chat)) {
         await __classPrivateFieldGet(this, _ChatListManager_instances, "m", _ChatListManager_updateOrAddChat).call(this, chatId);
     }
 }, _ChatListManager_handleUpdateUser = async function _ChatListManager_handleUpdateUser(update) {
-    const peer = new types.PeerUser(update);
+    const peer = { ...update, _: "peerUser" };
     const chat = await __classPrivateFieldGet(this, _ChatListManager_c, "f").getEntity(peer);
     const chatId = peerToChatId(peer);
     await __classPrivateFieldGet(this, _ChatListManager_c, "f").storage.setFullChat(chatId, null);
@@ -394,16 +394,9 @@ _ChatListManager_c = new WeakMap(), _ChatListManager_LgetChats = new WeakMap(), 
         await __classPrivateFieldGet(this, _ChatListManager_instances, "m", _ChatListManager_updateOrAddChat).call(this, chatId);
     }
 }, _ChatListManager_fetchChats = async function _ChatListManager_fetchChats(listId, limit, after) {
-    const dialogs = await __classPrivateFieldGet(this, _ChatListManager_c, "f").api.messages.getDialogs({
-        limit,
-        offset_id: after?.lastMessage?.id ?? 0,
-        offset_date: after?.lastMessage?.date ? toUnixTimestamp(after.lastMessage.date) : 0,
-        offset_peer: after ? await __classPrivateFieldGet(this, _ChatListManager_c, "f").getInputPeer(after.chat.id) : new types.InputPeerEmpty(),
-        hash: 0n,
-        folder_id: listId,
-    });
+    const dialogs = await __classPrivateFieldGet(this, _ChatListManager_c, "f").invoke({ _: "messages.getDialogs", limit, offset_id: after?.lastMessage?.id ?? 0, offset_date: after?.lastMessage?.date ? toUnixTimestamp(after.lastMessage.date) : 0, offset_peer: after ? await __classPrivateFieldGet(this, _ChatListManager_c, "f").getInputPeer(after.chat.id) : { _: "inputPeerEmpty" }, hash: 0n, folder_id: listId });
     const pinnedChats = await __classPrivateFieldGet(this, _ChatListManager_instances, "m", _ChatListManager_getPinnedChats).call(this, listId);
-    if (!(dialogs instanceof types.messages.Dialogs) && !(dialogs instanceof types.messages.DialogsSlice)) {
+    if (!(is("messages.dialogs", dialogs)) && !(is("messages.dialogsSlice", dialogs))) {
         unreachable();
     }
     if (dialogs.dialogs.length < limit) {
@@ -422,14 +415,14 @@ _ChatListManager_c = new WeakMap(), _ChatListManager_LgetChats = new WeakMap(), 
     if (fullChat != null) {
         return fullChat;
     }
-    if (inputPeer instanceof types.InputPeerUser) {
-        fullChat = await __classPrivateFieldGet(this, _ChatListManager_c, "f").api.users.getFullUser({ id: new types.InputUser(inputPeer) }).then((v) => v.full_user);
+    if (is("inputPeerUser", inputPeer)) {
+        fullChat = await __classPrivateFieldGet(this, _ChatListManager_c, "f").invoke({ _: "users.getFullUser", id: { ...inputPeer, _: "inputUser" } }).then((v) => v.full_user);
     }
-    else if (inputPeer instanceof types.InputPeerChat) {
-        fullChat = await __classPrivateFieldGet(this, _ChatListManager_c, "f").api.messages.getFullChat(inputPeer).then((v) => v.full_chat);
+    else if (is("inputPeerChat", inputPeer)) {
+        fullChat = await __classPrivateFieldGet(this, _ChatListManager_c, "f").invoke({ ...inputPeer, _: "messages.getFullChat" }).then((v) => v.full_chat);
     }
-    else if (inputPeer instanceof types.InputPeerChannel) {
-        fullChat = await __classPrivateFieldGet(this, _ChatListManager_c, "f").api.channels.getFullChannel({ channel: new types.InputChannel(inputPeer) }).then((v) => v.full_chat);
+    else if (is("inputPeerChannel", inputPeer)) {
+        fullChat = await __classPrivateFieldGet(this, _ChatListManager_c, "f").invoke({ _: "channels.getFullChannel", channel: { ...inputPeer, _: "inputChannel" } }).then((v) => v.full_chat);
     }
     await __classPrivateFieldGet(this, _ChatListManager_c, "f").storage.setFullChat(chatId_, fullChat);
     if (fullChat != null && "call" in fullChat && fullChat.call) {

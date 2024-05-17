@@ -17,7 +17,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-import { types } from "../2_tl.js";
+import { is } from "../2_tl.js";
 import { constructThumbnail } from "./0_thumbnail.js";
 export function constructAudio(document, audioAttribute, fileId, fileUniqueId) {
     return {
@@ -28,6 +28,6 @@ export function constructAudio(document, audioAttribute, fileId, fileUniqueId) {
         title: audioAttribute?.title,
         mimeType: document.mime_type,
         fileSize: Number(document.size),
-        thumbnails: document.thumbs ? document.thumbs.map((v) => v instanceof types.PhotoSize ? constructThumbnail(v, document) : null).filter((v) => v) : [],
+        thumbnails: document.thumbs ? document.thumbs.map((v) => is("photoSize", v) ? constructThumbnail(v, document) : null).filter((v) => v) : [],
     };
 }

@@ -19,18 +19,17 @@
  */
 import { unreachable } from "../0_deps.js";
 import { ZERO_CHANNEL_ID } from "../1_utilities.js";
-import { types } from "./2_types.js";
 export function getChannelChatId(channelId) {
     return ZERO_CHANNEL_ID + -Number(channelId);
 }
 export function peerToChatId(peer) {
-    if (peer instanceof types.PeerUser || peer instanceof types.InputPeerUser || peer instanceof types.User || peer instanceof types.UserFull || "user_id" in peer) {
+    if (("_" in peer && (peer._ == "peerUser" || peer._ == "inputPeerUser" || peer._ == "user" || peer._ == "userFull")) || "user_id" in peer) {
         return Number("id" in peer ? peer.id : peer.user_id);
     }
-    else if (peer instanceof types.PeerChat || peer instanceof types.InputPeerChat || peer instanceof types.Chat || peer instanceof types.ChatForbidden || peer instanceof types.ChatFull || "chat_id" in peer) {
+    else if (("_" in peer && (peer._ == "peerChat" || peer._ == "inputPeerChat" || peer._ == "chat" || peer._ == "chatForbidden" || peer._ == "chatFull")) || "chat_id" in peer) {
         return -Number("id" in peer ? peer.id : peer.chat_id);
     }
-    else if (peer instanceof types.PeerChannel || peer instanceof types.InputPeerChannel || peer instanceof types.Channel || peer instanceof types.ChannelForbidden || peer instanceof types.ChannelFull || "channel_id" in peer) {
+    else if (("_" in peer && (peer._ == "peerChannel" || peer._ == "inputPeerChannel" || peer._ == "channel" || peer._ == "channelForbidden" || peer._ == "channelFull")) || "channel_id" in peer) {
         return getChannelChatId("id" in peer ? peer.id : peer.channel_id);
     }
     else {
@@ -39,13 +38,13 @@ export function peerToChatId(peer) {
 }
 export function chatIdToPeer(chatId) {
     if (chatId > 0) {
-        return new types.PeerUser({ user_id: BigInt(chatId) });
+        return { _: "peerUser", user_id: BigInt(chatId) };
     }
     else if (chatId > ZERO_CHANNEL_ID) {
-        return new types.PeerChat({ chat_id: BigInt(Math.abs(chatId)) });
+        return { _: "peerChat", chat_id: BigInt(Math.abs(chatId)) };
     }
     else {
-        return new types.PeerChannel({ channel_id: BigInt(ZERO_CHANNEL_ID - chatId) });
+        return { _: "peerChannel", channel_id: BigInt(ZERO_CHANNEL_ID - chatId) };
     }
 }
 export function chatIdToPeerId(chatId) {
@@ -76,13 +75,13 @@ export function getChatIdPeerType(chatId) {
 }
 export function inputPeerToPeer(inputPeer) {
     if ("user_id" in inputPeer) {
-        return new types.PeerUser(inputPeer);
+        return { ...inputPeer, _: "peerUser" };
     }
     else if ("chat_id" in inputPeer) {
-        return new types.PeerChat(inputPeer);
+        return { ...inputPeer, _: "peerChat" };
     }
     else if ("channel_id" in inputPeer) {
-        return new types.PeerChannel(inputPeer);
+        return { ...inputPeer, _: "peerChannel" };
     }
     else {
         unreachable();

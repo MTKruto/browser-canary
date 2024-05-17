@@ -29,7 +29,7 @@ var __classPrivateFieldGet = (this && this.__classPrivateFieldGet) || function (
     if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot read private member from an object whose class did not declare it");
     return kind === "m" ? f : kind === "a" ? f.call(receiver) : f ? f.value : state.get(receiver);
 };
-var _Client_instances, _a, _Client_client, _Client_guaranteeUpdateDelivery, _Client_updateManager, _Client_networkStatisticsManager, _Client_botInfoManager, _Client_fileManager, _Client_reactionManager, _Client_videoChatManager, _Client_businessConnectionManager, _Client_messageManager, _Client_storyManager, _Client_callbackQueryManager, _Client_inlineQueryManager, _Client_chatListManager, _Client_accountManager, _Client_storage_, _Client_messageStorage_, _Client_parseMode, _Client_apiId, _Client_apiHash, _Client_publicKeys, _Client_ignoreOutgoing, _Client_persistCache, _Client_LsignIn, _Client_LpingLoop, _Client_LhandleMigrationError, _Client_L$initConncetion, _Client_namespaceProxies, _Client_getApiId, _Client_getCdnConnectionPool, _Client_getCdnConnection, _Client_constructContext, _Client_propagateConnectionState, _Client_lastPropagatedConnectionState, _Client_stateChangeHandler, _Client_storageInited, _Client_initStorage, _Client_connectionInited, _Client_lastPropagatedAuthorizationState, _Client_propagateAuthorizationState, _Client_getSelfId, _Client_pingLoopStarted, _Client_pingLoopAbortController, _Client_pingInterval, _Client_lastUpdates, _Client_startPingLoop, _Client_pingLoop, _Client_invoke, _Client_handleInvokeError, _Client_getUserAccessHash, _Client_getChannelAccessHash, _Client_getInputPeerInner, _Client_handleCtxUpdate, _Client_queueHandleCtxUpdate, _Client_handleUpdate, _Client_lastGetMe, _Client_getMe;
+var _Client_instances, _a, _Client_client, _Client_guaranteeUpdateDelivery, _Client_updateManager, _Client_networkStatisticsManager, _Client_botInfoManager, _Client_fileManager, _Client_reactionManager, _Client_videoChatManager, _Client_businessConnectionManager, _Client_messageManager, _Client_storyManager, _Client_callbackQueryManager, _Client_inlineQueryManager, _Client_chatListManager, _Client_accountManager, _Client_storage_, _Client_messageStorage_, _Client_parseMode, _Client_apiId, _Client_apiHash, _Client_publicKeys, _Client_ignoreOutgoing, _Client_persistCache, _Client_LsignIn, _Client_LpingLoop, _Client_LhandleMigrationError, _Client_L$initConncetion, _Client_getApiId, _Client_getCdnConnectionPool, _Client_getCdnConnection, _Client_constructContext, _Client_propagateConnectionState, _Client_lastPropagatedConnectionState, _Client_stateChangeHandler, _Client_storageInited, _Client_initStorage, _Client_connectionInited, _Client_lastPropagatedAuthorizationState, _Client_propagateAuthorizationState, _Client_getSelfId, _Client_pingLoopStarted, _Client_pingLoopAbortController, _Client_pingInterval, _Client_lastUpdates, _Client_startPingLoop, _Client_pingLoop, _Client_invoke, _Client_handleInvokeError, _Client_getUserAccessHash, _Client_getChannelAccessHash, _Client_getInputPeerInner, _Client_handleCtxUpdate, _Client_queueHandleCtxUpdate, _Client_handleUpdate, _Client_lastGetMe, _Client_getMe;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Client = exports.handleMigrationError = exports.restartAuth = exports.Composer = void 0;
 const _0_deps_js_1 = require("../0_deps.js");
@@ -71,7 +71,6 @@ exports.handleMigrationError = Symbol("handleMigrationError");
 // global Client ID counter for logs
 let id = 0;
 const getEntity = Symbol();
-const functionNamespaces = Object.entries(_2_tl_js_1.functions).filter(([, v]) => !(v instanceof Function)).map(([k]) => k);
 /**
  * An MTKruto client.
  */
@@ -157,62 +156,6 @@ class Client extends Composer {
         _Client_LpingLoop.set(this, void 0);
         _Client_LhandleMigrationError.set(this, void 0);
         _Client_L$initConncetion.set(this, void 0);
-        _Client_namespaceProxies.set(this, (() => {
-            // deno-lint-ignore no-explicit-any
-            const proxies = {};
-            for (const name of functionNamespaces) {
-                const ns = _2_tl_js_1.functions[name];
-                proxies[name] = new Proxy({}, {
-                    get: (_, key) => {
-                        if (key in ns) {
-                            // deno-lint-ignore no-explicit-any
-                            const func = ns[key];
-                            if (func instanceof Function) {
-                                // deno-lint-ignore no-explicit-any
-                                return (params) => {
-                                    // deno-lint-ignore ban-ts-comment
-                                    // @ts-ignore
-                                    return this.invoke(new func(params));
-                                };
-                            }
-                            else {
-                                (0, _0_deps_js_1.unreachable)();
-                            }
-                        }
-                    },
-                    set() {
-                        return true;
-                    },
-                });
-            }
-            return proxies;
-        })());
-        Object.defineProperty(this, "api", {
-            enumerable: true,
-            configurable: true,
-            writable: true,
-            value: new Proxy({}, {
-                get: (_, key) => {
-                    if (key in _2_tl_js_1.functions) {
-                        const func = _2_tl_js_1.functions[key];
-                        if (func instanceof Function) {
-                            // deno-lint-ignore no-explicit-any
-                            return (params) => {
-                                // deno-lint-ignore ban-ts-comment
-                                // @ts-ignore
-                                return this.invoke(new func(params));
-                            };
-                        }
-                        else {
-                            return __classPrivateFieldGet(this, _Client_namespaceProxies, "f")[key];
-                        }
-                    }
-                },
-                set() {
-                    return true;
-                },
-            })
-        });
         _Client_constructContext.set(this, async (update) => {
             const msg = "message" in update ? update.message : "editedMessage" in update ? update.editedMessage : "callbackQuery" in update ? update.callbackQuery.message : undefined;
             const reactions = "messageInteractions" in update ? update.messageInteractions : undefined;
@@ -664,10 +607,9 @@ class Client extends Composer {
         __classPrivateFieldSet(this, _Client_L$initConncetion, L.branch("#initConnection"), "f");
         const c = {
             id,
-            api: this.api,
             invoke: async (function_, businessConnectionId) => {
                 if (businessConnectionId) {
-                    return await this.api.invokeWithBusinessConnection({ connection_id: businessConnectionId, query: function_ });
+                    return await this.invoke({ _: "invokeWithBusinessConnection", connection_id: businessConnectionId, query: function_ });
                 }
                 else {
                     return await this.invoke(function_);
@@ -817,7 +759,7 @@ class Client extends Composer {
         }
         await this.connect();
     }
-    async [(_Client_client = new WeakMap(), _Client_guaranteeUpdateDelivery = new WeakMap(), _Client_updateManager = new WeakMap(), _Client_networkStatisticsManager = new WeakMap(), _Client_botInfoManager = new WeakMap(), _Client_fileManager = new WeakMap(), _Client_reactionManager = new WeakMap(), _Client_videoChatManager = new WeakMap(), _Client_businessConnectionManager = new WeakMap(), _Client_messageManager = new WeakMap(), _Client_storyManager = new WeakMap(), _Client_callbackQueryManager = new WeakMap(), _Client_inlineQueryManager = new WeakMap(), _Client_chatListManager = new WeakMap(), _Client_accountManager = new WeakMap(), _Client_storage_ = new WeakMap(), _Client_messageStorage_ = new WeakMap(), _Client_parseMode = new WeakMap(), _Client_apiId = new WeakMap(), _Client_apiHash = new WeakMap(), _Client_publicKeys = new WeakMap(), _Client_ignoreOutgoing = new WeakMap(), _Client_persistCache = new WeakMap(), _Client_LsignIn = new WeakMap(), _Client_LpingLoop = new WeakMap(), _Client_LhandleMigrationError = new WeakMap(), _Client_L$initConncetion = new WeakMap(), _Client_namespaceProxies = new WeakMap(), _Client_constructContext = new WeakMap(), _Client_lastPropagatedConnectionState = new WeakMap(), _Client_stateChangeHandler = new WeakMap(), _Client_storageInited = new WeakMap(), _Client_connectionInited = new WeakMap(), _Client_lastPropagatedAuthorizationState = new WeakMap(), _Client_pingLoopStarted = new WeakMap(), _Client_pingLoopAbortController = new WeakMap(), _Client_pingInterval = new WeakMap(), _Client_lastUpdates = new WeakMap(), _Client_handleInvokeError = new WeakMap(), _Client_lastGetMe = new WeakMap(), _Client_instances = new WeakSet(), _Client_getApiId = async function _Client_getApiId() {
+    async [(_Client_client = new WeakMap(), _Client_guaranteeUpdateDelivery = new WeakMap(), _Client_updateManager = new WeakMap(), _Client_networkStatisticsManager = new WeakMap(), _Client_botInfoManager = new WeakMap(), _Client_fileManager = new WeakMap(), _Client_reactionManager = new WeakMap(), _Client_videoChatManager = new WeakMap(), _Client_businessConnectionManager = new WeakMap(), _Client_messageManager = new WeakMap(), _Client_storyManager = new WeakMap(), _Client_callbackQueryManager = new WeakMap(), _Client_inlineQueryManager = new WeakMap(), _Client_chatListManager = new WeakMap(), _Client_accountManager = new WeakMap(), _Client_storage_ = new WeakMap(), _Client_messageStorage_ = new WeakMap(), _Client_parseMode = new WeakMap(), _Client_apiId = new WeakMap(), _Client_apiHash = new WeakMap(), _Client_publicKeys = new WeakMap(), _Client_ignoreOutgoing = new WeakMap(), _Client_persistCache = new WeakMap(), _Client_LsignIn = new WeakMap(), _Client_LpingLoop = new WeakMap(), _Client_LhandleMigrationError = new WeakMap(), _Client_L$initConncetion = new WeakMap(), _Client_constructContext = new WeakMap(), _Client_lastPropagatedConnectionState = new WeakMap(), _Client_stateChangeHandler = new WeakMap(), _Client_storageInited = new WeakMap(), _Client_connectionInited = new WeakMap(), _Client_lastPropagatedAuthorizationState = new WeakMap(), _Client_pingLoopStarted = new WeakMap(), _Client_pingLoopAbortController = new WeakMap(), _Client_pingInterval = new WeakMap(), _Client_lastUpdates = new WeakMap(), _Client_handleInvokeError = new WeakMap(), _Client_lastGetMe = new WeakMap(), _Client_instances = new WeakSet(), _Client_getApiId = async function _Client_getApiId() {
         const apiId = __classPrivateFieldGet(this, _Client_apiId, "f") || await this.storage.getApiId();
         if (!apiId) {
             throw new _0_errors_js_1.InputError("apiId not set");
@@ -831,11 +773,11 @@ class Client extends Composer {
         let prev = 0;
         return {
             size: connectionCount,
-            api: () => {
+            invoke: () => {
                 if (prev + 1 > connections.length)
                     prev = 0;
                 const connection = connections[prev++];
-                return connection.api;
+                return connection.invoke;
             },
             connect: async () => {
                 for await (const connection of connections) {
@@ -867,8 +809,8 @@ class Client extends Composer {
         client.invoke.use(async (ctx, next) => {
             if (ctx.error instanceof _4_errors_js_1.AuthKeyUnregistered && dcId) {
                 try {
-                    const exportedAuth = await this.api.auth.exportAuthorization({ dc_id: dcId });
-                    await client.api.auth.importAuthorization(exportedAuth);
+                    const exportedAuth = await this.invoke({ _: "auth.exportAuthorization", dc_id: dcId });
+                    await client.invoke({ ...exportedAuth, _: "auth.importAuthorization" });
                     return true;
                 }
                 catch (err) {
@@ -880,7 +822,7 @@ class Client extends Composer {
             }
         });
         return {
-            api: client.api,
+            invoke: client.invoke,
             connect: async () => {
                 await client.connect();
                 if (dcId && dcId != __classPrivateFieldGet(this, _Client_client, "f").dcId) {
@@ -951,12 +893,12 @@ class Client extends Composer {
                 params = { phone: () => (0, _1_utilities_js_1.mustPrompt)("Phone number:"), code: () => (0, _1_utilities_js_1.mustPrompt)("Verification code:"), password: () => (0, _1_utilities_js_1.mustPrompt)("Password:") };
             }
         }
-        __classPrivateFieldGet(this, _Client_LsignIn, "f").debug("authorizing with", typeof params === "string" ? "bot token" : params instanceof _2_tl_js_1.types.auth.ExportedAuthorization ? "exported authorization" : "AuthorizeUserParams");
+        __classPrivateFieldGet(this, _Client_LsignIn, "f").debug("authorizing with", typeof params === "string" ? "bot token" : (0, _2_tl_js_1.is)("auth.exportedAuthorization", params) ? "exported authorization" : "AuthorizeUserParams");
         if (params && "botToken" in params) {
             while (true) {
                 try {
-                    const auth = await this.api.auth.importBotAuthorization({ api_id: apiId, api_hash: __classPrivateFieldGet(this, _Client_apiHash, "f"), bot_auth_token: params.botToken, flags: 0 });
-                    await this.storage.setAccountId(Number(auth[_2_tl_js_1.as](_2_tl_js_1.types.auth.Authorization).user.id));
+                    const auth = await this.invoke({ _: "auth.importBotAuthorization", api_id: apiId, api_hash: __classPrivateFieldGet(this, _Client_apiHash, "f"), bot_auth_token: params.botToken, flags: 0 });
+                    await this.storage.setAccountId(Number((0, _2_tl_js_1.as)("auth.authorization", auth).user.id));
                     await this.storage.setAccountType("bot");
                     break;
                 }
@@ -982,12 +924,13 @@ class Client extends Composer {
                 while (true) {
                     try {
                         phone = typeof params.phone === "string" ? params.phone : await params.phone();
-                        const sendCode = () => this.api.auth.sendCode({
+                        const sendCode = () => this.invoke({
+                            _: "auth.sendCode",
                             phone_number: phone,
                             api_id: __classPrivateFieldGet(this, _Client_apiId, "f"),
                             api_hash: __classPrivateFieldGet(this, _Client_apiHash, "f"),
-                            settings: new _2_tl_js_1.types.CodeSettings(),
-                        }).then((v) => v[_2_tl_js_1.as](_2_tl_js_1.types.auth.SentCode));
+                            settings: { _: "codeSettings" },
+                        }).then((v) => (0, _2_tl_js_1.as)("auth.sentCode", v));
                         try {
                             sentCode = await sendCode();
                         }
@@ -1016,12 +959,13 @@ class Client extends Composer {
                 code: while (true) {
                     const code = typeof params.code === "string" ? params.code : await params.code();
                     try {
-                        const auth = await this.api.auth.signIn({
+                        const auth = await this.invoke({
+                            _: "auth.signIn",
                             phone_number: phone,
                             phone_code: code,
                             phone_code_hash: sentCode.phone_code_hash,
                         });
-                        await this.storage.setAccountId(Number(auth[_2_tl_js_1.as](_2_tl_js_1.types.auth.Authorization).user.id));
+                        await this.storage.setAccountId(Number((0, _2_tl_js_1.as)("auth.authorization", auth).user.id));
                         await this.storage.setAccountType("user");
                         __classPrivateFieldGet(this, _Client_LsignIn, "f").debug("signed in as user");
                         await __classPrivateFieldGet(this, _Client_instances, "m", _Client_propagateAuthorizationState).call(this, true);
@@ -1042,15 +986,15 @@ class Client extends Composer {
                     throw err;
                 }
                 password: while (true) {
-                    const ap = await this.api.account.getPassword();
-                    if (!(ap.current_algo instanceof _2_tl_js_1.types.PasswordKdfAlgoSHA256SHA256PBKDF2HMACSHA512iter100000SHA256ModPow)) {
-                        throw new Error(`Handling ${ap.current_algo?.[_2_tl_js_1.name]} not implemented`);
+                    const ap = await this.invoke({ _: "account.getPassword" });
+                    if (!((0, _2_tl_js_1.is)("passwordKdfAlgoSHA256SHA256PBKDF2HMACSHA512iter100000SHA256ModPow", ap.current_algo))) {
+                        throw new Error(`Handling ${ap.current_algo?._} not implemented`);
                     }
                     try {
                         const password = typeof params.password === "string" ? params.password : await params.password(ap.hint ?? null);
                         const input = await (0, _0_password_js_1.checkPassword)(password, ap);
-                        const auth = await this.api.auth.checkPassword({ password: input });
-                        await this.storage.setAccountId(Number(auth[_2_tl_js_1.as](_2_tl_js_1.types.auth.Authorization).user.id));
+                        const auth = await this.invoke({ _: "auth.checkPassword", password: input });
+                        await this.storage.setAccountId(Number((0, _2_tl_js_1.as)("auth.authorization", auth).user.id));
                         await this.storage.setAccountType("user");
                         __classPrivateFieldGet(this, _Client_LsignIn, "f").debug("signed in as user");
                         await __classPrivateFieldGet(this, _Client_instances, "m", _Client_propagateAuthorizationState).call(this, true);
@@ -1081,7 +1025,7 @@ class Client extends Composer {
         try {
             await Promise.all([
                 this.storage.reset(),
-                this.api.auth.logOut().then(() => {
+                this.invoke({ _: "auth.logOut" }).then(() => {
                     __classPrivateFieldGet(this, _Client_instances, "m", _Client_propagateAuthorizationState).call(this, false);
                 }),
             ]);
@@ -1118,10 +1062,10 @@ class Client extends Composer {
      */
     async getInputPeer(id) {
         if (id === "me" || id == await __classPrivateFieldGet(this, _Client_instances, "m", _Client_getSelfId).call(this)) {
-            return new _2_tl_js_1.types.InputPeerSelf();
+            return { _: "inputPeerSelf" };
         }
         const inputPeer = await __classPrivateFieldGet(this, _Client_instances, "m", _Client_getInputPeerInner).call(this, id);
-        if (((inputPeer instanceof _2_tl_js_1.types.InputPeerUser || inputPeer instanceof _2_tl_js_1.types.InputPeerChannel) && inputPeer.access_hash == 0n) && await this.storage.getAccountType() == "bot") {
+        if ((((0, _2_tl_js_1.is)("inputPeerUser", inputPeer) || (0, _2_tl_js_1.is)("inputPeerChannel", inputPeer)) && inputPeer.access_hash == 0n) && await this.storage.getAccountType() == "bot") {
             if ("channel_id" in inputPeer) {
                 inputPeer.access_hash = await __classPrivateFieldGet(this, _Client_instances, "m", _Client_getChannelAccessHash).call(this, inputPeer.channel_id);
             }
@@ -1129,7 +1073,7 @@ class Client extends Composer {
                 inputPeer.access_hash = await __classPrivateFieldGet(this, _Client_instances, "m", _Client_getUserAccessHash).call(this, inputPeer.user_id);
             }
         }
-        if ((inputPeer instanceof _2_tl_js_1.types.InputPeerUser || inputPeer instanceof _2_tl_js_1.types.InputPeerChannel) && inputPeer.access_hash == 0n && await this.storage.getAccountType() == "user") {
+        if (((0, _2_tl_js_1.is)("inputPeerUser", inputPeer) || (0, _2_tl_js_1.is)("inputPeerChannel", inputPeer)) && inputPeer.access_hash == 0n && await this.storage.getAccountType() == "user") {
             throw new _0_errors_js_1.AccessError(`Cannot access the chat ${id} because there is no access hash for it.`);
         }
         return inputPeer;
@@ -1141,10 +1085,10 @@ class Client extends Composer {
      */
     async getInputChannel(id) {
         const inputPeer = await this.getInputPeer(id);
-        if (!(inputPeer instanceof _2_tl_js_1.types.InputPeerChannel)) {
+        if (!((0, _2_tl_js_1.is)("inputPeerChannel", inputPeer))) {
             throw new TypeError(`The chat ${id} is not a channel neither a supergroup.`);
         }
-        return new _2_tl_js_1.types.InputChannel(inputPeer);
+        return { ...inputPeer, _: "inputChannel" };
     }
     /**
      * Get a user's inputUser. Useful when calling API functions directly.
@@ -1153,10 +1097,10 @@ class Client extends Composer {
      */
     async getInputUser(id) {
         const inputPeer = await this.getInputPeer(id);
-        if (!(inputPeer instanceof _2_tl_js_1.types.InputPeerUser)) {
+        if (!((0, _2_tl_js_1.is)("inputPeerUser", inputPeer))) {
             throw new TypeError(`The chat ${id} is not a private chat.`);
         }
-        return new _2_tl_js_1.types.InputUser(inputPeer);
+        return { ...inputPeer, _: "inputUser" };
     }
     async [(_Client_propagateAuthorizationState = async function _Client_propagateAuthorizationState(authorized) {
         if (__classPrivateFieldGet(this, _Client_lastPropagatedAuthorizationState, "f") != authorized) {
@@ -1186,7 +1130,7 @@ class Client extends Composer {
                     continue;
                 }
                 __classPrivateFieldGet(this, _Client_pingLoopAbortController, "f").signal.throwIfAborted();
-                await this.api.ping_delay_disconnect({ ping_id: (0, _1_utilities_js_1.getRandomId)(), disconnect_delay: __classPrivateFieldGet(this, _Client_pingInterval, "f") / _1_utilities_js_1.second + 15 });
+                await this.invoke({ _: "ping_delay_disconnect", ping_id: (0, _1_utilities_js_1.getRandomId)(), disconnect_delay: __classPrivateFieldGet(this, _Client_pingInterval, "f") / _1_utilities_js_1.second + 15 });
                 if (Date.now() - __classPrivateFieldGet(this, _Client_lastUpdates, "f").getTime() >= 15 * _1_utilities_js_1.minute) {
                     (0, _1_utilities_js_1.drop)(__classPrivateFieldGet(this, _Client_updateManager, "f").recoverUpdateGap("lastUpdates"));
                 }
@@ -1202,20 +1146,22 @@ class Client extends Composer {
         let n = 1;
         while (true) {
             try {
-                if (function_ instanceof _2_tl_js_1.functions.Function && !__classPrivateFieldGet(this, _Client_connectionInited, "f") && !(0, _0_utilities_js_1.isMtprotoFunction)(function_)) {
-                    const result = await __classPrivateFieldGet(this, _Client_client, "f").invoke(new _2_tl_js_1.functions.initConnection({
+                if (!__classPrivateFieldGet(this, _Client_connectionInited, "f") && !(0, _0_utilities_js_1.isMtprotoFunction)(function_)) {
+                    const result = await __classPrivateFieldGet(this, _Client_client, "f").invoke({
+                        _: "initConnection",
                         api_id: await __classPrivateFieldGet(this, _Client_instances, "m", _Client_getApiId).call(this),
                         app_version: this.appVersion,
                         device_model: this.deviceModel,
                         lang_code: this.langCode,
                         lang_pack: this.langPack,
-                        query: new _2_tl_js_1.functions.invokeWithLayer({
+                        query: {
+                            _: "invokeWithLayer",
                             layer: _4_constants_js_1.LAYER,
                             query: function_,
-                        }),
+                        },
                         system_lang_code: this.systemLangCode,
                         system_version: this.systemVersion,
-                    }), noWait);
+                    }, noWait);
                     __classPrivateFieldSet(this, _Client_connectionInited, true, "f");
                     __classPrivateFieldGet(this, _Client_L$initConncetion, "f").debug("connection inited");
                     return result;
@@ -1244,15 +1190,15 @@ class Client extends Composer {
             }
         }
     }, _Client_getUserAccessHash = async function _Client_getUserAccessHash(userId) {
-        const users = await this.api.users.getUsers({ id: [new _2_tl_js_1.types.InputUser({ user_id: userId, access_hash: 0n })] });
-        const user = users[0]?.[_2_tl_js_1.as](_2_tl_js_1.types.User);
+        const users = await this.invoke({ _: "users.getUsers", id: [{ _: "inputUser", user_id: userId, access_hash: 0n }] });
+        const user = (0, _2_tl_js_1.as)("user", users[0]);
         if (user) {
             await this.messageStorage.setEntity(user);
         }
         return user?.access_hash ?? 0n;
     }, _Client_getChannelAccessHash = async function _Client_getChannelAccessHash(channelId) {
-        const channels = await this.api.channels.getChannels({ id: [new _2_tl_js_1.types.InputChannel({ channel_id: channelId, access_hash: 0n })] });
-        const channel = channels.chats[0][_2_tl_js_1.as](_2_tl_js_1.types.Channel);
+        const channels = await this.invoke({ _: "channels.getChannels", id: [{ _: "inputChannel", channel_id: channelId, access_hash: 0n }] });
+        const channel = (0, _2_tl_js_1.as)("channel", channels.chats[0]);
         if (channel) {
             await this.messageStorage.setEntity(channel);
         }
@@ -1271,13 +1217,13 @@ class Client extends Composer {
                 resolvedId = id;
             }
             else {
-                const resolved = await this.api.contacts.resolveUsername({ username: id });
+                const resolved = await this.invoke({ _: "contacts.resolveUsername", username: id });
                 await __classPrivateFieldGet(this, _Client_updateManager, "f").processChats(resolved.chats);
                 await __classPrivateFieldGet(this, _Client_updateManager, "f").processUsers(resolved.users);
-                if (resolved.peer instanceof _2_tl_js_1.types.PeerUser) {
+                if ((0, _2_tl_js_1.is)("peerUser", resolved.peer)) {
                     resolvedId = (0, _2_tl_js_1.peerToChatId)(resolved.peer);
                 }
-                else if (resolved.peer instanceof _2_tl_js_1.types.PeerChannel) {
+                else if ((0, _2_tl_js_1.is)("peerChannel", resolved.peer)) {
                     resolvedId = (0, _2_tl_js_1.peerToChatId)(resolved.peer);
                 }
                 else {
@@ -1287,11 +1233,11 @@ class Client extends Composer {
             const resolvedIdType = (0, _2_tl_js_1.getChatIdPeerType)(resolvedId);
             if (resolvedIdType == "user") {
                 const accessHash = await this.messageStorage.getUserAccessHash(resolvedId);
-                return new _2_tl_js_1.types.InputPeerUser({ user_id: (0, _2_tl_js_1.chatIdToPeerId)(resolvedId), access_hash: accessHash ?? 0n });
+                return { _: "inputPeerUser", user_id: (0, _2_tl_js_1.chatIdToPeerId)(resolvedId), access_hash: accessHash ?? 0n };
             }
             else if (resolvedIdType == "channel") {
                 const accessHash = await this.messageStorage.getChannelAccessHash(resolvedId);
-                return new _2_tl_js_1.types.InputPeerChannel({ channel_id: (0, _2_tl_js_1.chatIdToPeerId)(resolvedId), access_hash: accessHash ?? 0n });
+                return { _: "inputPeerChannel", channel_id: (0, _2_tl_js_1.chatIdToPeerId)(resolvedId), access_hash: accessHash ?? 0n };
             }
             else {
                 (0, _0_deps_js_1.unreachable)();
@@ -1299,14 +1245,14 @@ class Client extends Composer {
         }
         else if (id > 0) {
             const accessHash = await this.messageStorage.getUserAccessHash(id);
-            return new _2_tl_js_1.types.InputPeerUser({ user_id: (0, _2_tl_js_1.chatIdToPeerId)(id), access_hash: accessHash ?? 0n });
+            return { _: "inputPeerUser", user_id: (0, _2_tl_js_1.chatIdToPeerId)(id), access_hash: accessHash ?? 0n };
         }
         else if (-_4_constants_js_1.MAX_CHAT_ID <= id) {
-            return new _2_tl_js_1.types.InputPeerChat({ chat_id: BigInt(Math.abs(id)) });
+            return { _: "inputPeerChat", chat_id: BigInt(Math.abs(id)) };
         }
         else if (_1_utilities_js_1.ZERO_CHANNEL_ID - _4_constants_js_1.MAX_CHANNEL_ID <= id && id != _1_utilities_js_1.ZERO_CHANNEL_ID) {
             const accessHash = await this.messageStorage.getChannelAccessHash(id);
-            return new _2_tl_js_1.types.InputPeerChannel({ channel_id: (0, _2_tl_js_1.chatIdToPeerId)(id), access_hash: accessHash ?? 0n });
+            return { _: "inputPeerChannel", channel_id: (0, _2_tl_js_1.chatIdToPeerId)(id), access_hash: accessHash ?? 0n };
         }
         else {
             throw new _0_errors_js_1.InputError("The ID is of an format unknown.");
@@ -1314,7 +1260,7 @@ class Client extends Composer {
     }, getEntity)](peer) {
         const id = (0, _2_tl_js_1.peerToChatId)(peer);
         const entity = await this.messageStorage.getEntity(id);
-        if (entity == null && await this.storage.getAccountType() == "bot" && peer instanceof _2_tl_js_1.types.PeerUser || peer instanceof _2_tl_js_1.types.PeerChannel) {
+        if (entity == null && await this.storage.getAccountType() == "bot" && (0, _2_tl_js_1.is)("peerUser", peer) || (0, _2_tl_js_1.is)("peerChannel", peer)) {
             await this.getInputPeer(id);
         }
         else {
@@ -1331,10 +1277,10 @@ class Client extends Composer {
      * @method ac
      */
     async getMe() {
-        let user_ = await this[getEntity](new _2_tl_js_1.types.PeerUser({ user_id: BigInt(await __classPrivateFieldGet(this, _Client_instances, "m", _Client_getSelfId).call(this)) }));
+        let user_ = await this[getEntity]({ _: "peerUser", user_id: BigInt(await __classPrivateFieldGet(this, _Client_instances, "m", _Client_getSelfId).call(this)) });
         if (user_ == null) {
-            const users = await this.api.users.getUsers({ id: [new _2_tl_js_1.types.InputUserSelf()] });
-            user_ = users[0][_2_tl_js_1.as](_2_tl_js_1.types.User);
+            const users = await this.invoke({ _: "users.getUsers", id: [{ _: "inputUserSelf" }] });
+            user_ = (0, _2_tl_js_1.as)("user", users[0]);
             await this.messageStorage.setEntity(user_);
         }
         const user = (0, _3_types_js_1.constructUser)(user_);
@@ -2401,9 +2347,9 @@ _a = Client, _Client_handleCtxUpdate = async function _Client_handleCtxUpdate(up
     });
 }, _Client_handleUpdate = async function _Client_handleUpdate(update) {
     const promises = new Array();
-    if (update instanceof _2_tl_js_1.types.UpdateUserName) {
+    if ((0, _2_tl_js_1.is)("updateUserName", update)) {
         await this.messageStorage.updateUsernames(Number(update.user_id), update.usernames.map((v) => v.username));
-        const peer = new _2_tl_js_1.types.PeerUser(update);
+        const peer = { ...update, _: "peerUser" };
         const entity = await this[getEntity](peer);
         if (entity != null) {
             entity.usernames = update.usernames;

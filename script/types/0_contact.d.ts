@@ -17,7 +17,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-import { types } from "../2_tl.js";
+import { Api } from "../2_tl.js";
 /** A shared contact. */
 export interface Contact {
     /** The contact's phone number. */
@@ -31,5 +31,5 @@ export interface Contact {
     /** Additional information in the vCard format. */
     vcard?: string;
 }
-export declare function constructContact(contact: types.MessageMediaContact): Contact;
+export declare function constructContact(contact: Api.messageMediaContact): Contact;
 //# sourceMappingURL=0_contact.d.ts.map

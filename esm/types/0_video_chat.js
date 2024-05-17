@@ -18,10 +18,10 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 import { fromUnixTimestamp } from "../1_utilities.js";
-import { types } from "../2_tl.js";
+import { is } from "../2_tl.js";
 export function constructVideoChat(call) {
     const id = String(call.id);
-    if (call instanceof types.GroupCallDiscarded) {
+    if (is("groupCallDiscarded", call)) {
         return {
             type: "ended",
             id,

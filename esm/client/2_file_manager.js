@@ -32,7 +32,7 @@ var _FileManager_instances, _a, _FileManager_c, _FileManager_Lupload, _FileManag
 import { extension, path, unreachable } from "../0_deps.js";
 import { InputError } from "../0_errors.js";
 import { drop, getLogger, getRandomId, iterateReadableStream, kilobyte, megabyte, minute, mod, PartStream } from "../1_utilities.js";
-import { as, types } from "../2_tl.js";
+import { as, is } from "../2_tl.js";
 import { constructSticker, deserializeFileId, FileType, PhotoSourceType, serializeFileId, toUniqueFileId } from "../3_types.js";
 import { STICKER_SET_NAME_TTL } from "../4_constants.js";
 import { FloodWait } from "../4_errors.js";
@@ -77,10 +77,10 @@ export class FileManager {
         }
         __classPrivateFieldGet(this, _FileManager_Lupload, "f").debug(`[${fileId}] uploaded ` + result.parts + " part(s)");
         if (result.small) {
-            return new types.InputFile({ id: fileId, name, parts: result.parts, md5_checksum: "" });
+            return { _: "inputFile", id: fileId, name, parts: result.parts, md5_checksum: "" };
         }
         else {
-            return new types.InputFileBig({ id: fileId, parts: result.parts, name });
+            return { _: "inputFileBig", id: fileId, name, parts: result.parts };
         }
     }
     async *downloadInner(location, dcId, params) {
@@ -105,8 +105,8 @@ export class FileManager {
         let part = 0;
         try {
             while (true) {
-                const file = await connection.api.upload.getFile({ location, offset, limit });
-                if (file instanceof types.upload.File) {
+                const file = await connection.invoke({ _: "upload.getFile", location, offset, limit });
+                if (is("upload.file", file)) {
                     yield file.bytes;
                     if (id != null) {
                         await __classPrivateFieldGet(this, _FileManager_c, "f").storage.saveFilePart(id, part, file.bytes);
@@ -166,39 +166,42 @@ export class FileManager {
                     }
                     const big = fileId_.location.source.type == PhotoSourceType.ChatPhotoBig;
                     const peer = await __classPrivateFieldGet(this, _FileManager_c, "f").getInputPeer(Number(fileId_.location.source.chatId)); // TODO: use access hash from source?
-                    const location = new types.InputPeerPhotoFileLocation({ big: big ? true : undefined, peer, photo_id: fileId_.location.id });
+                    const location = { _: "inputPeerPhotoFileLocation", big: big ? true : undefined, peer, photo_id: fileId_.location.id };
                     yield* this.downloadInner(location, fileId_.dcId, params);
                     break;
                 }
                 case FileType.Photo: {
-                    const location = new types.InputPhotoFileLocation({
+                    const location = {
+                        _: "inputPhotoFileLocation",
                         id: fileId_.location.id,
                         access_hash: fileId_.location.accessHash,
                         file_reference: fileId_.fileReference ?? new Uint8Array(),
                         thumb_size: "thumbnailType" in fileId_.location.source ? String.fromCharCode(fileId_.location.source.thumbnailType) : "",
-                    });
+                    };
                     yield* this.downloadInner(location, fileId_.dcId, params);
                     break;
                 }
                 case FileType.Thumbnail: {
-                    const location = new types.InputDocumentFileLocation({
+                    const location = {
+                        _: "inputDocumentFileLocation",
                         id: fileId_.location.id,
                         access_hash: fileId_.location.accessHash,
                         file_reference: fileId_.fileReference ?? new Uint8Array(),
                         thumb_size: "thumbnailType" in fileId_.location.source ? String.fromCharCode(fileId_.location.source.thumbnailType) : unreachable(),
-                    });
+                    };
                     yield* this.downloadInner(location, fileId_.dcId, params);
                     break;
                 }
             }
         }
         else if (fileId_.location.type == "common") {
-            const location = new types.InputDocumentFileLocation({
+            const location = {
+                _: "inputDocumentFileLocation",
                 id: fileId_.location.id,
                 access_hash: fileId_.location.accessHash,
                 file_reference: fileId_.fileReference ?? new Uint8Array(),
                 thumb_size: "",
-            });
+            };
             yield* this.downloadInner(location, fileId_.dcId, params);
         }
         else {
@@ -211,8 +214,8 @@ export class FileManager {
             return maybeStickerSetName[0];
         }
         else {
-            const stickerSet = await __classPrivateFieldGet(this, _FileManager_c, "f").api.messages.getStickerSet({ stickerset: inputStickerSet, hash });
-            const name = stickerSet[as](types.messages.StickerSet).set.short_name;
+            const stickerSet = await __classPrivateFieldGet(this, _FileManager_c, "f").invoke({ _: "messages.getStickerSet", stickerset: inputStickerSet, hash });
+            const name = as("messages.stickerSet", stickerSet).set.short_name;
             await __classPrivateFieldGet(this, _FileManager_c, "f").messageStorage.updateStickerSetName(inputStickerSet.id, inputStickerSet.access_hash, name);
             return name;
         }
@@ -247,7 +250,7 @@ export class FileManager {
         if (!shouldFetch) {
             return stickers;
         }
-        const documents_ = await __classPrivateFieldGet(this, _FileManager_c, "f").api.messages.getCustomEmojiDocuments({ document_id: id.map(BigInt) }).then((v) => v.map((v) => v[as](types.Document)));
+        const documents_ = await __classPrivateFieldGet(this, _FileManager_c, "f").invoke({ _: "messages.getCustomEmojiDocuments", document_id: id.map(BigInt) }).then((v) => v.map((v) => as("document", v)));
         for (const [i, document_] of documents_.entries()) {
             await __classPrivateFieldGet(this, _FileManager_c, "f").messageStorage.setCustomEmojiDocument(document_.id, document_);
             const fileId_ = {
@@ -267,17 +270,17 @@ export class FileManager {
 _a = FileManager, _FileManager_c = new WeakMap(), _FileManager_Lupload = new WeakMap(), _FileManager_instances = new WeakSet(), _FileManager_uploadStream = async function _FileManager_uploadStream(stream, fileId, chunkSize, signal, pool) {
     let part;
     let promises = new Array();
-    let api = pool.api();
+    let invoke = pool.invoke();
     let apiPromiseCount = 0;
     for await (part of iterateReadableStream(stream.pipeThrough(new PartStream(chunkSize)))) {
         promises.push(Promise.resolve().then(async () => {
             while (true) {
                 try {
                     if (part.small) {
-                        await api.upload.saveFilePart({ file_id: fileId, bytes: part.bytes, file_part: part.part });
+                        await invoke({ _: "upload.saveFilePart", file_id: fileId, bytes: part.bytes, file_part: part.part });
                     }
                     else {
-                        await api.upload.saveBigFilePart({ file_id: fileId, file_part: part.part, bytes: part.bytes, file_total_parts: part.totalParts });
+                        await invoke({ _: "upload.saveBigFilePart", file_id: fileId, file_part: part.part, bytes: part.bytes, file_total_parts: part.totalParts });
                     }
                     __classPrivateFieldGet(this, _FileManager_Lupload, "f").debug(`[${fileId}] uploaded part ` + (part.part + 1));
                     break;
@@ -290,7 +293,7 @@ _a = FileManager, _FileManager_c = new WeakMap(), _FileManager_Lupload = new Wea
             }
         }));
         if (++apiPromiseCount >= __classPrivateFieldGet(_a, _a, "f", _FileManager_UPLOAD_REQUEST_PER_CONNECTION)) {
-            api = pool.api();
+            invoke = pool.invoke();
             apiPromiseCount = 0;
         }
         if (promises.length == pool.size * __classPrivateFieldGet(_a, _a, "f", _FileManager_UPLOAD_REQUEST_PER_CONNECTION)) {
@@ -306,7 +309,7 @@ _a = FileManager, _FileManager_c = new WeakMap(), _FileManager_Lupload = new Wea
     let promises = new Array();
     main: for (let part = 0; part < partCount;) {
         for (let i = 0; i < pool.size; ++i) {
-            const api = pool.api();
+            const invoke = pool.invoke();
             for (let i = 0; i < __classPrivateFieldGet(_a, _a, "f", _FileManager_UPLOAD_REQUEST_PER_CONNECTION); ++i) {
                 const start = part * chunkSize;
                 const end = start + chunkSize;
@@ -320,10 +323,10 @@ _a = FileManager, _FileManager_c = new WeakMap(), _FileManager_Lupload = new Wea
                         try {
                             signal?.throwIfAborted();
                             if (isBig) {
-                                await api.upload.saveBigFilePart({ file_id: fileId, file_part: thisPart, bytes, file_total_parts: partCount });
+                                await invoke({ _: "upload.saveBigFilePart", file_id: fileId, file_part: thisPart, bytes, file_total_parts: partCount });
                             }
                             else {
-                                await api.upload.saveFilePart({ file_id: fileId, bytes, file_part: thisPart });
+                                await invoke({ _: "upload.saveFilePart", file_id: fileId, bytes, file_part: thisPart });
                             }
                             __classPrivateFieldGet(this, _FileManager_Lupload, "f").debug(`[${fileId}] uploaded part ` + (thisPart + 1) + " / " + partCount);
                             break;

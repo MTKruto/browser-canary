@@ -18,7 +18,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 import { MaybePromise } from "../1_utilities.js";
-import { enums } from "../2_tl.js";
+import { Api } from "../2_tl.js";
 import { EntityGetter } from "./_getters.js";
 import { Contact } from "./0_contact.js";
 import { Dice } from "./0_dice.js";
@@ -576,9 +576,9 @@ export interface MessageGetter {
     (chatId: number, messageId: number): MaybePromise<Message | null>;
 }
 type Message_MessageGetter = MessageGetter | null;
-export declare function constructMessage(message_: enums.Message, getEntity: EntityGetter, getMessage: Message_MessageGetter, getStickerSetName: StickerSetNameGetter, getReply_?: boolean, business?: {
+export declare function constructMessage(message_: Api.Message, getEntity: EntityGetter, getMessage: Message_MessageGetter, getStickerSetName: StickerSetNameGetter, getReply_?: boolean, business?: {
     connectionId: string;
-    replyToMessage?: enums.Message;
+    replyToMessage?: Api.Message;
 }): Promise<Message>;
 export {};
 //# sourceMappingURL=4_message.d.ts.map

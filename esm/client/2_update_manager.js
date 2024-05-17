@@ -31,7 +31,7 @@ var __classPrivateFieldGet = (this && this.__classPrivateFieldGet) || function (
 var _UpdateManager_instances, _a, _UpdateManager_c, _UpdateManager_updateState, _UpdateManager_updateHandler, _UpdateManager_LrecoverUpdateGap, _UpdateManager_LrecoverChannelUpdateGap, _UpdateManager_L$handleUpdate, _UpdateManager_L$processUpdates, _UpdateManager_LfetchState, _UpdateManager_defaultDropPendingUpdates, _UpdateManager_mustDropPendingUpdates, _UpdateManager_state, _UpdateManager_getState, _UpdateManager_setState, _UpdateManager_handleUpdateQueues, _UpdateManager_nonFirst, _UpdateManager_getChannelPtsWithDropPendingUpdatesCheck, _UpdateManager_checkGap, _UpdateManager_checkGapQts, _UpdateManager_checkChannelGap, _UpdateManager_channelUpdateQueues, _UpdateManager_processChannelPtsUpdateInner, _UpdateManager_queueUpdate, _UpdateManager_processChannelPtsUpdate, _UpdateManager_processPtsUpdateInner, _UpdateManager_ptsUpdateQueue, _UpdateManager_processPtsUpdate, _UpdateManager_processQtsUpdateInner, _UpdateManager_qtsUpdateQueue, _UpdateManager_processQtsUpdate, _UpdateManager_processUpdatesQueue, _UpdateManager_processUpdates, _UpdateManager_setUpdateStateDate, _UpdateManager_setUpdatePts, _UpdateManager_setUpdateQts, _UpdateManager_getLocalState, _UpdateManager_recoverChannelUpdateGap, _UpdateManager_handleUpdatesSet, _UpdateManager_handleStoredUpdates, _UpdateManager_handleUpdate;
 import { unreachable } from "../0_deps.js";
 import { getLogger, Queue, ZERO_CHANNEL_ID } from "../1_utilities.js";
-import { as, functions, inputPeerToPeer, peerToChatId, types } from "../2_tl.js";
+import { as, inputPeerToPeer, is, isOfEnum, isOneOf, peerToChatId } from "../2_tl.js";
 import { CHANNEL_DIFFERENCE_LIMIT_BOT, CHANNEL_DIFFERENCE_LIMIT_USER } from "../4_constants.js";
 export class UpdateManager {
     constructor(c) {
@@ -62,46 +62,26 @@ export class UpdateManager {
         __classPrivateFieldSet(this, _UpdateManager_LfetchState, L.branch("fetchState"), "f");
     }
     static isPtsUpdate(v) {
-        return v instanceof types.UpdateNewMessage ||
-            v instanceof types.UpdateDeleteMessages ||
-            v instanceof types.UpdateReadHistoryInbox ||
-            v instanceof types.UpdateReadHistoryOutbox ||
-            v instanceof types.UpdatePinnedChannelMessages ||
-            v instanceof types.UpdatePinnedMessages ||
-            v instanceof types.UpdateFolderPeers ||
-            v instanceof types.UpdateChannelWebPage ||
-            v instanceof types.UpdateEditMessage ||
-            v instanceof types.UpdateReadMessagesContents ||
-            v instanceof types.UpdateWebPage;
+        return isOneOf(["updateNewMessage", "updateDeleteMessages", "updateReadHistoryInbox", "updateReadHistoryOutbox", "updatePinnedChannelMessages", "updatePinnedMessages", "updateFolderPeers", "updateChannelWebPage", "updateEditMessage", "updateReadMessagesContents", "updateWebPage"], v);
     }
     static isQtsUpdate(v) {
-        return v instanceof types.UpdateNewEncryptedMessage ||
-            v instanceof types.UpdateMessagePollVote ||
-            v instanceof types.UpdateBotStopped ||
-            v instanceof types.UpdateChatParticipant ||
-            v instanceof types.UpdateChannelParticipant ||
-            v instanceof types.UpdateBotChatInviteRequester ||
-            v instanceof types.UpdateBotChatBoost ||
-            v instanceof types.UpdateBotMessageReaction ||
-            v instanceof types.UpdateBotMessageReactions ||
-            v instanceof types.UpdateBotBusinessConnect ||
-            v instanceof types.UpdateBotNewBusinessMessage ||
-            v instanceof types.UpdateBotEditBusinessMessage ||
-            v instanceof types.UpdateBotDeleteBusinessMessage;
+        return isOneOf(["updateNewEncryptedMessage", "updateMessagePollVote", "updateBotStopped", "updateChatParticipant", "updateChannelParticipant", "updateBotChatInviteRequester", "updateBotChatBoost", "updateBotMessageReaction", "updateBotMessageReactions", "updateBotBusinessConnect", "updateBotNewBusinessMessage", "updateBotEditBusinessMessage", "updateBotDeleteBusinessMessage"], v);
     }
     static isChannelPtsUpdate(v) {
-        return v instanceof types.UpdateNewChannelMessage ||
-            v instanceof types.UpdateEditChannelMessage ||
-            v instanceof types.UpdateDeleteChannelMessages ||
-            v instanceof types.UpdateChannelTooLong;
+        return isOneOf([
+            "updateNewChannelMessage",
+            "updateEditChannelMessage",
+            "updateDeleteChannelMessages",
+            "updateChannelTooLong",
+        ], v);
     }
     async fetchState(source) {
-        let state = await __classPrivateFieldGet(this, _UpdateManager_c, "f").api.updates.getState();
-        const difference = await __classPrivateFieldGet(this, _UpdateManager_c, "f").api.updates.getDifference(state);
-        if (difference instanceof types.updates.Difference) {
+        let state = await __classPrivateFieldGet(this, _UpdateManager_c, "f").invoke({ _: "updates.getState" });
+        const difference = await __classPrivateFieldGet(this, _UpdateManager_c, "f").invoke({ ...state, _: "updates.getDifference" });
+        if (is("updates.difference", difference)) {
             state = difference.state;
         }
-        else if (difference instanceof types.updates.DifferenceSlice) {
+        else if (is("updates.differenceSlice", difference)) {
             state = difference.intermediate_state;
         }
         __classPrivateFieldSet(this, _UpdateManager_updateState, state, "f");
@@ -112,7 +92,7 @@ export class UpdateManager {
     }
     async processChats(chats) {
         for (const chat of chats) {
-            if (chat instanceof types.Channel || chat instanceof types.ChannelForbidden) {
+            if (isOneOf(["channel", "channelForbidden"], chat)) {
                 await __classPrivateFieldGet(this, _UpdateManager_c, "f").messageStorage.setEntity(chat);
                 if ("username" in chat && chat.username) {
                     await __classPrivateFieldGet(this, _UpdateManager_c, "f").messageStorage.updateUsernames(peerToChatId(chat), [chat.username]);
@@ -121,82 +101,84 @@ export class UpdateManager {
                     await __classPrivateFieldGet(this, _UpdateManager_c, "f").messageStorage.updateUsernames(peerToChatId(chat), chat.usernames.map((v) => v.username));
                 }
             }
-            else if (chat instanceof types.Chat || chat instanceof types.ChatForbidden) {
+            else if (isOneOf(["chat", "chatForbidden"], chat)) {
                 await __classPrivateFieldGet(this, _UpdateManager_c, "f").messageStorage.setEntity(chat);
             }
         }
     }
     async processResult(result) {
-        if (result instanceof types.account.AuthorizationForm ||
-            result instanceof types.account.AutoSaveSettings ||
-            result instanceof types.account.PrivacyRules ||
-            result instanceof types.account.WebAuthorizations ||
-            result instanceof types.AttachMenuBots ||
-            result instanceof types.AttachMenuBotsBot ||
-            result instanceof types.channels.AdminLogResults ||
-            result instanceof types.channels.ChannelParticipant ||
-            result instanceof types.channels.ChannelParticipants ||
-            result instanceof types.channels.SendAsPeers ||
-            result instanceof types.ChatInvite ||
-            result instanceof types.chatlists.ChatlistInvite ||
-            result instanceof types.chatlists.ChatlistInviteAlready ||
-            result instanceof types.chatlists.ChatlistUpdates ||
-            result instanceof types.chatlists.ExportedInvites ||
-            result instanceof types.contacts.Blocked ||
-            result instanceof types.contacts.BlockedSlice ||
-            result instanceof types.contacts.Contacts ||
-            result instanceof types.contacts.Found ||
-            result instanceof types.contacts.ImportedContacts ||
-            result instanceof types.contacts.ResolvedPeer ||
-            result instanceof types.contacts.TopPeers ||
-            result instanceof types.help.PromoData ||
-            result instanceof types.help.RecentMeUrls ||
-            result instanceof types.messages.BotResults ||
-            result instanceof types.messages.ChannelMessages ||
-            result instanceof types.messages.ChatAdminsWithInvites ||
-            result instanceof types.messages.ChatFull ||
-            result instanceof types.messages.ChatInviteImporters ||
-            result instanceof types.messages.Chats ||
-            result instanceof types.messages.ChatsSlice ||
-            result instanceof types.messages.Dialogs ||
-            result instanceof types.messages.DialogsSlice ||
-            result instanceof types.messages.DiscussionMessage ||
-            result instanceof types.messages.ExportedChatInvite ||
-            result instanceof types.messages.ExportedChatInviteReplaced ||
-            result instanceof types.messages.ExportedChatInvites ||
-            result instanceof types.messages.ForumTopics ||
-            result instanceof types.messages.HighScores ||
-            result instanceof types.messages.InactiveChats ||
-            result instanceof types.messages.MessageReactionsList ||
-            result instanceof types.messages.Messages ||
-            result instanceof types.messages.MessagesSlice ||
-            result instanceof types.messages.MessageViews ||
-            result instanceof types.messages.PeerDialogs ||
-            result instanceof types.messages.PeerSettings ||
-            result instanceof types.messages.SearchResultsCalendar ||
-            result instanceof types.messages.SponsoredMessages ||
-            result instanceof types.messages.VotesList ||
-            result instanceof types.messages.WebPage ||
-            result instanceof types.payments.CheckedGiftCode ||
-            result instanceof types.payments.PaymentForm ||
-            result instanceof types.payments.PaymentReceipt ||
-            result instanceof types.phone.GroupCall ||
-            result instanceof types.phone.GroupParticipants ||
-            result instanceof types.phone.JoinAsPeers ||
-            result instanceof types.phone.PhoneCall ||
-            result instanceof types.photos.Photo ||
-            result instanceof types.photos.Photos ||
-            result instanceof types.photos.PhotosSlice ||
-            result instanceof types.premium.BoostsList ||
-            result instanceof types.premium.MyBoosts ||
-            result instanceof types.stats.MegagroupStats ||
-            result instanceof types.stats.PublicForwards ||
-            result instanceof types.stories.AllStories ||
-            result instanceof types.stories.PeerStories ||
-            result instanceof types.stories.Stories ||
-            result instanceof types.stories.StoryViews ||
-            result instanceof types.stories.StoryViewsList ||
-            result instanceof types.users.UserFull) {
+        if (isOneOf([
+            "account.authorizationForm",
+            "account.autoSaveSettings",
+            "account.privacyRules",
+            "account.webAuthorizations",
+            "attachMenuBots",
+            "attachMenuBotsBot",
+            "channels.adminLogResults",
+            "channels.channelParticipant",
+            "channels.channelParticipants",
+            "channels.sendAsPeers",
+            "chatInvite",
+            "chatlists.chatlistInvite",
+            "chatlists.chatlistInviteAlready",
+            "chatlists.chatlistUpdates",
+            "chatlists.exportedInvites",
+            "contacts.blocked",
+            "contacts.blockedSlice",
+            "contacts.contacts",
+            "contacts.found",
+            "contacts.importedContacts",
+            "contacts.resolvedPeer",
+            "contacts.topPeers",
+            "help.promoData",
+            "help.recentMeUrls",
+            "messages.botResults",
+            "messages.channelMessages",
+            "messages.chatAdminsWithInvites",
+            "messages.chatFull",
+            "messages.chatInviteImporters",
+            "messages.chats",
+            "messages.chatsSlice",
+            "messages.dialogs",
+            "messages.dialogsSlice",
+            "messages.discussionMessage",
+            "messages.exportedChatInvite",
+            "messages.exportedChatInviteReplaced",
+            "messages.exportedChatInvites",
+            "messages.forumTopics",
+            "messages.highScores",
+            "messages.inactiveChats",
+            "messages.messageReactionsList",
+            "messages.messages",
+            "messages.messagesSlice",
+            "messages.messageViews",
+            "messages.peerDialogs",
+            "messages.peerSettings",
+            "messages.searchResultsCalendar",
+            "messages.sponsoredMessages",
+            "messages.votesList",
+            "messages.webPage",
+            "payments.checkedGiftCode",
+            "payments.paymentForm",
+            "payments.paymentReceipt",
+            "phone.groupCall",
+            "phone.groupParticipants",
+            "phone.joinAsPeers",
+            "phone.phoneCall",
+            "photos.photo",
+            "photos.photos",
+            "photos.photosSlice",
+            "premium.boostsList",
+            "premium.myBoosts",
+            "stats.megagroupStats",
+            "stats.publicForwards",
+            "stories.allStories",
+            "stories.peerStories",
+            "stories.stories",
+            "stories.storyViews",
+            "stories.storyViewsList",
+            "users.userFull",
+        ], result)) {
             if ("chats" in result) {
                 await this.processChats(result.chats);
             }
@@ -205,15 +187,15 @@ export class UpdateManager {
             }
             if ("messages" in result && Array.isArray(result.messages)) {
                 for (const message of result.messages) {
-                    if (message instanceof types.Message || message instanceof types.MessageService) {
+                    if (is("message", message) || is("messageService", message)) {
                         await __classPrivateFieldGet(this, _UpdateManager_c, "f").messageStorage.setMessage(peerToChatId(message.peer_id), message.id, message);
                     }
                 }
             }
         }
-        if (result instanceof types.messages.Messages) {
+        if (is("messages.messages", result)) {
             for (const message of result.messages) {
-                if (message instanceof types.Message || message instanceof types.MessageService) {
+                if (is("message", message) || is("messageService", message)) {
                     await __classPrivateFieldGet(this, _UpdateManager_c, "f").messageStorage.setMessage(peerToChatId(message.peer_id), message.id, message);
                 }
             }
@@ -221,7 +203,7 @@ export class UpdateManager {
     }
     async processUsers(users) {
         for (const user of users) {
-            if (user instanceof types.User && user.access_hash) {
+            if (is("user", user) && user.access_hash) {
                 await __classPrivateFieldGet(this, _UpdateManager_c, "f").messageStorage.setEntity(user);
                 if (user.username) {
                     await __classPrivateFieldGet(this, _UpdateManager_c, "f").messageStorage.updateUsernames(peerToChatId(user), [user.username]);
@@ -251,36 +233,36 @@ export class UpdateManager {
         try {
             let state = await __classPrivateFieldGet(this, _UpdateManager_instances, "m", _UpdateManager_getLocalState).call(this);
             while (true) {
-                const difference = await __classPrivateFieldGet(this, _UpdateManager_c, "f").api.updates.getDifference({ pts: state.pts, date: state.date, qts: state.qts ?? 0 });
-                if (difference instanceof types.updates.Difference || difference instanceof types.updates.DifferenceSlice) {
+                const difference = await __classPrivateFieldGet(this, _UpdateManager_c, "f").invoke({ _: "updates.getDifference", pts: state.pts, date: state.date, qts: state.qts ?? 0 });
+                if (is("updates.difference", difference) || is("updates.differenceSlice", difference)) {
                     await this.processChats(difference.chats);
                     await this.processUsers(difference.users);
                     for (const message of difference.new_messages) {
-                        await __classPrivateFieldGet(this, _UpdateManager_instances, "m", _UpdateManager_processUpdates).call(this, new types.UpdateNewMessage({ message, pts: 0, pts_count: 0 }), false);
+                        await __classPrivateFieldGet(this, _UpdateManager_instances, "m", _UpdateManager_processUpdates).call(this, { _: "updateNewMessage", message, pts: 0, pts_count: 0 }, false);
                     }
                     for (const update of difference.other_updates) {
                         await __classPrivateFieldGet(this, _UpdateManager_instances, "m", _UpdateManager_processUpdates).call(this, update, false);
                     }
-                    if (difference instanceof types.updates.Difference) {
+                    if (is("updates.difference", difference)) {
                         await __classPrivateFieldGet(this, _UpdateManager_instances, "m", _UpdateManager_setState).call(this, difference.state);
                         __classPrivateFieldGet(this, _UpdateManager_LrecoverUpdateGap, "f").debug("recovered from update gap");
                         break;
                     }
-                    else if (difference instanceof types.updates.DifferenceSlice) {
+                    else if (is("updates.differenceSlice", difference)) {
                         state = difference.intermediate_state;
                     }
                     else {
                         unreachable();
                     }
                 }
-                else if (difference instanceof types.updates.DifferenceTooLong) {
+                else if (is("updates.differenceTooLong", difference)) {
                     await __classPrivateFieldGet(this, _UpdateManager_c, "f").messageStorage.deleteMessages();
                     await __classPrivateFieldGet(this, _UpdateManager_c, "f").storage.removeChats(0);
                     await __classPrivateFieldGet(this, _UpdateManager_c, "f").storage.removeChats(1);
                     state.pts = difference.pts;
                     __classPrivateFieldGet(this, _UpdateManager_LrecoverUpdateGap, "f").debug("received differenceTooLong");
                 }
-                else if (difference instanceof types.updates.DifferenceEmpty) {
+                else if (is("updates.differenceEmpty", difference)) {
                     await __classPrivateFieldGet(this, _UpdateManager_instances, "m", _UpdateManager_setUpdateStateDate).call(this, difference.date);
                     __classPrivateFieldGet(this, _UpdateManager_LrecoverUpdateGap, "f").debug("there was no update gap");
                     break;
@@ -351,8 +333,8 @@ _a = UpdateManager, _UpdateManager_c = new WeakMap(), _UpdateManager_updateState
         await __classPrivateFieldGet(this, _UpdateManager_instances, "m", _UpdateManager_recoverChannelUpdateGap).call(this, channelId, "processUpdates");
     }
 }, _UpdateManager_processChannelPtsUpdateInner = async function _UpdateManager_processChannelPtsUpdateInner(update, checkGap) {
-    const channelId = update instanceof types.UpdateNewChannelMessage || update instanceof types.UpdateEditChannelMessage ? update.message.peer_id[as](types.PeerChannel).channel_id : update.channel_id;
-    if (update instanceof types.UpdateChannelTooLong) {
+    const channelId = is("updateNewChannelMessage", update) || is("updateEditChannelMessage", update) ? as("peerChannel", update.message.peer_id).channel_id : update.channel_id;
+    if (is("updateChannelTooLong", update)) {
         if (update.pts != undefined) {
             await __classPrivateFieldGet(this, _UpdateManager_c, "f").storage.setChannelPts(channelId, update.pts);
         }
@@ -387,7 +369,7 @@ _a = UpdateManager, _UpdateManager_c = new WeakMap(), _UpdateManager_updateState
         }
     });
 }, _UpdateManager_processChannelPtsUpdate = function _UpdateManager_processChannelPtsUpdate(update, checkGap) {
-    const channelId = update instanceof types.UpdateNewChannelMessage || update instanceof types.UpdateEditChannelMessage ? update.message.peer_id[as](types.PeerChannel).channel_id : update.channel_id;
+    const channelId = is("updateNewChannelMessage", update) || is("updateEditChannelMessage", update) ? as("peerChannel", update.message.peer_id).channel_id : update.channel_id;
     let queue = __classPrivateFieldGet(this, _UpdateManager_channelUpdateQueues, "f").get(channelId);
     if (queue == undefined) {
         queue = new Queue(`channelUpdates-${channelId}`);
@@ -447,7 +429,7 @@ _a = UpdateManager, _UpdateManager_c = new WeakMap(), _UpdateManager_updateState
     /// [2]: https://core.telegram.org/type/Updates
     /// [3]: https://core.telegram.org/constructor/updatesTooLong
     let updates;
-    if (updates_ instanceof types.UpdatesCombined || updates_ instanceof types.Updates) {
+    if (is("updatesCombined", updates_) || is("updates", updates_)) {
         updates = updates_.updates;
         const seq = updates_.seq;
         const seqStart = "seq_start" in updates_ ? updates_.seq_start : updates_.seq;
@@ -478,20 +460,22 @@ _a = UpdateManager, _UpdateManager_c = new WeakMap(), _UpdateManager_updateState
             }
         }
     }
-    else if (updates_ instanceof types.UpdateShort) {
+    else if (is("updateShort", updates_)) {
         updates = [updates_.update];
     }
-    else if (updates_ instanceof types.UpdateShortMessage) {
+    else if (is("updateShortMessage", updates_)) {
         updates = [
-            new types.UpdateNewMessage({
-                message: new types.Message({
+            {
+                _: "updateNewMessage",
+                message: ({
+                    _: "message",
                     out: updates_.out,
                     mentioned: updates_.mentioned,
                     media_unread: updates_.media_unread,
                     silent: updates_.silent,
                     id: updates_.id,
-                    from_id: updates_.out ? new types.PeerUser({ user_id: await __classPrivateFieldGet(this, _UpdateManager_c, "f").getSelfId().then(BigInt) }) : new types.PeerUser({ user_id: updates_.user_id }),
-                    peer_id: new types.PeerUser({ user_id: updates_.user_id }),
+                    from_id: updates_.out ? ({ _: "peerUser", user_id: await __classPrivateFieldGet(this, _UpdateManager_c, "f").getSelfId().then(BigInt) }) : ({ _: "peerUser", user_id: updates_.user_id }),
+                    peer_id: ({ _: "peerUser", user_id: updates_.user_id }),
                     message: updates_.message,
                     date: updates_.date,
                     fwd_from: updates_.fwd_from,
@@ -502,20 +486,21 @@ _a = UpdateManager, _UpdateManager_c = new WeakMap(), _UpdateManager_updateState
                 }),
                 pts: updates_.pts,
                 pts_count: updates_.pts_count,
-            }),
+            },
         ];
     }
-    else if (updates_ instanceof types.UpdateShortChatMessage) {
+    else if (is("updateShortChatMessage", updates_)) {
         updates = [
-            new types.UpdateNewMessage({
-                message: new types.Message({
-                    out: updates_.out,
+            {
+                _: "updateNewMessage",
+                message: ({
+                    _: "message",
                     mentioned: updates_.mentioned,
                     media_unread: updates_.media_unread,
                     silent: updates_.silent,
                     id: updates_.id,
-                    from_id: new types.PeerUser({ user_id: updates_.from_id }),
-                    peer_id: new types.PeerChat({ chat_id: updates_.chat_id }),
+                    from_id: { _: "peerUser", user_id: updates_.from_id },
+                    peer_id: { _: "peerChat", chat_id: updates_.chat_id },
                     fwd_from: updates_.fwd_from,
                     via_bot_id: updates_.via_bot_id,
                     reply_to: updates_.reply_to,
@@ -526,20 +511,21 @@ _a = UpdateManager, _UpdateManager_c = new WeakMap(), _UpdateManager_updateState
                 }),
                 pts: updates_.pts,
                 pts_count: updates_.pts_count,
-            }),
+            },
         ];
     }
-    else if (updates_ instanceof types.UpdateShortSentMessage) {
-        if (!(call instanceof functions.messages.sendMessage)) {
+    else if (is("updateShortSentMessage", updates_)) {
+        if (!is("messages.sendMessage", call)) {
             unreachable();
         }
-        updates = [
-            new types.UpdateNewMessage({
-                message: new types.Message({
+        updates = [{
+                _: "updateNewMessage",
+                message: ({
+                    _: "message",
                     out: updates_.out,
                     silent: call.silent,
                     id: updates_.id,
-                    from_id: new types.PeerUser({ user_id: await __classPrivateFieldGet(this, _UpdateManager_c, "f").getSelfId().then(BigInt) }),
+                    from_id: { _: "peerUser", user_id: await __classPrivateFieldGet(this, _UpdateManager_c, "f").getSelfId().then(BigInt) },
                     peer_id: inputPeerToPeer(call.peer),
                     message: call.message,
                     media: updates_.media,
@@ -550,33 +536,32 @@ _a = UpdateManager, _UpdateManager_c = new WeakMap(), _UpdateManager_updateState
                 }),
                 pts: updates_.pts,
                 pts_count: updates_.pts_count,
-            }),
-        ];
+            }];
     }
-    else if (updates_ instanceof types.UpdatesTooLong) {
+    else if (is("updatesTooLong", updates_)) {
         await this.recoverUpdateGap("updatesTooLong");
         return;
     }
-    else if (updates_ instanceof types._Update) {
+    else if (isOfEnum("Update", updates_)) {
         updates = [updates_];
     }
     else {
         unreachable();
     }
     /// We process the updates when we are sure there is no gap.
-    if (updates_ instanceof types.Updates || updates_ instanceof types.UpdatesCombined) {
+    if (is("updates", updates_) || is("updatesCombined", updates_)) {
         await this.processChats(updates_.chats);
         await this.processUsers(updates_.users);
         await __classPrivateFieldGet(this, _UpdateManager_instances, "m", _UpdateManager_setUpdateStateDate).call(this, updates_.date);
     }
-    else if (updates_ instanceof types.UpdateShort ||
-        updates_ instanceof types.UpdateShortMessage ||
-        updates_ instanceof types.UpdateShortChatMessage ||
-        updates_ instanceof types.UpdateShortSentMessage) {
+    else if (is("updateShort", updates_) ||
+        is("updateShortMessage", updates_) ||
+        is("updateShortChatMessage", updates_) ||
+        is("updateShortSentMessage", updates_)) {
         await __classPrivateFieldGet(this, _UpdateManager_instances, "m", _UpdateManager_setUpdateStateDate).call(this, updates_.date);
     }
     for (const update of updates) {
-        if (update instanceof types.UpdatePtsChanged) {
+        if (is("updatePtsChanged", update)) {
             await this.fetchState("updatePtsChanged");
             if (__classPrivateFieldGet(this, _UpdateManager_updateState, "f")) {
                 await __classPrivateFieldGet(this, _UpdateManager_instances, "m", _UpdateManager_setState).call(this, __classPrivateFieldGet(this, _UpdateManager_updateState, "f"));
@@ -634,18 +619,19 @@ _a = UpdateManager, _UpdateManager_c = new WeakMap(), _UpdateManager_updateState
     const pts_ = await __classPrivateFieldGet(this, _UpdateManager_c, "f").storage.getChannelPts(channelId);
     let pts = pts_ == null ? 1 : pts_;
     while (true) {
-        const { access_hash } = await __classPrivateFieldGet(this, _UpdateManager_c, "f").getInputPeer(ZERO_CHANNEL_ID + -Number(channelId)).then((v) => v[as](types.InputPeerChannel));
-        const difference = await __classPrivateFieldGet(this, _UpdateManager_c, "f").api.updates.getChannelDifference({
+        const { access_hash } = await __classPrivateFieldGet(this, _UpdateManager_c, "f").getInputPeer(ZERO_CHANNEL_ID + -Number(channelId)).then((v) => as("inputPeerChannel", v));
+        const difference = await __classPrivateFieldGet(this, _UpdateManager_c, "f").invoke({
+            _: "updates.getChannelDifference",
             pts,
-            channel: new types.InputChannel({ channel_id: channelId, access_hash }),
-            filter: new types.ChannelMessagesFilterEmpty(),
+            channel: { _: "inputChannel", channel_id: channelId, access_hash },
+            filter: { _: "channelMessagesFilterEmpty" },
             limit: await __classPrivateFieldGet(this, _UpdateManager_c, "f").storage.getAccountType() == "user" ? CHANNEL_DIFFERENCE_LIMIT_USER : CHANNEL_DIFFERENCE_LIMIT_BOT,
         });
-        if (difference instanceof types.updates.ChannelDifference) {
+        if (is("updates.channelDifference", difference)) {
             await this.processChats(difference.chats);
             await this.processUsers(difference.users);
             for (const message of difference.new_messages) {
-                await __classPrivateFieldGet(this, _UpdateManager_instances, "m", _UpdateManager_processUpdates).call(this, new types.UpdateNewChannelMessage({ message, pts: 0, pts_count: 0 }), false);
+                await __classPrivateFieldGet(this, _UpdateManager_instances, "m", _UpdateManager_processUpdates).call(this, { _: "updateNewChannelMessage", message, pts: 0, pts_count: 0 }, false);
             }
             for (const update of difference.other_updates) {
                 await __classPrivateFieldGet(this, _UpdateManager_instances, "m", _UpdateManager_processUpdates).call(this, update, false);
@@ -654,15 +640,15 @@ _a = UpdateManager, _UpdateManager_c = new WeakMap(), _UpdateManager_updateState
             __classPrivateFieldGet(this, _UpdateManager_LrecoverChannelUpdateGap, "f").debug(`recovered from update gap [${channelId}, ${source}]`, channelId, source);
             break;
         }
-        else if (difference instanceof types.updates.ChannelDifferenceTooLong) {
+        else if (is("updates.channelDifferenceTooLong", difference)) {
             // TODO: invalidate messages
             __classPrivateFieldGet(this, _UpdateManager_LrecoverChannelUpdateGap, "f").debug("received channelDifferenceTooLong");
             await this.processChats(difference.chats);
             await this.processUsers(difference.users);
             for (const message of difference.messages) {
-                await __classPrivateFieldGet(this, _UpdateManager_instances, "m", _UpdateManager_processUpdates).call(this, new types.UpdateNewChannelMessage({ message, pts: 0, pts_count: 0 }), false);
+                await __classPrivateFieldGet(this, _UpdateManager_instances, "m", _UpdateManager_processUpdates).call(this, { _: "updateNewChannelMessage", message, pts: 0, pts_count: 0 }, false);
             }
-            const pts_ = difference.dialog[as](types.Dialog).pts;
+            const pts_ = as("dialog", difference.dialog).pts;
             if (pts_ != undefined) {
                 pts = pts_;
             }
@@ -671,7 +657,7 @@ _a = UpdateManager, _UpdateManager_c = new WeakMap(), _UpdateManager_updateState
             }
             __classPrivateFieldGet(this, _UpdateManager_LrecoverChannelUpdateGap, "f").debug("processed channelDifferenceTooLong");
         }
-        else if (difference instanceof types.updates.ChannelDifferenceEmpty) {
+        else if (is("updates.channelDifferenceEmpty", difference)) {
             __classPrivateFieldGet(this, _UpdateManager_LrecoverChannelUpdateGap, "f").debug("there was no update gap");
             break;
         }

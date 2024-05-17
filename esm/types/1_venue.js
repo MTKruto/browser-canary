@@ -17,9 +17,9 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-import { as, types } from "../2_tl.js";
+import { as } from "../2_tl.js";
 export function constructVenue(media_) {
-    const geo = media_.geo[as](types.GeoPoint);
+    const geo = as("geoPoint", media_.geo);
     return {
         location: {
             latitude: geo.lat,

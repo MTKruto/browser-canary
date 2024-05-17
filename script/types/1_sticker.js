@@ -25,11 +25,11 @@ const _2_tl_js_1 = require("../2_tl.js");
 const _0_mask_position_js_1 = require("./0_mask_position.js");
 const _0_thumbnail_js_1 = require("./0_thumbnail.js");
 async function constructSticker(document, fileId, fileUniqueId, getStickerSetName, customEmojiId = "") {
-    const stickerAttribute = document.attributes.find((v) => v instanceof _2_tl_js_1.types.DocumentAttributeSticker);
-    const imageSizeAttribute = document.attributes.find((v) => v instanceof _2_tl_js_1.types.DocumentAttributeImageSize);
-    const customEmojiAttribute = document.attributes.find((v) => v instanceof _2_tl_js_1.types.DocumentAttributeCustomEmoji);
-    const videoAttribute = document.attributes.find((v) => v instanceof _2_tl_js_1.types.DocumentAttributeVideo);
-    const setName = stickerAttribute.stickerset instanceof _2_tl_js_1.types.InputStickerSetID ? await getStickerSetName(stickerAttribute.stickerset) : undefined;
+    const stickerAttribute = document.attributes.find((v) => (0, _2_tl_js_1.is)("documentAttributeSticker", v));
+    const imageSizeAttribute = document.attributes.find((v) => (0, _2_tl_js_1.is)("documentAttributeImageSize", v));
+    const customEmojiAttribute = document.attributes.find((v) => (0, _2_tl_js_1.is)("documentAttributeCustomEmoji", v));
+    const videoAttribute = document.attributes.find((v) => (0, _2_tl_js_1.is)("documentAttributeVideo", v));
+    const setName = (0, _2_tl_js_1.is)("inputStickerSetID", stickerAttribute.stickerset) ? await getStickerSetName(stickerAttribute.stickerset) : undefined;
     return (0, _1_utilities_js_1.cleanObject)({
         fileId,
         fileUniqueId,
@@ -38,7 +38,7 @@ async function constructSticker(document, fileId, fileUniqueId, getStickerSetNam
         height: imageSizeAttribute ? imageSizeAttribute.h : videoAttribute ? videoAttribute.h : 512,
         isAnimated: document.mime_type == "application/x-tgsticker",
         isVideo: document.mime_type == "video/webm",
-        thumbnails: document.thumbs ? document.thumbs.map((v) => v instanceof _2_tl_js_1.types.PhotoSize ? (0, _0_thumbnail_js_1.constructThumbnail)(v, document) : null).filter((v) => v) : [],
+        thumbnails: document.thumbs ? document.thumbs.map((v) => (0, _2_tl_js_1.is)("photoSize", v) ? (0, _0_thumbnail_js_1.constructThumbnail)(v, document) : null).filter((v) => v) : [],
         emoji: (customEmojiAttribute ? customEmojiAttribute.alt : stickerAttribute.alt) || undefined,
         setName,
         premiumAnimation: undefined, // TODO

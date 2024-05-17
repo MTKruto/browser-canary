@@ -17,7 +17,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-import { enums } from "../2_tl.js";
+import { Api } from "../2_tl.js";
 import { UsernameResolver } from "./_getters.js";
 import { LoginUrl } from "./0_login_url.js";
 import { MiniAppInfo } from "./0_mini_app_info.js";
@@ -67,6 +67,6 @@ export interface InlineKeyboardButtonPay extends _InlineKeyboardButtonBase {
 }
 /** A button of an inline keyboard. */
 export type InlineKeyboardButton = InlineKeyboardButtonURL | InlineKeyboardButtonCallback | InlineKeyboardButtonMiniApp | InlineKeyboardButtonLogin | InlineKeyboardButtonSwitchInline | InlineKeyboardButtonSwitchInlineCurrent | InlineKeyboardButtonGame | InlineKeyboardButtonPay;
-export declare function constructInlineKeyboardButton(button_: enums.KeyboardButton): InlineKeyboardButton;
-export declare function inlineKeyboardButtonToTlObject(button: InlineKeyboardButton, usernameResolver: UsernameResolver): Promise<enums.KeyboardButton>;
+export declare function constructInlineKeyboardButton(button_: Api.KeyboardButton): InlineKeyboardButton;
+export declare function inlineKeyboardButtonToTlObject(button: InlineKeyboardButton, usernameResolver: UsernameResolver): Promise<Api.KeyboardButton>;
 //# sourceMappingURL=2_inline_keyboard_button.d.ts.map

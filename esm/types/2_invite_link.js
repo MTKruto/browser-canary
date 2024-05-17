@@ -19,10 +19,9 @@
  */
 import { unreachable } from "../0_deps.js";
 import { cleanObject, fromUnixTimestamp } from "../1_utilities.js";
-import { types } from "../2_tl.js";
 import { constructUser } from "./1_user.js";
 export async function constructInviteLink(inviteLink_, getEntity) {
-    const entity = await getEntity(new types.PeerUser({ user_id: inviteLink_.admin_id }));
+    const entity = await getEntity({ _: "peerUser", user_id: inviteLink_.admin_id });
     if (!entity) {
         unreachable();
     }

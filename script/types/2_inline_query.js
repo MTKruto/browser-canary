@@ -25,33 +25,33 @@ const _2_tl_js_1 = require("../2_tl.js");
 const _0_location_js_1 = require("./0_location.js");
 const _1_user_js_1 = require("./1_user.js");
 async function constructInlineQuery(query_, getEntity) {
-    const user_ = await getEntity(new _2_tl_js_1.types.PeerUser({ user_id: query_.user_id }));
+    const user_ = await getEntity({ _: "peerUser", user_id: query_.user_id });
     if (user_ == null) {
         (0, _0_deps_js_1.unreachable)();
     }
     const user = (0, _1_user_js_1.constructUser)(user_);
     let chatType;
     if (query_.peer_type !== undefined) {
-        if (query_.peer_type instanceof _2_tl_js_1.types.InlineQueryPeerTypeSameBotPM) {
+        if ((0, _2_tl_js_1.is)("inlineQueryPeerTypeSameBotPM", query_.peer_type)) {
             chatType = "private";
         }
-        else if (query_.peer_type instanceof _2_tl_js_1.types.InlineQueryPeerTypeBotPM || query_.peer_type instanceof _2_tl_js_1.types.InlineQueryPeerTypePM) {
+        else if ((0, _2_tl_js_1.is)("inlineQueryPeerTypeBotPM", query_.peer_type) || (0, _2_tl_js_1.is)("inlineQueryPeerTypePM", query_.peer_type)) {
             chatType = "sender";
         }
-        else if (query_.peer_type instanceof _2_tl_js_1.types.InlineQueryPeerTypeChat) {
+        else if ((0, _2_tl_js_1.is)("inlineQueryPeerTypeChat", query_.peer_type)) {
             chatType = "group";
         }
-        else if (query_.peer_type instanceof _2_tl_js_1.types.InlineQueryPeerTypeMegagroup) {
+        else if ((0, _2_tl_js_1.is)("inlineQueryPeerTypeMegagroup", query_.peer_type)) {
             chatType = "supergroup";
         }
-        else if (query_.peer_type instanceof _2_tl_js_1.types.InlineQueryPeerTypeBroadcast) {
+        else if ((0, _2_tl_js_1.is)("inlineQueryPeerTypeBroadcast", query_.peer_type)) {
             chatType = "channel";
         }
         else {
             (0, _0_deps_js_1.unreachable)();
         }
     }
-    const location = query_.geo !== undefined && query_.geo instanceof _2_tl_js_1.types.GeoPoint ? (0, _0_location_js_1.constructLocation)(query_.geo) : undefined;
+    const location = query_.geo !== undefined && (0, _2_tl_js_1.is)("geoPoint", query_.geo) ? (0, _0_location_js_1.constructLocation)(query_.geo) : undefined;
     return {
         id: String(query_.query_id),
         from: user,

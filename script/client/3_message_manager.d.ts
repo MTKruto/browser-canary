@@ -17,7 +17,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-import { enums, types } from "../2_tl.js";
+import { Api } from "../2_tl.js";
 import { InputMedia } from "../3_types.js";
 import { ChatAction, ChatMember, FileSource, FileType, ID, Message, MessageEntity, ParseMode, Reaction, Update, UsernameResolver } from "../3_types.js";
 import { AddReactionParams, BanChatMemberParams, CreateInviteLinkParams, DeleteMessagesParams, EditMessageLiveLocationParams, EditMessageMediaParams, EditMessageParams, EditMessageReplyMarkupParams, ForwardMessagesParams, GetCreatedInviteLinksParams, GetHistoryParams, PinMessageParams, SearchMessagesParams, SendAnimationParams, SendAudioParams, SendChatActionParams, SendContactParams, SendDiceParams, SendDocumentParams, SendLocationParams, SendMessageParams, SendPhotoParams, SendPollParams, SendStickerParams, SendVenueParams, SendVideoNoteParams, SendVideoParams, SendVoiceParams, SetChatMemberRightsParams, SetChatPhotoParams, SetReactionsParams, StopPollParams } from "./0_params.js";
@@ -26,7 +26,7 @@ import { FileManager } from "./2_file_manager.js";
 interface C extends C_ {
     fileManager: FileManager;
 }
-type MessageManagerUpdate = types.UpdateNewMessage | types.UpdateNewChannelMessage | types.UpdateEditMessage | types.UpdateEditChannelMessage | types.UpdateBotNewBusinessMessage | types.UpdateBotEditBusinessMessage | types.UpdateBotDeleteBusinessMessage | types.UpdateDeleteMessages | types.UpdateDeleteChannelMessages | types.UpdateChannelParticipant | types.UpdateChatParticipant;
+type MessageManagerUpdate = Api.updateNewMessage | Api.updateNewChannelMessage | Api.updateEditMessage | Api.updateEditChannelMessage | Api.updateBotNewBusinessMessage | Api.updateBotEditBusinessMessage | Api.updateBotDeleteBusinessMessage | Api.updateDeleteMessages | Api.updateDeleteChannelMessages | Api.updateChannelParticipant | Api.updateChatParticipant;
 export declare class MessageManager {
     #private;
     constructor(c: C);
@@ -37,10 +37,10 @@ export declare class MessageManager {
     parseText(text_: string, params?: {
         parseMode?: ParseMode;
         entities?: MessageEntity[];
-    }): Promise<readonly [string, enums.MessageEntity[] | undefined]>;
-    constructMessage(message_: enums.Message, r?: boolean, business?: {
+    }): Promise<readonly [string, Api.MessageEntity[] | undefined]>;
+    constructMessage(message_: Api.Message, r?: boolean, business?: {
         connectionId: string;
-        replyToMessage?: enums.Message;
+        replyToMessage?: Api.Message;
     }): Promise<Message>;
     forwardMessages(from: ID, to: ID, messageIds: number[], params?: ForwardMessagesParams): Promise<Message[]>;
     getHistory(chatId: ID, params?: GetHistoryParams): Promise<Message[]>;
@@ -79,7 +79,7 @@ export declare class MessageManager {
     setReactions(chatId: ID, messageId: number, reactions: Reaction[], params?: SetReactionsParams): Promise<void>;
     addReaction(chatId: ID, messageId: number, reaction: Reaction, params?: AddReactionParams): Promise<void>;
     removeReaction(chatId: ID, messageId: number, reaction: Reaction): Promise<void>;
-    static canHandleUpdate(update: enums.Update): update is MessageManagerUpdate;
+    static canHandleUpdate(update: Api.Update): update is MessageManagerUpdate;
     handleUpdate(update: MessageManagerUpdate): Promise<Update | null>;
     sendChatAction(chatId: ID, action: ChatAction, params?: SendChatActionParams): Promise<void>;
     deleteChatPhoto(chatId: number): Promise<void>;

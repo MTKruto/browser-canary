@@ -1,0 +1,106 @@
+"use strict";
+/**
+ * MTKruto - Cross-runtime JavaScript library for building Telegram clients
+ * Copyright (C) 2023-2024 Roj <https://roj.im/>
+ *
+ * This file is part of MTKruto.
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.deserializeMsgContainer = exports.serializeMsgContainer = exports.MSG_CONTAINER_ID = exports.deserializeMessage = exports.serializeMessage = exports.calculateLength = void 0;
+const _3_tl_reader_js_1 = require("./3_tl_reader.js");
+const _4_tl_writer_js_1 = require("./4_tl_writer.js");
+const _4_rpc_result_js_1 = require("./4_rpc_result.js");
+const _2_serialize_js_1 = require("./2_serialize.js");
+function calculateLength(object) {
+    let length = 0;
+    if (Array.isArray(object)) {
+        length += 32 / 8; // vector constructor
+        length += 32 / 8; // number of items
+        for (const item of object) {
+            length += calculateLength(item);
+        }
+    }
+    else if (typeof object === "boolean") {
+        length += 32 / 8; // constructor
+    }
+    else if (object._ == "msg_container") {
+        length += serializeMsgContainer(object).length;
+    }
+    else {
+        length += (0, _2_serialize_js_1.serialize)(object).length;
+    }
+    return length;
+}
+exports.calculateLength = calculateLength;
+function serializeMessage(message) {
+    if (message.body._ == "rpc_result") {
+        throw new Error("Not applicable");
+    }
+    const writer = new _4_tl_writer_js_1.TLWriter()
+        .writeInt64(message.msg_id)
+        .writeInt32(message.seqno)
+        .writeInt32(calculateLength(message.body));
+    if (message.body._ == "msg_container") {
+        writer.write(serializeMsgContainer(message.body));
+    }
+    else {
+        writer.writeObject(message.body);
+    }
+    return writer.buffer;
+}
+exports.serializeMessage = serializeMessage;
+function deserializeMessage(reader) {
+    const id_ = reader.readInt64();
+    const seqno = reader.readInt32();
+    const length = reader.readInt32();
+    reader = new _3_tl_reader_js_1.TLReader(reader.read(length));
+    const cid = reader.readInt32(false);
+    let body;
+    {
+        if (cid == _4_rpc_result_js_1.RPC_RESULT_ID) {
+            body = (0, _4_rpc_result_js_1.deserializeRpcResult)(reader.buffer);
+        }
+        else if (cid == exports.MSG_CONTAINER_ID) {
+            body = deserializeMsgContainer(reader.buffer);
+        }
+        else {
+            body = reader.readObject(cid);
+        }
+    }
+    return { _: "message", msg_id: id_, seqno, body };
+}
+exports.deserializeMessage = deserializeMessage;
+exports.MSG_CONTAINER_ID = 0x73F1F8DC;
+function serializeMsgContainer(msgContainer) {
+    const writer = new _4_tl_writer_js_1.TLWriter();
+    writer.writeInt32(exports.MSG_CONTAINER_ID, false);
+    writer.writeInt32(msgContainer.messages.length);
+    for (const message of msgContainer.messages) {
+        writer.write(serializeMessage(message));
+    }
+    return writer.buffer;
+}
+exports.serializeMsgContainer = serializeMsgContainer;
+function deserializeMsgContainer(buffer) {
+    const reader = new _3_tl_reader_js_1.TLReader(buffer);
+    const length = reader.readInt32();
+    const messages = new Array();
+    for (let i = 0; i < length; i++) {
+        messages.push(deserializeMessage(reader));
+    }
+    return { _: "msg_container", messages };
+}
+exports.deserializeMsgContainer = deserializeMsgContainer;

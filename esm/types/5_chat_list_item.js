@@ -18,7 +18,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 import { unreachable } from "../0_deps.js";
-import { chatIdToPeer, peerToChatId, types } from "../2_tl.js";
+import { chatIdToPeer, is, peerToChatId } from "../2_tl.js";
 import { constructChatP } from "./1_chat_p.js";
 import { constructMessage } from "./4_message.js";
 export function getChatListItemOrder(lastMessage, pinned) {
@@ -73,7 +73,7 @@ export async function constructChatListItem4(dialog, dialogs, pinnedChats, getEn
     const userId = "user_id" in dialog.peer ? dialog.peer.user_id : null;
     const chatId = "chat_id" in dialog.peer ? dialog.peer.chat_id : null;
     const channelId = "channel_id" in dialog.peer ? dialog.peer.channel_id : null;
-    const chat__ = chatId != null ? dialogs.chats.find((v) => v instanceof types.Chat && v.id == chatId) : channelId != null ? dialogs.chats.find((v) => v instanceof types.Channel && v.id == channelId) : userId != null ? dialogs.users.find((v) => v instanceof types.User && v.id == userId) : unreachable();
+    const chat__ = chatId != null ? dialogs.chats.find((v) => is("chat", v) && v.id == chatId) : channelId != null ? dialogs.chats.find((v) => is("channel", v) && v.id == channelId) : userId != null ? dialogs.users.find((v) => is("user", v) && v.id == userId) : unreachable();
     if (!chat__) {
         unreachable();
     }

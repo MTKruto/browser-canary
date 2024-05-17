@@ -31,7 +31,7 @@ function deserializeInlineMessageId(inlineMessageId) {
         const buffer = (0, _1_utilities_js_1.base64DecodeUrlSafe)(inlineMessageId);
         const reader = new _2_tl_js_1.TLReader(buffer);
         const object = reader.readObject();
-        if (object instanceof _2_tl_js_1.types.InputBotInlineMessageID || object instanceof _2_tl_js_1.types.InputBotInlineMessageID64) {
+        if ((0, _2_tl_js_1.is)("inputBotInlineMessageID64", object) || (0, _2_tl_js_1.is)("inputBotInlineMessageID", object)) {
             return object;
         }
     }
@@ -42,7 +42,7 @@ function deserializeInlineMessageId(inlineMessageId) {
 }
 exports.deserializeInlineMessageId = deserializeInlineMessageId;
 async function constructCallbackQuery(callbackQuery, getEntity, getMessage) {
-    const user_ = await getEntity(new _2_tl_js_1.types.PeerUser({ user_id: callbackQuery.user_id }));
+    const user_ = await getEntity({ _: "peerUser", user_id: callbackQuery.user_id });
     if (!user_) {
         (0, _0_deps_js_1.unreachable)();
     }
@@ -51,7 +51,7 @@ async function constructCallbackQuery(callbackQuery, getEntity, getMessage) {
     const gameShortName = callbackQuery.game_short_name;
     const data = callbackQuery.data !== undefined ? new TextDecoder().decode(callbackQuery.data) : undefined;
     const chatInstance = callbackQuery.chat_instance == 0n ? "" : String(callbackQuery.chat_instance);
-    if (callbackQuery instanceof _2_tl_js_1.types.UpdateBotCallbackQuery) {
+    if ((0, _2_tl_js_1.is)("updateBotCallbackQuery", callbackQuery)) {
         const message = await getMessage((0, _2_tl_js_1.peerToChatId)(callbackQuery.peer), Number(callbackQuery.msg_id));
         if (message == null) {
             (0, _0_deps_js_1.unreachable)();
@@ -59,7 +59,7 @@ async function constructCallbackQuery(callbackQuery, getEntity, getMessage) {
         return (0, _1_utilities_js_1.cleanObject)({ id, from: user, message, chatInstance, data, gameShortName });
     }
     else {
-        return (0, _1_utilities_js_1.cleanObject)({ id, from: user, inlineMessageId: (0, _1_utilities_js_1.base64EncodeUrlSafe)(callbackQuery.msg_id[_2_tl_js_1.serialize]()), chatInstance, data, gameShortName });
+        return (0, _1_utilities_js_1.cleanObject)({ id, from: user, inlineMessageId: (0, _1_utilities_js_1.base64EncodeUrlSafe)((0, _2_tl_js_1.serialize)(callbackQuery.msg_id)), chatInstance, data, gameShortName });
     }
 }
 exports.constructCallbackQuery = constructCallbackQuery;

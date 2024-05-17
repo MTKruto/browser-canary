@@ -17,7 +17,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-import { types } from "../2_tl.js";
+import { Api } from "../2_tl.js";
 import { EntityGetter } from "./_getters.js";
 import { User } from "./1_user.js";
 /** A chat invite link. */
@@ -39,5 +39,5 @@ export interface InviteLink {
     /** The number of pending join requests originating from this invite link. */
     pendingJoinRequestCount?: number;
 }
-export declare function constructInviteLink(inviteLink_: types.ChatInviteExported, getEntity: EntityGetter): Promise<InviteLink>;
+export declare function constructInviteLink(inviteLink_: Api.chatInviteExported, getEntity: EntityGetter): Promise<InviteLink>;
 //# sourceMappingURL=2_invite_link.d.ts.map

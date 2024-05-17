@@ -29,7 +29,6 @@ var __classPrivateFieldGet = (this && this.__classPrivateFieldGet) || function (
     return kind === "m" ? f : kind === "a" ? f.call(receiver) : f ? f.value : state.get(receiver);
 };
 var _BotInfoManager_instances, _BotInfoManager_c, _BotInfoManager_setMyInfo, _BotInfoManager_getMyInfo;
-import { types } from "../2_tl.js";
 import { botCommandScopeToTlObject } from "../3_types.js";
 export class BotInfoManager {
     constructor(c) {
@@ -63,7 +62,8 @@ export class BotInfoManager {
     }
     async getMyCommands(params) {
         await __classPrivateFieldGet(this, _BotInfoManager_c, "f").storage.assertBot("getMyCommands");
-        const commands_ = await __classPrivateFieldGet(this, _BotInfoManager_c, "f").api.bots.getBotCommands({
+        const commands_ = await __classPrivateFieldGet(this, _BotInfoManager_c, "f").invoke({
+            _: "bots.getBotCommands",
             lang_code: params?.languageCode ?? "",
             scope: await botCommandScopeToTlObject(params?.scope ?? { type: "default" }, __classPrivateFieldGet(this, _BotInfoManager_c, "f").getInputPeer),
         });
@@ -71,15 +71,16 @@ export class BotInfoManager {
     }
     async setMyCommands(commands, params) {
         await __classPrivateFieldGet(this, _BotInfoManager_c, "f").storage.assertBot("setMyCommands");
-        await __classPrivateFieldGet(this, _BotInfoManager_c, "f").api.bots.setBotCommands({
-            commands: commands.map((v) => new types.BotCommand(v)),
+        await __classPrivateFieldGet(this, _BotInfoManager_c, "f").invoke({
+            _: "bots.setBotCommands",
+            commands: commands.map((v) => ({ ...v, _: "botCommand" })),
             lang_code: params?.languageCode ?? "",
             scope: await botCommandScopeToTlObject(params?.scope ?? { type: "default" }, __classPrivateFieldGet(this, _BotInfoManager_c, "f").getInputPeer),
         });
     }
 }
 _BotInfoManager_c = new WeakMap(), _BotInfoManager_instances = new WeakSet(), _BotInfoManager_setMyInfo = async function _BotInfoManager_setMyInfo(info) {
-    await __classPrivateFieldGet(this, _BotInfoManager_c, "f").api.bots.setBotInfo({ bot: new types.InputUserSelf(), ...info });
+    await __classPrivateFieldGet(this, _BotInfoManager_c, "f").invoke({ _: "bots.setBotInfo", bot: { _: "inputUserSelf" }, ...info });
 }, _BotInfoManager_getMyInfo = function _BotInfoManager_getMyInfo(languageCode) {
-    return __classPrivateFieldGet(this, _BotInfoManager_c, "f").api.bots.getBotInfo({ bot: new types.InputUserSelf(), lang_code: languageCode ?? "" });
+    return __classPrivateFieldGet(this, _BotInfoManager_c, "f").invoke({ _: "bots.getBotInfo", bot: { _: "inputUserSelf" }, lang_code: languageCode ?? "" });
 };

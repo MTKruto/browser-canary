@@ -17,7 +17,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-import { types } from "../2_tl.js";
+import { Api } from "../2_tl.js";
 /** A file or sticker thumbnail. */
 export interface Thumbnail {
     /** A file identifier that can be used to download or reuse the thumbnail. */
@@ -31,5 +31,5 @@ export interface Thumbnail {
     /** Size of the file in bytes. */
     fileSize: number;
 }
-export declare function constructThumbnail(size: types.PhotoSize, file: types.Document | types.Photo): Thumbnail;
+export declare function constructThumbnail(size: Api.photoSize, file: Api.document | Api.photo): Thumbnail;
 //# sourceMappingURL=0_thumbnail.d.ts.map

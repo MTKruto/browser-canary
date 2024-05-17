@@ -17,10 +17,10 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-import { types } from "../2_tl.js";
+import { Api } from "../2_tl.js";
 export interface OpeningHours {
     timezone: string;
     intervals: [number, number][];
 }
-export declare function constructOpeningHours(hours: types.BusinessWorkHours): OpeningHours;
+export declare function constructOpeningHours(hours: Api.businessWorkHours): OpeningHours;
 //# sourceMappingURL=0_opening_hours.d.ts.map

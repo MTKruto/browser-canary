@@ -24,8 +24,8 @@ export declare class AccountManager {
     constructor(c: C);
     showUsername(id: ID, username: string): Promise<void>;
     hideUsername(id: ID, username: string): Promise<void>;
-    reorderUsernames(id: ID, order: string[]): Promise<boolean>;
-    hideUsernames(id: ID): Promise<boolean>;
+    reorderUsernames(id: ID, order: string[]): Promise<NonNullable<boolean | undefined>>;
+    hideUsernames(id: ID): Promise<NonNullable<boolean | undefined>>;
     getInactiveChats(): Promise<import("../3_types.js").InactiveChat[]>;
 }
 //# sourceMappingURL=2_account_manager.d.ts.map

@@ -18,13 +18,12 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 export { TLError } from "./tl/0_tl_raw_reader.js";
-export * from "./tl/1_tl_object.js";
-export { type enums, types } from "./tl/2_types.js";
+export * as Api from "./tl/0_api.js";
+export * from "./tl/1_utilities.js";
+export * from "./tl/2_serialize.js";
 export * from "./tl/3_utilities.js";
-export { functions } from "./tl/3_functions.js";
-export * from "./tl/4_tl_reader.js";
-export * from "./tl/5_tl_writer.js";
-export * from "./tl/6_rpc_result.js";
-export * from "./tl/7_message.js";
-export * from "./tl/8_message_container.js";
+export * from "./tl/3_tl_reader.js";
+export * from "./tl/4_tl_writer.js";
+export * from "./tl/4_rpc_result.js";
+export * from "./tl/5_message.js";
 //# sourceMappingURL=2_tl.d.ts.map

@@ -22,7 +22,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.constructVenue = void 0;
 const _2_tl_js_1 = require("../2_tl.js");
 function constructVenue(media_) {
-    const geo = media_.geo[_2_tl_js_1.as](_2_tl_js_1.types.GeoPoint);
+    const geo = (0, _2_tl_js_1.as)("geoPoint", media_.geo);
     return {
         location: {
             latitude: geo.lat,

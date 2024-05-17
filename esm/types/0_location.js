@@ -17,19 +17,19 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-import { as, types } from "../2_tl.js";
+import { as, is } from "../2_tl.js";
 export function constructLocation(geo_) {
-    if (geo_ instanceof types.MessageMediaGeo) {
-        const geo = geo_.geo[as](types.GeoPoint);
+    if (is("messageMediaGeo", geo_)) {
+        const geo = as("geoPoint", geo_.geo);
         return {
             latitude: geo.lat,
             longitude: geo.long,
             horizontalAccuracy: geo.accuracy_radius,
         };
     }
-    else if (geo_ instanceof types.MessageMediaGeoLive) {
+    else if (is("messageMediaGeoLive", geo_)) {
         const media = geo_;
-        const geo = media.geo[as](types.GeoPoint);
+        const geo = as("geoPoint", media.geo);
         return {
             latitude: geo.lat,
             longitude: geo.long,

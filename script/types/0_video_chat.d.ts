@@ -17,7 +17,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-import { enums } from "../2_tl.js";
+import { Api } from "../2_tl.js";
 /** @unlisted */
 export interface _VideoChatCommon {
     /** The video chat's unique identifier. */
@@ -60,5 +60,5 @@ export interface VideoChatEnded extends _VideoChatCommon {
     duration: number;
 }
 export type VideoChat = VideoChatActive | VideoChatScheduled | VideoChatEnded;
-export declare function constructVideoChat(call: enums.GroupCall): VideoChat;
+export declare function constructVideoChat(call: Api.GroupCall): VideoChat;
 //# sourceMappingURL=0_video_chat.d.ts.map

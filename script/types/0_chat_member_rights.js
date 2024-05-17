@@ -21,7 +21,6 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.chatMemberRightsToTlObject = exports.constructChatMemberRights = void 0;
 const _1_utilities_js_1 = require("../1_utilities.js");
-const _2_tl_js_1 = require("../2_tl.js");
 function constructChatMemberRights(rights) {
     return {
         canSendMessages: rights.send_messages ? true : false,
@@ -45,7 +44,8 @@ function constructChatMemberRights(rights) {
 }
 exports.constructChatMemberRights = constructChatMemberRights;
 function chatMemberRightsToTlObject(rights, untilDate) {
-    return new _2_tl_js_1.types.ChatBannedRights({
+    return {
+        _: "chatBannedRights",
         until_date: untilDate ? (0, _1_utilities_js_1.toUnixTimestamp)(untilDate) : 0,
         send_messages: rights?.canSendMessages ? true : undefined,
         send_audios: rights?.canSendAudio ? true : undefined,
@@ -64,6 +64,6 @@ function chatMemberRightsToTlObject(rights, untilDate) {
         invite_users: rights?.canInviteUsers ? true : undefined,
         pin_messages: rights?.canPinMessages ? true : undefined,
         manage_topics: rights?.canManageTopics ? true : undefined,
-    });
+    };
 }
 exports.chatMemberRightsToTlObject = chatMemberRightsToTlObject;

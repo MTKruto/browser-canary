@@ -17,7 +17,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-import { types } from "../2_tl.js";
+import { Api } from "../2_tl.js";
 import { MessageEntity } from "./0_message_entity.js";
 import { PollOption } from "./0_poll_option.js";
 /** A poll. */
@@ -49,5 +49,5 @@ export interface Poll {
     /** The time in which the poll will be closed. */
     closeDate?: Date;
 }
-export declare function constructPoll(media_: types.MessageMediaPoll): Poll;
+export declare function constructPoll(media_: Api.messageMediaPoll): Poll;
 //# sourceMappingURL=1_poll.d.ts.map

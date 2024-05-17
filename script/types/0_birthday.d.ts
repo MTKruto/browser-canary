@@ -17,12 +17,12 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-import { types } from "../2_tl.js";
+import { Api } from "../2_tl.js";
 /** A user's birthday. */
 export interface Birthday {
     day: number;
     month: number;
     year?: number;
 }
-export declare function constructBirthday(birthday: types.Birthday): Birthday;
+export declare function constructBirthday(birthday: Api.birthday): Birthday;
 //# sourceMappingURL=0_birthday.d.ts.map

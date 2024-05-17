@@ -17,7 +17,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-import { enums } from "../2_tl.js";
+import { Api } from "../2_tl.js";
 import { EntityGetter } from "./_getters.js";
 /** @unlisted */
 export interface StoryPrivacyEveryone {
@@ -41,6 +41,6 @@ export interface StoryPrivacyOnly {
 }
 /** A story's privacy choice. */
 export type StoryPrivacy = StoryPrivacyEveryone | StoryPrivacyConctacts | StoryPrivacyCloseFriends | StoryPrivacyOnly;
-export declare function storyPrivacyToTlObject(privacy: StoryPrivacy, getEntity: EntityGetter): Promise<enums.InputPrivacyRule[]>;
-export declare function constructStoryPrivacy(privacy: enums.PrivacyRule[]): StoryPrivacy;
+export declare function storyPrivacyToTlObject(privacy: StoryPrivacy, getEntity: EntityGetter): Promise<Api.InputPrivacyRule[]>;
+export declare function constructStoryPrivacy(privacy: Api.PrivacyRule[]): StoryPrivacy;
 //# sourceMappingURL=1_story_privacy.d.ts.map

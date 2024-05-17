@@ -17,12 +17,12 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-import { enums } from "../2_tl.js";
+import { Api } from "../2_tl.js";
 /** The reason for restricting an entity. */
 export interface RestrictionReason {
     platform: string;
     reason: string;
     text: string;
 }
-export declare function constructRestrictionReason(rr: enums.RestrictionReason): RestrictionReason;
+export declare function constructRestrictionReason(rr: Api.RestrictionReason): RestrictionReason;
 //# sourceMappingURL=0_restriction_reason.d.ts.map

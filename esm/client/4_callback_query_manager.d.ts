@@ -17,7 +17,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-import { enums, types } from "../2_tl.js";
+import { Api } from "../2_tl.js";
 import { CallbackQueryQuestion, ID, Update } from "../3_types.js";
 import { AnswerCallbackQueryParams } from "./0_params.js";
 import { C as C_ } from "./1_types.js";
@@ -25,13 +25,13 @@ import { MessageManager } from "./3_message_manager.js";
 type C = C_ & {
     messageManager: MessageManager;
 };
-type CallbackQueryManagerUpdate = types.UpdateBotCallbackQuery | types.UpdateInlineBotCallbackQuery;
+type CallbackQueryManagerUpdate = Api.updateBotCallbackQuery | Api.updateInlineBotCallbackQuery;
 export declare class CallbackQueryManager {
     #private;
     constructor(c: C);
     answerCallbackQuery(id: string, params?: AnswerCallbackQueryParams): Promise<void>;
     sendCallbackQuery(chatId: ID, messageId: number, question: CallbackQueryQuestion): Promise<import("../3_types.js").CallbackQueryAnswer>;
-    static canHandleUpdate(update: enums.Update): update is CallbackQueryManagerUpdate;
+    static canHandleUpdate(update: Api.Update): update is CallbackQueryManagerUpdate;
     handleUpdate(update: CallbackQueryManagerUpdate): Promise<Update>;
 }
 export {};

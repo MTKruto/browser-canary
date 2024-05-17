@@ -22,17 +22,17 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.constructLocation = void 0;
 const _2_tl_js_1 = require("../2_tl.js");
 function constructLocation(geo_) {
-    if (geo_ instanceof _2_tl_js_1.types.MessageMediaGeo) {
-        const geo = geo_.geo[_2_tl_js_1.as](_2_tl_js_1.types.GeoPoint);
+    if ((0, _2_tl_js_1.is)("messageMediaGeo", geo_)) {
+        const geo = (0, _2_tl_js_1.as)("geoPoint", geo_.geo);
         return {
             latitude: geo.lat,
             longitude: geo.long,
             horizontalAccuracy: geo.accuracy_radius,
         };
     }
-    else if (geo_ instanceof _2_tl_js_1.types.MessageMediaGeoLive) {
+    else if ((0, _2_tl_js_1.is)("messageMediaGeoLive", geo_)) {
         const media = geo_;
-        const geo = media.geo[_2_tl_js_1.as](_2_tl_js_1.types.GeoPoint);
+        const geo = (0, _2_tl_js_1.as)("geoPoint", media.geo);
         return {
             latitude: geo.lat,
             longitude: geo.long,

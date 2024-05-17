@@ -80,7 +80,7 @@ async function constructChatListItem4(dialog, dialogs, pinnedChats, getEntity, g
     const userId = "user_id" in dialog.peer ? dialog.peer.user_id : null;
     const chatId = "chat_id" in dialog.peer ? dialog.peer.chat_id : null;
     const channelId = "channel_id" in dialog.peer ? dialog.peer.channel_id : null;
-    const chat__ = chatId != null ? dialogs.chats.find((v) => v instanceof _2_tl_js_1.types.Chat && v.id == chatId) : channelId != null ? dialogs.chats.find((v) => v instanceof _2_tl_js_1.types.Channel && v.id == channelId) : userId != null ? dialogs.users.find((v) => v instanceof _2_tl_js_1.types.User && v.id == userId) : (0, _0_deps_js_1.unreachable)();
+    const chat__ = chatId != null ? dialogs.chats.find((v) => (0, _2_tl_js_1.is)("chat", v) && v.id == chatId) : channelId != null ? dialogs.chats.find((v) => (0, _2_tl_js_1.is)("channel", v) && v.id == channelId) : userId != null ? dialogs.users.find((v) => (0, _2_tl_js_1.is)("user", v) && v.id == userId) : (0, _0_deps_js_1.unreachable)();
     if (!chat__) {
         (0, _0_deps_js_1.unreachable)();
     }

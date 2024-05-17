@@ -17,7 +17,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-import { types } from "../2_tl.js";
+import { Api } from "../2_tl.js";
 import { Thumbnail } from "./0_thumbnail.js";
 /** A video file. */
 export interface Video {
@@ -40,5 +40,5 @@ export interface Video {
     /** Size of the file in bytes. */
     fileSize: number;
 }
-export declare function constructVideo(document: types.Document, videoAttribute: types.DocumentAttributeVideo, fileName: string | undefined, fileId: string, fileUniqueId: string): Video;
+export declare function constructVideo(document: Api.document, videoAttribute: Api.documentAttributeVideo, fileName: string | undefined, fileId: string, fileUniqueId: string): Video;
 //# sourceMappingURL=1_video.d.ts.map

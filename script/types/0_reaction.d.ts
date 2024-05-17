@@ -17,7 +17,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-import { enums } from "../2_tl.js";
+import { Api } from "../2_tl.js";
 /** @unlisted */
 export interface ReactionEmoji {
     type: "emoji";
@@ -30,7 +30,7 @@ export interface ReactionCustomEmoji {
 }
 /** A reaction type. */
 export type Reaction = ReactionEmoji | ReactionCustomEmoji;
-export declare function constructReaction(reaction: enums.Reaction): Reaction;
-export declare function reactionToTlObject(reaction: Reaction): enums.Reaction;
+export declare function constructReaction(reaction: Api.Reaction): Reaction;
+export declare function reactionToTlObject(reaction: Reaction): Api.Reaction;
 export declare function reactionEqual(left: Reaction, right: Reaction): boolean;
 //# sourceMappingURL=0_reaction.d.ts.map

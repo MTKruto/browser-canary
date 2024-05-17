@@ -18,13 +18,12 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 import { MaybePromise } from "../1_utilities.js";
-import { enums, functions, types } from "../2_tl.js";
+import { Api } from "../2_tl.js";
 import { Storage } from "../2_storage.js";
 import { DC } from "../3_transport.js";
 import { BotCommand, BusinessConnection, CallbackQueryAnswer, CallbackQueryQuestion, Chat, ChatAction, ChatListItem, ChatMember, ChatP, FileSource, ID, InactiveChat, InlineQueryAnswer, InlineQueryResult, InputMedia, InputStoryContent, InviteLink, LiveStreamChannel, Message, MessageAnimation, MessageAudio, MessageContact, MessageDice, MessageDocument, MessageLocation, MessagePhoto, MessagePoll, MessageSticker, MessageText, MessageVenue, MessageVideo, MessageVideoNote, MessageVoice, NetworkStatistics, ParseMode, Poll, Reaction, Sticker, Story, Update, User, VideoChat, VideoChatActive, VideoChatScheduled } from "../3_types.js";
 import { Migrate } from "../4_errors.js";
 import { AddReactionParams, AnswerCallbackQueryParams, AnswerInlineQueryParams, BanChatMemberParams, CreateInviteLinkParams, CreateStoryParams, DeleteMessageParams, DeleteMessagesParams, DownloadLiveStreamChunkParams, DownloadParams, EditMessageLiveLocationParams, EditMessageMediaParams, EditMessageParams, EditMessageReplyMarkupParams, ForwardMessagesParams, GetChatsParams, GetCreatedInviteLinksParams, GetHistoryParams, GetMyCommandsParams, JoinVideoChatParams, PinMessageParams, ReplyParams, ScheduleVideoChatParams, SearchMessagesParams, SendAnimationParams, SendAudioParams, SendContactParams, SendDiceParams, SendDocumentParams, SendInlineQueryParams, SendLocationParams, SendMessageParams, SendPhotoParams, SendPollParams, SendStickerParams, SendVenueParams, SendVideoNoteParams, SendVideoParams, SendVoiceParams, SetChatMemberRightsParams, SetChatPhotoParams, SetMyCommandsParams, SetReactionsParams, SignInParams, StartVideoChatParams, StopPollParams } from "./0_params.js";
-import { Api } from "./1_types.js";
 import { ClientPlainParams } from "./1_client_plain.js";
 import { Composer as Composer_, NextFunction } from "./1_composer.js";
 import { StorageOperations } from "./0_storage_operations.js";
@@ -177,7 +176,7 @@ export interface InvokeErrorHandler<C> {
     (ctx: {
         client: C;
         error: unknown;
-        function: types.Type | functions.Function<unknown>;
+        function: Api.AnyObject;
         n: number;
     }, next: NextFunction<boolean>): MaybePromise<boolean>;
 }
@@ -247,7 +246,6 @@ export declare class Client<C extends Context = Context> extends Composer<C> {
     constructor(params?: ClientParams);
     get connected(): boolean;
     get disconnected(): boolean;
-    api: Api;
     /**
      * Sets the DC and resets the auth key stored in the session provider
      * if the stored DC was not the same as the `dc` parameter.
@@ -285,15 +283,15 @@ export declare class Client<C extends Context = Context> extends Composer<C> {
      * @param function_ The function to invoke.
      */
     invoke: {
-        <T extends (functions.Function<unknown> | types.Type) = functions.Function<unknown>>(function_: T): Promise<T extends functions.Function<unknown> ? T["__R"] : void>;
-        <T extends (functions.Function<unknown> | types.Type) = functions.Function<unknown>>(function_: T, noWait: true): Promise<void>;
-        <T extends (functions.Function<unknown> | types.Type) = functions.Function<unknown>>(function_: T, noWait?: boolean): Promise<T | void>;
-        use(handler: InvokeErrorHandler<Client<C>>): void;
+        <T extends Api.AnyObject<P>, P extends Api.Function, R extends unknown = T["_"] extends keyof Api.Functions ? Api.ReturnType<Api.Functions[T["_"]]> : never>(function_: T): Promise<R>;
+        <T extends Api.AnyObject<P>, P extends Api.Function>(function_: T, noWait: true): Promise<void>;
+        <T extends Api.AnyObject<P>, P extends Api.Function, R extends unknown = T["_"] extends keyof Api.Functions ? Api.ReturnType<Api.Functions[T["_"]]> : never>(function_: T, noWait?: boolean): Promise<R | void>;
+        use: (handler: InvokeErrorHandler<Client<C>>) => void;
     };
     /**
      * Alias for `invoke` with its second parameter being `true`.
      */
-    send<T extends (functions.Function<unknown> | types.Type) = functions.Function<unknown>>(function_: T): Promise<void>;
+    send<T extends Api.AnyObject<P>, P extends Api.Function>(function_: T): Promise<void>;
     exportAuthString(): Promise<string>;
     importAuthString(authString: string): Promise<void>;
     /**
@@ -301,19 +299,19 @@ export declare class Client<C extends Context = Context> extends Composer<C> {
      *
      * @param id The identifier of the chat.
      */
-    getInputPeer(id: ID): Promise<enums.InputPeer>;
+    getInputPeer(id: ID): Promise<Api.InputPeer>;
     /**
      * Get a channel or a supergroup's inputChannel. Useful when calling API functions directly.
      *
      * @param id The identifier of the channel or the supergroup.
      */
-    getInputChannel(id: ID): Promise<types.InputChannel>;
+    getInputChannel(id: ID): Promise<Api.inputChannel>;
     /**
      * Get a user's inputUser. Useful when calling API functions directly.
      *
      * @param id The identifier of the user.
      */
-    getInputUser(id: ID): Promise<types.InputUser>;
+    getInputUser(id: ID): Promise<Api.inputUser>;
     private [getEntity];
     private [getEntity];
     private [getEntity];

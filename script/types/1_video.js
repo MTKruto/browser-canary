@@ -29,7 +29,7 @@ function constructVideo(document, videoAttribute, fileName, fileId, fileUniqueId
         width: videoAttribute.w,
         height: videoAttribute.h,
         duration: videoAttribute.duration,
-        thumbnails: document.thumbs ? document.thumbs.map((v) => v instanceof _2_tl_js_1.types.PhotoSize ? (0, _0_thumbnail_js_1.constructThumbnail)(v, document) : null).filter((v) => v) : [],
+        thumbnails: document.thumbs ? document.thumbs.map((v) => (0, _2_tl_js_1.is)("photoSize", v) ? (0, _0_thumbnail_js_1.constructThumbnail)(v, document) : null).filter((v) => v) : [],
         fileName,
         mimeType: document.mime_type,
         fileSize: Number(document.size),

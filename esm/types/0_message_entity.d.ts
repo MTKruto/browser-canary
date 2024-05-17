@@ -17,7 +17,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-import { enums } from "../2_tl.js";
+import { Api } from "../2_tl.js";
 import { EntityGetter } from "./_getters.js";
 /** @unlisted */
 export type MessageEntityType = "mention" | "hashtag" | "botCommand" | "url" | "email" | "bold" | "italic" | "code" | "pre" | "textLink" | "textMention" | "cashtag" | "phoneNumber" | "underline" | "strikethrough" | "blockquote" | "bankCard" | "spoiler" | "customEmoji";
@@ -132,7 +132,7 @@ export interface MessageEntityCustomEmoji extends _MessageEntityBase {
 }
 /** A single entity of a message's text or caption. */
 export type MessageEntity = MessageEntityMention | MessageEntityHashtag | MessageEntityBotCommand | MessageEntityURL | MessageEntityEmailAddress | MessageEntityBold | MessageEntityItalic | MessageEntityCode | MessageEntityPre | MessageEntityTextLink | MessageEntityTextMention | MessageEntityCashtag | MessageEntityPhoneNumber | MessageEntityUnderline | MessageEntityStrikethrough | MessageEntityBlockquote | MessageEntityBankCard | MessageEntitySpoiler | MessageEntityCustomEmoji;
-export declare function constructMessageEntity(obj: enums.MessageEntity): MessageEntity | null;
-export declare function messageEntityToTlObject(entity: MessageEntity, getEntity: EntityGetter): Promise<enums.MessageEntity>;
+export declare function constructMessageEntity(obj: Api.MessageEntity): MessageEntity | null;
+export declare function messageEntityToTlObject(entity: MessageEntity, getEntity: EntityGetter): Promise<Api.MessageEntity>;
 export declare function sortMessageEntities(entities: MessageEntity[]): MessageEntity[];
 //# sourceMappingURL=0_message_entity.d.ts.map

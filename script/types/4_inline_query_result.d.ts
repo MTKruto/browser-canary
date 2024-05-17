@@ -17,7 +17,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-import { enums, types } from "../2_tl.js";
+import { Api } from "../2_tl.js";
 import { UsernameResolver } from "./_getters.js";
 import { MessageEntity } from "./0_message_entity.js";
 import { ParseMode } from "./0_parse_mode.js";
@@ -243,9 +243,9 @@ export interface InlineQueryResultVoice extends _InlineQueryResultBase, _InlineQ
 }
 /** A single inline query result. */
 export type InlineQueryResult = InlineQueryResultCachedAudio | InlineQueryResultCachedDocument | InlineQueryResultCachedGif | InlineQueryResultCachedMpeg4Gif | InlineQueryResultCachedPhoto | InlineQueryResultCachedSticker | InlineQueryResultCachedVideo | InlineQueryResultCachedVoice | InlineQueryResultArticle | InlineQueryResultAudio | InlineQueryResultContact | InlineQueryResultGame | InlineQueryResultDocument | InlineQueryResultGif | InlineQueryResultLocation | InlineQueryResultMpeg4Gif | InlineQueryResultPhoto | InlineQueryResultVenue | InlineQueryResultVideo | InlineQueryResultVoice;
-export declare function constructInlineQueryResult(result: types.BotInlineResult | types.BotInlineMediaResult): InlineQueryResult;
+export declare function constructInlineQueryResult(result: Api.botInlineResult | Api.botInlineMediaResult): InlineQueryResult;
 export declare function inlineQueryResultToTlObject(result_: InlineQueryResult, parseText: (text: string, params?: {
     parseMode?: ParseMode;
     entities?: MessageEntity[];
-}) => Promise<readonly [string, any[] | undefined]>, usernameResolver: UsernameResolver): Promise<enums.InputBotInlineResult>;
+}) => Promise<readonly [string, any[] | undefined]>, usernameResolver: UsernameResolver): Promise<Api.InputBotInlineResult>;
 //# sourceMappingURL=4_inline_query_result.d.ts.map

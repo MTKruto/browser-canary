@@ -17,7 +17,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-import { types } from "../2_tl.js";
+import { Api } from "../2_tl.js";
 /** The rights of a chat member. */
 export interface ChatMemberRights {
     /** Whether messages are allowed to be sent. */
@@ -55,6 +55,6 @@ export interface ChatMemberRights {
     /** Whether it is allowed to manage topics. */
     canManageTopics?: boolean;
 }
-export declare function constructChatMemberRights(rights: types.ChatBannedRights): ChatMemberRights;
-export declare function chatMemberRightsToTlObject(rights?: ChatMemberRights, untilDate?: Date): types.ChatBannedRights;
+export declare function constructChatMemberRights(rights: Api.chatBannedRights): ChatMemberRights;
+export declare function chatMemberRightsToTlObject(rights?: ChatMemberRights, untilDate?: Date): Api.chatBannedRights;
 //# sourceMappingURL=0_chat_member_rights.d.ts.map

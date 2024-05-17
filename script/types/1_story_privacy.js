@@ -25,12 +25,12 @@ const _2_tl_js_1 = require("../2_tl.js");
 async function resolveUsers(ids, getEntity) {
     const users = new Array();
     for (const id of ids) {
-        const entity = await getEntity(new _2_tl_js_1.types.PeerUser({ user_id: BigInt(id) }));
-        if (!(entity instanceof _2_tl_js_1.types.User)) {
+        const entity = await getEntity({ _: "peerUser", user_id: BigInt(id) });
+        if (!((0, _2_tl_js_1.is)("user", entity))) {
             (0, _0_deps_js_1.unreachable)();
         }
         else {
-            users.push(new _2_tl_js_1.types.InputUser({ user_id: entity.id, access_hash: entity.access_hash ?? 0n }));
+            users.push({ _: "inputUser", user_id: entity.id, access_hash: entity.access_hash ?? 0n });
         }
     }
     return users;
@@ -38,44 +38,44 @@ async function resolveUsers(ids, getEntity) {
 async function restrict(users_, rules, getEntity) {
     if (users_.length) {
         const users = await resolveUsers(users_, getEntity);
-        rules.push(new _2_tl_js_1.types.InputPrivacyValueDisallowUsers({ users }));
+        rules.push({ _: "inputPrivacyValueDisallowUsers", users });
     }
 }
 async function storyPrivacyToTlObject(privacy, getEntity) {
     const rules = new Array();
     if ("everyoneExcept" in privacy) {
         await restrict(privacy.everyoneExcept, rules, getEntity);
-        rules.push(new _2_tl_js_1.types.InputPrivacyValueAllowAll());
+        rules.push({ _: "inputPrivacyValueAllowAll" });
     }
     else if ("contactsExcept" in privacy) {
         await restrict(privacy.contactsExcept, rules, getEntity);
-        rules.push(new _2_tl_js_1.types.InputPrivacyValueAllowContacts());
+        rules.push({ _: "inputPrivacyValueAllowContacts" });
     }
     else if ("closeFriends" in privacy) {
-        rules.push(new _2_tl_js_1.types.InputPrivacyValueAllowCloseFriends());
+        rules.push({ _: "inputPrivacyValueAllowCloseFriends" });
     }
     else if ("only" in privacy) {
         if (!privacy.only.length) {
             (0, _0_deps_js_1.unreachable)();
         }
         const users = await resolveUsers(privacy.only, getEntity);
-        rules.push(new _2_tl_js_1.types.InputPrivacyValueAllowUsers({ users }));
+        rules.push({ _: "inputPrivacyValueAllowUsers", users });
     }
     return rules;
 }
 exports.storyPrivacyToTlObject = storyPrivacyToTlObject;
 function constructStoryPrivacy(privacy) {
-    const except = privacy.find((v) => v instanceof _2_tl_js_1.types.PrivacyValueDisallowUsers)?.users?.map(Number) ?? [];
-    if (privacy.some((v) => v instanceof _2_tl_js_1.types.PrivacyValueAllowAll)) {
+    const except = privacy.find((v) => (0, _2_tl_js_1.is)("privacyValueDisallowUsers", v))?.users?.map(Number) ?? [];
+    if (privacy.some((v) => (0, _2_tl_js_1.is)("privacyValueAllowAll", v))) {
         return { everyoneExcept: except };
     }
-    else if (privacy.some((v) => v instanceof _2_tl_js_1.types.PrivacyValueAllowContacts)) {
+    else if (privacy.some((v) => (0, _2_tl_js_1.is)("privacyValueAllowContacts", v))) {
         return { contactsExcept: except };
     }
-    else if (privacy.some((v) => v instanceof _2_tl_js_1.types.PrivacyValueAllowCloseFriends)) {
+    else if (privacy.some((v) => (0, _2_tl_js_1.is)("privacyValueAllowCloseFriends", v))) {
         return { closeFriends: true };
     }
-    const only = privacy.find((v) => v instanceof _2_tl_js_1.types.PrivacyValueAllowUsers)?.users?.map(Number) ?? [];
+    const only = privacy.find((v) => (0, _2_tl_js_1.is)("privacyValueAllowUsers", v))?.users?.map(Number) ?? [];
     return { only };
 }
 exports.constructStoryPrivacy = constructStoryPrivacy;

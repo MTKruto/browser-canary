@@ -17,7 +17,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-import { enums } from "../2_tl.js";
+import { Api } from "../2_tl.js";
 import { ChatAdministratorRights } from "./0_chat_administrator_rights.js";
 import { KeyboardButtonPollType } from "./0_keyboard_button_poll_type.js";
 import { MiniAppInfo } from "./0_mini_app_info.js";
@@ -64,6 +64,6 @@ export interface KeyboardButtonMiniApp extends KeyboardButtonText {
 }
 /** A button of a custom keyboard. */
 export type KeyboardButton = KeyboardButtonText | KeyboardButtonRequestUser | KeyboardButtonRequestChat | KeyboardButtonRequestContact | KeyboardButtonRequestLocation | KeyboardButtonRequestPoll | KeyboardButtonMiniApp;
-export declare function constructKeyboardButton(button_: enums.KeyboardButton): KeyboardButton;
-export declare function keyboardButtonToTlObject(button: KeyboardButton): enums.KeyboardButton;
+export declare function constructKeyboardButton(button_: Api.KeyboardButton): KeyboardButton;
+export declare function keyboardButtonToTlObject(button: KeyboardButton): Api.KeyboardButton;
 //# sourceMappingURL=1_keyboard_button.d.ts.map

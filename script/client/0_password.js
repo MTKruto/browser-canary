@@ -99,8 +99,7 @@ exports.pad = pad;
 async function checkPassword(password_, ap) {
     const password = new TextEncoder().encode(password_);
     const algo = ap.current_algo;
-    if (!(algo instanceof
-        _2_tl_js_1.types.PasswordKdfAlgoSHA256SHA256PBKDF2HMACSHA512iter100000SHA256ModPow)) {
+    if (!((0, _2_tl_js_1.is)("passwordKdfAlgoSHA256SHA256PBKDF2HMACSHA512iter100000SHA256ModPow", algo))) {
         throw new Error("Unexpected algorithm");
     }
     // g := algo.g
@@ -167,10 +166,6 @@ async function checkPassword(password_, ap) {
         pad(gB),
         kA,
     ]));
-    return new _2_tl_js_1.types.InputCheckPasswordSRP({
-        srp_id: srpId,
-        A: pad(gA),
-        M1: m1,
-    });
+    return { _: "inputCheckPasswordSRP", srp_id: srpId, A: pad(gA), M1: m1 };
 }
 exports.checkPassword = checkPassword;

@@ -17,7 +17,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-import { enums } from "../2_tl.js";
+import { Api } from "../2_tl.js";
 /** A poll option. */
 export interface PollOption {
     /** The option's text (1-100 characters). */
@@ -25,5 +25,5 @@ export interface PollOption {
     /** Number of users that voted this option. */
     voterCount: number;
 }
-export declare function constructPollOption(option: enums.PollAnswer, results: Array<enums.PollAnswerVoters>): PollOption;
+export declare function constructPollOption(option: Api.PollAnswer, results: Array<Api.PollAnswerVoters>): PollOption;
 //# sourceMappingURL=0_poll_option.d.ts.map

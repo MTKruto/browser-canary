@@ -17,7 +17,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-import { enums } from "../2_tl.js";
+import { Api } from "../2_tl.js";
 export type MessageSearchFilter = "empty" | "animations" | "audios" | "documents" | "photos" | "videos" | "voiceMessages" | "photosAndVideos" | "links" | "chatPhotos" | "videoNotes" | "voiceMessagesAndVideoNotes" | "mentions" | "pinned";
-export declare function messageSearchFilterToTlObject(filter: MessageSearchFilter): enums.MessagesFilter;
+export declare function messageSearchFilterToTlObject(filter: MessageSearchFilter): Api.MessagesFilter;
 //# sourceMappingURL=0_message_search_filter.d.ts.map

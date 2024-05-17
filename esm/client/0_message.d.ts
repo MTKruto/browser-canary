@@ -17,13 +17,13 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-import { Message_, MessageContainer } from "../2_tl.js";
+import { message } from "../2_tl.js";
 export declare function getMessageId(lastMsgId: bigint): bigint;
 export declare function packUnencryptedMessage(data: Uint8Array, messageId: bigint): Uint8Array;
 export declare function unpackUnencryptedMessage(buffer: Uint8Array): {
     messageId: bigint;
     message: Uint8Array;
 };
-export declare function encryptMessage(message: Message_ | MessageContainer, authKey: Uint8Array, authKeyId: bigint, salt: bigint, sessionId: bigint): Promise<Uint8Array>;
-export declare function decryptMessage(buffer: Uint8Array, authKey: Uint8Array, authKeyId: bigint, _sessionId: bigint): Promise<Message_ | MessageContainer>;
+export declare function encryptMessage(message: message, authKey: Uint8Array, authKeyId: bigint, salt: bigint, sessionId: bigint): Promise<Uint8Array>;
+export declare function decryptMessage(buffer: Uint8Array, authKey: Uint8Array, authKeyId: bigint, _sessionId: bigint): Promise<message>;
 //# sourceMappingURL=0_message.d.ts.map

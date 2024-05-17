@@ -17,7 +17,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-import { enums, types } from "../2_tl.js";
+import { Api } from "../2_tl.js";
 import { ID, InlineQueryResult, Update } from "../3_types.js";
 import { AnswerInlineQueryParams, SendInlineQueryParams } from "./0_params.js";
 import { C as C_ } from "./1_types.js";
@@ -25,12 +25,12 @@ import { MessageManager } from "./3_message_manager.js";
 type C = C_ & {
     messageManager: MessageManager;
 };
-type InlineQueryManagerUpdate = types.UpdateBotInlineQuery | types.UpdateBotInlineSend;
+type InlineQueryManagerUpdate = Api.updateBotInlineQuery | Api.updateBotInlineSend;
 export declare class InlineQueryManager {
     #private;
     constructor(c: C);
     answerInlineQuery(id: string, results: InlineQueryResult[], params?: AnswerInlineQueryParams): Promise<void>;
-    static canHandleUpdate(update: enums.Update): update is InlineQueryManagerUpdate;
+    static canHandleUpdate(update: Api.Update): update is InlineQueryManagerUpdate;
     handleUpdate(update: InlineQueryManagerUpdate): Promise<Update>;
     sendInlineQuery(userId: ID, chatId: ID, params?: SendInlineQueryParams): Promise<import("../3_types.js").InlineQueryAnswer>;
 }

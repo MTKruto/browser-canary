@@ -18,12 +18,12 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 import { unreachable } from "../0_deps.js";
-import { types } from "../2_tl.js";
+import { is } from "../2_tl.js";
 export function constructReaction(reaction) {
-    if (reaction instanceof types.ReactionEmoji) {
+    if (is("reactionEmoji", reaction)) {
         return { type: "emoji", emoji: reaction.emoticon };
     }
-    else if (reaction instanceof types.ReactionCustomEmoji) {
+    else if (is("reactionCustomEmoji", reaction)) {
         return { type: "customEmoji", id: String(reaction.document_id) };
     }
     else {
@@ -31,7 +31,7 @@ export function constructReaction(reaction) {
     }
 }
 export function reactionToTlObject(reaction) {
-    return reaction.type == "emoji" ? new types.ReactionEmoji({ emoticon: reaction.emoji }) : new types.ReactionCustomEmoji({ document_id: BigInt(reaction.id) });
+    return reaction.type == "emoji" ? ({ _: "reactionEmoji", emoticon: reaction.emoji }) : ({ _: "reactionCustomEmoji", document_id: BigInt(reaction.id) });
 }
 export function reactionEqual(left, right) {
     if (left.type == "emoji") {

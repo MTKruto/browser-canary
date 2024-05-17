@@ -57,7 +57,7 @@ async function encryptMessage(message, authKey, authKeyId, salt, sessionId) {
     const payloadWriter = new _2_tl_js_1.TLWriter();
     payloadWriter.writeInt64(salt);
     payloadWriter.writeInt64(sessionId);
-    payloadWriter.write(message[_2_tl_js_1.serialize]());
+    payloadWriter.write((0, _2_tl_js_1.serializeMessage)(message));
     payloadWriter.write(new Uint8Array((0, _1_utilities_js_1.mod)(-(payloadWriter.buffer.length + 12), 16) + 12));
     const payload = payloadWriter.buffer;
     const messageKey = (await (0, _1_utilities_js_1.sha256)((0, _0_deps_js_1.concat)([authKey.subarray(88, 120), payload]))).subarray(8, 24);
@@ -83,25 +83,9 @@ async function decryptMessage(buffer, authKey, authKeyId, _sessionId) {
     const aesIv = (0, _0_deps_js_1.concat)([b.subarray(0, 8), a.subarray(8, 24), b.subarray(24, 32)]);
     const plaintext = (0, _0_deps_js_1.ige256Decrypt)(reader.buffer, aesKey, aesIv);
     (0, _0_deps_js_1.assertEquals)(plaintext.buffer.byteLength % 4, 0);
-    let plainReader = new _2_tl_js_1.TLReader(plaintext);
+    const plainReader = new _2_tl_js_1.TLReader(plaintext);
     const _salt = plainReader.readInt64();
     const _sessionId_ = plainReader.readInt64(false);
-    const mid = plainReader.readInt64();
-    const seqno = plainReader.readInt32();
-    const length = plainReader.readInt32();
-    plainReader = new _2_tl_js_1.TLReader(plainReader.read(length));
-    const cid = plainReader.readInt32(false);
-    if (cid == _2_tl_js_1.MessageContainer[_2_tl_js_1.id]) {
-        const messages = _2_tl_js_1.MessageContainer.deserialize(plainReader.buffer);
-        return new _2_tl_js_1.MessageContainer(mid, seqno, messages);
-    }
-    else if (cid == _2_tl_js_1.RPCResult[_2_tl_js_1.id]) {
-        const body = _2_tl_js_1.RPCResult.deserialize(plainReader.buffer);
-        return new _2_tl_js_1.Message_(mid, seqno, body);
-    }
-    else {
-        const body = plainReader.readObject(cid);
-        return new _2_tl_js_1.Message_(mid, seqno, body);
-    }
+    return (0, _2_tl_js_1.deserializeMessage)(plainReader);
 }
 exports.decryptMessage = decryptMessage;

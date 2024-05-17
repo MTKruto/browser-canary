@@ -25,23 +25,23 @@ const _2_tl_js_1 = require("../2_tl.js");
 async function botCommandScopeToTlObject(scope, getInputPeer) {
     switch (scope.type) {
         case "default":
-            return new _2_tl_js_1.types.BotCommandScopeDefault();
+            return { _: "botCommandScopeDefault" };
         case "allPrivateChats":
-            return new _2_tl_js_1.types.BotCommandScopeUsers();
+            return { _: "botCommandScopeUsers" };
         case "allGroupChats":
-            return new _2_tl_js_1.types.BotCommandScopeChats();
+            return { _: "botCommandScopeChats" };
         case "allChatAdministrators":
-            return new _2_tl_js_1.types.BotCommandScopeChatAdmins();
+            return { _: "botCommandScopeChatAdmins" };
         case "chat":
-            return new _2_tl_js_1.types.BotCommandScopePeer({ peer: await getInputPeer(scope.chatId) });
+            return { _: "botCommandScopePeer", peer: await getInputPeer(scope.chatId) };
         case "chatAdministrators":
-            return new _2_tl_js_1.types.BotCommandScopePeerAdmins({ peer: await getInputPeer(scope.chatId) });
+            return { _: "botCommandScopePeerAdmins", peer: await getInputPeer(scope.chatId) };
         case "chatMember": {
             const user = await getInputPeer(scope.userId);
-            if (!(user instanceof _2_tl_js_1.types.InputPeerUser)) {
+            if (!((0, _2_tl_js_1.is)("inputPeerUser", user))) {
                 (0, _0_deps_js_1.unreachable)();
             }
-            return new _2_tl_js_1.types.BotCommandScopePeerUser({ peer: await getInputPeer(scope.chatId), user_id: new _2_tl_js_1.types.InputUser({ user_id: user.user_id, access_hash: user.access_hash }) });
+            return { _: "botCommandScopePeerUser", peer: await getInputPeer(scope.chatId), user_id: ({ _: "inputUser", user_id: user.user_id, access_hash: user.access_hash }) };
         }
         default:
             (0, _0_deps_js_1.unreachable)();
