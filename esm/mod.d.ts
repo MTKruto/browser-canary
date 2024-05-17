@@ -17,7 +17,6 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-export * from "./0_errors.js";
 export { getColorFromPeerId, getColorName, getRandomId, type LoggingProvider, setLoggingProvider, setLogVerbosity } from "./1_utilities.js";
 export { checkPassword } from "./client/0_password.js";
 export * from "./2_connection.js";

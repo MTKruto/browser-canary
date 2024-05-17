@@ -18,6 +18,20 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __exportStar = (this && this.__exportStar) || function(m, exports) {
+    for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.BroadcastRequired = exports.BroadcastPublicVotersForbidden = exports.BroadcastIdInvalid = exports.BroadcastForbidden = exports.BroadcastCallsDisabled = exports.BotScoreNotModified = exports.BotResponseTimeout = exports.BotPollsDisabled = exports.BotPaymentsDisabled = exports.BotOnesideNotAvail = exports.BotMissing = exports.BotMethodInvalid = exports.BotInvalid = exports.BotInlineDisabled = exports.BotGroupsBlocked = exports.BotGamesDisabled = exports.BotDomainInvalid = exports.BotCommandInvalid = exports.BotCommandDescriptionInvalid = exports.BotChannelsNa = exports.BotsTooMuch = exports.BasePortLocInvalid = exports.BannedRightsInvalid = exports.BankCardNumberInvalid = exports.AutoarchiveNotAvailable = exports.AuthTokenInvalid = exports.AuthTokenExpired = exports.AuthTokenException = exports.AuthTokenAlreadyAccepted = exports.AuthRestart = exports.AuthKeyUnregistered = exports.AuthKeyPermEmpty = exports.AuthKeyInvalid = exports.AuthKeyDuplicated = exports.AuthBytesInvalid = exports.AudioTitleEmpty = exports.AudioContentUrlEmpty = exports.ArticleTitleEmpty = exports.ApiIdPublishedFlood = exports.ApiIdInvalid = exports.AlbumPhotosTooMany = exports.AdminRankInvalid = exports.AdminRankEmojiNotAllowed = exports.AdminIdInvalid = exports.AdminsTooMuch = exports.ActiveUserRequired = exports.AccessTokenInvalid = exports.AccessTokenExpired = exports.AboutTooLong = exports.TelegramError = void 0;
 exports.ChatTooBig = exports.ChatTitleEmpty = exports.ChatSendStickersForbidden = exports.ChatSendPollForbidden = exports.ChatSendMediaForbidden = exports.ChatSendInlineForbidden = exports.ChatSendGifsForbidden = exports.ChatSendGameForbidden = exports.ChatRevokeDateUnsupported = exports.ChatRestricted = exports.ChatNotModified = exports.ChatLinkExists = exports.ChatInvitePermanent = exports.ChatInvalid = exports.ChatIdInvalid = exports.ChatIdGenerateFailed = exports.ChatIdEmpty = exports.ChatGuestSendForbidden = exports.ChatGetFailed = exports.ChatForwardsRestricted = exports.ChatForbidden = exports.ChatDiscussionUnallowed = exports.ChatAdminRequired = exports.ChatAdminInviteRequired = exports.ChatAboutTooLong = exports.ChatAboutNotModified = exports.ChannelTooLarge = exports.ChannelTooBig = exports.ChannelPublicGroupNa = exports.ChannelPrivate = exports.ChannelParicipantMissing = exports.ChannelInvalid = exports.ChannelIdInvalid = exports.ChannelForumMissing = exports.ChannelBanned = exports.ChannelsTooMuch = exports.ChannelsAdminPublicTooMuch = exports.ChannelsAdminLocatedTooMuch = exports.CdnUploadTimeout = exports.CdnMethodInvalid = exports.CallProtocolFlagsInvalid = exports.CallPeerInvalid = exports.CallOccupyFailed = exports.CallAlreadyDeclined = exports.CallAlreadyAccepted = exports.ButtonUserPrivacyRestricted = exports.ButtonUrlInvalid = exports.ButtonTypeInvalid = exports.ButtonTextInvalid = exports.ButtonDataInvalid = void 0;
@@ -31,15 +45,30 @@ exports.TtlPeriodInvalid = exports.TtlMediaInvalid = exports.TtlDaysInvalid = ex
 exports.WebdocumentInvalid = exports.WcConvertUrlInvalid = exports.WallpaperMimeInvalid = exports.WallpaperInvalid = exports.WallpaperFileInvalid = exports.VoiceMessagesForbidden = exports.VideoTitleEmpty = exports.VideoFileInvalid = exports.VideoContentTypeInvalid = exports.UserVolumeInvalid = exports.UserRestricted = exports.UserPrivacyRestricted = exports.UserNotParticipant = exports.UserNotMutualContact = exports.UserKicked = exports.UserIsBot = exports.UserIsBlocked = exports.UserInvalid = exports.UserIdInvalid = exports.UserDeleted = exports.UserDeactivatedBan = exports.UserDeactivated = exports.UserCreator = exports.UserChannelsTooMuch = exports.UserBotRequired = exports.UserBotInvalid = exports.UserBot = exports.UserBlocked = exports.UserBannedInChannel = exports.UserAlreadyParticipant = exports.UserAlreadyInvited = exports.UserAdminInvalid = exports.UsersTooMuch = exports.UsersTooFew = exports.UserpicUploadRequired = exports.UserpicPrivacyRequired = exports.UsernamePurchaseAvailable = exports.UsernameOccupied = exports.UsernameNotOccupied = exports.UsernameNotModified = exports.UsernameInvalid = exports.UsageLimitInvalid = exports.UrlInvalid = exports.UpdateAppToLogin = exports.UntilDateInvalid = exports.UnknownMethod = exports.UnknownError = exports.Timedout = exports.TypeConstructorInvalid = exports.TypesEmpty = void 0;
 exports.map = exports.YouBlockedUser = exports.WorkerBusyTooLongRetry = exports.WebpushTokenInvalid = exports.WebpushKeyInvalid = exports.WebpushAuthInvalid = exports.WebpageMediaEmpty = exports.WebpageCurlFailed = exports.WebdocumentUrlInvalid = exports.WebdocumentSizeTooBig = exports.WebdocumentMimeInvalid = void 0;
 const _0_errors_js_1 = require("./0_errors.js");
+__exportStar(require("./0_errors.js"), exports);
 class TelegramError extends _0_errors_js_1.MtkrutoError {
     constructor(params) {
-        super();
+        super(`${params.error_code}: ${params.error_message} (${params.call._})`);
         Object.defineProperty(this, "call", {
             enumerable: true,
             configurable: true,
             writable: true,
             value: void 0
         });
+        Object.defineProperty(this, "errorCode", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: void 0
+        });
+        Object.defineProperty(this, "errorMessage", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: void 0
+        });
+        this.errorCode = params.error_code;
+        this.errorMessage = params.error_message;
         this.call = params.call;
     }
 }

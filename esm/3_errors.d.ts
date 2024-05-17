@@ -19,6 +19,7 @@
  */
 import { Api } from "./2_tl.js";
 import { MtkrutoError } from "./0_errors.js";
+export * from "./0_errors.js";
 export interface TelegramErrorParams {
     error_code: number;
     error_message: string;
@@ -26,6 +27,8 @@ export interface TelegramErrorParams {
 }
 export declare class TelegramError extends MtkrutoError {
     call: Api.AnyObject;
+    errorCode: number;
+    errorMessage: string;
     constructor(params: TelegramErrorParams);
 }
 export declare class AboutTooLong extends TelegramError {

@@ -18,15 +18,30 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 import { MtkrutoError } from "./0_errors.js";
+export * from "./0_errors.js";
 export class TelegramError extends MtkrutoError {
     constructor(params) {
-        super();
+        super(`${params.error_code}: ${params.error_message} (${params.call._})`);
         Object.defineProperty(this, "call", {
             enumerable: true,
             configurable: true,
             writable: true,
             value: void 0
         });
+        Object.defineProperty(this, "errorCode", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: void 0
+        });
+        Object.defineProperty(this, "errorMessage", {
+            enumerable: true,
+            configurable: true,
+            writable: true,
+            value: void 0
+        });
+        this.errorCode = params.error_code;
+        this.errorMessage = params.error_message;
         this.call = params.call;
     }
 }
