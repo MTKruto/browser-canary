@@ -172,7 +172,7 @@ function constructInlineQueryResult(result) {
                     ...ref,
                     messageContent,
                     replyMarkup,
-                    mimeType: "content" in result && result.content ? result.content.mime_type : "video/mp4", // TODO
+                    mimeType: "content" in result && result.content ? result.content.mime_type : "video/mp4",
                     thumbnailUrl: thumbnailUrl,
                     width: a?.w,
                     height: a?.h,
@@ -343,7 +343,7 @@ async function inlineQueryResultToTlObject(result_, parseText, usernameResolver)
             description,
             document: ({
                 _: "inputDocument",
-                id: "id" in fileId.location ? fileId.location.id : (0, _0_deps_js_1.unreachable)(), // TODO: Remove UNREACHABLE()?
+                id: "id" in fileId.location ? fileId.location.id : (0, _0_deps_js_1.unreachable)(),
                 access_hash: fileId.location.accessHash,
                 file_reference: fileId.fileReference ?? new Uint8Array(),
             }),

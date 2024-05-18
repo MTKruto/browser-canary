@@ -17,7 +17,6 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-import { MaybePromise } from "../1_utilities.js";
 import { DC, TransportProvider } from "../3_transport.js";
 export interface ClientAbstractParams {
     /**
@@ -43,7 +42,7 @@ export declare abstract class ClientAbstract {
     stateChangeHandler?: (connected: boolean) => void;
     get dc(): DC;
     get dcId(): number;
-    setDc(dc: DC): MaybePromise<void>;
+    setDc(dc: DC): void;
     get connected(): boolean;
     connect(): Promise<void>;
     reconnect(dc?: DC): Promise<void>;

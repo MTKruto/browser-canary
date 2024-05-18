@@ -245,7 +245,7 @@ class MessageManager {
         const randomId = (0, _1_utilities_js_1.getRandomId)();
         const silent = params?.disableNotification ? true : undefined;
         const noforwards = params?.protectContent ? true : undefined;
-        const sendAs = params?.sendAs ? await __classPrivateFieldGet(this, _MessageManager_c, "f").getInputPeer(params.sendAs) : undefined; // TODO: check default sendAs
+        const sendAs = params?.sendAs ? await __classPrivateFieldGet(this, _MessageManager_c, "f").getInputPeer(params.sendAs) : undefined;
         const replyMarkup = await __classPrivateFieldGet(this, _MessageManager_instances, "m", _MessageManager_constructReplyMarkup).call(this, params);
         const result = await __classPrivateFieldGet(this, _MessageManager_c, "f").invoke({
             _: "messages.sendMedia",
@@ -279,7 +279,7 @@ class MessageManager {
         const randomId = (0, _1_utilities_js_1.getRandomId)();
         const silent = params?.disableNotification ? true : undefined;
         const noforwards = params?.protectContent ? true : undefined;
-        const sendAs = params?.sendAs ? await __classPrivateFieldGet(this, _MessageManager_c, "f").getInputPeer(params.sendAs) : undefined; // TODO: check default sendAs
+        const sendAs = params?.sendAs ? await __classPrivateFieldGet(this, _MessageManager_c, "f").getInputPeer(params.sendAs) : undefined;
         const replyMarkup = await __classPrivateFieldGet(this, _MessageManager_instances, "m", _MessageManager_constructReplyMarkup).call(this, params);
         const result = await __classPrivateFieldGet(this, _MessageManager_c, "f").invoke({
             _: "messages.sendMedia",
@@ -307,7 +307,7 @@ class MessageManager {
         const randomId = (0, _1_utilities_js_1.getRandomId)();
         const silent = params?.disableNotification ? true : undefined;
         const noforwards = params?.protectContent ? true : undefined;
-        const sendAs = params?.sendAs ? await __classPrivateFieldGet(this, _MessageManager_c, "f").getInputPeer(params.sendAs) : undefined; // TODO: check default sendAs
+        const sendAs = params?.sendAs ? await __classPrivateFieldGet(this, _MessageManager_c, "f").getInputPeer(params.sendAs) : undefined;
         const replyMarkup = await __classPrivateFieldGet(this, _MessageManager_instances, "m", _MessageManager_constructReplyMarkup).call(this, params);
         const result = await __classPrivateFieldGet(this, _MessageManager_c, "f").invoke({
             _: "messages.sendMedia",
@@ -332,7 +332,7 @@ class MessageManager {
         const randomId = (0, _1_utilities_js_1.getRandomId)();
         const silent = params?.disableNotification ? true : undefined;
         const noforwards = params?.protectContent ? true : undefined;
-        const sendAs = params?.sendAs ? await __classPrivateFieldGet(this, _MessageManager_c, "f").getInputPeer(params.sendAs) : undefined; // TODO: check default sendAs
+        const sendAs = params?.sendAs ? await __classPrivateFieldGet(this, _MessageManager_c, "f").getInputPeer(params.sendAs) : undefined;
         const replyMarkup = await __classPrivateFieldGet(this, _MessageManager_instances, "m", _MessageManager_constructReplyMarkup).call(this, params);
         const result = await __classPrivateFieldGet(this, _MessageManager_c, "f").invoke({
             _: "messages.sendMedia",
@@ -464,7 +464,7 @@ class MessageManager {
         const randomId = (0, _1_utilities_js_1.getRandomId)();
         const silent = params?.disableNotification ? true : undefined;
         const noforwards = params?.protectContent ? true : undefined;
-        const sendAs = params?.sendAs ? await __classPrivateFieldGet(this, _MessageManager_c, "f").getInputPeer(params.sendAs) : undefined; // TODO: check default sendAs
+        const sendAs = params?.sendAs ? await __classPrivateFieldGet(this, _MessageManager_c, "f").getInputPeer(params.sendAs) : undefined;
         const replyMarkup = await __classPrivateFieldGet(this, _MessageManager_instances, "m", _MessageManager_constructReplyMarkup).call(this, params);
         const explanation = params?.explanation;
         const parseResult = explanation !== undefined ? await this.parseText(explanation, { parseMode: params?.explanationParseMode, entities: params?.explanationEntities }) : undefined;
@@ -562,7 +562,6 @@ class MessageManager {
         await __classPrivateFieldGet(this, _MessageManager_c, "f").invoke({ _: "messages.unpinAllMessages", peer: await __classPrivateFieldGet(this, _MessageManager_c, "f").getInputPeer(chatId) });
     }
     async setAvailableReactions(chatId, availableReactions) {
-        // TODO: sync with storage
         await __classPrivateFieldGet(this, _MessageManager_c, "f").invoke({ _: "messages.setChatAvailableReactions", peer: await __classPrivateFieldGet(this, _MessageManager_c, "f").getInputPeer(chatId), available_reactions: availableReactions == "none" ? { _: "chatReactionsNone" } : availableReactions == "all" ? { _: "chatReactionsAll" } : Array.isArray(availableReactions) ? ({ _: "chatReactionsSome", reactions: availableReactions.map((v) => v.type == "emoji" ? ({ _: "reactionEmoji", emoticon: v.emoji }) : ({ _: "reactionCustomEmoji", document_id: BigInt(v.id) })) }) : (0, _0_deps_js_1.unreachable)() });
     }
     async setReactions(chatId, messageId, reactions, params) {
@@ -768,7 +767,7 @@ class MessageManager {
                 participant: member,
                 banned_rights: ({
                     _: "chatBannedRights",
-                    until_date: params?.untilDate ? (0, _1_utilities_js_1.toUnixTimestamp)(params.untilDate) : 0, // todo
+                    until_date: params?.untilDate ? (0, _1_utilities_js_1.toUnixTimestamp)(params.untilDate) : 0,
                     view_messages: true,
                     send_messages: true,
                     send_media: true,
@@ -1050,7 +1049,7 @@ _MessageManager_c = new WeakMap(), _MessageManager_LresolveFileId = new WeakMap(
     const randomId = (0, _1_utilities_js_1.getRandomId)();
     const silent = params?.disableNotification ? true : undefined;
     const noforwards = params?.protectContent ? true : undefined;
-    const sendAs = params?.sendAs ? await __classPrivateFieldGet(this, _MessageManager_c, "f").getInputPeer(params.sendAs) : undefined; // TODO: check default sendAs
+    const sendAs = params?.sendAs ? await __classPrivateFieldGet(this, _MessageManager_c, "f").getInputPeer(params.sendAs) : undefined;
     const replyMarkup = await __classPrivateFieldGet(this, _MessageManager_instances, "m", _MessageManager_constructReplyMarkup).call(this, params);
     const caption_ = params?.caption;
     const parseResult = caption_ !== undefined ? await this.parseText(caption_, { parseMode: params?.parseMode, entities: params?.captionEntities }) : undefined;

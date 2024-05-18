@@ -28,7 +28,7 @@ var __classPrivateFieldGet = (this && this.__classPrivateFieldGet) || function (
     if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot read private member from an object whose class did not declare it");
     return kind === "m" ? f : kind === "a" ? f.call(receiver) : f ? f.value : state.get(receiver);
 };
-var _ClientPlain_publicKeys, _ClientPlain_lastMsgId;
+var _ClientPlain_publicKeys, _ClientPlain_lastMessageId;
 import { assert, assertEquals, concat, ige256Decrypt, ige256Encrypt, unreachable } from "../0_deps.js";
 import { ConnectionError, TransportError } from "../0_errors.js";
 import { bigIntFromBuffer, bufferFromBigInt, factorize, getLogger, getRandomBigInt, modExp, rsaPad, sha1 } from "../1_utilities.js";
@@ -45,15 +45,15 @@ export class ClientPlain extends ClientAbstract {
     constructor(params) {
         super(params);
         _ClientPlain_publicKeys.set(this, void 0);
-        _ClientPlain_lastMsgId.set(this, 0n); // TODO: refactor
+        _ClientPlain_lastMessageId.set(this, 0n);
         __classPrivateFieldSet(this, _ClientPlain_publicKeys, params?.publicKeys ?? PUBLIC_KEYS, "f");
     }
     async invoke(function_) {
         if (!this.transport) {
             throw new ConnectionError("Not connected.");
         }
-        const msgId = __classPrivateFieldSet(this, _ClientPlain_lastMsgId, getMessageId(__classPrivateFieldGet(this, _ClientPlain_lastMsgId, "f")), "f");
-        const payload = packUnencryptedMessage(serialize(function_), msgId);
+        const messageId = __classPrivateFieldSet(this, _ClientPlain_lastMessageId, getMessageId(__classPrivateFieldGet(this, _ClientPlain_lastMessageId, "f")), "f");
+        const payload = packUnencryptedMessage(serialize(function_), messageId);
         await this.transport.transport.send(payload);
         L.out(function_);
         L.outBin(payload);
@@ -174,4 +174,4 @@ export class ClientPlain extends ClientAbstract {
         return [authKey, bigIntFromBuffer(salt, true, false)];
     }
 }
-_ClientPlain_publicKeys = new WeakMap(), _ClientPlain_lastMsgId = new WeakMap();
+_ClientPlain_publicKeys = new WeakMap(), _ClientPlain_lastMessageId = new WeakMap();

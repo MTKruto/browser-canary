@@ -43,8 +43,8 @@ async function constructSticker(document, fileId, fileUniqueId, getStickerSetNam
         setName,
         premiumAnimation: undefined, // TODO
         maskPosition: stickerAttribute.mask_coords ? (0, _0_mask_position_js_1.constructMaskPosition)(stickerAttribute.mask_coords) : undefined,
-        customEmojiId: customEmojiAttribute ? customEmojiId : undefined, // TODO
-        needsRepainting: customEmojiAttribute ? Boolean(customEmojiAttribute.text_color) : undefined, // TODO
+        customEmojiId: customEmojiAttribute ? customEmojiId : undefined,
+        needsRepainting: customEmojiAttribute ? Boolean(customEmojiAttribute.text_color) : undefined,
         fileSize: Number(document.size),
     });
 }

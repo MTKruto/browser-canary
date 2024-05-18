@@ -79,7 +79,6 @@ export class ClientAbstract {
         }
         return this.transport.dcId;
     }
-    // MaybePromise since `Client` has to deal with `Storage.set()`
     setDc(dc) {
         __classPrivateFieldSet(this, _ClientAbstract_dc, dc, "f");
     }

@@ -727,7 +727,7 @@ export class Client extends Composer {
         const [authKey, dc] = await Promise.all([this.storage.getAuthKey(), this.storage.getDc()]);
         if (authKey != null && dc != null) {
             await __classPrivateFieldGet(this, _Client_client, "f").setAuthKey(authKey);
-            await __classPrivateFieldGet(this, _Client_client, "f").setDc(dc); // TODO: remove await
+            __classPrivateFieldGet(this, _Client_client, "f").setDc(dc);
             if (__classPrivateFieldGet(this, _Client_client, "f").serverSalt == 0n) {
                 __classPrivateFieldGet(this, _Client_client, "f").serverSalt = await this.storage.getServerSalt() ?? 0n;
             }

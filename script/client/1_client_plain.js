@@ -29,7 +29,7 @@ var __classPrivateFieldGet = (this && this.__classPrivateFieldGet) || function (
     if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot read private member from an object whose class did not declare it");
     return kind === "m" ? f : kind === "a" ? f.call(receiver) : f ? f.value : state.get(receiver);
 };
-var _ClientPlain_publicKeys, _ClientPlain_lastMsgId;
+var _ClientPlain_publicKeys, _ClientPlain_lastMessageId;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ClientPlain = void 0;
 const _0_deps_js_1 = require("../0_deps.js");
@@ -48,15 +48,15 @@ class ClientPlain extends _0_client_abstract_js_1.ClientAbstract {
     constructor(params) {
         super(params);
         _ClientPlain_publicKeys.set(this, void 0);
-        _ClientPlain_lastMsgId.set(this, 0n); // TODO: refactor
+        _ClientPlain_lastMessageId.set(this, 0n);
         __classPrivateFieldSet(this, _ClientPlain_publicKeys, params?.publicKeys ?? _4_constants_js_1.PUBLIC_KEYS, "f");
     }
     async invoke(function_) {
         if (!this.transport) {
             throw new _0_errors_js_1.ConnectionError("Not connected.");
         }
-        const msgId = __classPrivateFieldSet(this, _ClientPlain_lastMsgId, (0, _0_message_js_1.getMessageId)(__classPrivateFieldGet(this, _ClientPlain_lastMsgId, "f")), "f");
-        const payload = (0, _0_message_js_1.packUnencryptedMessage)((0, _2_tl_js_1.serialize)(function_), msgId);
+        const messageId = __classPrivateFieldSet(this, _ClientPlain_lastMessageId, (0, _0_message_js_1.getMessageId)(__classPrivateFieldGet(this, _ClientPlain_lastMessageId, "f")), "f");
+        const payload = (0, _0_message_js_1.packUnencryptedMessage)((0, _2_tl_js_1.serialize)(function_), messageId);
         await this.transport.transport.send(payload);
         L.out(function_);
         L.outBin(payload);
@@ -178,4 +178,4 @@ class ClientPlain extends _0_client_abstract_js_1.ClientAbstract {
     }
 }
 exports.ClientPlain = ClientPlain;
-_ClientPlain_publicKeys = new WeakMap(), _ClientPlain_lastMsgId = new WeakMap();
+_ClientPlain_publicKeys = new WeakMap(), _ClientPlain_lastMessageId = new WeakMap();

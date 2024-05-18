@@ -85,8 +85,8 @@ export async function storyInteractiveAreaToTlObject(area, getEntity) {
             address: area.venue.address,
             provider: "foursquare",
             title: area.venue.title,
-            venue_id: area.venue.foursquareId || "", // TODO: require?
-            venue_type: area.venue.foursquareType || "", // TODO: require?
+            venue_id: area.venue.foursquareId || "",
+            venue_type: area.venue.foursquareType || "",
         };
     }
     else if ("reaction" in area) {
