@@ -19,7 +19,7 @@
  */
 import { Api } from "../2_tl.js";
 import { InputMedia } from "../3_types.js";
-import { ChatAction, ChatMember, FileSource, FileType, ID, Message, MessageEntity, ParseMode, Reaction, Update, UsernameResolver } from "../3_types.js";
+import { ChatAction, FileSource, FileType, ID, Message, MessageEntity, ParseMode, Reaction, Update, UsernameResolver } from "../3_types.js";
 import { AddReactionParams, BanChatMemberParams, CreateInviteLinkParams, DeleteMessagesParams, EditMessageLiveLocationParams, EditMessageMediaParams, EditMessageParams, EditMessageReplyMarkupParams, ForwardMessagesParams, GetCreatedInviteLinksParams, GetHistoryParams, PinMessageParams, SearchMessagesParams, SendAnimationParams, SendAudioParams, SendChatActionParams, SendContactParams, SendDiceParams, SendDocumentParams, SendLocationParams, SendMessageParams, SendPhotoParams, SendPollParams, SendStickerParams, SendVenueParams, SendVideoNoteParams, SendVideoParams, SendVoiceParams, SetChatMemberRightsParams, SetChatPhotoParams, SetReactionsParams, StopPollParams } from "./0_params.js";
 import { C as C_ } from "./1_types.js";
 import { FileManager } from "./2_file_manager.js";
@@ -87,7 +87,6 @@ export declare class MessageManager {
     banChatMember(chatId: ID, memberId: ID, params?: BanChatMemberParams): Promise<void>;
     unbanChatMember(chatId: ID, memberId: ID): Promise<void>;
     setChatMemberRights(chatId: ID, memberId: ID, params?: SetChatMemberRightsParams): Promise<void>;
-    getChatAdministrators(chatId: ID): Promise<ChatMember[]>;
     enableJoinRequests(chatId: ID): Promise<void>;
     disableJoinRequests(chatId: ID): Promise<void>;
     searchMessages(chatId: ID, query: string, params?: SearchMessagesParams): Promise<Message[]>;
@@ -98,7 +97,7 @@ export declare class MessageManager {
     leaveChat(chatId: ID): Promise<void>;
     blockUser(userId: ID): Promise<void>;
     unblockUser(userId: ID): Promise<void>;
-    getChatMember(chatId: ID, userId: ID): Promise<ChatMember>;
+    getChatMember(chatId: ID, userId: ID): Promise<import("../3_types.js").ChatMember>;
     setChatStickerSet(chatId: ID, setName: string): Promise<void>;
     deleteChatStickerSet(chatId: ID): Promise<void>;
     stopPoll(chatId: ID, messageId: number, params?: StopPollParams): Promise<import("../3_types.js").Poll>;

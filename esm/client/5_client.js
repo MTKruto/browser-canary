@@ -1862,7 +1862,7 @@ export class Client extends Composer {
      * @returns The chat's administrators.
      */
     async getChatAdministrators(chatId) {
-        return await __classPrivateFieldGet(this, _Client_messageManager, "f").getChatAdministrators(chatId);
+        return await __classPrivateFieldGet(this, _Client_chatListManager, "f").getChatAdministrators(chatId);
     }
     /**
      * Enable join requests in a chat. User-only.

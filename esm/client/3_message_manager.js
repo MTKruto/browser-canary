@@ -793,35 +793,6 @@ export class MessageManager {
         const member = await __classPrivateFieldGet(this, _MessageManager_c, "f").getInputPeer(memberId);
         await __classPrivateFieldGet(this, _MessageManager_c, "f").invoke({ _: "channels.editBanned", channel, participant: member, banned_rights: chatMemberRightsToTlObject(params?.rights, params?.untilDate) });
     }
-    async getChatAdministrators(chatId) {
-        const peer = await __classPrivateFieldGet(this, _MessageManager_c, "f").getInputPeer(chatId);
-        if (is("inputPeerChannel", peer)) {
-            const channel = { ...peer, _: "inputChannel" };
-            const participants = await __classPrivateFieldGet(this, _MessageManager_c, "f").invoke({ _: "channels.getParticipants", channel, filter: { _: "channelParticipantsAdmins" }, offset: 0, limit: 100, hash: 0n });
-            if (is("channels.channelParticipantsNotModified", participants)) {
-                unreachable();
-            }
-            const chatMembers = new Array();
-            for (const p of participants.participants) {
-                chatMembers.push(await constructChatMember(p, __classPrivateFieldGet(this, _MessageManager_c, "f").getEntity));
-            }
-            return chatMembers;
-        }
-        else if (is("inputPeerChat", peer)) {
-            const fullChat = await __classPrivateFieldGet(this, _MessageManager_c, "f").invoke({ ...peer, _: "messages.getFullChat" }); // TODO: full chat cache
-            if (!(is("chatFull", fullChat.full_chat)) || !(is("chatParticipants", fullChat.full_chat.participants))) {
-                unreachable();
-            }
-            const chatMembers = new Array();
-            for (const p of fullChat.full_chat.participants.participants) {
-                chatMembers.push(await constructChatMember(p, __classPrivateFieldGet(this, _MessageManager_c, "f").getEntity));
-            }
-            return chatMembers;
-        }
-        else {
-            unreachable();
-        }
-    }
     async enableJoinRequests(chatId) {
         await __classPrivateFieldGet(this, _MessageManager_c, "f").storage.assertUser("enableJoinRequests");
         await __classPrivateFieldGet(this, _MessageManager_instances, "m", _MessageManager_toggleJoinRequests).call(this, chatId, true);

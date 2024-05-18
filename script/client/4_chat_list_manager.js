@@ -179,6 +179,35 @@ class ChatListManager {
         }
         return await (0, _3_types_js_1.constructChat)(fullChat, __classPrivateFieldGet(this, _ChatListManager_c, "f").getEntity);
     }
+    async getChatAdministrators(chatId) {
+        const peer = await __classPrivateFieldGet(this, _ChatListManager_c, "f").getInputPeer(chatId);
+        if ((0, _2_tl_js_1.is)("inputPeerChannel", peer)) {
+            const channel = { ...peer, _: "inputChannel" };
+            const participants = await __classPrivateFieldGet(this, _ChatListManager_c, "f").invoke({ _: "channels.getParticipants", channel, filter: { _: "channelParticipantsAdmins" }, offset: 0, limit: 100, hash: 0n });
+            if ((0, _2_tl_js_1.is)("channels.channelParticipantsNotModified", participants)) {
+                (0, _0_deps_js_1.unreachable)();
+            }
+            const chatMembers = new Array();
+            for (const p of participants.participants) {
+                chatMembers.push(await (0, _3_types_js_1.constructChatMember)(p, __classPrivateFieldGet(this, _ChatListManager_c, "f").getEntity));
+            }
+            return chatMembers;
+        }
+        else if ((0, _2_tl_js_1.is)("inputPeerChat", peer)) {
+            const fullChat = await __classPrivateFieldGet(this, _ChatListManager_instances, "m", _ChatListManager_getFullChat).call(this, chatId);
+            if (!fullChat || !("participants" in fullChat) || !(0, _2_tl_js_1.is)("chatParticipants", fullChat.participants)) {
+                (0, _0_deps_js_1.unreachable)();
+            }
+            const chatMembers = new Array();
+            for (const p of fullChat.participants.participants) {
+                chatMembers.push(await (0, _3_types_js_1.constructChatMember)(p, __classPrivateFieldGet(this, _ChatListManager_c, "f").getEntity));
+            }
+            return chatMembers;
+        }
+        else {
+            (0, _0_deps_js_1.unreachable)();
+        }
+    }
 }
 exports.ChatListManager = ChatListManager;
 _ChatListManager_c = new WeakMap(), _ChatListManager_LgetChats = new WeakMap(), _ChatListManager_chats = new WeakMap(), _ChatListManager_archivedChats = new WeakMap(), _ChatListManager_chatsLoadedFromStorage = new WeakMap(), _ChatListManager_pinnedChats = new WeakMap(), _ChatListManager_pinnedArchiveChats = new WeakMap(), _ChatListManager_storageHadPinnedChats = new WeakMap(), _ChatListManager_pinnedChatsLoaded = new WeakMap(), _ChatListManager_instances = new WeakSet(), _ChatListManager_sendChatUpdate = async function _ChatListManager_sendChatUpdate(chatId, added) {

@@ -33,7 +33,7 @@ import { unreachable } from "../0_deps.js";
 import { InputError } from "../0_errors.js";
 import { getLogger, toUnixTimestamp } from "../1_utilities.js";
 import { is, peerToChatId } from "../2_tl.js";
-import { constructChat, constructChatListItem, constructChatListItem3, constructChatListItem4, getChatListItemOrder } from "../3_types.js";
+import { constructChat, constructChatListItem, constructChatListItem3, constructChatListItem4, constructChatMember, getChatListItemOrder } from "../3_types.js";
 import { getChatListId } from "./0_utilities.js";
 export class ChatListManager {
     constructor(c) {
@@ -175,6 +175,35 @@ export class ChatListManager {
             throw new InputError("Chat not found.");
         }
         return await constructChat(fullChat, __classPrivateFieldGet(this, _ChatListManager_c, "f").getEntity);
+    }
+    async getChatAdministrators(chatId) {
+        const peer = await __classPrivateFieldGet(this, _ChatListManager_c, "f").getInputPeer(chatId);
+        if (is("inputPeerChannel", peer)) {
+            const channel = { ...peer, _: "inputChannel" };
+            const participants = await __classPrivateFieldGet(this, _ChatListManager_c, "f").invoke({ _: "channels.getParticipants", channel, filter: { _: "channelParticipantsAdmins" }, offset: 0, limit: 100, hash: 0n });
+            if (is("channels.channelParticipantsNotModified", participants)) {
+                unreachable();
+            }
+            const chatMembers = new Array();
+            for (const p of participants.participants) {
+                chatMembers.push(await constructChatMember(p, __classPrivateFieldGet(this, _ChatListManager_c, "f").getEntity));
+            }
+            return chatMembers;
+        }
+        else if (is("inputPeerChat", peer)) {
+            const fullChat = await __classPrivateFieldGet(this, _ChatListManager_instances, "m", _ChatListManager_getFullChat).call(this, chatId);
+            if (!fullChat || !("participants" in fullChat) || !is("chatParticipants", fullChat.participants)) {
+                unreachable();
+            }
+            const chatMembers = new Array();
+            for (const p of fullChat.participants.participants) {
+                chatMembers.push(await constructChatMember(p, __classPrivateFieldGet(this, _ChatListManager_c, "f").getEntity));
+            }
+            return chatMembers;
+        }
+        else {
+            unreachable();
+        }
     }
 }
 _ChatListManager_c = new WeakMap(), _ChatListManager_LgetChats = new WeakMap(), _ChatListManager_chats = new WeakMap(), _ChatListManager_archivedChats = new WeakMap(), _ChatListManager_chatsLoadedFromStorage = new WeakMap(), _ChatListManager_pinnedChats = new WeakMap(), _ChatListManager_pinnedArchiveChats = new WeakMap(), _ChatListManager_storageHadPinnedChats = new WeakMap(), _ChatListManager_pinnedChatsLoaded = new WeakMap(), _ChatListManager_instances = new WeakSet(), _ChatListManager_sendChatUpdate = async function _ChatListManager_sendChatUpdate(chatId, added) {
