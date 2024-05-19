@@ -633,30 +633,16 @@ _a = UpdateManager, _UpdateManager_c = new WeakMap(), _UpdateManager_updateState
 }, _UpdateManager_recoverChannelUpdateGap = async function _UpdateManager_recoverChannelUpdateGap(channelId, source) {
     __classPrivateFieldGet(this, _UpdateManager_LrecoverChannelUpdateGap, "f").debug(`recovering channel update gap [${channelId}, ${source}]`);
     const pts_ = await __classPrivateFieldGet(this, _UpdateManager_c, "f").storage.getChannelPts(channelId);
-    let tries = 0;
     let pts = pts_ == null ? 1 : pts_;
     while (true) {
         const { access_hash } = await __classPrivateFieldGet(this, _UpdateManager_c, "f").getInputPeer(ZERO_CHANNEL_ID + -Number(channelId)).then((v) => as("inputPeerChannel", v));
-        let difference;
-        try {
-            difference = await __classPrivateFieldGet(this, _UpdateManager_c, "f").invoke({
-                _: "updates.getChannelDifference",
-                pts,
-                channel: { _: "inputChannel", channel_id: channelId, access_hash },
-                filter: { _: "channelMessagesFilterEmpty" },
-                limit: await __classPrivateFieldGet(this, _UpdateManager_c, "f").storage.getAccountType() == "user" ? CHANNEL_DIFFERENCE_LIMIT_USER : CHANNEL_DIFFERENCE_LIMIT_BOT,
-            });
-        }
-        catch (err) {
-            if (err instanceof PersistentTimestampEmpty || err instanceof PersistentTimestampInvalid && tries <= 5) {
-                pts = 1;
-                ++tries;
-                continue;
-            }
-            else {
-                throw err;
-            }
-        }
+        const difference = await __classPrivateFieldGet(this, _UpdateManager_c, "f").invoke({
+            _: "updates.getChannelDifference",
+            pts,
+            channel: { _: "inputChannel", channel_id: channelId, access_hash },
+            filter: { _: "channelMessagesFilterEmpty" },
+            limit: await __classPrivateFieldGet(this, _UpdateManager_c, "f").storage.getAccountType() == "user" ? CHANNEL_DIFFERENCE_LIMIT_USER : CHANNEL_DIFFERENCE_LIMIT_BOT,
+        });
         if (is("updates.channelDifference", difference)) {
             await this.processChats(difference.chats);
             await this.processUsers(difference.users);

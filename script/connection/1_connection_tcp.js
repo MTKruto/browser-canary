@@ -71,7 +71,6 @@ class ConnectionTCP {
         _ConnectionTCP_nextResolve.set(this, null);
         _ConnectionTCP_canRead.set(this, false);
         _ConnectionTCP_canWrite.set(this, false);
-        // @ts-ignore: lib
         Object.defineProperty(this, "connect", {
             enumerable: true,
             configurable: true,
