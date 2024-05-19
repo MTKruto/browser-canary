@@ -17,6 +17,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
+import * as dntShim from "./_dnt.shims.js";
 export const PUBLIC_KEYS = Object.freeze([
     [
         1562291298945373506n,
@@ -72,7 +73,7 @@ export const INITIAL_DC = "2";
 export const LAYER = 177;
 export const APP_VERSION = "MTKruto";
 // @ts-ignore: lib
-export const DEVICE_MODEL = typeof Deno === "undefined" ? typeof navigator === "undefined" ? typeof process === "undefined" ? "Unknown" : process.platform + "-" + process.arch : (navigator.userAgent.split(" ")[0] || "Unknown") : Deno.build.os + "-" + Deno.build.arch;
+export const DEVICE_MODEL = typeof dntShim.Deno === "undefined" ? typeof navigator === "undefined" ? typeof process === "undefined" ? "Unknown" : process.platform + "-" + process.arch : (navigator.userAgent.split(" ")[0] || "Unknown") : dntShim.Deno.build.os + "-" + dntShim.Deno.build.arch;
 export const LANG_CODE = typeof navigator === "undefined" || typeof navigator.language !== "string" ? "en" : navigator.language.split("-")[0];
 export const LANG_PACK = "";
 export const SYSTEM_LANG_CODE = LANG_CODE;

@@ -1,3 +1,15 @@
+var __classPrivateFieldGet = (this && this.__classPrivateFieldGet) || function (receiver, state, kind, f) {
+    if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a getter");
+    if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot read private member from an object whose class did not declare it");
+    return kind === "m" ? f : kind === "a" ? f.call(receiver) : f ? f.value : state.get(receiver);
+};
+var __classPrivateFieldSet = (this && this.__classPrivateFieldSet) || function (receiver, state, value, kind, f) {
+    if (kind === "m") throw new TypeError("Private method is not writable");
+    if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a setter");
+    if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot write private member to an object whose class did not declare it");
+    return (kind === "a" ? f.call(receiver, value) : f ? f.value = value : state.set(receiver, value)), value;
+};
+var _ClientAbstract_dc;
 /**
  * MTKruto - Cross-runtime JavaScript library for building Telegram clients
  * Copyright (C) 2023-2024 Roj <https://roj.im/>
@@ -17,22 +29,13 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-var __classPrivateFieldGet = (this && this.__classPrivateFieldGet) || function (receiver, state, kind, f) {
-    if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a getter");
-    if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot read private member from an object whose class did not declare it");
-    return kind === "m" ? f : kind === "a" ? f.call(receiver) : f ? f.value : state.get(receiver);
-};
-var __classPrivateFieldSet = (this && this.__classPrivateFieldSet) || function (receiver, state, value, kind, f) {
-    if (kind === "m") throw new TypeError("Private method is not writable");
-    if (kind === "a" && !f) throw new TypeError("Private accessor was defined without a setter");
-    if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot write private member to an object whose class did not declare it");
-    return (kind === "a" ? f.call(receiver, value) : f ? f.value = value : state.set(receiver, value)), value;
-};
-var _ClientAbstract_dc;
+import * as dntShim from "../_dnt.shims.js";
 import { initTgCrypto } from "../0_deps.js";
 import { ConnectionError } from "../0_errors.js";
-import { transportProviderWebSocket } from "../3_transport.js";
+import { transportProviderTcp, transportProviderWebSocket } from "../3_transport.js";
 import { INITIAL_DC } from "../4_constants.js";
+// @ts-ignore: lib
+const defaultTransportProvider = typeof dntShim.Deno === "undefined" ? transportProviderWebSocket : transportProviderTcp;
 export class ClientAbstract {
     constructor(params) {
         Object.defineProperty(this, "initialDc", {
@@ -67,7 +70,7 @@ export class ClientAbstract {
             value: void 0
         });
         this.initialDc = params?.initialDc ?? INITIAL_DC;
-        this.transportProvider = params?.transportProvider ?? transportProviderWebSocket();
+        this.transportProvider = params?.transportProvider ?? defaultTransportProvider();
         this.cdn = params?.cdn ?? false;
     }
     get dc() {

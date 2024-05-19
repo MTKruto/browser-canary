@@ -20,5 +20,8 @@
       "require": "./script/1_utilities.js"
     }
   },
+  "dependencies": {
+    "@deno/shim-deno": "~0.18.0"
+  },
   "_generatedBy": "dnt@dev"
 }

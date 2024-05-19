@@ -1,3 +1,23 @@
+/**
+ * MTKruto - Cross-runtime JavaScript library for building Telegram clients
+ * Copyright (C) 2023-2024 Roj <https://roj.im/>
+ *
+ * This file is part of MTKruto.
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+import * as dntShim from "../_dnt.shims.js";
 const map = new Map([
     [0x05162463, "resPQ"],
     [0xA9F55F95, "p_q_inner_data_dc"],
@@ -23199,4 +23219,4 @@ const types = new Map([
 export const getType = types.get.bind(types);
 export const getEnum = enums.get.bind(enums);
 // @ts-ignore: lib
-export const _types = typeof Deno === "undefined" ? typeof process === "undefined" ? undefined : process.env.__TYPE_MAP ? types : undefined : Deno.env.get("__TYPE_MAP") ? types : undefined;
+export const _types = typeof dntShim.Deno === "undefined" ? typeof process === "undefined" ? undefined : process.env.__TYPE_MAP ? types : undefined : dntShim.Deno.env.get("__TYPE_MAP") ? types : undefined;

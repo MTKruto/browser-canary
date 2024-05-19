@@ -35,6 +35,7 @@ exports.UpdateManager = void 0;
 const _0_deps_js_1 = require("../0_deps.js");
 const _1_utilities_js_1 = require("../1_utilities.js");
 const _2_tl_js_1 = require("../2_tl.js");
+const _3_errors_js_1 = require("../3_errors.js");
 const _4_constants_js_1 = require("../4_constants.js");
 class UpdateManager {
     constructor(c) {
@@ -234,9 +235,24 @@ class UpdateManager {
         __classPrivateFieldGet(this, _UpdateManager_LrecoverUpdateGap, "f").debug(`recovering from update gap [${source}]`);
         __classPrivateFieldGet(this, _UpdateManager_c, "f").setConnectionState("updating");
         try {
+            let tries = 0;
             let state = await __classPrivateFieldGet(this, _UpdateManager_instances, "m", _UpdateManager_getLocalState).call(this);
             while (true) {
-                const difference = await __classPrivateFieldGet(this, _UpdateManager_c, "f").invoke({ _: "updates.getDifference", pts: state.pts, date: state.date, qts: state.qts ?? 0 });
+                let difference;
+                try {
+                    difference = await __classPrivateFieldGet(this, _UpdateManager_c, "f").invoke({ _: "updates.getDifference", pts: state.pts, date: state.date, qts: state.qts ?? 0 });
+                }
+                catch (err) {
+                    if (err instanceof _3_errors_js_1.PersistentTimestampEmpty || err instanceof _3_errors_js_1.PersistentTimestampInvalid && tries <= 5) {
+                        await this.fetchState(err.errorMessage);
+                        state = await __classPrivateFieldGet(this, _UpdateManager_instances, "m", _UpdateManager_getLocalState).call(this);
+                        ++tries;
+                        continue;
+                    }
+                    else {
+                        throw err;
+                    }
+                }
                 if ((0, _2_tl_js_1.is)("updates.difference", difference) || (0, _2_tl_js_1.is)("updates.differenceSlice", difference)) {
                     await this.processChats(difference.chats);
                     await this.processUsers(difference.users);
@@ -621,16 +637,30 @@ _a = UpdateManager, _UpdateManager_c = new WeakMap(), _UpdateManager_updateState
 }, _UpdateManager_recoverChannelUpdateGap = async function _UpdateManager_recoverChannelUpdateGap(channelId, source) {
     __classPrivateFieldGet(this, _UpdateManager_LrecoverChannelUpdateGap, "f").debug(`recovering channel update gap [${channelId}, ${source}]`);
     const pts_ = await __classPrivateFieldGet(this, _UpdateManager_c, "f").storage.getChannelPts(channelId);
+    let tries = 0;
     let pts = pts_ == null ? 1 : pts_;
     while (true) {
         const { access_hash } = await __classPrivateFieldGet(this, _UpdateManager_c, "f").getInputPeer(_1_utilities_js_1.ZERO_CHANNEL_ID + -Number(channelId)).then((v) => (0, _2_tl_js_1.as)("inputPeerChannel", v));
-        const difference = await __classPrivateFieldGet(this, _UpdateManager_c, "f").invoke({
-            _: "updates.getChannelDifference",
-            pts,
-            channel: { _: "inputChannel", channel_id: channelId, access_hash },
-            filter: { _: "channelMessagesFilterEmpty" },
-            limit: await __classPrivateFieldGet(this, _UpdateManager_c, "f").storage.getAccountType() == "user" ? _4_constants_js_1.CHANNEL_DIFFERENCE_LIMIT_USER : _4_constants_js_1.CHANNEL_DIFFERENCE_LIMIT_BOT,
-        });
+        let difference;
+        try {
+            difference = await __classPrivateFieldGet(this, _UpdateManager_c, "f").invoke({
+                _: "updates.getChannelDifference",
+                pts,
+                channel: { _: "inputChannel", channel_id: channelId, access_hash },
+                filter: { _: "channelMessagesFilterEmpty" },
+                limit: await __classPrivateFieldGet(this, _UpdateManager_c, "f").storage.getAccountType() == "user" ? _4_constants_js_1.CHANNEL_DIFFERENCE_LIMIT_USER : _4_constants_js_1.CHANNEL_DIFFERENCE_LIMIT_BOT,
+            });
+        }
+        catch (err) {
+            if (err instanceof _3_errors_js_1.PersistentTimestampEmpty || err instanceof _3_errors_js_1.PersistentTimestampInvalid && tries <= 5) {
+                pts = 1;
+                ++tries;
+                continue;
+            }
+            else {
+                throw err;
+            }
+        }
         if ((0, _2_tl_js_1.is)("updates.channelDifference", difference)) {
             await this.processChats(difference.chats);
             await this.processUsers(difference.users);

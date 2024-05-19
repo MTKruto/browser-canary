@@ -1,4 +1,29 @@
 "use strict";
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.CHANNEL_DIFFERENCE_LIMIT_BOT = exports.CHANNEL_DIFFERENCE_LIMIT_USER = exports.MAX_CHANNEL_ID = exports.MAX_CHAT_ID = exports.STICKER_SET_NAME_TTL = exports.USERNAME_TTL = exports.SYSTEM_VERSION = exports.SYSTEM_LANG_CODE = exports.LANG_PACK = exports.LANG_CODE = exports.DEVICE_MODEL = exports.APP_VERSION = exports.LAYER = exports.INITIAL_DC = exports.PUBLIC_KEYS = void 0;
 /**
  * MTKruto - Cross-runtime JavaScript library for building Telegram clients
  * Copyright (C) 2023-2024 Roj <https://roj.im/>
@@ -18,8 +43,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.CHANNEL_DIFFERENCE_LIMIT_BOT = exports.CHANNEL_DIFFERENCE_LIMIT_USER = exports.MAX_CHANNEL_ID = exports.MAX_CHAT_ID = exports.STICKER_SET_NAME_TTL = exports.USERNAME_TTL = exports.SYSTEM_VERSION = exports.SYSTEM_LANG_CODE = exports.LANG_PACK = exports.LANG_CODE = exports.DEVICE_MODEL = exports.APP_VERSION = exports.LAYER = exports.INITIAL_DC = exports.PUBLIC_KEYS = void 0;
+const dntShim = __importStar(require("./_dnt.shims.js"));
 exports.PUBLIC_KEYS = Object.freeze([
     [
         1562291298945373506n,
@@ -75,7 +99,7 @@ exports.INITIAL_DC = "2";
 exports.LAYER = 177;
 exports.APP_VERSION = "MTKruto";
 // @ts-ignore: lib
-exports.DEVICE_MODEL = typeof Deno === "undefined" ? typeof navigator === "undefined" ? typeof process === "undefined" ? "Unknown" : process.platform + "-" + process.arch : (navigator.userAgent.split(" ")[0] || "Unknown") : Deno.build.os + "-" + Deno.build.arch;
+exports.DEVICE_MODEL = typeof dntShim.Deno === "undefined" ? typeof navigator === "undefined" ? typeof process === "undefined" ? "Unknown" : process.platform + "-" + process.arch : (navigator.userAgent.split(" ")[0] || "Unknown") : dntShim.Deno.build.os + "-" + dntShim.Deno.build.arch;
 exports.LANG_CODE = typeof navigator === "undefined" || typeof navigator.language !== "string" ? "en" : navigator.language.split("-")[0];
 exports.LANG_PACK = "";
 exports.SYSTEM_LANG_CODE = exports.LANG_CODE;

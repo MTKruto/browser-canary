@@ -17,10 +17,10 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-// connection/1_connection_tcp.ts must be updated too when updating std.
 export * from "./deps/deno.land/std@0.224.0/assert/mod.js";
 export * as path from "./deps/deno.land/std@0.224.0/path/mod.js";
 export { concat } from "./deps/deno.land/std@0.224.0/bytes/concat.js";
+export { iterateReader } from "./deps/deno.land/std@0.224.0/io/iterate_reader.js";
 export { decodeBase64, encodeBase64 } from "./deps/deno.land/std@0.224.0/encoding/base64.js";
 import { contentType as contentType_ } from "./deps/deno.land/std@0.224.0/media_types/content_type.js";
 export const contentType = (extentionOrType) => {
@@ -42,4 +42,5 @@ export function extension(mimeType) {
 }
 export { createCtr256State, ctr256, destroyCtr256State, ige256Decrypt, ige256Encrypt, init as initTgCrypto } from "./deps/deno.land/x/tgcrypto@0.4.1/mod.js";
 export { gunzip, gzip } from "./deps/raw.githubusercontent.com/MTKruto/compress/main/mod.js";
+export { Client as SocksClient } from "./deps/raw.githubusercontent.com/MTKruto/socks5/main/client.js";
 export { Parser } from "./deps/deno.land/x/html_parser@v0.1.3/src/mod.js";
