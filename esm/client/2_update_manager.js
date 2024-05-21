@@ -30,9 +30,9 @@ var __classPrivateFieldGet = (this && this.__classPrivateFieldGet) || function (
 };
 var _UpdateManager_instances, _a, _UpdateManager_c, _UpdateManager_updateState, _UpdateManager_updateHandler, _UpdateManager_LrecoverUpdateGap, _UpdateManager_LrecoverChannelUpdateGap, _UpdateManager_L$handleUpdate, _UpdateManager_L$processUpdates, _UpdateManager_LfetchState, _UpdateManager_defaultDropPendingUpdates, _UpdateManager_mustDropPendingUpdates, _UpdateManager_state, _UpdateManager_getState, _UpdateManager_setState, _UpdateManager_handleUpdateQueues, _UpdateManager_nonFirst, _UpdateManager_getChannelPtsWithDropPendingUpdatesCheck, _UpdateManager_checkGap, _UpdateManager_checkGapQts, _UpdateManager_checkChannelGap, _UpdateManager_channelUpdateQueues, _UpdateManager_processChannelPtsUpdateInner, _UpdateManager_queueUpdate, _UpdateManager_processChannelPtsUpdate, _UpdateManager_processPtsUpdateInner, _UpdateManager_ptsUpdateQueue, _UpdateManager_processPtsUpdate, _UpdateManager_processQtsUpdateInner, _UpdateManager_qtsUpdateQueue, _UpdateManager_processQtsUpdate, _UpdateManager_processUpdatesQueue, _UpdateManager_processUpdates, _UpdateManager_setUpdateStateDate, _UpdateManager_setUpdatePts, _UpdateManager_setUpdateQts, _UpdateManager_getLocalState, _UpdateManager_recoverChannelUpdateGap, _UpdateManager_handleUpdatesSet, _UpdateManager_handleStoredUpdates, _UpdateManager_handleUpdate;
 import { unreachable } from "../0_deps.js";
-import { getLogger, Queue, ZERO_CHANNEL_ID } from "../1_utilities.js";
+import { getLogger, Queue, second, ZERO_CHANNEL_ID } from "../1_utilities.js";
 import { as, inputPeerToPeer, is, isOfEnum, isOneOf, peerToChatId } from "../2_tl.js";
-import { PersistentTimestampEmpty, PersistentTimestampInvalid } from "../3_errors.js";
+import { PersistentTimestampInvalid } from "../3_errors.js";
 import { CHANNEL_DIFFERENCE_LIMIT_BOT, CHANNEL_DIFFERENCE_LIMIT_USER } from "../4_constants.js";
 export class UpdateManager {
     constructor(c) {
@@ -232,7 +232,7 @@ export class UpdateManager {
         __classPrivateFieldGet(this, _UpdateManager_LrecoverUpdateGap, "f").debug(`recovering from update gap [${source}]`);
         __classPrivateFieldGet(this, _UpdateManager_c, "f").setConnectionState("updating");
         try {
-            let tries = 0;
+            let delay = 5;
             let state = await __classPrivateFieldGet(this, _UpdateManager_instances, "m", _UpdateManager_getLocalState).call(this);
             while (true) {
                 let difference;
@@ -240,10 +240,12 @@ export class UpdateManager {
                     difference = await __classPrivateFieldGet(this, _UpdateManager_c, "f").invoke({ _: "updates.getDifference", pts: state.pts, date: state.date, qts: state.qts ?? 0 });
                 }
                 catch (err) {
-                    if (err instanceof PersistentTimestampEmpty || err instanceof PersistentTimestampInvalid && tries <= 5) {
-                        await this.fetchState(err.errorMessage);
-                        state = await __classPrivateFieldGet(this, _UpdateManager_instances, "m", _UpdateManager_getLocalState).call(this);
-                        ++tries;
+                    if (err instanceof PersistentTimestampInvalid) {
+                        await new Promise((r) => setTimeout(r, delay * second));
+                        ++delay;
+                        if (delay > 60) {
+                            delay = 60;
+                        }
                         continue;
                     }
                     else {
@@ -634,15 +636,32 @@ _a = UpdateManager, _UpdateManager_c = new WeakMap(), _UpdateManager_updateState
     __classPrivateFieldGet(this, _UpdateManager_LrecoverChannelUpdateGap, "f").debug(`recovering channel update gap [${channelId}, ${source}]`);
     const pts_ = await __classPrivateFieldGet(this, _UpdateManager_c, "f").storage.getChannelPts(channelId);
     let pts = pts_ == null ? 1 : pts_;
+    let delay = 5;
     while (true) {
         const { access_hash } = await __classPrivateFieldGet(this, _UpdateManager_c, "f").getInputPeer(ZERO_CHANNEL_ID + -Number(channelId)).then((v) => as("inputPeerChannel", v));
-        const difference = await __classPrivateFieldGet(this, _UpdateManager_c, "f").invoke({
-            _: "updates.getChannelDifference",
-            pts,
-            channel: { _: "inputChannel", channel_id: channelId, access_hash },
-            filter: { _: "channelMessagesFilterEmpty" },
-            limit: await __classPrivateFieldGet(this, _UpdateManager_c, "f").storage.getAccountType() == "user" ? CHANNEL_DIFFERENCE_LIMIT_USER : CHANNEL_DIFFERENCE_LIMIT_BOT,
-        });
+        let difference;
+        try {
+            difference = await __classPrivateFieldGet(this, _UpdateManager_c, "f").invoke({
+                _: "updates.getChannelDifference",
+                pts,
+                channel: { _: "inputChannel", channel_id: channelId, access_hash },
+                filter: { _: "channelMessagesFilterEmpty" },
+                limit: await __classPrivateFieldGet(this, _UpdateManager_c, "f").storage.getAccountType() == "user" ? CHANNEL_DIFFERENCE_LIMIT_USER : CHANNEL_DIFFERENCE_LIMIT_BOT,
+            });
+        }
+        catch (err) {
+            if (err instanceof PersistentTimestampInvalid) {
+                await new Promise((r) => setTimeout(r, delay * second));
+                delay += 5;
+                if (delay > 60) {
+                    delay = 60;
+                }
+                continue;
+            }
+            else {
+                throw err;
+            }
+        }
         if (is("updates.channelDifference", difference)) {
             await this.processChats(difference.chats);
             await this.processUsers(difference.users);
