@@ -24,13 +24,13 @@ export function getChannelChatId(channelId) {
 }
 export function peerToChatId(peer) {
     if (("_" in peer && (peer._ == "peerUser" || peer._ == "inputPeerUser" || peer._ == "user" || peer._ == "userFull")) || "user_id" in peer) {
-        return Number("id" in peer ? peer.id : peer.user_id);
+        return Number("user_id" in peer ? peer.user_id : peer.id);
     }
     else if (("_" in peer && (peer._ == "peerChat" || peer._ == "inputPeerChat" || peer._ == "chat" || peer._ == "chatForbidden" || peer._ == "chatFull")) || "chat_id" in peer) {
-        return -Number("id" in peer ? peer.id : peer.chat_id);
+        return -Number("chat_id" in peer ? peer.chat_id : peer.id);
     }
     else if (("_" in peer && (peer._ == "peerChannel" || peer._ == "inputPeerChannel" || peer._ == "channel" || peer._ == "channelForbidden" || peer._ == "channelFull")) || "channel_id" in peer) {
-        return getChannelChatId("id" in peer ? peer.id : peer.channel_id);
+        return getChannelChatId("channel_id" in peer ? peer.channel_id : peer.id);
     }
     else {
         unreachable();
