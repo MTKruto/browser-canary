@@ -129,6 +129,7 @@ class ConnectionTCP {
                     }
                 }
             } while (this.connected);
+            this.stateChangeHandler?.(false);
         });
         __classPrivateFieldSet(this, _ConnectionTCP_connection, connection, "f");
     }
