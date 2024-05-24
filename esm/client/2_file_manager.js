@@ -32,11 +32,10 @@ var _FileManager_instances, _a, _FileManager_c, _FileManager_Lupload, _FileManag
 import * as dntShim from "../_dnt.shims.js";
 import { extension, path, unreachable } from "../0_deps.js";
 import { InputError } from "../0_errors.js";
-import { drop, getLogger, getRandomId, iterateReadableStream, kilobyte, megabyte, minute, mod, PartStream } from "../1_utilities.js";
+import { drop, getLogger, getRandomId, iterateReadableStream, kilobyte, megabyte, minute, mod, PartStream, second } from "../1_utilities.js";
 import { as, is } from "../2_tl.js";
 import { constructSticker, deserializeFileId, FileType, PhotoSourceType, serializeFileId, toUniqueFileId } from "../3_types.js";
 import { STICKER_SET_NAME_TTL } from "../4_constants.js";
-import { FloodWait } from "../4_errors.js";
 export class FileManager {
     constructor(c) {
         _FileManager_instances.add(this);
@@ -275,6 +274,8 @@ _a = FileManager, _FileManager_c = new WeakMap(), _FileManager_Lupload = new Wea
     let apiPromiseCount = 0;
     for await (part of iterateReadableStream(stream.pipeThrough(new PartStream(chunkSize)))) {
         promises.push(Promise.resolve().then(async () => {
+            let retryIn = 1;
+            let errorCount = 0;
             while (true) {
                 try {
                     if (part.small) {
@@ -289,7 +290,15 @@ _a = FileManager, _FileManager_c = new WeakMap(), _FileManager_Lupload = new Wea
                 catch (err) {
                     signal?.throwIfAborted();
                     __classPrivateFieldGet(this, _FileManager_Lupload, "f").debug(`[${fileId}] failed to upload part ` + (part.part + 1));
-                    await __classPrivateFieldGet(this, _FileManager_instances, "m", _FileManager_handleUploadError).call(this, err);
+                    ++errorCount;
+                    if (errorCount > 20) {
+                        retryIn = 0;
+                    }
+                    await __classPrivateFieldGet(this, _FileManager_instances, "m", _FileManager_handleUploadError).call(this, err, retryIn, `[${fileId}-${part.part + 1}]`);
+                    retryIn += 2;
+                    if (retryIn > 11) {
+                        retryIn = 11;
+                    }
                 }
             }
         }));
@@ -320,6 +329,8 @@ _a = FileManager, _FileManager_c = new WeakMap(), _FileManager_Lupload = new Wea
                 }
                 const thisPart = part++; // `thisPart` must be used instead of `part` in the promise body
                 promises.push(Promise.resolve().then(async () => {
+                    let retryIn = 1;
+                    let errorCount = 0;
                     while (true) {
                         try {
                             signal?.throwIfAborted();
@@ -335,7 +346,15 @@ _a = FileManager, _FileManager_c = new WeakMap(), _FileManager_Lupload = new Wea
                         catch (err) {
                             signal?.throwIfAborted();
                             __classPrivateFieldGet(this, _FileManager_Lupload, "f").debug(`[${fileId}] failed to upload part ` + (thisPart + 1) + " / " + partCount);
-                            await __classPrivateFieldGet(this, _FileManager_instances, "m", _FileManager_handleUploadError).call(this, err);
+                            ++errorCount;
+                            if (errorCount > 20) {
+                                retryIn = 0;
+                            }
+                            await __classPrivateFieldGet(this, _FileManager_instances, "m", _FileManager_handleUploadError).call(this, err, retryIn, `[${fileId}-${thisPart + 1}]`);
+                            retryIn += 2;
+                            if (retryIn > 11) {
+                                retryIn = 11;
+                            }
                         }
                     }
                 }));
@@ -346,10 +365,10 @@ _a = FileManager, _FileManager_c = new WeakMap(), _FileManager_Lupload = new Wea
     }
     await Promise.all(promises);
     return { small: !isBig, parts: partCount };
-}, _FileManager_handleUploadError = async function _FileManager_handleUploadError(err) {
-    if (err instanceof FloodWait) {
-        __classPrivateFieldGet(this, _FileManager_Lupload, "f").warning("got a flood wait of " + err.seconds + " seconds");
-        await new Promise((r) => setTimeout(r, err.seconds * 1000));
+}, _FileManager_handleUploadError = async function _FileManager_handleUploadError(err, retryIn, logPrefix) {
+    if (retryIn > 0) {
+        __classPrivateFieldGet(this, _FileManager_Lupload, "f").warning(`${logPrefix} retrying in ${retryIn} seconds`);
+        await new Promise((r) => setTimeout(r, retryIn * second));
     }
     else {
         throw err;
