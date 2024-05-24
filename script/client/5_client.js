@@ -822,7 +822,7 @@ class Client extends Composer {
             }
         });
         return {
-            invoke: client.invoke,
+            invoke: client.invoke.bind(client),
             connect: async () => {
                 await client.connect();
                 if (dcId && dcId != __classPrivateFieldGet(this, _Client_client, "f").dcId) {
