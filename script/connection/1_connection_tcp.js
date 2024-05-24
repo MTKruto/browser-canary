@@ -120,13 +120,10 @@ class ConnectionTCP {
                     break;
                 }
                 catch (err) {
-                    if (!this.connected) {
-                        this.stateChangeHandler?.(false);
-                        __classPrivateFieldGet(this, _ConnectionTCP_instances, "m", _ConnectionTCP_rejectRead).call(this);
-                    }
-                    else {
-                        L.error(err);
-                    }
+                    __classPrivateFieldSet(this, _ConnectionTCP_canRead, false, "f");
+                    this.stateChangeHandler?.(false);
+                    __classPrivateFieldGet(this, _ConnectionTCP_instances, "m", _ConnectionTCP_rejectRead).call(this);
+                    L.error(err);
                 }
             } while (this.connected);
             this.stateChangeHandler?.(false);
