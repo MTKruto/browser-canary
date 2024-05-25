@@ -656,14 +656,22 @@ class Client extends Composer {
             return transport;
         };
         if (params?.defaultHandlers ?? true) {
+            let reconnecting = false;
             let lastReconnection = null;
             this.on("connectionState", ({ connectionState }, next) => {
+                if (connectionState != "notConnected") {
+                    return;
+                }
+                if (this.disconnected) {
+                    L.debug("not reconnecting");
+                    return;
+                }
+                if (reconnecting) {
+                    return;
+                }
+                reconnecting = true;
                 (0, _1_utilities_js_1.drop)((async () => {
-                    if (connectionState == "notConnected") {
-                        if (this.disconnected) {
-                            L.debug("not reconnecting");
-                            return;
-                        }
+                    try {
                         let delay = 5;
                         if (lastReconnection != null && Date.now() - lastReconnection.getTime() <= 10 * _1_utilities_js_1.second) {
                             await new Promise((r) => setTimeout(r, delay * _1_utilities_js_1.second));
@@ -685,6 +693,9 @@ class Client extends Composer {
                             }
                             await new Promise((r) => setTimeout(r, delay * _1_utilities_js_1.second));
                         }
+                    }
+                    finally {
+                        reconnecting = false;
                     }
                 })());
                 return next();
