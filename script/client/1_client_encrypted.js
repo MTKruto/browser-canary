@@ -199,7 +199,7 @@ _ClientEncrypted_authKey = new WeakMap(), _ClientEncrypted_authKeyId = new WeakM
                         __classPrivateFieldGet(this, _ClientEncrypted_LreceiveLoop, "f").debug("RPCResult:", result.error_code, result.error_message);
                     }
                     else {
-                        __classPrivateFieldGet(this, _ClientEncrypted_LreceiveLoop, "f").debug("RPCResult:", typeof result === "object" ? result._ : result);
+                        __classPrivateFieldGet(this, _ClientEncrypted_LreceiveLoop, "f").debug("RPCResult:", Array.isArray(result) ? "Array" : typeof result === "object" ? result._ : result);
                     }
                     const messageId = message.body.req_msg_id;
                     const promise = __classPrivateFieldGet(this, _ClientEncrypted_promises, "f").get(messageId);
