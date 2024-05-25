@@ -154,6 +154,10 @@ _ClientEncrypted_authKey = new WeakMap(), _ClientEncrypted_authKeyId = new WeakM
     if (!this.transport) {
         unreachable();
     }
+    for (const [key, { reject }] of __classPrivateFieldGet(this, _ClientEncrypted_promises, "f").entries()) {
+        reject?.(new ConnectionError("Connection was closed"));
+        __classPrivateFieldGet(this, _ClientEncrypted_promises, "f").delete(key);
+    }
     while (this.connected) {
         try {
             const buffer = await this.transport.transport.receive();
@@ -191,7 +195,7 @@ _ClientEncrypted_authKey = new WeakMap(), _ClientEncrypted_authKeyId = new WeakM
                         __classPrivateFieldGet(this, _ClientEncrypted_LreceiveLoop, "f").debug("RPCResult:", result.error_code, result.error_message);
                     }
                     else {
-                        __classPrivateFieldGet(this, _ClientEncrypted_LreceiveLoop, "f").debug("RPCResult:", result._);
+                        __classPrivateFieldGet(this, _ClientEncrypted_LreceiveLoop, "f").debug("RPCResult:", typeof result === "object" ? result._ : result);
                     }
                     const messageId = message.body.req_msg_id;
                     const promise = __classPrivateFieldGet(this, _ClientEncrypted_promises, "f").get(messageId);

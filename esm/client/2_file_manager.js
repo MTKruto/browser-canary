@@ -296,6 +296,8 @@ _a = FileManager, _FileManager_c = new WeakMap(), _FileManager_Lupload = new Wea
             let errorCount = 0;
             while (true) {
                 try {
+                    signal?.throwIfAborted();
+                    __classPrivateFieldGet(this, _FileManager_Lupload, "f").debug(`[${fileId}] uploading part ` + (part.part + 1));
                     if (part.small) {
                         await invoke({ _: "upload.saveFilePart", file_id: fileId, bytes: part.bytes, file_part: part.part });
                     }
@@ -335,6 +337,8 @@ _a = FileManager, _FileManager_c = new WeakMap(), _FileManager_Lupload = new Wea
     const isBig = buffer.byteLength > __classPrivateFieldGet(_a, _a, "f", _FileManager_BIG_FILE_THRESHOLD);
     const partCount = Math.ceil(buffer.byteLength / chunkSize);
     let promises = new Array();
+    let started = false;
+    let delay = 0.05;
     main: for (let part = 0; part < partCount;) {
         for (let i = 0; i < pool.size; ++i) {
             const invoke = pool.invoke();
@@ -346,12 +350,20 @@ _a = FileManager, _FileManager_c = new WeakMap(), _FileManager_Lupload = new Wea
                     break main;
                 }
                 const thisPart = part++; // `thisPart` must be used instead of `part` in the promise body
+                if (!started) {
+                    started = true;
+                }
+                else if (isBig) {
+                    await new Promise((r) => setTimeout(r, delay));
+                    delay = Math.max(delay * .8, 0.003);
+                }
                 promises.push(Promise.resolve().then(async () => {
                     let retryIn = 1;
                     let errorCount = 0;
                     while (true) {
                         try {
                             signal?.throwIfAborted();
+                            __classPrivateFieldGet(this, _FileManager_Lupload, "f").debug(`[${fileId}] uploading part ` + (thisPart + 1));
                             if (isBig) {
                                 await invoke({ _: "upload.saveBigFilePart", file_id: fileId, file_part: thisPart, bytes, file_total_parts: partCount });
                             }
@@ -363,7 +375,7 @@ _a = FileManager, _FileManager_c = new WeakMap(), _FileManager_Lupload = new Wea
                         }
                         catch (err) {
                             signal?.throwIfAborted();
-                            __classPrivateFieldGet(this, _FileManager_Lupload, "f").debug(`[${fileId}] failed to upload part ` + (thisPart + 1) + " / " + partCount);
+                            __classPrivateFieldGet(this, _FileManager_Lupload, "f").debug(`[${fileId}] failed to upload part ` + (thisPart + 1) + " / " + partCount, err);
                             ++errorCount;
                             if (errorCount > 20) {
                                 retryIn = 0;

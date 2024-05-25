@@ -502,7 +502,7 @@ export class Client extends Composer {
         _Client_lastPropagatedConnectionState.set(this, null);
         _Client_stateChangeHandler.set(this, ((connected) => {
             const connectionState = connected ? "ready" : "notConnected";
-            if (this.connected == connected && __classPrivateFieldGet(this, _Client_lastPropagatedConnectionState, "f") != connectionState) {
+            if (__classPrivateFieldGet(this, _Client_lastPropagatedConnectionState, "f") != connectionState) {
                 __classPrivateFieldGet(this, _Client_instances, "m", _Client_propagateConnectionState).call(this, connectionState);
             }
         }).bind(this));
@@ -1148,6 +1148,7 @@ export class Client extends Composer {
         while (true) {
             try {
                 if (!__classPrivateFieldGet(this, _Client_connectionInited, "f") && !isMtprotoFunction(function_)) {
+                    __classPrivateFieldSet(this, _Client_connectionInited, true, "f");
                     const result = await __classPrivateFieldGet(this, _Client_client, "f").invoke({
                         _: "initConnection",
                         api_id: await __classPrivateFieldGet(this, _Client_instances, "m", _Client_getApiId).call(this),
@@ -1163,7 +1164,6 @@ export class Client extends Composer {
                         system_lang_code: this.systemLangCode,
                         system_version: this.systemVersion,
                     }, noWait);
-                    __classPrivateFieldSet(this, _Client_connectionInited, true, "f");
                     __classPrivateFieldGet(this, _Client_L$initConncetion, "f").debug("connection inited");
                     return result;
                 }
