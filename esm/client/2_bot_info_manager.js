@@ -82,5 +82,5 @@ export class BotInfoManager {
 _BotInfoManager_c = new WeakMap(), _BotInfoManager_instances = new WeakSet(), _BotInfoManager_setMyInfo = async function _BotInfoManager_setMyInfo(info) {
     await __classPrivateFieldGet(this, _BotInfoManager_c, "f").invoke({ _: "bots.setBotInfo", ...info });
 }, _BotInfoManager_getMyInfo = function _BotInfoManager_getMyInfo(languageCode) {
-    return __classPrivateFieldGet(this, _BotInfoManager_c, "f").invoke({ _: "bots.getBotInfo", bot: { _: "inputUserSelf" }, lang_code: languageCode ?? "" });
+    return __classPrivateFieldGet(this, _BotInfoManager_c, "f").invoke({ _: "bots.getBotInfo", lang_code: languageCode ?? "" });
 };
