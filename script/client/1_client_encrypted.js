@@ -134,9 +134,9 @@ class ClientEncrypted extends _0_client_abstract_js_1.ClientAbstract {
             });
             return;
         }
-        return await new Promise((resolve, reject) => {
+        return (await new Promise((resolve, reject) => {
             __classPrivateFieldGet(this, _ClientEncrypted_promises, "f").set(messageId, { container, message: message__, resolve, reject, call: function_ });
-        }).then((v) => v);
+        }));
     }
 }
 exports.ClientEncrypted = ClientEncrypted;

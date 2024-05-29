@@ -1708,7 +1708,7 @@ export class Client extends Composer {
      * @returns The forwarded message.
      */
     async forwardMessage(from, to, messageId, params) {
-        return await this.forwardMessages(from, to, [messageId], params).then((v) => v[0]);
+        return (await this.forwardMessages(from, to, [messageId], params))[0];
     }
     /**
      * Stop a poll.

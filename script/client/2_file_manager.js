@@ -294,7 +294,7 @@ class FileManager {
         if (!shouldFetch) {
             return stickers;
         }
-        const documents_ = await __classPrivateFieldGet(this, _FileManager_c, "f").invoke({ _: "messages.getCustomEmojiDocuments", document_id: id.map(BigInt) }).then((v) => v.map((v) => (0, _2_tl_js_1.as)("document", v)));
+        const documents_ = (await __classPrivateFieldGet(this, _FileManager_c, "f").invoke({ _: "messages.getCustomEmojiDocuments", document_id: id.map(BigInt) })).map((v) => (0, _2_tl_js_1.as)("document", v));
         for (const [i, document_] of documents_.entries()) {
             await __classPrivateFieldGet(this, _FileManager_c, "f").messageStorage.setCustomEmojiDocument(document_.id, document_);
             const fileId_ = {
@@ -318,7 +318,7 @@ _a = FileManager, _FileManager_c = new WeakMap(), _FileManager_Lupload = new Wea
     let invoke = pool.invoke();
     let apiPromiseCount = 0;
     for await (part of (0, _1_utilities_js_1.iterateReadableStream)(stream.pipeThrough(new _1_utilities_js_1.PartStream(chunkSize)))) {
-        promises.push(Promise.resolve().then(async () => {
+        promises.push((async () => {
             let retryIn = 1;
             let errorCount = 0;
             while (true) {
@@ -348,7 +348,7 @@ _a = FileManager, _FileManager_c = new WeakMap(), _FileManager_Lupload = new Wea
                     }
                 }
             }
-        }));
+        })());
         if (++apiPromiseCount >= __classPrivateFieldGet(_a, _a, "f", _FileManager_UPLOAD_REQUEST_PER_CONNECTION)) {
             invoke = pool.invoke();
             apiPromiseCount = 0;
@@ -384,7 +384,7 @@ _a = FileManager, _FileManager_c = new WeakMap(), _FileManager_Lupload = new Wea
                     await new Promise((r) => setTimeout(r, delay));
                     delay = Math.max(delay * .8, 0.003);
                 }
-                promises.push(Promise.resolve().then(async () => {
+                promises.push((async () => {
                     let retryIn = 1;
                     let errorCount = 0;
                     while (true) {
@@ -414,7 +414,7 @@ _a = FileManager, _FileManager_c = new WeakMap(), _FileManager_Lupload = new Wea
                             }
                         }
                     }
-                }));
+                })());
             }
         }
         await Promise.all(promises);

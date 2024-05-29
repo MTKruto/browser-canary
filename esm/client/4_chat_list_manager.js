@@ -84,7 +84,7 @@ export class ChatListManager {
             }
             return () => Promise.resolve();
         }
-        const message = await __classPrivateFieldGet(this, _ChatListManager_c, "f").messageManager.getHistory(chatId, { limit: 1 }).then((v) => v[0]);
+        const message = (await __classPrivateFieldGet(this, _ChatListManager_c, "f").messageManager.getHistory(chatId, { limit: 1 }))[0];
         if (message) {
             if (chat) {
                 chat.order = getChatListItemOrder(message, chat.pinned);
@@ -445,13 +445,13 @@ _ChatListManager_c = new WeakMap(), _ChatListManager_LgetChats = new WeakMap(), 
         return fullChat;
     }
     if (is("inputPeerUser", inputPeer)) {
-        fullChat = await __classPrivateFieldGet(this, _ChatListManager_c, "f").invoke({ _: "users.getFullUser", id: { ...inputPeer, _: "inputUser" } }).then((v) => v.full_user);
+        fullChat = (await __classPrivateFieldGet(this, _ChatListManager_c, "f").invoke({ _: "users.getFullUser", id: { ...inputPeer, _: "inputUser" } })).full_user;
     }
     else if (is("inputPeerChat", inputPeer)) {
-        fullChat = await __classPrivateFieldGet(this, _ChatListManager_c, "f").invoke({ ...inputPeer, _: "messages.getFullChat" }).then((v) => v.full_chat);
+        fullChat = (await __classPrivateFieldGet(this, _ChatListManager_c, "f").invoke({ ...inputPeer, _: "messages.getFullChat" })).full_chat;
     }
     else if (is("inputPeerChannel", inputPeer)) {
-        fullChat = await __classPrivateFieldGet(this, _ChatListManager_c, "f").invoke({ _: "channels.getFullChannel", channel: { ...inputPeer, _: "inputChannel" } }).then((v) => v.full_chat);
+        fullChat = (await __classPrivateFieldGet(this, _ChatListManager_c, "f").invoke({ _: "channels.getFullChannel", channel: { ...inputPeer, _: "inputChannel" } })).full_chat;
     }
     await __classPrivateFieldGet(this, _ChatListManager_c, "f").storage.setFullChat(chatId_, fullChat);
     if (fullChat != null && "call" in fullChat && fullChat.call) {

@@ -53,15 +53,15 @@ class BotInfoManager {
     }
     async getMyDescription(params) {
         await __classPrivateFieldGet(this, _BotInfoManager_c, "f").storage.assertBot("getMyDescription");
-        return await __classPrivateFieldGet(this, _BotInfoManager_instances, "m", _BotInfoManager_getMyInfo).call(this, params?.languageCode).then((v) => v.description);
+        return (await __classPrivateFieldGet(this, _BotInfoManager_instances, "m", _BotInfoManager_getMyInfo).call(this, params?.languageCode)).description;
     }
     async getMyName(params) {
         await __classPrivateFieldGet(this, _BotInfoManager_c, "f").storage.assertBot("getMyName");
-        return await __classPrivateFieldGet(this, _BotInfoManager_instances, "m", _BotInfoManager_getMyInfo).call(this, params?.languageCode).then((v) => v.description);
+        return (await __classPrivateFieldGet(this, _BotInfoManager_instances, "m", _BotInfoManager_getMyInfo).call(this, params?.languageCode)).description;
     }
     async getMyShortDescription(params) {
         await __classPrivateFieldGet(this, _BotInfoManager_c, "f").storage.assertBot("getMyShortDescription");
-        return await __classPrivateFieldGet(this, _BotInfoManager_instances, "m", _BotInfoManager_getMyInfo).call(this, params?.languageCode).then((v) => v.about);
+        return (await __classPrivateFieldGet(this, _BotInfoManager_instances, "m", _BotInfoManager_getMyInfo).call(this, params?.languageCode)).about;
     }
     async getMyCommands(params) {
         await __classPrivateFieldGet(this, _BotInfoManager_c, "f").storage.assertBot("getMyCommands");

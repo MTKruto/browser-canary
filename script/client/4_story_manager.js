@@ -98,7 +98,7 @@ class StoryManager {
     }
     async getStory(chatId, storyId) {
         await __classPrivateFieldGet(this, _StoryManager_c, "f").storage.assertUser("getStory");
-        return await this.getStories(chatId, [storyId]).then((v) => v[0] ?? null);
+        return (await this.getStories(chatId, [storyId]))[0] ?? null;
     }
     async deleteStories(chatId, storyIds) {
         await __classPrivateFieldGet(this, _StoryManager_c, "f").storage.assertUser("deleteStories");

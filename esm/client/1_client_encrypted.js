@@ -131,9 +131,9 @@ export class ClientEncrypted extends ClientAbstract {
             });
             return;
         }
-        return await new Promise((resolve, reject) => {
+        return (await new Promise((resolve, reject) => {
             __classPrivateFieldGet(this, _ClientEncrypted_promises, "f").set(messageId, { container, message: message__, resolve, reject, call: function_ });
-        }).then((v) => v);
+        }));
     }
 }
 _ClientEncrypted_authKey = new WeakMap(), _ClientEncrypted_authKeyId = new WeakMap(), _ClientEncrypted_sessionId = new WeakMap(), _ClientEncrypted_state = new WeakMap(), _ClientEncrypted_toAcknowledge = new WeakMap(), _ClientEncrypted_recentAcks = new WeakMap(), _ClientEncrypted_promises = new WeakMap(), _ClientEncrypted_L = new WeakMap(), _ClientEncrypted_LreceiveLoop = new WeakMap(), _ClientEncrypted_Linvoke = new WeakMap(), _ClientEncrypted_instances = new WeakSet(), _ClientEncrypted_nextMessageId = function _ClientEncrypted_nextMessageId() {

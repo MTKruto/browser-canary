@@ -182,7 +182,7 @@ _VideoChatManager_c = new WeakMap(), _VideoChatManager_instances = new WeakSet()
     let groupCall = await __classPrivateFieldGet(this, _VideoChatManager_c, "f").storage.getGroupCall(BigInt(id));
     if (groupCall == null) {
         const call = await __classPrivateFieldGet(this, _VideoChatManager_instances, "m", _VideoChatManager_getInputGroupCall).call(this, id);
-        groupCall = await __classPrivateFieldGet(this, _VideoChatManager_c, "f").invoke({ _: "phone.getGroupCall", call, limit: 1 }).then((v) => v.call);
+        groupCall = (await __classPrivateFieldGet(this, _VideoChatManager_c, "f").invoke({ _: "phone.getGroupCall", call, limit: 1 })).call;
     }
     return groupCall;
 };

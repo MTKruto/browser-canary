@@ -258,7 +258,7 @@ class StorageOperations {
     async deleteMessages() {
         const maybePromises = new Array();
         for await (const [k, o] of await __classPrivateFieldGet(this, _StorageOperations_storage, "f").getMany({ prefix: exports.K.messages.allMessageRefs() })) {
-            maybePromises.push(Promise.all([__classPrivateFieldGet(this, _StorageOperations_storage, "f").set(k, null), o == null ? Promise.resolve() : __classPrivateFieldGet(this, _StorageOperations_storage, "f").set(exports.K.messages.message(o, k[1]), null)]).then(() => { }));
+            maybePromises.push(Promise.all([__classPrivateFieldGet(this, _StorageOperations_storage, "f").set(k, null), o == null ? Promise.resolve() : __classPrivateFieldGet(this, _StorageOperations_storage, "f").set(exports.K.messages.message(o, k[1]), null)]));
         }
         await Promise.all(maybePromises.filter((v) => v instanceof Promise));
     }
@@ -496,7 +496,7 @@ class StorageOperations {
     }
     async getFirstUpdate(boxId) {
         for await (const [key, update] of await __classPrivateFieldGet(this, _StorageOperations_storage, "f").getMany({ prefix: exports.K.updates.updates(boxId) }, { limit: 1 })) {
-            return [key, await this.getTlObject(update).then((v) => v)];
+            return [key, (await this.getTlObject(update))];
         }
         return null;
     }
@@ -599,7 +599,7 @@ class StorageOperations {
 exports.StorageOperations = StorageOperations;
 _StorageOperations_storage = new WeakMap(), _StorageOperations_supportsFiles = new WeakMap(), _StorageOperations_mustSerialize = new WeakMap(), _StorageOperations_authKeyId = new WeakMap(), _StorageOperations_accountId = new WeakMap(), _StorageOperations_accountType = new WeakMap(), _StorageOperations_instances = new WeakSet(), _StorageOperations_resetAuthKeyId = async function _StorageOperations_resetAuthKeyId(authKey) {
     if (authKey != null) {
-        __classPrivateFieldSet(this, _StorageOperations_authKeyId, await (0, _1_utilities_js_1.sha1)(authKey).then((hash) => (0, _1_utilities_js_1.bigIntFromBuffer)(hash.subarray(-8), true, false)), "f");
+        __classPrivateFieldSet(this, _StorageOperations_authKeyId, (0, _1_utilities_js_1.bigIntFromBuffer)((await (0, _1_utilities_js_1.sha1)(authKey)).subarray(-8), true, false), "f");
     }
     else {
         __classPrivateFieldSet(this, _StorageOperations_authKeyId, null, "f");
