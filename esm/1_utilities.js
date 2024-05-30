@@ -17,6 +17,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
+import "./_dnt.polyfills.js";
 export * from "./utilities/0_bigint.js";
 export * from "./utilities/0_buffer.js";
 export * from "./utilities/0_cache_map.js";

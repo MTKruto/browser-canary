@@ -20,10 +20,13 @@
 export declare class MtkrutoError extends Error {
 }
 export declare class ConnectionError extends MtkrutoError {
+    constructor(...args: ConstructorParameters<typeof Error>);
 }
 export declare class AccessError extends MtkrutoError {
+    constructor(...args: ConstructorParameters<typeof Error>);
 }
 export declare class InputError extends MtkrutoError {
+    constructor(...args: ConstructorParameters<typeof Error>);
 }
 export declare class TransportError extends MtkrutoError {
     readonly code: number;

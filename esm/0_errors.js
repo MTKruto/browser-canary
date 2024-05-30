@@ -20,10 +20,22 @@
 export class MtkrutoError extends Error {
 }
 export class ConnectionError extends MtkrutoError {
+    constructor(...args) {
+        super(...args);
+        this.name = "ConnectionError";
+    }
 }
 export class AccessError extends MtkrutoError {
+    constructor(...args) {
+        super(...args);
+        this.name = "AccessError";
+    }
 }
 export class InputError extends MtkrutoError {
+    constructor(...args) {
+        super(...args);
+        this.name = "InputError";
+    }
 }
 export class TransportError extends MtkrutoError {
     constructor(code) {
@@ -34,5 +46,6 @@ export class TransportError extends MtkrutoError {
             writable: true,
             value: code
         });
+        this.name = "TransportError";
     }
 }

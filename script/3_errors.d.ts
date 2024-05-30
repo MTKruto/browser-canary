@@ -26,7 +26,6 @@ export interface TelegramErrorParams {
     call: Api.AnyObject;
 }
 export declare class TelegramError extends MtkrutoError {
-    call: Api.AnyObject;
     errorCode: number;
     errorMessage: string;
     constructor(params: TelegramErrorParams);

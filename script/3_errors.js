@@ -49,12 +49,6 @@ __exportStar(require("./0_errors.js"), exports);
 class TelegramError extends _0_errors_js_1.MtkrutoError {
     constructor(params) {
         super(`${params.error_code}: ${params.error_message} (${params.call._})`);
-        Object.defineProperty(this, "call", {
-            enumerable: true,
-            configurable: true,
-            writable: true,
-            value: void 0
-        });
         Object.defineProperty(this, "errorCode", {
             enumerable: true,
             configurable: true,
@@ -67,9 +61,10 @@ class TelegramError extends _0_errors_js_1.MtkrutoError {
             writable: true,
             value: void 0
         });
+        this.name = "TelegramError";
         this.errorCode = params.error_code;
         this.errorMessage = params.error_message;
-        this.call = params.call;
+        this.cause = params.call;
     }
 }
 exports.TelegramError = TelegramError;
