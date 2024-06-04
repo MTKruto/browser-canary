@@ -317,7 +317,7 @@ export interface UpdateMap {
     videoChat: UpdateVideoChat;
 }
 /** @unlisted */
-export type UpdateIntersection<T> = T & Partial<UpdateConnectionState & UpdateAuthorizationState & UpdateNewMessage & UpdateEditedMessage & UpdateDeletedMessages & UpdateCallbackQuery & UpdateInlineQuery & UpdateChosenInlineResult & UpdateNewChat & UpdateEditedChat & UpdateDeletedChat & UpdateMessageInteractions & UpdateMessageReactionCount & UpdateMessageReactions & UpdateChatMember & UpdateMyChatMember & UpdateDeletedStory & UpdateNewStory & UpdateBusinessConnection & UpdateVideoChat>;
+export type UpdateIntersection = Partial<UpdateConnectionState & UpdateAuthorizationState & UpdateNewMessage & UpdateEditedMessage & UpdateDeletedMessages & UpdateCallbackQuery & UpdateInlineQuery & UpdateChosenInlineResult & UpdateNewChat & UpdateEditedChat & UpdateDeletedChat & UpdateMessageInteractions & UpdateMessageReactionCount & UpdateMessageReactions & UpdateChatMember & UpdateMyChatMember & UpdateDeletedStory & UpdateNewStory & UpdateBusinessConnection & UpdateVideoChat>;
 /** An incoming update. */
 export type Update = UpdateConnectionState | UpdateAuthorizationState | UpdateNewMessage | UpdateEditedMessage | UpdateDeletedMessages | UpdateCallbackQuery | UpdateInlineQuery | UpdateChosenInlineResult | UpdateNewChat | UpdateEditedChat | UpdateDeletedChat | UpdateMessageInteractions | UpdateMessageReactionCount | UpdateMessageReactions | UpdateChatMember | UpdateMyChatMember | UpdateDeletedStory | UpdateNewStory | UpdateBusinessConnection | UpdateVideoChat;
 //# sourceMappingURL=6_update.d.ts.map
