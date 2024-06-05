@@ -30,6 +30,7 @@ var __classPrivateFieldGet = (this && this.__classPrivateFieldGet) || function (
 };
 var _TransportAbridged_initialized, _TransportAbridged_connection, _TransportAbridged_obfuscated;
 import { concat } from "../0_deps.js";
+import { ConnectionError } from "../0_errors.js";
 import { bufferFromBigInt } from "../1_utilities.js";
 import { getObfuscationParameters } from "./0_obfuscation.js";
 import { Transport } from "./0_transport.js";
@@ -51,9 +52,6 @@ export class TransportAbridged extends Transport {
                 await __classPrivateFieldGet(this, _TransportAbridged_connection, "f").write(new Uint8Array([0xEF]));
             }
             __classPrivateFieldSet(this, _TransportAbridged_initialized, true, "f");
-        }
-        else {
-            throw new Error("Transport already initialized");
         }
     }
     async receive() {
@@ -81,7 +79,7 @@ export class TransportAbridged extends Transport {
     }
     async send(buffer) {
         if (!this.initialized) {
-            throw new Error("Transport not initialized");
+            throw new ConnectionError("Transport not initialized");
         }
         const bufferLength = buffer.length / 4;
         const header = new Uint8Array([bufferLength >= 0x7F ? 0x7F : bufferLength]);

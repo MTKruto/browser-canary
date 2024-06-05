@@ -28,10 +28,10 @@ var __classPrivateFieldGet = (this && this.__classPrivateFieldGet) || function (
     if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot read private member from an object whose class did not declare it");
     return kind === "m" ? f : kind === "a" ? f.call(receiver) : f ? f.value : state.get(receiver);
 };
-var _Client_instances, _a, _Client_client, _Client_guaranteeUpdateDelivery, _Client_updateManager, _Client_networkStatisticsManager, _Client_botInfoManager, _Client_fileManager, _Client_reactionManager, _Client_videoChatManager, _Client_businessConnectionManager, _Client_messageManager, _Client_storyManager, _Client_callbackQueryManager, _Client_inlineQueryManager, _Client_chatListManager, _Client_accountManager, _Client_storage_, _Client_messageStorage_, _Client_parseMode, _Client_apiId, _Client_apiHash, _Client_publicKeys, _Client_ignoreOutgoing, _Client_persistCache, _Client_cdn, _Client_LsignIn, _Client_LpingLoop, _Client_LhandleMigrationError, _Client_L$initConncetion, _Client_getApiId, _Client_getCdnConnectionPool, _Client_getCdnConnection, _Client_constructContext, _Client_propagateConnectionState, _Client_lastPropagatedConnectionState, _Client_stateChangeHandler, _Client_storageInited, _Client_initStorage, _Client_connectionInited, _Client_lastPropagatedAuthorizationState, _Client_propagateAuthorizationState, _Client_getSelfId, _Client_pingLoopStarted, _Client_pingLoopAbortController, _Client_pingInterval, _Client_lastUpdates, _Client_startPingLoop, _Client_pingLoop, _Client_invoke, _Client_handleInvokeError, _Client_getUserAccessHash, _Client_getChannelAccessHash, _Client_getInputPeerInner, _Client_handleCtxUpdate, _Client_queueHandleCtxUpdate, _Client_handleUpdate, _Client_lastGetMe, _Client_getMe;
+var _Client_instances, _a, _Client_client, _Client_guaranteeUpdateDelivery, _Client_updateManager, _Client_networkStatisticsManager, _Client_botInfoManager, _Client_fileManager, _Client_reactionManager, _Client_videoChatManager, _Client_businessConnectionManager, _Client_messageManager, _Client_storyManager, _Client_callbackQueryManager, _Client_inlineQueryManager, _Client_chatListManager, _Client_accountManager, _Client_storage_, _Client_messageStorage_, _Client_parseMode, _Client_apiId, _Client_apiHash, _Client_publicKeys, _Client_ignoreOutgoing, _Client_persistCache, _Client_cdn, _Client_LsignIn, _Client_LpingLoop, _Client_LhandleMigrationError, _Client_L$initConncetion, _Client_getApiId, _Client_getCdnConnectionPool, _Client_getCdnConnection, _Client_constructContext, _Client_propagateConnectionState, _Client_lastPropagatedConnectionState, _Client_stateChangeHandler, _Client_storageInited, _Client_initStorage, _Client_connectMutex, _Client_lastConnect, _Client_connectionInited, _Client_lastPropagatedAuthorizationState, _Client_propagateAuthorizationState, _Client_getSelfId, _Client_pingLoopStarted, _Client_pingLoopAbortController, _Client_pingInterval, _Client_lastUpdates, _Client_startPingLoop, _Client_pingLoop, _Client_invoke, _Client_handleInvokeError, _Client_getUserAccessHash, _Client_getChannelAccessHash, _Client_getInputPeerInner, _Client_handleCtxUpdate, _Client_queueHandleCtxUpdate, _Client_handleUpdate, _Client_lastGetMe, _Client_getMe;
 import { unreachable } from "../0_deps.js";
-import { AccessError, InputError } from "../0_errors.js";
-import { cleanObject, drop, getLogger, getRandomId, minute, mustPrompt, mustPromptOneOf, second, ZERO_CHANNEL_ID } from "../1_utilities.js";
+import { AccessError, ConnectionError, InputError } from "../0_errors.js";
+import { cleanObject, drop, getLogger, getRandomId, minute, mustPrompt, mustPromptOneOf, Mutex, second, ZERO_CHANNEL_ID } from "../1_utilities.js";
 import { as, chatIdToPeerId, getChatIdPeerType, is, peerToChatId } from "../2_tl.js";
 import { StorageMemory } from "../2_storage.js";
 import { constructUser } from "../3_types.js";
@@ -507,6 +507,8 @@ export class Client extends Composer {
             }
         }).bind(this));
         _Client_storageInited.set(this, false);
+        _Client_connectMutex.set(this, new Mutex());
+        _Client_lastConnect.set(this, null);
         _Client_connectionInited.set(this, false);
         _Client_lastPropagatedAuthorizationState.set(this, null);
         _Client_pingLoopStarted.set(this, false);
@@ -560,13 +562,7 @@ export class Client extends Composer {
                         await __classPrivateFieldGet(this, _Client_updateManager, "f").recoverUpdateGap(source);
                         break;
                     case "decryption":
-                        try {
-                            await this.disconnect();
-                        }
-                        catch {
-                            //
-                        }
-                        await this.connect();
+                        await this.reconnect();
                         await __classPrivateFieldGet(this, _Client_updateManager, "f").recoverUpdateGap(source);
                         break;
                 }
@@ -651,51 +647,65 @@ export class Client extends Composer {
             transport.connection.callback = __classPrivateFieldGet(this, _Client_networkStatisticsManager, "f").getTransportReadWriteCallback();
             return transport;
         };
-        if (params?.defaultHandlers ?? true) {
-            let reconnecting = false;
-            let lastReconnection = null;
-            this.on("connectionState", ({ connectionState }, next) => {
-                if (connectionState != "notConnected") {
-                    return;
-                }
-                if (this.disconnected) {
-                    L.debug("not reconnecting");
-                    return;
-                }
-                if (reconnecting) {
-                    return;
-                }
-                reconnecting = true;
-                drop((async () => {
+        this.invoke.use(async ({ error }, next) => {
+            if (error instanceof ConnectionError) {
+                while (!this.connected) {
+                    if (this.disconnected) {
+                        return next();
+                    }
                     try {
-                        let delay = 5;
-                        if (lastReconnection != null && Date.now() - lastReconnection.getTime() <= 10 * second) {
-                            await new Promise((r) => setTimeout(r, delay * second));
-                        }
-                        while (!this.connected) {
-                            L.debug("reconnecting");
-                            try {
-                                await this.connect();
-                                lastReconnection = new Date();
-                                L.debug("reconnected");
-                                drop(__classPrivateFieldGet(this, _Client_updateManager, "f").recoverUpdateGap("reconnect"));
-                                break;
-                            }
-                            catch (err) {
-                                if (delay < 15) {
-                                    delay += 5;
-                                }
-                                L.debug(`failed to reconnect, retrying in ${delay}:`, err);
-                            }
-                            await new Promise((r) => setTimeout(r, delay * second));
-                        }
+                        await this.connect();
                     }
-                    finally {
-                        reconnecting = false;
+                    catch {
+                        //
                     }
-                })());
+                }
+                return true;
+            }
+            else {
                 return next();
-            });
+            }
+        });
+        let reconnecting = false;
+        this.on("connectionState", ({ connectionState }, next) => {
+            if (connectionState != "notConnected") {
+                return next();
+            }
+            if (this.disconnected) {
+                L.debug("not reconnecting");
+                return next();
+            }
+            if (reconnecting) {
+                return next();
+            }
+            reconnecting = true;
+            drop((async () => {
+                try {
+                    let delay = 5;
+                    while (!this.connected) {
+                        L.debug("reconnecting");
+                        try {
+                            await this.connect();
+                            L.debug("reconnected");
+                            drop(__classPrivateFieldGet(this, _Client_updateManager, "f").recoverUpdateGap("reconnect"));
+                            break;
+                        }
+                        catch (err) {
+                            if (delay < 15) {
+                                delay += 5;
+                            }
+                            L.debug(`failed to reconnect, retrying in ${delay}:`, err);
+                        }
+                        await new Promise((r) => setTimeout(r, delay * second));
+                    }
+                }
+                finally {
+                    reconnecting = false;
+                }
+            })());
+            return next();
+        });
+        if (params?.defaultHandlers ?? true) {
             this.invoke.use(async ({ error }, next) => {
                 if (error instanceof FloodWait && error.seconds <= 10) {
                     L.warning("sleeping for", error.seconds, "because of:", error);
@@ -736,39 +746,51 @@ export class Client extends Composer {
      * Before establishing the connection, the session is saved.
      */
     async connect() {
-        await __classPrivateFieldGet(this, _Client_instances, "m", _Client_initStorage).call(this);
-        const [authKey, dc] = await Promise.all([this.storage.getAuthKey(), this.storage.getDc()]);
-        if (authKey != null && dc != null) {
-            await __classPrivateFieldGet(this, _Client_client, "f").setAuthKey(authKey);
-            __classPrivateFieldGet(this, _Client_client, "f").setDc(dc);
-            if (__classPrivateFieldGet(this, _Client_client, "f").serverSalt == 0n) {
-                __classPrivateFieldGet(this, _Client_client, "f").serverSalt = await this.storage.getServerSalt() ?? 0n;
-            }
+        const unlock = await __classPrivateFieldGet(this, _Client_connectMutex, "f").lock();
+        if (this.connected) {
+            return;
         }
-        else {
-            const plain = new ClientPlain({ initialDc: __classPrivateFieldGet(this, _Client_client, "f").initialDc, transportProvider: __classPrivateFieldGet(this, _Client_client, "f").transportProvider, cdn: __classPrivateFieldGet(this, _Client_client, "f").cdn, publicKeys: __classPrivateFieldGet(this, _Client_publicKeys, "f") });
-            const dc = await this.storage.getDc();
-            if (dc != null) {
-                plain.setDc(dc);
+        if (__classPrivateFieldGet(this, _Client_lastConnect, "f") != null && Date.now() - __classPrivateFieldGet(this, _Client_lastConnect, "f").getTime() <= 10 * second) {
+            await new Promise((r) => setTimeout(r, 3 * second));
+        }
+        try {
+            await __classPrivateFieldGet(this, _Client_instances, "m", _Client_initStorage).call(this);
+            const [authKey, dc] = await Promise.all([this.storage.getAuthKey(), this.storage.getDc()]);
+            if (authKey != null && dc != null) {
+                await __classPrivateFieldGet(this, _Client_client, "f").setAuthKey(authKey);
                 __classPrivateFieldGet(this, _Client_client, "f").setDc(dc);
+                if (__classPrivateFieldGet(this, _Client_client, "f").serverSalt == 0n) {
+                    __classPrivateFieldGet(this, _Client_client, "f").serverSalt = await this.storage.getServerSalt() ?? 0n;
+                }
             }
-            await plain.connect();
-            const [authKey, serverSalt] = await plain.createAuthKey();
-            drop(plain.disconnect());
-            await __classPrivateFieldGet(this, _Client_client, "f").setAuthKey(authKey);
-            __classPrivateFieldGet(this, _Client_client, "f").serverSalt = serverSalt;
+            else {
+                const plain = new ClientPlain({ initialDc: __classPrivateFieldGet(this, _Client_client, "f").initialDc, transportProvider: __classPrivateFieldGet(this, _Client_client, "f").transportProvider, cdn: __classPrivateFieldGet(this, _Client_client, "f").cdn, publicKeys: __classPrivateFieldGet(this, _Client_publicKeys, "f") });
+                const dc = await this.storage.getDc();
+                if (dc != null) {
+                    plain.setDc(dc);
+                    __classPrivateFieldGet(this, _Client_client, "f").setDc(dc);
+                }
+                await plain.connect();
+                const [authKey, serverSalt] = await plain.createAuthKey();
+                drop(plain.disconnect());
+                await __classPrivateFieldGet(this, _Client_client, "f").setAuthKey(authKey);
+                __classPrivateFieldGet(this, _Client_client, "f").serverSalt = serverSalt;
+            }
+            await __classPrivateFieldGet(this, _Client_client, "f").connect();
+            __classPrivateFieldSet(this, _Client_lastConnect, new Date(), "f");
+            await Promise.all([this.storage.setAuthKey(__classPrivateFieldGet(this, _Client_client, "f").authKey), this.storage.setDc(__classPrivateFieldGet(this, _Client_client, "f").dc), this.storage.setServerSalt(__classPrivateFieldGet(this, _Client_client, "f").serverSalt)]);
         }
-        await __classPrivateFieldGet(this, _Client_client, "f").connect();
-        await Promise.all([this.storage.setAuthKey(__classPrivateFieldGet(this, _Client_client, "f").authKey), this.storage.setDc(__classPrivateFieldGet(this, _Client_client, "f").dc), this.storage.setServerSalt(__classPrivateFieldGet(this, _Client_client, "f").serverSalt)]);
+        finally {
+            unlock();
+        }
     }
     async reconnect(dc) {
-        await this.disconnect();
         if (dc) {
             await this.setDc(dc);
         }
-        await this.connect();
+        await __classPrivateFieldGet(this, _Client_client, "f").reconnect();
     }
-    async [(_Client_client = new WeakMap(), _Client_guaranteeUpdateDelivery = new WeakMap(), _Client_updateManager = new WeakMap(), _Client_networkStatisticsManager = new WeakMap(), _Client_botInfoManager = new WeakMap(), _Client_fileManager = new WeakMap(), _Client_reactionManager = new WeakMap(), _Client_videoChatManager = new WeakMap(), _Client_businessConnectionManager = new WeakMap(), _Client_messageManager = new WeakMap(), _Client_storyManager = new WeakMap(), _Client_callbackQueryManager = new WeakMap(), _Client_inlineQueryManager = new WeakMap(), _Client_chatListManager = new WeakMap(), _Client_accountManager = new WeakMap(), _Client_storage_ = new WeakMap(), _Client_messageStorage_ = new WeakMap(), _Client_parseMode = new WeakMap(), _Client_apiId = new WeakMap(), _Client_apiHash = new WeakMap(), _Client_publicKeys = new WeakMap(), _Client_ignoreOutgoing = new WeakMap(), _Client_persistCache = new WeakMap(), _Client_cdn = new WeakMap(), _Client_LsignIn = new WeakMap(), _Client_LpingLoop = new WeakMap(), _Client_LhandleMigrationError = new WeakMap(), _Client_L$initConncetion = new WeakMap(), _Client_constructContext = new WeakMap(), _Client_lastPropagatedConnectionState = new WeakMap(), _Client_stateChangeHandler = new WeakMap(), _Client_storageInited = new WeakMap(), _Client_connectionInited = new WeakMap(), _Client_lastPropagatedAuthorizationState = new WeakMap(), _Client_pingLoopStarted = new WeakMap(), _Client_pingLoopAbortController = new WeakMap(), _Client_pingInterval = new WeakMap(), _Client_lastUpdates = new WeakMap(), _Client_handleInvokeError = new WeakMap(), _Client_lastGetMe = new WeakMap(), _Client_instances = new WeakSet(), _Client_getApiId = async function _Client_getApiId() {
+    async [(_Client_client = new WeakMap(), _Client_guaranteeUpdateDelivery = new WeakMap(), _Client_updateManager = new WeakMap(), _Client_networkStatisticsManager = new WeakMap(), _Client_botInfoManager = new WeakMap(), _Client_fileManager = new WeakMap(), _Client_reactionManager = new WeakMap(), _Client_videoChatManager = new WeakMap(), _Client_businessConnectionManager = new WeakMap(), _Client_messageManager = new WeakMap(), _Client_storyManager = new WeakMap(), _Client_callbackQueryManager = new WeakMap(), _Client_inlineQueryManager = new WeakMap(), _Client_chatListManager = new WeakMap(), _Client_accountManager = new WeakMap(), _Client_storage_ = new WeakMap(), _Client_messageStorage_ = new WeakMap(), _Client_parseMode = new WeakMap(), _Client_apiId = new WeakMap(), _Client_apiHash = new WeakMap(), _Client_publicKeys = new WeakMap(), _Client_ignoreOutgoing = new WeakMap(), _Client_persistCache = new WeakMap(), _Client_cdn = new WeakMap(), _Client_LsignIn = new WeakMap(), _Client_LpingLoop = new WeakMap(), _Client_LhandleMigrationError = new WeakMap(), _Client_L$initConncetion = new WeakMap(), _Client_constructContext = new WeakMap(), _Client_lastPropagatedConnectionState = new WeakMap(), _Client_stateChangeHandler = new WeakMap(), _Client_storageInited = new WeakMap(), _Client_connectMutex = new WeakMap(), _Client_lastConnect = new WeakMap(), _Client_connectionInited = new WeakMap(), _Client_lastPropagatedAuthorizationState = new WeakMap(), _Client_pingLoopStarted = new WeakMap(), _Client_pingLoopAbortController = new WeakMap(), _Client_pingInterval = new WeakMap(), _Client_lastUpdates = new WeakMap(), _Client_handleInvokeError = new WeakMap(), _Client_lastGetMe = new WeakMap(), _Client_instances = new WeakSet(), _Client_getApiId = async function _Client_getApiId() {
         const apiId = __classPrivateFieldGet(this, _Client_apiId, "f") || await this.storage.getApiId();
         if (!apiId) {
             throw new InputError("apiId not set");

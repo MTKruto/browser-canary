@@ -33,6 +33,7 @@ var _TransportAbridged_initialized, _TransportAbridged_connection, _TransportAbr
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.TransportAbridged = void 0;
 const _0_deps_js_1 = require("../0_deps.js");
+const _0_errors_js_1 = require("../0_errors.js");
 const _1_utilities_js_1 = require("../1_utilities.js");
 const _0_obfuscation_js_1 = require("./0_obfuscation.js");
 const _0_transport_js_1 = require("./0_transport.js");
@@ -54,9 +55,6 @@ class TransportAbridged extends _0_transport_js_1.Transport {
                 await __classPrivateFieldGet(this, _TransportAbridged_connection, "f").write(new Uint8Array([0xEF]));
             }
             __classPrivateFieldSet(this, _TransportAbridged_initialized, true, "f");
-        }
-        else {
-            throw new Error("Transport already initialized");
         }
     }
     async receive() {
@@ -84,7 +82,7 @@ class TransportAbridged extends _0_transport_js_1.Transport {
     }
     async send(buffer) {
         if (!this.initialized) {
-            throw new Error("Transport not initialized");
+            throw new _0_errors_js_1.ConnectionError("Transport not initialized");
         }
         const bufferLength = buffer.length / 4;
         const header = new Uint8Array([bufferLength >= 0x7F ? 0x7F : bufferLength]);

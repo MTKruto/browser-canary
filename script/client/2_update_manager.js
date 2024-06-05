@@ -302,6 +302,9 @@ class UpdateManager {
                 }
             }
         }
+        catch (err) {
+            __classPrivateFieldGet(this, _UpdateManager_LrecoverUpdateGap, "f").error(err);
+        }
         finally {
             __classPrivateFieldGet(this, _UpdateManager_c, "f").resetConnectionState();
         }

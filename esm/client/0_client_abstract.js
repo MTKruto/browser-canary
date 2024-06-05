@@ -9,7 +9,7 @@ var __classPrivateFieldSet = (this && this.__classPrivateFieldSet) || function (
     if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot write private member to an object whose class did not declare it");
     return (kind === "a" ? f.call(receiver, value) : f ? f.value = value : state.set(receiver, value)), value;
 };
-var _ClientAbstract_dc;
+var _ClientAbstract_dc, _ClientAbstract_disconnected;
 /**
  * MTKruto - Cross-runtime JavaScript library for building Telegram clients
  * Copyright (C) 2023-2024 Roj <https://roj.im/>
@@ -69,6 +69,7 @@ export class ClientAbstract {
             writable: true,
             value: void 0
         });
+        _ClientAbstract_disconnected.set(this, false);
         this.initialDc = params?.initialDc ?? INITIAL_DC;
         this.transportProvider = params?.transportProvider ?? defaultTransportProvider();
         this.cdn = params?.cdn ?? false;
@@ -94,11 +95,13 @@ export class ClientAbstract {
         await initTgCrypto();
         await this.transport.connection.open();
         await this.transport.transport.initialize();
+        __classPrivateFieldSet(this, _ClientAbstract_disconnected, false, "f");
     }
     async reconnect(dc) {
-        await this.disconnect();
+        await this.transport.transport.deinitialize();
+        await this.transport.connection.close();
         if (dc) {
-            await this.setDc(dc);
+            this.setDc(dc);
         }
         await this.connect();
     }
@@ -108,9 +111,10 @@ export class ClientAbstract {
         }
         await this.transport.transport.deinitialize();
         await this.transport.connection.close();
+        __classPrivateFieldSet(this, _ClientAbstract_disconnected, true, "f");
     }
     get disconnected() {
-        return !this.transport?.transport.initialized;
+        return __classPrivateFieldGet(this, _ClientAbstract_disconnected, "f");
     }
 }
-_ClientAbstract_dc = new WeakMap();
+_ClientAbstract_dc = new WeakMap(), _ClientAbstract_disconnected = new WeakMap();
