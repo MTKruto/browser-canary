@@ -103,6 +103,8 @@ class ConnectionTCP {
             hostname: __classPrivateFieldGet(this, _ConnectionTCP_hostname, "f"),
             port: __classPrivateFieldGet(this, _ConnectionTCP_port, "f"),
         });
+        connection.setNoDelay(true);
+        connection.setKeepAlive(true);
         __classPrivateFieldSet(this, _ConnectionTCP_canRead, __classPrivateFieldSet(this, _ConnectionTCP_canWrite, true, "f"), "f");
         this.stateChangeHandler?.(true);
         Promise.resolve().then(async () => {
@@ -159,7 +161,7 @@ class ConnectionTCP {
                     written += wrote;
                 }
                 catch (err) {
-                    if (err instanceof dntShim.Deno.errors.BrokenPipe) {
+                    if (err instanceof dntShim.Deno.errors.BrokenPipe || err instanceof dntShim.Deno.errors.ConnectionReset) {
                         __classPrivateFieldSet(this, _ConnectionTCP_canWrite, false, "f");
                     }
                     if (!this.connected) {
