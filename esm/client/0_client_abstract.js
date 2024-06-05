@@ -98,8 +98,8 @@ export class ClientAbstract {
         __classPrivateFieldSet(this, _ClientAbstract_disconnected, false, "f");
     }
     async reconnect(dc) {
-        await this.transport.transport.deinitialize();
-        await this.transport.connection.close();
+        await this.transport?.transport.deinitialize();
+        await this.transport?.connection.close();
         if (dc) {
             this.setDc(dc);
         }
