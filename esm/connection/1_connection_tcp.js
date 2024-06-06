@@ -135,7 +135,7 @@ export class ConnectionTCP {
                     written += wrote;
                 }
                 catch (err) {
-                    if (err instanceof dntShim.Deno.errors.BrokenPipe || err instanceof dntShim.Deno.errors.ConnectionReset) {
+                    if (err instanceof dntShim.Deno.errors.BrokenPipe || err instanceof dntShim.Deno.errors.ConnectionReset || (err instanceof Error && "code" in err && err.code == "EAGAIN" || err.code == "ECONNRESET")) {
                         __classPrivateFieldSet(this, _ConnectionTCP_canWrite, false, "f");
                     }
                     if (!this.connected) {
