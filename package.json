@@ -21,7 +21,7 @@
     }
   },
   "dependencies": {
-    "@deno/shim-deno": "~0.18.0"
+    "@deno/shim-deno": "~0.19.2"
   },
   "_generatedBy": "dnt@dev"
 }

@@ -57,6 +57,7 @@ exports.ConnectionTCP = void 0;
  */
 const dntShim = __importStar(require("../_dnt.shims.js"));
 const _0_deps_js_1 = require("../0_deps.js");
+const _0_errors_js_1 = require("../0_errors.js");
 const _1_utilities_js_1 = require("../1_utilities.js");
 const L = (0, _1_utilities_js_1.getLogger)("ConnectionTCP");
 class ConnectionTCP {
@@ -166,6 +167,7 @@ class ConnectionTCP {
                     }
                     if (!this.connected) {
                         this.stateChangeHandler?.(false);
+                        throw new _0_errors_js_1.ConnectionError("Connection was closed");
                     }
                     throw err;
                 }
@@ -186,11 +188,11 @@ class ConnectionTCP {
 exports.ConnectionTCP = ConnectionTCP;
 _ConnectionTCP_hostname = new WeakMap(), _ConnectionTCP_port = new WeakMap(), _ConnectionTCP_connection = new WeakMap(), _ConnectionTCP_rMutex = new WeakMap(), _ConnectionTCP_wMutex = new WeakMap(), _ConnectionTCP_buffer = new WeakMap(), _ConnectionTCP_nextResolve = new WeakMap(), _ConnectionTCP_canRead = new WeakMap(), _ConnectionTCP_canWrite = new WeakMap(), _ConnectionTCP_instances = new WeakSet(), _ConnectionTCP_assertConnected = function _ConnectionTCP_assertConnected() {
     if (!this.connected) {
-        throw new Error("Connection not open");
+        throw new _0_errors_js_1.ConnectionError("Connection not open");
     }
 }, _ConnectionTCP_rejectRead = function _ConnectionTCP_rejectRead() {
     if (__classPrivateFieldGet(this, _ConnectionTCP_nextResolve, "f") != null) {
-        __classPrivateFieldGet(this, _ConnectionTCP_nextResolve, "f")[1].reject(new Error("Connection was closed"));
+        __classPrivateFieldGet(this, _ConnectionTCP_nextResolve, "f")[1].reject(new _0_errors_js_1.ConnectionError("Connection was closed"));
         __classPrivateFieldSet(this, _ConnectionTCP_nextResolve, null, "f");
     }
 };

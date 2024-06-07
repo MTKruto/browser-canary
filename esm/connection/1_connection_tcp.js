@@ -31,6 +31,7 @@ var _ConnectionTCP_instances, _ConnectionTCP_hostname, _ConnectionTCP_port, _Con
  */
 import * as dntShim from "../_dnt.shims.js";
 import { concat, iterateReader } from "../0_deps.js";
+import { ConnectionError } from "../0_errors.js";
 import { getLogger, Mutex } from "../1_utilities.js";
 const L = getLogger("ConnectionTCP");
 export class ConnectionTCP {
@@ -140,6 +141,7 @@ export class ConnectionTCP {
                     }
                     if (!this.connected) {
                         this.stateChangeHandler?.(false);
+                        throw new ConnectionError("Connection was closed");
                     }
                     throw err;
                 }
@@ -159,11 +161,11 @@ export class ConnectionTCP {
 }
 _ConnectionTCP_hostname = new WeakMap(), _ConnectionTCP_port = new WeakMap(), _ConnectionTCP_connection = new WeakMap(), _ConnectionTCP_rMutex = new WeakMap(), _ConnectionTCP_wMutex = new WeakMap(), _ConnectionTCP_buffer = new WeakMap(), _ConnectionTCP_nextResolve = new WeakMap(), _ConnectionTCP_canRead = new WeakMap(), _ConnectionTCP_canWrite = new WeakMap(), _ConnectionTCP_instances = new WeakSet(), _ConnectionTCP_assertConnected = function _ConnectionTCP_assertConnected() {
     if (!this.connected) {
-        throw new Error("Connection not open");
+        throw new ConnectionError("Connection not open");
     }
 }, _ConnectionTCP_rejectRead = function _ConnectionTCP_rejectRead() {
     if (__classPrivateFieldGet(this, _ConnectionTCP_nextResolve, "f") != null) {
-        __classPrivateFieldGet(this, _ConnectionTCP_nextResolve, "f")[1].reject(new Error("Connection was closed"));
+        __classPrivateFieldGet(this, _ConnectionTCP_nextResolve, "f")[1].reject(new ConnectionError("Connection was closed"));
         __classPrivateFieldSet(this, _ConnectionTCP_nextResolve, null, "f");
     }
 };
