@@ -467,7 +467,12 @@ export class MessageManager {
         const parseResult = explanation !== undefined ? await this.parseText(explanation, { parseMode: params?.explanationParseMode, entities: params?.explanationEntities }) : undefined;
         const solution = parseResult === undefined ? undefined : parseResult[0];
         const solutionEntities = parseResult === undefined ? undefined : parseResult[1];
-        const answers = options.map((v, i) => ({ _: "pollAnswer", option: new Uint8Array([i]), text: { _: "textWithEntities", text: v, entities: [] } }));
+        const answers = await Promise.all(options.map(async (v, i) => {
+            const text = typeof v === "string" ? v : v.text;
+            const entities = typeof v === "string" ? [] : v.entities;
+            const parseResult = await this.parseText(text, { parseMode: params?.optionParseMode, entities: entities });
+            return ({ _: "pollAnswer", option: new Uint8Array([i]), text: { _: "textWithEntities", text: parseResult[0], entities: parseResult[1] ?? [] } });
+        }));
         const questionParseResult = await this.parseText(question, { parseMode: params?.questionParseMode, entities: params?.questionEntities });
         const poll = { _: "poll", id: getRandomId(), answers, question: { _: "textWithEntities", text: questionParseResult[0], entities: questionParseResult[1] ?? [] }, closed: params?.isClosed ? true : undefined, close_date: params?.closeDate ? toUnixTimestamp(params.closeDate) : undefined, close_period: params?.openPeriod ? params.openPeriod : undefined, multiple_choice: params?.allowMultipleAnswers ? true : undefined, public_voters: params?.isAnonymous === false ? true : undefined, quiz: params?.type == "quiz" ? true : undefined };
         const media = { _: "inputMediaPoll", poll, correct_answers: params?.correctOptionIndex ? [new Uint8Array([params.correctOptionIndex])] : undefined, solution, solution_entities: solutionEntities };

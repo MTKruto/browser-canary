@@ -18,7 +18,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 import { Api } from "../2_tl.js";
-import { InputMedia } from "../3_types.js";
+import { InputMedia, PollOption } from "../3_types.js";
 import { ChatAction, FileSource, FileType, ID, Message, MessageEntity, ParseMode, Reaction, Update, UsernameResolver } from "../3_types.js";
 import { AddReactionParams, BanChatMemberParams, CreateInviteLinkParams, DeleteMessagesParams, EditMessageLiveLocationParams, EditMessageMediaParams, EditMessageParams, EditMessageReplyMarkupParams, ForwardMessagesParams, GetCreatedInviteLinksParams, GetHistoryParams, PinMessageParams, SearchMessagesParams, SendAnimationParams, SendAudioParams, SendChatActionParams, SendContactParams, SendDiceParams, SendDocumentParams, SendLocationParams, SendMessageParams, SendPhotoParams, SendPollParams, SendStickerParams, SendVenueParams, SendVideoNoteParams, SendVideoParams, SendVoiceParams, SetChatMemberRightsParams, SetChatPhotoParams, SetReactionsParams, StopPollParams } from "./0_params.js";
 import { C as C_ } from "./1_types.js";
@@ -63,7 +63,7 @@ export declare class MessageManager {
         access_hash: bigint;
         file_reference: Uint8Array;
     } | null;
-    sendPoll(chatId: ID, question: string, options: [string, string, ...string[]], params?: SendPollParams): Promise<import("../3_types.js").MessagePoll>;
+    sendPoll(chatId: ID, question: string, options: [string | PollOption, string | PollOption, ...(string | PollOption)[]], params?: SendPollParams): Promise<import("../3_types.js").MessagePoll>;
     editMessageReplyMarkup(chatId: ID, messageId: number, params?: EditMessageReplyMarkupParams): Promise<Message>;
     editInlineMessageReplyMarkup(inlineMessageId: string, params?: EditMessageReplyMarkupParams): Promise<void>;
     editMessageText(chatId: ID, messageId: number, text: string, params?: EditMessageParams): Promise<import("../3_types.js").MessageText>;
