@@ -38,7 +38,6 @@ const _1_document_js_1 = require("./1_document.js");
 const _1_giveaway_js_1 = require("./1_giveaway.js");
 const _1_message_reaction_js_1 = require("./1_message_reaction.js");
 const _1_photo_js_1 = require("./1_photo.js");
-const _1_poll_js_1 = require("./1_poll.js");
 const _1_reply_quote_js_1 = require("./1_reply_quote.js");
 const _1_sticker_js_1 = require("./1_sticker.js");
 const _1_user_js_1 = require("./1_user.js");
@@ -46,6 +45,7 @@ const _1_venue_js_1 = require("./1_venue.js");
 const _1_video_note_js_1 = require("./1_video_note.js");
 const _1_video_js_1 = require("./1_video.js");
 const _2_game_js_1 = require("./2_game.js");
+const _2_poll_js_1 = require("./2_poll.js");
 const _3_reply_markup_js_1 = require("./3_reply_markup.js");
 const L = (0, _1_utilities_js_1.getLogger)("Message");
 const keys = {
@@ -502,7 +502,7 @@ async function constructMessage(message_, getEntity, getMessage, getStickerSetNa
         m = { ...message, game };
     }
     else if ((0, _2_tl_js_1.is)("messageMediaPoll", message_.media)) {
-        const poll = (0, _1_poll_js_1.constructPoll)(message_.media);
+        const poll = (0, _2_poll_js_1.constructPoll)(message_.media);
         m = { ...message, poll };
     }
     else if ((0, _2_tl_js_1.is)("messageMediaVenue", message_.media)) {

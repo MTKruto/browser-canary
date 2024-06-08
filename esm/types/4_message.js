@@ -35,7 +35,6 @@ import { constructDocument } from "./1_document.js";
 import { constructGiveaway } from "./1_giveaway.js";
 import { constructMessageReaction } from "./1_message_reaction.js";
 import { constructPhoto } from "./1_photo.js";
-import { constructPoll } from "./1_poll.js";
 import { constructReplyQuote } from "./1_reply_quote.js";
 import { constructSticker } from "./1_sticker.js";
 import { constructUser } from "./1_user.js";
@@ -43,6 +42,7 @@ import { constructVenue } from "./1_venue.js";
 import { constructVideoNote } from "./1_video_note.js";
 import { constructVideo } from "./1_video.js";
 import { constructGame } from "./2_game.js";
+import { constructPoll } from "./2_poll.js";
 import { constructReplyMarkup } from "./3_reply_markup.js";
 const L = getLogger("Message");
 const keys = {

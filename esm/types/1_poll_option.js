@@ -17,13 +17,11 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-import { Api } from "../2_tl.js";
-/** A poll option. */
-export interface PollOption {
-    /** The option's text (1-100 characters). */
-    text: string;
-    /** Number of users that voted this option. */
-    voterCount: number;
+import { constructMessageEntity } from "./0_message_entity.js";
+export function constructPollOption(option, results) {
+    return {
+        text: option.text.text,
+        entities: option.text.entities?.map(constructMessageEntity).filter((v) => v != null),
+        voterCount: results.find((v) => v.option.every((v, i) => option.option[i] == v))?.voters ?? 0,
+    };
 }
-export declare function constructPollOption(option: Api.PollAnswer, results: Array<Api.PollAnswerVoters>): PollOption;
-//# sourceMappingURL=0_poll_option.d.ts.map

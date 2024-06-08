@@ -33,7 +33,6 @@ import { Document } from "./1_document.js";
 import { Giveaway } from "./1_giveaway.js";
 import { MessageReaction } from "./1_message_reaction.js";
 import { Photo } from "./1_photo.js";
-import { Poll } from "./1_poll.js";
 import { ReplyQuote } from "./1_reply_quote.js";
 import { Sticker, StickerSetNameGetter } from "./1_sticker.js";
 import { User } from "./1_user.js";
@@ -41,6 +40,7 @@ import { Venue } from "./1_venue.js";
 import { VideoNote } from "./1_video_note.js";
 import { Video } from "./1_video.js";
 import { Game } from "./2_game.js";
+import { Poll } from "./2_poll.js";
 import { ReplyMarkup } from "./3_reply_markup.js";
 /**
  * Properties shared between all message types.

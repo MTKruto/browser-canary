@@ -19,13 +19,15 @@
  */
 import { Api } from "../2_tl.js";
 import { MessageEntity } from "./0_message_entity.js";
-import { PollOption } from "./0_poll_option.js";
+import { PollOption } from "./1_poll_option.js";
 /** A poll. */
 export interface Poll {
     /** The identifier of the poll. */
     id: string;
     /** The poll's question. */
     question: string;
+    /** The entities of the poll's question. */
+    questionEntities: MessageEntity[];
     /** The poll's options. */
     options: PollOption[];
     /** The number of users who have participated in the poll. */
@@ -50,4 +52,4 @@ export interface Poll {
     closeDate?: Date;
 }
 export declare function constructPoll(media_: Api.messageMediaPoll): Poll;
-//# sourceMappingURL=1_poll.d.ts.map
+//# sourceMappingURL=2_poll.d.ts.map
