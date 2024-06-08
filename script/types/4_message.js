@@ -27,6 +27,7 @@ const _file_id_js_1 = require("./_file_id.js");
 const _file_id_js_2 = require("./_file_id.js");
 const _0_contact_js_1 = require("./0_contact.js");
 const _0_dice_js_1 = require("./0_dice.js");
+const _0_invoice_js_1 = require("./0_invoice.js");
 const _0_link_preview_js_1 = require("./0_link_preview.js");
 const _0_location_js_1 = require("./0_location.js");
 const _0_message_entity_js_1 = require("./0_message_entity.js");
@@ -63,6 +64,7 @@ const keys = {
     contact: ["contact"],
     game: ["game"],
     poll: ["poll"],
+    invoice: ["invoice"],
     venue: ["venue"],
     location: ["location"],
     newChatMembers: ["newChatMembers"],
@@ -525,6 +527,10 @@ async function constructMessage(message_, getEntity, getMessage, getStickerSetNa
     else if ((0, _2_tl_js_1.is)("messageMediaGiveaway", message_.media)) {
         const giveaway = (0, _1_giveaway_js_1.constructGiveaway)(message_.media);
         m = { ...message, giveaway };
+    }
+    else if ((0, _2_tl_js_1.is)("messageMediaInvoice", message_.media)) {
+        const invoice = (0, _0_invoice_js_1.constructInvoice)(message_.media);
+        m = { ...message, invoice };
     }
     if (m == null) {
         const unsupported = true;

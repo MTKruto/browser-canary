@@ -1537,6 +1537,21 @@ class Client extends Composer {
         return await __classPrivateFieldGet(this, _Client_messageManager, "f").sendPoll(chatId, question, options, params);
     }
     /**
+     * Send an invoice.
+     *
+     * @method ms
+     * @param chatId The chat to send the invoice to.
+     * @param title The invoice's title.
+     * @param description The invoice's description.
+     * @param payload The invoice's payload.
+     * @param currency The invoice's currency.
+     * @param prices The invoice's price tags.
+     * @returns The sent invoice.
+     */
+    async sendInvoice(chatId, title, description, payload, currency, prices, params) {
+        return await __classPrivateFieldGet(this, _Client_messageManager, "f").sendInvoice(chatId, title, description, payload, currency, prices, params);
+    }
+    /**
      * Edit a message's text.
      *
      * @method ms

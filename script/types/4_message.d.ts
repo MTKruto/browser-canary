@@ -22,6 +22,7 @@ import { Api } from "../2_tl.js";
 import { EntityGetter } from "./_getters.js";
 import { Contact } from "./0_contact.js";
 import { Dice } from "./0_dice.js";
+import { Invoice } from "./0_invoice.js";
 import { LinkPreview } from "./0_link_preview.js";
 import { Location } from "./0_location.js";
 import { MessageEntity } from "./0_message_entity.js";
@@ -271,6 +272,17 @@ export interface MessagePoll extends _MessageBase {
      * @discriminator
      */
     poll: Poll;
+}
+/**
+ * An invoice message.
+ * @unlisted
+ */
+export interface MessageInvoice extends _MessageBase {
+    /**
+     * The invoice included in the message
+     * @discriminator
+     */
+    invoice: Invoice;
 }
 /**
  * A venue message.
@@ -542,6 +554,7 @@ export interface MessageTypes {
     contact: MessageContact;
     game: MessageGame;
     poll: MessagePoll;
+    invoice: MessageInvoice;
     venue: MessageVenue;
     location: MessageLocation;
     newChatMembers: MessageNewChatMembers;
@@ -570,7 +583,7 @@ export interface MessageTypes {
 }
 export declare function assertMessageType<T extends keyof MessageTypes>(message: Message, type: T): MessageTypes[T];
 /** Any type of message. */
-export type Message = MessageText | MessageLink | MessagePhoto | MessageDocument | MessageVideo | MessageSticker | MessageAnimation | MessageVoice | MessageAudio | MessageDice | MessageVideoNote | MessageContact | MessageGame | MessagePoll | MessageVenue | MessageLocation | MessageNewChatMembers | MessageLeftChatMember | MessageNewChatTitle | MessageNewChatPhoto | MessageDeletedChatPhoto | MessageGroupCreated | MessageSupergroupCreated | MessageChannelCreated | MessageAutoDeleteTimerChanged | MessageChatMigratedTo | MessageChatMigratedFrom | MessagePinnedMessage | MessageUserShared | MessageWriteAccessAllowed | MessageForumTopicCreated | MessageForumTopicEdited | MessageForumTopicClosed | MessageForumTopicReopened | MessageVideoChatScheduled | MessageVideoChatStarted | MessageVideoChatEnded | MessageGiveaway | MessageUnsupported;
+export type Message = MessageText | MessageLink | MessagePhoto | MessageDocument | MessageVideo | MessageSticker | MessageAnimation | MessageVoice | MessageAudio | MessageDice | MessageVideoNote | MessageContact | MessageGame | MessagePoll | MessageInvoice | MessageVenue | MessageLocation | MessageNewChatMembers | MessageLeftChatMember | MessageNewChatTitle | MessageNewChatPhoto | MessageDeletedChatPhoto | MessageGroupCreated | MessageSupergroupCreated | MessageChannelCreated | MessageAutoDeleteTimerChanged | MessageChatMigratedTo | MessageChatMigratedFrom | MessagePinnedMessage | MessageUserShared | MessageWriteAccessAllowed | MessageForumTopicCreated | MessageForumTopicEdited | MessageForumTopicClosed | MessageForumTopicReopened | MessageVideoChatScheduled | MessageVideoChatStarted | MessageVideoChatEnded | MessageGiveaway | MessageUnsupported;
 /** @unlisted */
 export interface MessageGetter {
     (chatId: number, messageId: number): MaybePromise<Message | null>;

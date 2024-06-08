@@ -50,6 +50,7 @@ __exportStar(require("./types/0_dice.js"), exports);
 __exportStar(require("./types/0_file_source.js"), exports);
 __exportStar(require("./types/0_giveaway_parameters.js"), exports);
 __exportStar(require("./types/0_id.js"), exports);
+__exportStar(require("./types/0_invoice.js"), exports);
 __exportStar(require("./types/0_keyboard_button_poll_type.js"), exports);
 __exportStar(require("./types/0_link_preview.js"), exports);
 __exportStar(require("./types/0_live_stream_channel.js"), exports);

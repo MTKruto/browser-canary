@@ -34,6 +34,7 @@ export * from "./types/0_dice.js";
 export * from "./types/0_file_source.js";
 export * from "./types/0_giveaway_parameters.js";
 export * from "./types/0_id.js";
+export * from "./types/0_invoice.js";
 export * from "./types/0_keyboard_button_poll_type.js";
 export * from "./types/0_link_preview.js";
 export * from "./types/0_live_stream_channel.js";

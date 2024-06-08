@@ -24,6 +24,7 @@ import { FileType, toUniqueFileId } from "./_file_id.js";
 import { serializeFileId } from "./_file_id.js";
 import { constructContact } from "./0_contact.js";
 import { constructDice } from "./0_dice.js";
+import { constructInvoice } from "./0_invoice.js";
 import { constructLinkPreview } from "./0_link_preview.js";
 import { constructLocation } from "./0_location.js";
 import { constructMessageEntity } from "./0_message_entity.js";
@@ -60,6 +61,7 @@ const keys = {
     contact: ["contact"],
     game: ["game"],
     poll: ["poll"],
+    invoice: ["invoice"],
     venue: ["venue"],
     location: ["location"],
     newChatMembers: ["newChatMembers"],
@@ -521,6 +523,10 @@ export async function constructMessage(message_, getEntity, getMessage, getStick
     else if (is("messageMediaGiveaway", message_.media)) {
         const giveaway = constructGiveaway(message_.media);
         m = { ...message, giveaway };
+    }
+    else if (is("messageMediaInvoice", message_.media)) {
+        const invoice = constructInvoice(message_.media);
+        m = { ...message, invoice };
     }
     if (m == null) {
         const unsupported = true;

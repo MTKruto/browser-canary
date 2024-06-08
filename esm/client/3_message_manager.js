@@ -935,6 +935,58 @@ export class MessageManager {
         const id = deserializeInlineMessageId(inlineMessageId);
         await __classPrivateFieldGet(this, _MessageManager_c, "f").invoke({ _: "messages.editInlineBotMessage", id, media: ({ _: "inputMediaGeoLive", geo_point: ({ _: "inputGeoPoint", lat: latitude, long: longitude, accuracy_radius: params?.horizontalAccuracy }), heading: params?.heading, proximity_notification_radius: params?.proximityAlertRadius }), reply_markup: await __classPrivateFieldGet(this, _MessageManager_instances, "m", _MessageManager_constructReplyMarkup).call(this, params) });
     }
+    async sendInvoice(chatId, title, description, payload, currency, prices, params) {
+        if (title.length < 1) {
+            throw new InputError("Invoice title cannot be empty.");
+        }
+        if (description.length < 1) {
+            throw new InputError("Invoice description cannot be empty.");
+        }
+        if (title.length > 32) {
+            throw new InputError("Invoice title is too long.");
+        }
+        if (description.length > 255) {
+            throw new InputError("Invoice description is too long.");
+        }
+        const invoice = {
+            _: "invoice",
+            currency,
+            prices: prices.map((v) => ({ _: "labeledPrice", label: v.label, amount: BigInt(v.amount) })),
+            max_tip_amount: params?.maxTipAmount ? BigInt(params.maxTipAmount) : undefined,
+            suggested_tip_amounts: params?.suggestedTipAmounts?.map(BigInt),
+            name_requested: params?.needName || undefined,
+            phone_requested: params?.needPhoneNumber || undefined,
+            email_requested: params?.needEmail || undefined,
+            shipping_address_requested: params?.needShippingAddress || undefined,
+            email_to_provider: params?.sendEmailToProvider || undefined,
+            phone_to_provider: params?.sendPhoneNumberToProvider || undefined,
+            flexible: params?.flexible || undefined,
+        };
+        const message = await __classPrivateFieldGet(this, _MessageManager_instances, "m", _MessageManager_sendMedia).call(this, chatId, {
+            _: "inputMediaInvoice",
+            title,
+            description,
+            invoice,
+            start_param: params?.startParameter,
+            payload: new TextEncoder().encode(payload),
+            provider_data: { _: "dataJSON", data: params?.providerData ?? "null" },
+            provider: params?.providerToken ?? "",
+            photo: params?.photoUrl
+                ? {
+                    _: "inputWebDocument",
+                    url: params.photoUrl,
+                    size: params.photoSize ?? 0,
+                    mime_type: "image/jpeg", // TODO: guess from URL
+                    attributes: [{
+                            _: "documentAttributeImageSize",
+                            w: params?.photoWidth ?? 0,
+                            h: params?.photoHeight ?? 0,
+                        }],
+                }
+                : undefined,
+        }, params);
+        return assertMessageType(message, "invoice");
+    }
 }
 _MessageManager_c = new WeakMap(), _MessageManager_LresolveFileId = new WeakMap(), _MessageManager_instances = new WeakSet(), _MessageManager_updatesToMessages = async function _MessageManager_updatesToMessages(chatId, updates, businessConnectionId) {
     const messages = new Array();
