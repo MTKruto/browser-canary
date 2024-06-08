@@ -385,7 +385,7 @@ export interface inputMediaInvoice {
     photo?: InputWebDocument;
     invoice: Invoice;
     payload: Uint8Array;
-    provider: string;
+    provider?: string;
     provider_data: DataJSON;
     start_param?: string;
     extended_media?: InputMedia;
@@ -739,6 +739,7 @@ export interface chatFull {
     requests_pending?: number;
     recent_requesters?: Array<bigint>;
     available_reactions?: ChatReactions;
+    reactions_limit?: number;
 }
 export interface channelFull {
     _: "channelFull";
@@ -793,6 +794,7 @@ export interface channelFull {
     recent_requesters?: Array<bigint>;
     default_send_as?: Peer;
     available_reactions?: ChatReactions;
+    reactions_limit?: number;
     stories?: PeerStories;
     wallpaper?: WallPaper;
     boosts_applied?: number;
@@ -879,6 +881,8 @@ export interface message {
     restriction_reason?: Array<RestrictionReason>;
     ttl_period?: number;
     quick_reply_shortcut_id?: number;
+    effect?: bigint;
+    factcheck?: FactCheck;
 }
 export interface messageService {
     _: "messageService";
@@ -1470,6 +1474,7 @@ export interface userFull {
     wallpaper_overridden?: true;
     contact_require_premium?: true;
     read_dates_private?: true;
+    sponsored_enabled?: true;
     id: bigint;
     about?: string;
     settings: PeerSettings;
@@ -2413,6 +2418,21 @@ export interface updateBotDeleteBusinessMessage {
     peer: Peer;
     messages: Array<number>;
     qts: number;
+}
+export interface updateNewStoryReaction {
+    _: "updateNewStoryReaction";
+    story_id: number;
+    peer: Peer;
+    reaction: Reaction;
+}
+export interface updateBroadcastRevenueTransactions {
+    _: "updateBroadcastRevenueTransactions";
+    peer: Peer;
+    balances: BroadcastRevenueBalances;
+}
+export interface updateStarsBalance {
+    _: "updateStarsBalance";
+    balance: bigint;
 }
 export interface updates_state {
     _: "updates.state";
@@ -3541,6 +3561,7 @@ export interface messageEntityCustomEmoji {
 }
 export interface messageEntityBlockquote {
     _: "messageEntityBlockquote";
+    collapsed?: true;
     offset: number;
     length: number;
 }
@@ -3980,9 +4001,18 @@ export interface auth_sentCodeTypeFragmentSms {
 export interface auth_sentCodeTypeFirebaseSms {
     _: "auth.sentCodeTypeFirebaseSms";
     nonce?: Uint8Array;
+    play_integrity_nonce?: Uint8Array;
     receipt?: string;
     push_timeout?: number;
     length: number;
+}
+export interface auth_sentCodeTypeSmsWord {
+    _: "auth.sentCodeTypeSmsWord";
+    beginning?: string;
+}
+export interface auth_sentCodeTypeSmsPhrase {
+    _: "auth.sentCodeTypeSmsPhrase";
+    beginning?: string;
 }
 export interface messages_botCallbackAnswer {
     _: "messages.botCallbackAnswer";
@@ -4539,6 +4569,16 @@ export interface payments_paymentForm {
     saved_credentials?: Array<PaymentSavedCredentials>;
     users: Array<User>;
 }
+export interface payments_paymentFormStars {
+    _: "payments.paymentFormStars";
+    form_id: bigint;
+    bot_id: bigint;
+    title: string;
+    description: string;
+    photo?: WebDocument;
+    invoice: Invoice;
+    users: Array<User>;
+}
 export interface payments_validatedRequestedInfo {
     _: "payments.validatedRequestedInfo";
     id?: string;
@@ -4567,6 +4607,19 @@ export interface payments_paymentReceipt {
     currency: string;
     total_amount: bigint;
     credentials_title: string;
+    users: Array<User>;
+}
+export interface payments_paymentReceiptStars {
+    _: "payments.paymentReceiptStars";
+    date: number;
+    bot_id: bigint;
+    title: string;
+    description: string;
+    photo?: WebDocument;
+    invoice: Invoice;
+    currency: string;
+    total_amount: bigint;
+    transaction_id: string;
     users: Array<User>;
 }
 export interface payments_savedInfo {
@@ -5510,7 +5563,7 @@ export interface help_userInfo {
 }
 export interface pollAnswer {
     _: "pollAnswer";
-    text: string;
+    text: TextWithEntities;
     option: Uint8Array;
 }
 export interface poll {
@@ -5520,7 +5573,7 @@ export interface poll {
     public_voters?: true;
     multiple_choice?: true;
     quiz?: true;
-    question: string;
+    question: TextWithEntities;
     answers: Array<PollAnswer>;
     close_period?: number;
     close_date?: number;
@@ -5619,6 +5672,7 @@ export interface codeSettings {
     allow_app_hash?: true;
     allow_missed_call?: true;
     allow_firebase?: true;
+    unknown_number?: true;
     logout_tokens?: Array<Uint8Array>;
     token?: string;
     app_sandbox?: boolean;
@@ -5842,6 +5896,12 @@ export interface webPageAttributeStory {
     peer: Peer;
     id: number;
     story?: StoryItem;
+}
+export interface webPageAttributeStickerSet {
+    _: "webPageAttributeStickerSet";
+    emojis?: true;
+    text_color?: true;
+    stickers: Array<Document>;
 }
 export interface messages_votesList {
     _: "messages.votesList";
@@ -6330,19 +6390,15 @@ export interface account_resetPasswordOk {
 export interface sponsoredMessage {
     _: "sponsoredMessage";
     recommended?: true;
-    show_peer_photo?: true;
     can_report?: true;
     random_id: Uint8Array;
-    from_id?: Peer;
-    chat_invite?: ChatInvite;
-    chat_invite_hash?: string;
-    channel_post?: number;
-    start_param?: string;
-    webpage?: SponsoredWebPage;
-    app?: BotApp;
+    url: string;
+    title: string;
     message: string;
     entities?: Array<MessageEntity>;
-    button_text?: string;
+    photo?: Photo;
+    color?: PeerColor;
+    button_text: string;
     sponsor_info?: string;
     additional_info?: string;
 }
@@ -6597,6 +6653,10 @@ export interface inputInvoicePremiumGiftCode {
     purpose: InputStorePaymentPurpose;
     option: PremiumGiftCodeOption;
 }
+export interface inputInvoiceStars {
+    _: "inputInvoiceStars";
+    option: StarsTopupOption;
+}
 export interface payments_exportedInvoice {
     _: "payments.exportedInvoice";
     url: string;
@@ -6646,6 +6706,12 @@ export interface inputStorePaymentPremiumGiveaway {
     prize_description?: string;
     random_id: bigint;
     until_date: number;
+    currency: string;
+    amount: bigint;
+}
+export interface inputStorePaymentStars {
+    _: "inputStorePaymentStars";
+    stars: bigint;
     currency: string;
     amount: bigint;
 }
@@ -6862,6 +6928,17 @@ export interface emojiGroup {
     icon_emoji_id: bigint;
     emoticons: Array<string>;
 }
+export interface emojiGroupGreeting {
+    _: "emojiGroupGreeting";
+    title: string;
+    icon_emoji_id: bigint;
+    emoticons: Array<string>;
+}
+export interface emojiGroupPremium {
+    _: "emojiGroupPremium";
+    title: string;
+    icon_emoji_id: bigint;
+}
 export interface messages_emojiGroupsNotModified {
     _: "messages.emojiGroupsNotModified";
 }
@@ -7018,12 +7095,6 @@ export interface messagePeerVoteMultiple {
     options: Array<Uint8Array>;
     date: number;
 }
-export interface sponsoredWebPage {
-    _: "sponsoredWebPage";
-    url: string;
-    site_name: string;
-    photo?: Photo;
-}
 export interface storyViews {
     _: "storyViews";
     has_viewers?: true;
@@ -7087,6 +7158,7 @@ export interface stories_stories {
     _: "stories.stories";
     count: number;
     stories: Array<StoryItem>;
+    pinned_to_top?: Array<number>;
     chats: Array<Chat>;
     users: Array<User>;
 }
@@ -7758,9 +7830,7 @@ export interface stats_broadcastRevenueStats {
     _: "stats.broadcastRevenueStats";
     top_hours_graph: StatsGraph;
     revenue_graph: StatsGraph;
-    current_balance: bigint;
-    available_balance: bigint;
-    overall_revenue: bigint;
+    balances: BroadcastRevenueBalances;
     usd_rate: number;
 }
 export interface stats_broadcastRevenueWithdrawalUrl {
@@ -7793,6 +7863,96 @@ export interface stats_broadcastRevenueTransactions {
     _: "stats.broadcastRevenueTransactions";
     count: number;
     transactions: Array<BroadcastRevenueTransaction>;
+}
+export interface reactionNotificationsFromContacts {
+    _: "reactionNotificationsFromContacts";
+}
+export interface reactionNotificationsFromAll {
+    _: "reactionNotificationsFromAll";
+}
+export interface reactionsNotifySettings {
+    _: "reactionsNotifySettings";
+    messages_notify_from?: ReactionNotificationsFrom;
+    stories_notify_from?: ReactionNotificationsFrom;
+    sound: NotificationSound;
+    show_previews: boolean;
+}
+export interface broadcastRevenueBalances {
+    _: "broadcastRevenueBalances";
+    current_balance: bigint;
+    available_balance: bigint;
+    overall_revenue: bigint;
+}
+export interface availableEffect {
+    _: "availableEffect";
+    premium_required?: true;
+    id: bigint;
+    emoticon: string;
+    static_icon_id?: bigint;
+    effect_sticker_id: bigint;
+    effect_animation_id?: bigint;
+}
+export interface messages_availableEffectsNotModified {
+    _: "messages.availableEffectsNotModified";
+}
+export interface messages_availableEffects {
+    _: "messages.availableEffects";
+    hash: number;
+    effects: Array<AvailableEffect>;
+    documents: Array<Document>;
+}
+export interface factCheck {
+    _: "factCheck";
+    need_check?: true;
+    country?: string;
+    text?: TextWithEntities;
+    hash: bigint;
+}
+export interface starsTransactionPeerUnsupported {
+    _: "starsTransactionPeerUnsupported";
+}
+export interface starsTransactionPeerAppStore {
+    _: "starsTransactionPeerAppStore";
+}
+export interface starsTransactionPeerPlayMarket {
+    _: "starsTransactionPeerPlayMarket";
+}
+export interface starsTransactionPeerPremiumBot {
+    _: "starsTransactionPeerPremiumBot";
+}
+export interface starsTransactionPeerFragment {
+    _: "starsTransactionPeerFragment";
+}
+export interface starsTransactionPeer {
+    _: "starsTransactionPeer";
+    peer: Peer;
+}
+export interface starsTopupOption {
+    _: "starsTopupOption";
+    extended?: true;
+    stars: bigint;
+    store_product?: string;
+    currency: string;
+    amount: bigint;
+}
+export interface starsTransaction {
+    _: "starsTransaction";
+    refund?: true;
+    id: string;
+    stars: bigint;
+    date: number;
+    peer: StarsTransactionPeer;
+    title?: string;
+    description?: string;
+    photo?: WebDocument;
+}
+export interface payments_starsStatus {
+    _: "payments.starsStatus";
+    balance: bigint;
+    history: Array<StarsTransaction>;
+    next_offset?: string;
+    chats: Array<Chat>;
+    users: Array<User>;
 }
 export interface req_pq_multi {
     _: "req_pq_multi";
@@ -7851,6 +8011,18 @@ export interface invokeWithBusinessConnectionPrefix {
     connection_id: string;
     [R]?: Error;
 }
+export interface invokeWithGooglePlayIntegrityPrefix {
+    _: "invokeWithGooglePlayIntegrityPrefix";
+    nonce: string;
+    token: string;
+    [R]?: Error;
+}
+export interface invokeWithApnsSecretPrefix {
+    _: "invokeWithApnsSecretPrefix";
+    nonce: string;
+    secret: string;
+    [R]?: Error;
+}
 export interface invokeAfterMsg<T extends Function> {
     _: "invokeAfterMsg";
     msg_id: bigint;
@@ -7903,6 +8075,20 @@ export interface invokeWithTakeout<T extends Function> {
 export interface invokeWithBusinessConnection<T extends Function> {
     _: "invokeWithBusinessConnection";
     connection_id: string;
+    query: T;
+    [R]?: ReturnType<T>;
+}
+export interface invokeWithGooglePlayIntegrity<T extends Function> {
+    _: "invokeWithGooglePlayIntegrity";
+    nonce: string;
+    token: string;
+    query: T;
+    [R]?: ReturnType<T>;
+}
+export interface invokeWithApnsSecret<T extends Function> {
+    _: "invokeWithApnsSecret";
+    nonce: string;
+    secret: string;
     query: T;
     [R]?: ReturnType<T>;
 }
@@ -7985,6 +8171,7 @@ export interface auth_resendCode {
     _: "auth.resendCode";
     phone_number: string;
     phone_code_hash: string;
+    reason?: string;
     [R]?: auth_SentCode;
 }
 export interface auth_cancelCode {
@@ -8032,6 +8219,7 @@ export interface auth_requestFirebaseSms {
     phone_number: string;
     phone_code_hash: string;
     safety_net_token?: string;
+    play_integrity_token?: string;
     ios_push_secret?: string;
     [R]?: boolean;
 }
@@ -8040,6 +8228,13 @@ export interface auth_resetLoginEmail {
     phone_number: string;
     phone_code_hash: string;
     [R]?: auth_SentCode;
+}
+export interface auth_reportMissingCode {
+    _: "auth.reportMissingCode";
+    phone_number: string;
+    phone_code_hash: string;
+    mnc: string;
+    [R]?: boolean;
 }
 export interface account_registerDevice {
     _: "account.registerDevice";
@@ -8653,6 +8848,20 @@ export interface account_updatePersonalChannel {
     channel: InputChannel;
     [R]?: boolean;
 }
+export interface account_toggleSponsoredMessages {
+    _: "account.toggleSponsoredMessages";
+    enabled: boolean;
+    [R]?: boolean;
+}
+export interface account_getReactionsNotifySettings {
+    _: "account.getReactionsNotifySettings";
+    [R]?: ReactionsNotifySettings;
+}
+export interface account_setReactionsNotifySettings {
+    _: "account.setReactionsNotifySettings";
+    settings: ReactionsNotifySettings;
+    [R]?: ReactionsNotifySettings;
+}
 export interface users_getUsers {
     _: "users.getUsers";
     id: Array<InputUser>;
@@ -8925,6 +9134,7 @@ export interface messages_sendMessage {
     schedule_date?: number;
     send_as?: InputPeer;
     quick_reply_shortcut?: InputQuickReplyShortcut;
+    effect?: bigint;
     [R]?: Updates;
 }
 export interface messages_sendMedia {
@@ -8945,6 +9155,7 @@ export interface messages_sendMedia {
     schedule_date?: number;
     send_as?: InputPeer;
     quick_reply_shortcut?: InputQuickReplyShortcut;
+    effect?: bigint;
     [R]?: Updates;
 }
 export interface messages_forwardMessages {
@@ -9186,6 +9397,7 @@ export interface messages_migrateChat {
 }
 export interface messages_searchGlobal {
     _: "messages.searchGlobal";
+    broadcasts_only?: true;
     folder_id?: number;
     q: string;
     filter: MessagesFilter;
@@ -9514,6 +9726,7 @@ export interface messages_sendMultiMedia {
     schedule_date?: number;
     send_as?: InputPeer;
     quick_reply_shortcut?: InputQuickReplyShortcut;
+    effect?: bigint;
     [R]?: Updates;
 }
 export interface messages_uploadEncryptedFile {
@@ -9922,6 +10135,7 @@ export interface messages_setChatAvailableReactions {
     _: "messages.setChatAvailableReactions";
     peer: InputPeer;
     available_reactions: ChatReactions;
+    reactions_limit?: number;
     [R]?: Updates;
 }
 export interface messages_getAvailableReactions {
@@ -10293,6 +10507,35 @@ export interface messages_getMyStickers {
     offset_id: bigint;
     limit: number;
     [R]?: messages_MyStickers;
+}
+export interface messages_getEmojiStickerGroups {
+    _: "messages.getEmojiStickerGroups";
+    hash: number;
+    [R]?: messages_EmojiGroups;
+}
+export interface messages_getAvailableEffects {
+    _: "messages.getAvailableEffects";
+    hash: number;
+    [R]?: messages_AvailableEffects;
+}
+export interface messages_editFactCheck {
+    _: "messages.editFactCheck";
+    peer: InputPeer;
+    msg_id: number;
+    text: TextWithEntities;
+    [R]?: Updates;
+}
+export interface messages_deleteFactCheck {
+    _: "messages.deleteFactCheck";
+    peer: InputPeer;
+    msg_id: number;
+    [R]?: Updates;
+}
+export interface messages_getFactCheck {
+    _: "messages.getFactCheck";
+    peer: InputPeer;
+    msg_id: Array<number>;
+    [R]?: Array<FactCheck>;
 }
 export interface updates_getState {
     _: "updates.getState";
@@ -10913,7 +11156,7 @@ export interface channels_toggleViewForumAsMessages {
 }
 export interface channels_getChannelRecommendations {
     _: "channels.getChannelRecommendations";
-    channel: InputChannel;
+    channel?: InputChannel;
     [R]?: messages_Chats;
 }
 export interface channels_updateEmojiStatus {
@@ -10946,6 +11189,15 @@ export interface channels_restrictSponsoredMessages {
     channel: InputChannel;
     restricted: boolean;
     [R]?: Updates;
+}
+export interface channels_searchPosts {
+    _: "channels.searchPosts";
+    hashtag: string;
+    offset_rate: number;
+    offset_peer: InputPeer;
+    offset_id: number;
+    limit: number;
+    [R]?: messages_Messages;
 }
 export interface bots_sendCustomRequest {
     _: "bots.sendCustomRequest";
@@ -11136,6 +11388,35 @@ export interface payments_launchPrepaidGiveaway {
     peer: InputPeer;
     giveaway_id: bigint;
     purpose: InputStorePaymentPurpose;
+    [R]?: Updates;
+}
+export interface payments_getStarsTopupOptions {
+    _: "payments.getStarsTopupOptions";
+    [R]?: Array<StarsTopupOption>;
+}
+export interface payments_getStarsStatus {
+    _: "payments.getStarsStatus";
+    peer: InputPeer;
+    [R]?: payments_StarsStatus;
+}
+export interface payments_getStarsTransactions {
+    _: "payments.getStarsTransactions";
+    inbound?: true;
+    outbound?: true;
+    peer: InputPeer;
+    offset: string;
+    [R]?: payments_StarsStatus;
+}
+export interface payments_sendStarsForm {
+    _: "payments.sendStarsForm";
+    form_id: bigint;
+    invoice: InputInvoice;
+    [R]?: payments_PaymentResult;
+}
+export interface payments_refundStarsCharge {
+    _: "payments.refundStarsCharge";
+    user_id: InputUser;
+    charge_id: string;
     [R]?: Updates;
 }
 export interface stickers_createStickerSet {
@@ -11756,6 +12037,12 @@ export interface stories_getStoryReactionsList {
     limit: number;
     [R]?: stories_StoryReactionsList;
 }
+export interface stories_togglePinnedToTop {
+    _: "stories.togglePinnedToTop";
+    peer: InputPeer;
+    id: Array<number>;
+    [R]?: boolean;
+}
 export interface premium_getBoostsList {
     _: "premium.getBoostsList";
     gifts?: true;
@@ -12220,6 +12507,9 @@ export interface Types {
     "updateBotNewBusinessMessage": updateBotNewBusinessMessage;
     "updateBotEditBusinessMessage": updateBotEditBusinessMessage;
     "updateBotDeleteBusinessMessage": updateBotDeleteBusinessMessage;
+    "updateNewStoryReaction": updateNewStoryReaction;
+    "updateBroadcastRevenueTransactions": updateBroadcastRevenueTransactions;
+    "updateStarsBalance": updateStarsBalance;
     "updates.state": updates_state;
     "updates.differenceEmpty": updates_differenceEmpty;
     "updates.difference": updates_difference;
@@ -12491,6 +12781,8 @@ export interface Types {
     "auth.sentCodeTypeSetUpEmailRequired": auth_sentCodeTypeSetUpEmailRequired;
     "auth.sentCodeTypeFragmentSms": auth_sentCodeTypeFragmentSms;
     "auth.sentCodeTypeFirebaseSms": auth_sentCodeTypeFirebaseSms;
+    "auth.sentCodeTypeSmsWord": auth_sentCodeTypeSmsWord;
+    "auth.sentCodeTypeSmsPhrase": auth_sentCodeTypeSmsPhrase;
     "messages.botCallbackAnswer": messages_botCallbackAnswer;
     "messages.messageEditData": messages_messageEditData;
     "inputBotInlineMessageID": inputBotInlineMessageID;
@@ -12595,10 +12887,12 @@ export interface Types {
     "inputWebFileAudioAlbumThumbLocation": inputWebFileAudioAlbumThumbLocation;
     "upload.webFile": upload_webFile;
     "payments.paymentForm": payments_paymentForm;
+    "payments.paymentFormStars": payments_paymentFormStars;
     "payments.validatedRequestedInfo": payments_validatedRequestedInfo;
     "payments.paymentResult": payments_paymentResult;
     "payments.paymentVerificationNeeded": payments_paymentVerificationNeeded;
     "payments.paymentReceipt": payments_paymentReceipt;
+    "payments.paymentReceiptStars": payments_paymentReceiptStars;
     "payments.savedInfo": payments_savedInfo;
     "inputPaymentCredentialsSaved": inputPaymentCredentialsSaved;
     "inputPaymentCredentials": inputPaymentCredentials;
@@ -12828,6 +13122,7 @@ export interface Types {
     "themeSettings": themeSettings;
     "webPageAttributeTheme": webPageAttributeTheme;
     "webPageAttributeStory": webPageAttributeStory;
+    "webPageAttributeStickerSet": webPageAttributeStickerSet;
     "messages.votesList": messages_votesList;
     "bankCardOpenUrl": bankCardOpenUrl;
     "payments.bankCardData": payments_bankCardData;
@@ -12951,6 +13246,7 @@ export interface Types {
     "inputInvoiceMessage": inputInvoiceMessage;
     "inputInvoiceSlug": inputInvoiceSlug;
     "inputInvoicePremiumGiftCode": inputInvoicePremiumGiftCode;
+    "inputInvoiceStars": inputInvoiceStars;
     "payments.exportedInvoice": payments_exportedInvoice;
     "messages.transcribedAudio": messages_transcribedAudio;
     "help.premiumPromo": help_premiumPromo;
@@ -12958,6 +13254,7 @@ export interface Types {
     "inputStorePaymentGiftPremium": inputStorePaymentGiftPremium;
     "inputStorePaymentPremiumGiftCode": inputStorePaymentPremiumGiftCode;
     "inputStorePaymentPremiumGiveaway": inputStorePaymentPremiumGiveaway;
+    "inputStorePaymentStars": inputStorePaymentStars;
     "premiumGiftOption": premiumGiftOption;
     "paymentFormMethod": paymentFormMethod;
     "emojiStatusEmpty": emojiStatusEmpty;
@@ -12998,6 +13295,8 @@ export interface Types {
     "emojiListNotModified": emojiListNotModified;
     "emojiList": emojiList;
     "emojiGroup": emojiGroup;
+    "emojiGroupGreeting": emojiGroupGreeting;
+    "emojiGroupPremium": emojiGroupPremium;
     "messages.emojiGroupsNotModified": messages_emojiGroupsNotModified;
     "messages.emojiGroups": messages_emojiGroups;
     "textWithEntities": textWithEntities;
@@ -13026,7 +13325,6 @@ export interface Types {
     "messagePeerVote": messagePeerVote;
     "messagePeerVoteInputOption": messagePeerVoteInputOption;
     "messagePeerVoteMultiple": messagePeerVoteMultiple;
-    "sponsoredWebPage": sponsoredWebPage;
     "storyViews": storyViews;
     "storyItemDeleted": storyItemDeleted;
     "storyItemSkipped": storyItemSkipped;
@@ -13145,6 +13443,23 @@ export interface Types {
     "broadcastRevenueTransactionWithdrawal": broadcastRevenueTransactionWithdrawal;
     "broadcastRevenueTransactionRefund": broadcastRevenueTransactionRefund;
     "stats.broadcastRevenueTransactions": stats_broadcastRevenueTransactions;
+    "reactionNotificationsFromContacts": reactionNotificationsFromContacts;
+    "reactionNotificationsFromAll": reactionNotificationsFromAll;
+    "reactionsNotifySettings": reactionsNotifySettings;
+    "broadcastRevenueBalances": broadcastRevenueBalances;
+    "availableEffect": availableEffect;
+    "messages.availableEffectsNotModified": messages_availableEffectsNotModified;
+    "messages.availableEffects": messages_availableEffects;
+    "factCheck": factCheck;
+    "starsTransactionPeerUnsupported": starsTransactionPeerUnsupported;
+    "starsTransactionPeerAppStore": starsTransactionPeerAppStore;
+    "starsTransactionPeerPlayMarket": starsTransactionPeerPlayMarket;
+    "starsTransactionPeerPremiumBot": starsTransactionPeerPremiumBot;
+    "starsTransactionPeerFragment": starsTransactionPeerFragment;
+    "starsTransactionPeer": starsTransactionPeer;
+    "starsTopupOption": starsTopupOption;
+    "starsTransaction": starsTransaction;
+    "payments.starsStatus": payments_starsStatus;
 }
 export interface Functions<T extends Function = Function> {
     "req_pq_multi": req_pq_multi;
@@ -13157,6 +13472,8 @@ export interface Functions<T extends Function = Function> {
     "destroy_session": destroy_session;
     "destroy_auth_key": destroy_auth_key;
     "invokeWithBusinessConnectionPrefix": invokeWithBusinessConnectionPrefix;
+    "invokeWithGooglePlayIntegrityPrefix": invokeWithGooglePlayIntegrityPrefix;
+    "invokeWithApnsSecretPrefix": invokeWithApnsSecretPrefix;
     "invokeAfterMsg": invokeAfterMsg<T>;
     "invokeAfterMsgs": invokeAfterMsgs<T>;
     "initConnection": initConnection<T>;
@@ -13165,6 +13482,8 @@ export interface Functions<T extends Function = Function> {
     "invokeWithMessagesRange": invokeWithMessagesRange<T>;
     "invokeWithTakeout": invokeWithTakeout<T>;
     "invokeWithBusinessConnection": invokeWithBusinessConnection<T>;
+    "invokeWithGooglePlayIntegrity": invokeWithGooglePlayIntegrity<T>;
+    "invokeWithApnsSecret": invokeWithApnsSecret<T>;
     "auth.sendCode": auth_sendCode;
     "auth.signUp": auth_signUp;
     "auth.signIn": auth_signIn;
@@ -13187,6 +13506,7 @@ export interface Functions<T extends Function = Function> {
     "auth.importWebTokenAuthorization": auth_importWebTokenAuthorization;
     "auth.requestFirebaseSms": auth_requestFirebaseSms;
     "auth.resetLoginEmail": auth_resetLoginEmail;
+    "auth.reportMissingCode": auth_reportMissingCode;
     "account.registerDevice": account_registerDevice;
     "account.unregisterDevice": account_unregisterDevice;
     "account.updateNotifySettings": account_updateNotifySettings;
@@ -13296,6 +13616,9 @@ export interface Functions<T extends Function = Function> {
     "account.getBusinessChatLinks": account_getBusinessChatLinks;
     "account.resolveBusinessChatLink": account_resolveBusinessChatLink;
     "account.updatePersonalChannel": account_updatePersonalChannel;
+    "account.toggleSponsoredMessages": account_toggleSponsoredMessages;
+    "account.getReactionsNotifySettings": account_getReactionsNotifySettings;
+    "account.setReactionsNotifySettings": account_setReactionsNotifySettings;
     "users.getUsers": users_getUsers;
     "users.getFullUser": users_getFullUser;
     "users.setSecureValueErrors": users_setSecureValueErrors;
@@ -13534,6 +13857,11 @@ export interface Functions<T extends Function = Function> {
     "messages.deleteQuickReplyMessages": messages_deleteQuickReplyMessages;
     "messages.toggleDialogFilterTags": messages_toggleDialogFilterTags;
     "messages.getMyStickers": messages_getMyStickers;
+    "messages.getEmojiStickerGroups": messages_getEmojiStickerGroups;
+    "messages.getAvailableEffects": messages_getAvailableEffects;
+    "messages.editFactCheck": messages_editFactCheck;
+    "messages.deleteFactCheck": messages_deleteFactCheck;
+    "messages.getFactCheck": messages_getFactCheck;
     "updates.getState": updates_getState;
     "updates.getDifference": updates_getDifference;
     "updates.getChannelDifference": updates_getChannelDifference;
@@ -13639,6 +13967,7 @@ export interface Functions<T extends Function = Function> {
     "channels.setEmojiStickers": channels_setEmojiStickers;
     "channels.reportSponsoredMessage": channels_reportSponsoredMessage;
     "channels.restrictSponsoredMessages": channels_restrictSponsoredMessages;
+    "channels.searchPosts": channels_searchPosts;
     "bots.sendCustomRequest": bots_sendCustomRequest;
     "bots.answerWebhookJSONQuery": bots_answerWebhookJSONQuery;
     "bots.setBotCommands": bots_setBotCommands;
@@ -13671,6 +14000,11 @@ export interface Functions<T extends Function = Function> {
     "payments.applyGiftCode": payments_applyGiftCode;
     "payments.getGiveawayInfo": payments_getGiveawayInfo;
     "payments.launchPrepaidGiveaway": payments_launchPrepaidGiveaway;
+    "payments.getStarsTopupOptions": payments_getStarsTopupOptions;
+    "payments.getStarsStatus": payments_getStarsStatus;
+    "payments.getStarsTransactions": payments_getStarsTransactions;
+    "payments.sendStarsForm": payments_sendStarsForm;
+    "payments.refundStarsCharge": payments_refundStarsCharge;
     "stickers.createStickerSet": stickers_createStickerSet;
     "stickers.removeStickerFromSet": stickers_removeStickerFromSet;
     "stickers.changeStickerPosition": stickers_changeStickerPosition;
@@ -13764,6 +14098,7 @@ export interface Functions<T extends Function = Function> {
     "stories.getChatsToSend": stories_getChatsToSend;
     "stories.togglePeerStoriesHidden": stories_togglePeerStoriesHidden;
     "stories.getStoryReactionsList": stories_getStoryReactionsList;
+    "stories.togglePinnedToTop": stories_togglePinnedToTop;
     "premium.getBoostsList": premium_getBoostsList;
     "premium.getMyBoosts": premium_getMyBoosts;
     "premium.applyBoost": premium_applyBoost;
@@ -14203,7 +14538,6 @@ export interface Enums {
     "chatlists.ChatlistUpdates": chatlists_ChatlistUpdates;
     "bots.BotInfo": bots_BotInfo;
     "MessagePeerVote": MessagePeerVote;
-    "SponsoredWebPage": SponsoredWebPage;
     "StoryViews": StoryViews;
     "StoryItem": StoryItem;
     "stories.AllStories": stories_AllStories;
@@ -14289,6 +14623,16 @@ export interface Enums {
     "stats.BroadcastRevenueWithdrawalUrl": stats_BroadcastRevenueWithdrawalUrl;
     "BroadcastRevenueTransaction": BroadcastRevenueTransaction;
     "stats.BroadcastRevenueTransactions": stats_BroadcastRevenueTransactions;
+    "ReactionNotificationsFrom": ReactionNotificationsFrom;
+    "ReactionsNotifySettings": ReactionsNotifySettings;
+    "BroadcastRevenueBalances": BroadcastRevenueBalances;
+    "AvailableEffect": AvailableEffect;
+    "messages.AvailableEffects": messages_AvailableEffects;
+    "FactCheck": FactCheck;
+    "StarsTransactionPeer": StarsTransactionPeer;
+    "StarsTopupOption": StarsTopupOption;
+    "StarsTransaction": StarsTransaction;
+    "payments.StarsStatus": payments_StarsStatus;
 }
 export type AnyType = Types[keyof Types];
 export type AnyFunction<T extends Function = Function> = Functions<T>[keyof Functions<T>];
@@ -14370,7 +14714,7 @@ export type messages_Chats = messages_chats | messages_chatsSlice;
 export type messages_ChatFull = messages_chatFull;
 export type messages_AffectedHistory = messages_affectedHistory;
 export type MessagesFilter = inputMessagesFilterEmpty | inputMessagesFilterPhotos | inputMessagesFilterVideo | inputMessagesFilterPhotoVideo | inputMessagesFilterDocument | inputMessagesFilterUrl | inputMessagesFilterGif | inputMessagesFilterVoice | inputMessagesFilterMusic | inputMessagesFilterChatPhotos | inputMessagesFilterPhoneCalls | inputMessagesFilterRoundVoice | inputMessagesFilterRoundVideo | inputMessagesFilterMyMentions | inputMessagesFilterGeo | inputMessagesFilterContacts | inputMessagesFilterPinned;
-export type Update = updateNewMessage | updateMessageID | updateDeleteMessages | updateUserTyping | updateChatUserTyping | updateChatParticipants | updateUserStatus | updateUserName | updateNewAuthorization | updateNewEncryptedMessage | updateEncryptedChatTyping | updateEncryption | updateEncryptedMessagesRead | updateChatParticipantAdd | updateChatParticipantDelete | updateDcOptions | updateNotifySettings | updateServiceNotification | updatePrivacy | updateUserPhone | updateReadHistoryInbox | updateReadHistoryOutbox | updateWebPage | updateReadMessagesContents | updateChannelTooLong | updateChannel | updateNewChannelMessage | updateReadChannelInbox | updateDeleteChannelMessages | updateChannelMessageViews | updateChatParticipantAdmin | updateNewStickerSet | updateStickerSetsOrder | updateStickerSets | updateSavedGifs | updateBotInlineQuery | updateBotInlineSend | updateEditChannelMessage | updateBotCallbackQuery | updateEditMessage | updateInlineBotCallbackQuery | updateReadChannelOutbox | updateDraftMessage | updateReadFeaturedStickers | updateRecentStickers | updateConfig | updatePtsChanged | updateChannelWebPage | updateDialogPinned | updatePinnedDialogs | updateBotWebhookJSON | updateBotWebhookJSONQuery | updateBotShippingQuery | updateBotPrecheckoutQuery | updatePhoneCall | updateLangPackTooLong | updateLangPack | updateFavedStickers | updateChannelReadMessagesContents | updateContactsReset | updateChannelAvailableMessages | updateDialogUnreadMark | updateMessagePoll | updateChatDefaultBannedRights | updateFolderPeers | updatePeerSettings | updatePeerLocated | updateNewScheduledMessage | updateDeleteScheduledMessages | updateTheme | updateGeoLiveViewed | updateLoginToken | updateMessagePollVote | updateDialogFilter | updateDialogFilterOrder | updateDialogFilters | updatePhoneCallSignalingData | updateChannelMessageForwards | updateReadChannelDiscussionInbox | updateReadChannelDiscussionOutbox | updatePeerBlocked | updateChannelUserTyping | updatePinnedMessages | updatePinnedChannelMessages | updateChat | updateGroupCallParticipants | updateGroupCall | updatePeerHistoryTTL | updateChatParticipant | updateChannelParticipant | updateBotStopped | updateGroupCallConnection | updateBotCommands | updatePendingJoinRequests | updateBotChatInviteRequester | updateMessageReactions | updateAttachMenuBots | updateWebViewResultSent | updateBotMenuButton | updateSavedRingtones | updateTranscribedAudio | updateReadFeaturedEmojiStickers | updateUserEmojiStatus | updateRecentEmojiStatuses | updateRecentReactions | updateMoveStickerSetToTop | updateMessageExtendedMedia | updateChannelPinnedTopic | updateChannelPinnedTopics | updateUser | updateAutoSaveSettings | updateStory | updateReadStories | updateStoryID | updateStoriesStealthMode | updateSentStoryReaction | updateBotChatBoost | updateChannelViewForumAsMessages | updatePeerWallpaper | updateBotMessageReaction | updateBotMessageReactions | updateSavedDialogPinned | updatePinnedSavedDialogs | updateSavedReactionTags | updateSmsJob | updateQuickReplies | updateNewQuickReply | updateDeleteQuickReply | updateQuickReplyMessage | updateDeleteQuickReplyMessages | updateBotBusinessConnect | updateBotNewBusinessMessage | updateBotEditBusinessMessage | updateBotDeleteBusinessMessage;
+export type Update = updateNewMessage | updateMessageID | updateDeleteMessages | updateUserTyping | updateChatUserTyping | updateChatParticipants | updateUserStatus | updateUserName | updateNewAuthorization | updateNewEncryptedMessage | updateEncryptedChatTyping | updateEncryption | updateEncryptedMessagesRead | updateChatParticipantAdd | updateChatParticipantDelete | updateDcOptions | updateNotifySettings | updateServiceNotification | updatePrivacy | updateUserPhone | updateReadHistoryInbox | updateReadHistoryOutbox | updateWebPage | updateReadMessagesContents | updateChannelTooLong | updateChannel | updateNewChannelMessage | updateReadChannelInbox | updateDeleteChannelMessages | updateChannelMessageViews | updateChatParticipantAdmin | updateNewStickerSet | updateStickerSetsOrder | updateStickerSets | updateSavedGifs | updateBotInlineQuery | updateBotInlineSend | updateEditChannelMessage | updateBotCallbackQuery | updateEditMessage | updateInlineBotCallbackQuery | updateReadChannelOutbox | updateDraftMessage | updateReadFeaturedStickers | updateRecentStickers | updateConfig | updatePtsChanged | updateChannelWebPage | updateDialogPinned | updatePinnedDialogs | updateBotWebhookJSON | updateBotWebhookJSONQuery | updateBotShippingQuery | updateBotPrecheckoutQuery | updatePhoneCall | updateLangPackTooLong | updateLangPack | updateFavedStickers | updateChannelReadMessagesContents | updateContactsReset | updateChannelAvailableMessages | updateDialogUnreadMark | updateMessagePoll | updateChatDefaultBannedRights | updateFolderPeers | updatePeerSettings | updatePeerLocated | updateNewScheduledMessage | updateDeleteScheduledMessages | updateTheme | updateGeoLiveViewed | updateLoginToken | updateMessagePollVote | updateDialogFilter | updateDialogFilterOrder | updateDialogFilters | updatePhoneCallSignalingData | updateChannelMessageForwards | updateReadChannelDiscussionInbox | updateReadChannelDiscussionOutbox | updatePeerBlocked | updateChannelUserTyping | updatePinnedMessages | updatePinnedChannelMessages | updateChat | updateGroupCallParticipants | updateGroupCall | updatePeerHistoryTTL | updateChatParticipant | updateChannelParticipant | updateBotStopped | updateGroupCallConnection | updateBotCommands | updatePendingJoinRequests | updateBotChatInviteRequester | updateMessageReactions | updateAttachMenuBots | updateWebViewResultSent | updateBotMenuButton | updateSavedRingtones | updateTranscribedAudio | updateReadFeaturedEmojiStickers | updateUserEmojiStatus | updateRecentEmojiStatuses | updateRecentReactions | updateMoveStickerSetToTop | updateMessageExtendedMedia | updateChannelPinnedTopic | updateChannelPinnedTopics | updateUser | updateAutoSaveSettings | updateStory | updateReadStories | updateStoryID | updateStoriesStealthMode | updateSentStoryReaction | updateBotChatBoost | updateChannelViewForumAsMessages | updatePeerWallpaper | updateBotMessageReaction | updateBotMessageReactions | updateSavedDialogPinned | updatePinnedSavedDialogs | updateSavedReactionTags | updateSmsJob | updateQuickReplies | updateNewQuickReply | updateDeleteQuickReply | updateQuickReplyMessage | updateDeleteQuickReplyMessages | updateBotBusinessConnect | updateBotNewBusinessMessage | updateBotEditBusinessMessage | updateBotDeleteBusinessMessage | updateNewStoryReaction | updateBroadcastRevenueTransactions | updateStarsBalance;
 export type updates_State = updates_state;
 export type updates_Difference = updates_differenceEmpty | updates_difference | updates_differenceSlice | updates_differenceTooLong;
 export type Updates = updatesTooLong | updateShortMessage | updateShortChatMessage | updateShort | updatesCombined | updates | updateShortSentMessage;
@@ -14444,7 +14788,7 @@ export type messages_BotResults = messages_botResults;
 export type ExportedMessageLink = exportedMessageLink;
 export type MessageFwdHeader = messageFwdHeader;
 export type auth_CodeType = auth_codeTypeSms | auth_codeTypeCall | auth_codeTypeFlashCall | auth_codeTypeMissedCall | auth_codeTypeFragmentSms;
-export type auth_SentCodeType = auth_sentCodeTypeApp | auth_sentCodeTypeSms | auth_sentCodeTypeCall | auth_sentCodeTypeFlashCall | auth_sentCodeTypeMissedCall | auth_sentCodeTypeEmailCode | auth_sentCodeTypeSetUpEmailRequired | auth_sentCodeTypeFragmentSms | auth_sentCodeTypeFirebaseSms;
+export type auth_SentCodeType = auth_sentCodeTypeApp | auth_sentCodeTypeSms | auth_sentCodeTypeCall | auth_sentCodeTypeFlashCall | auth_sentCodeTypeMissedCall | auth_sentCodeTypeEmailCode | auth_sentCodeTypeSetUpEmailRequired | auth_sentCodeTypeFragmentSms | auth_sentCodeTypeFirebaseSms | auth_sentCodeTypeSmsWord | auth_sentCodeTypeSmsPhrase;
 export type messages_BotCallbackAnswer = messages_botCallbackAnswer;
 export type messages_MessageEditData = messages_messageEditData;
 export type InputBotInlineMessageID = inputBotInlineMessageID | inputBotInlineMessageID64;
@@ -14480,10 +14824,10 @@ export type WebDocument = webDocument | webDocumentNoProxy;
 export type InputWebDocument = inputWebDocument;
 export type InputWebFileLocation = inputWebFileLocation | inputWebFileGeoPointLocation | inputWebFileAudioAlbumThumbLocation;
 export type upload_WebFile = upload_webFile;
-export type payments_PaymentForm = payments_paymentForm;
+export type payments_PaymentForm = payments_paymentForm | payments_paymentFormStars;
 export type payments_ValidatedRequestedInfo = payments_validatedRequestedInfo;
 export type payments_PaymentResult = payments_paymentResult | payments_paymentVerificationNeeded;
-export type payments_PaymentReceipt = payments_paymentReceipt;
+export type payments_PaymentReceipt = payments_paymentReceipt | payments_paymentReceiptStars;
 export type payments_SavedInfo = payments_savedInfo;
 export type InputPaymentCredentials = inputPaymentCredentialsSaved | inputPaymentCredentials | inputPaymentCredentialsApplePay | inputPaymentCredentialsGooglePay;
 export type account_TmpPassword = account_tmpPassword;
@@ -14586,7 +14930,7 @@ export type messages_InactiveChats = messages_inactiveChats;
 export type BaseTheme = baseThemeClassic | baseThemeDay | baseThemeNight | baseThemeTinted | baseThemeArctic;
 export type InputThemeSettings = inputThemeSettings;
 export type ThemeSettings = themeSettings;
-export type WebPageAttribute = webPageAttributeTheme | webPageAttributeStory;
+export type WebPageAttribute = webPageAttributeTheme | webPageAttributeStory | webPageAttributeStickerSet;
 export type messages_VotesList = messages_votesList;
 export type BankCardOpenUrl = bankCardOpenUrl;
 export type payments_BankCardData = payments_bankCardData;
@@ -14669,11 +15013,11 @@ export type account_SavedRingtones = account_savedRingtonesNotModified | account
 export type NotificationSound = notificationSoundDefault | notificationSoundNone | notificationSoundLocal | notificationSoundRingtone;
 export type account_SavedRingtone = account_savedRingtone | account_savedRingtoneConverted;
 export type AttachMenuPeerType = attachMenuPeerTypeSameBotPM | attachMenuPeerTypeBotPM | attachMenuPeerTypePM | attachMenuPeerTypeChat | attachMenuPeerTypeBroadcast;
-export type InputInvoice = inputInvoiceMessage | inputInvoiceSlug | inputInvoicePremiumGiftCode;
+export type InputInvoice = inputInvoiceMessage | inputInvoiceSlug | inputInvoicePremiumGiftCode | inputInvoiceStars;
 export type payments_ExportedInvoice = payments_exportedInvoice;
 export type messages_TranscribedAudio = messages_transcribedAudio;
 export type help_PremiumPromo = help_premiumPromo;
-export type InputStorePaymentPurpose = inputStorePaymentPremiumSubscription | inputStorePaymentGiftPremium | inputStorePaymentPremiumGiftCode | inputStorePaymentPremiumGiveaway;
+export type InputStorePaymentPurpose = inputStorePaymentPremiumSubscription | inputStorePaymentGiftPremium | inputStorePaymentPremiumGiftCode | inputStorePaymentPremiumGiveaway | inputStorePaymentStars;
 export type PremiumGiftOption = premiumGiftOption;
 export type PaymentFormMethod = paymentFormMethod;
 export type EmojiStatus = emojiStatusEmpty | emojiStatus | emojiStatusUntil;
@@ -14695,7 +15039,7 @@ export type DefaultHistoryTTL = defaultHistoryTTL;
 export type ExportedContactToken = exportedContactToken;
 export type RequestPeerType = requestPeerTypeUser | requestPeerTypeChat | requestPeerTypeBroadcast;
 export type EmojiList = emojiListNotModified | emojiList;
-export type EmojiGroup = emojiGroup;
+export type EmojiGroup = emojiGroup | emojiGroupGreeting | emojiGroupPremium;
 export type messages_EmojiGroups = messages_emojiGroupsNotModified | messages_emojiGroups;
 export type TextWithEntities = textWithEntities;
 export type messages_TranslatedText = messages_translateResult;
@@ -14717,7 +15061,6 @@ export type chatlists_ChatlistInvite = chatlists_chatlistInviteAlready | chatlis
 export type chatlists_ChatlistUpdates = chatlists_chatlistUpdates;
 export type bots_BotInfo = bots_botInfo;
 export type MessagePeerVote = messagePeerVote | messagePeerVoteInputOption | messagePeerVoteMultiple;
-export type SponsoredWebPage = sponsoredWebPage;
 export type StoryViews = storyViews;
 export type StoryItem = storyItemDeleted | storyItemSkipped | storyItem;
 export type stories_AllStories = stories_allStoriesNotModified | stories_allStories;
@@ -14803,6 +15146,16 @@ export type stats_BroadcastRevenueStats = stats_broadcastRevenueStats;
 export type stats_BroadcastRevenueWithdrawalUrl = stats_broadcastRevenueWithdrawalUrl;
 export type BroadcastRevenueTransaction = broadcastRevenueTransactionProceeds | broadcastRevenueTransactionWithdrawal | broadcastRevenueTransactionRefund;
 export type stats_BroadcastRevenueTransactions = stats_broadcastRevenueTransactions;
+export type ReactionNotificationsFrom = reactionNotificationsFromContacts | reactionNotificationsFromAll;
+export type ReactionsNotifySettings = reactionsNotifySettings;
+export type BroadcastRevenueBalances = broadcastRevenueBalances;
+export type AvailableEffect = availableEffect;
+export type messages_AvailableEffects = messages_availableEffectsNotModified | messages_availableEffects;
+export type FactCheck = factCheck;
+export type StarsTransactionPeer = starsTransactionPeerUnsupported | starsTransactionPeerAppStore | starsTransactionPeerPlayMarket | starsTransactionPeerPremiumBot | starsTransactionPeerFragment | starsTransactionPeer;
+export type StarsTopupOption = starsTopupOption;
+export type StarsTransaction = starsTransaction;
+export type payments_StarsStatus = payments_starsStatus;
 export declare const getTypeName: (id: number) => string | undefined;
 export declare const flags: symbol;
 export type Parameters = [number, [string, unknown, string][]];

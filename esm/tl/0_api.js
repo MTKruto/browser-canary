@@ -86,7 +86,7 @@ const map = new Map([
     [0xE5BBFE1A, "inputMediaPhotoExternal"],
     [0xFB52DC99, "inputMediaDocumentExternal"],
     [0xD33F43F3, "inputMediaGame"],
-    [0x8EB5A6D5, "inputMediaInvoice"],
+    [0x405FEF0D, "inputMediaInvoice"],
     [0x971FA843, "inputMediaGeoLive"],
     [0x0F94E5F1, "inputMediaPoll"],
     [0xE66FBF7B, "inputMediaDice"],
@@ -137,8 +137,8 @@ const map = new Map([
     [0x6592A1A7, "chatForbidden"],
     [0x0AADFC8F, "channel"],
     [0x17D493D5, "channelForbidden"],
-    [0xC9D31138, "chatFull"],
-    [0x44C054A7, "channelFull"],
+    [0x2633421B, "chatFull"],
+    [0xBBAB348D, "channelFull"],
     [0xC02D4007, "chatParticipant"],
     [0xE46BCEE4, "chatParticipantCreator"],
     [0xA0933F5B, "chatParticipantAdmin"],
@@ -147,7 +147,7 @@ const map = new Map([
     [0x37C1011C, "chatPhotoEmpty"],
     [0x1C6E1C11, "chatPhoto"],
     [0x90A6CA84, "messageEmpty"],
-    [0x2357BF25, "message"],
+    [0x94345242, "message"],
     [0x2B085862, "messageService"],
     [0x3DED6320, "messageMediaEmpty"],
     [0x695150D7, "messageMediaPhoto"],
@@ -416,6 +416,9 @@ const map = new Map([
     [0x9DDB347C, "updateBotNewBusinessMessage"],
     [0x07DF587C, "updateBotEditBusinessMessage"],
     [0xA02A982E, "updateBotDeleteBusinessMessage"],
+    [0x1824E40B, "updateNewStoryReaction"],
+    [0xDFD961F5, "updateBroadcastRevenueTransactions"],
+    [0x0FB85198, "updateStarsBalance"],
     [0xA56C2A3E, "updates.state"],
     [0x5D75A138, "updates.differenceEmpty"],
     [0x00F49CA0, "updates.difference"],
@@ -618,7 +621,7 @@ const map = new Map([
     [0x761E6AF4, "messageEntityBankCard"],
     [0x32CA960F, "messageEntitySpoiler"],
     [0xC8CF05F8, "messageEntityCustomEmoji"],
-    [0x020DF5D0, "messageEntityBlockquote"],
+    [0xF1CCAAAC, "messageEntityBlockquote"],
     [0xEE8C1E86, "inputChannelEmpty"],
     [0xF35AEC28, "inputChannel"],
     [0x5B934F9D, "inputChannelFromMessage"],
@@ -686,7 +689,9 @@ const map = new Map([
     [0xF450F59B, "auth.sentCodeTypeEmailCode"],
     [0xA5491DEA, "auth.sentCodeTypeSetUpEmailRequired"],
     [0xD9565C39, "auth.sentCodeTypeFragmentSms"],
-    [0xE57B1432, "auth.sentCodeTypeFirebaseSms"],
+    [0x13C90F17, "auth.sentCodeTypeFirebaseSms"],
+    [0xA416AC81, "auth.sentCodeTypeSmsWord"],
+    [0xB37794AF, "auth.sentCodeTypeSmsPhrase"],
     [0x36585EA4, "messages.botCallbackAnswer"],
     [0x26B5DDE6, "messages.messageEditData"],
     [0x890C3D89, "inputBotInlineMessageID"],
@@ -791,10 +796,12 @@ const map = new Map([
     [0xF46FE924, "inputWebFileAudioAlbumThumbLocation"],
     [0x21E753BC, "upload.webFile"],
     [0xA0058751, "payments.paymentForm"],
+    [0x7BF6B15C, "payments.paymentFormStars"],
     [0xD1451883, "payments.validatedRequestedInfo"],
     [0x4E5F810D, "payments.paymentResult"],
     [0xD8411139, "payments.paymentVerificationNeeded"],
     [0x70C4FE03, "payments.paymentReceipt"],
+    [0xDABBF83A, "payments.paymentReceiptStars"],
     [0xFB8FE43C, "payments.savedInfo"],
     [0xC10EB2CF, "inputPaymentCredentialsSaved"],
     [0x3417D728, "inputPaymentCredentials"],
@@ -971,8 +978,8 @@ const map = new Map([
     [0x8C05F1C9, "help.supportName"],
     [0xF3AE2EED, "help.userInfoEmpty"],
     [0x01EB3758, "help.userInfo"],
-    [0x6CA9C2E9, "pollAnswer"],
-    [0x86E18161, "poll"],
+    [0xFF16E2CA, "pollAnswer"],
+    [0x58747131, "poll"],
     [0x3B6DDAD2, "pollAnswerVoters"],
     [0x7ADF2420, "pollResults"],
     [0xF041E250, "chatOnlines"],
@@ -1024,6 +1031,7 @@ const map = new Map([
     [0xFA58B6D4, "themeSettings"],
     [0x54B56617, "webPageAttributeTheme"],
     [0x2E94C3E7, "webPageAttributeStory"],
+    [0x50CC03D3, "webPageAttributeStickerSet"],
     [0x4899484E, "messages.votesList"],
     [0xF568028A, "bankCardOpenUrl"],
     [0x3E24E573, "payments.bankCardData"],
@@ -1098,7 +1106,7 @@ const map = new Map([
     [0xE3779861, "account.resetPasswordFailedWait"],
     [0xE9EFFC7D, "account.resetPasswordRequestedWait"],
     [0xE926D63E, "account.resetPasswordOk"],
-    [0xED5383F7, "sponsoredMessage"],
+    [0xBDEDF566, "sponsoredMessage"],
     [0xC9EE1D87, "messages.sponsoredMessages"],
     [0x1839490F, "messages.sponsoredMessagesEmpty"],
     [0xC9B0539F, "searchResultsCalendarPeriod"],
@@ -1147,6 +1155,7 @@ const map = new Map([
     [0xC5B56859, "inputInvoiceMessage"],
     [0xC326CAEF, "inputInvoiceSlug"],
     [0x98986C0D, "inputInvoicePremiumGiftCode"],
+    [0x1DA33AD8, "inputInvoiceStars"],
     [0xAED0CBD9, "payments.exportedInvoice"],
     [0xCFB9D957, "messages.transcribedAudio"],
     [0x5334759C, "help.premiumPromo"],
@@ -1154,6 +1163,7 @@ const map = new Map([
     [0x616F7FE8, "inputStorePaymentGiftPremium"],
     [0xA3805F3F, "inputStorePaymentPremiumGiftCode"],
     [0x160544CA, "inputStorePaymentPremiumGiveaway"],
+    [0x4F0EE8DF, "inputStorePaymentStars"],
     [0x74C34319, "premiumGiftOption"],
     [0x88F8F21B, "paymentFormMethod"],
     [0x2DE11AAE, "emojiStatusEmpty"],
@@ -1194,6 +1204,8 @@ const map = new Map([
     [0x481EADFA, "emojiListNotModified"],
     [0x7A1E11D1, "emojiList"],
     [0x7A9ABDA9, "emojiGroup"],
+    [0x80D26CC7, "emojiGroupGreeting"],
+    [0x093BCF34, "emojiGroupPremium"],
     [0x6FB4AD87, "messages.emojiGroupsNotModified"],
     [0x881FB94B, "messages.emojiGroups"],
     [0x751F3146, "textWithEntities"],
@@ -1222,14 +1234,13 @@ const map = new Map([
     [0xB6CC2D5C, "messagePeerVote"],
     [0x74CDA504, "messagePeerVoteInputOption"],
     [0x4628F6E6, "messagePeerVoteMultiple"],
-    [0x3DB8EC63, "sponsoredWebPage"],
     [0x8D595CD6, "storyViews"],
     [0x51E6EE4F, "storyItemDeleted"],
     [0xFFADC913, "storyItemSkipped"],
     [0x79B26A24, "storyItem"],
     [0x1158FE3E, "stories.allStoriesNotModified"],
     [0x6EFC5E81, "stories.allStories"],
-    [0x5DD8C3C8, "stories.stories"],
+    [0x63C3DD0A, "stories.stories"],
     [0xB0BDEAC5, "storyView"],
     [0x9083670B, "storyViewPublicForward"],
     [0xBD74CF49, "storyViewPublicRepost"],
@@ -1335,12 +1346,29 @@ const map = new Map([
     [0x846F9E42, "channels.sponsoredMessageReportResultChooseOption"],
     [0x3E3BCF2F, "channels.sponsoredMessageReportResultAdsHidden"],
     [0xAD798849, "channels.sponsoredMessageReportResultReported"],
-    [0xD07B4BAD, "stats.broadcastRevenueStats"],
+    [0x5407E297, "stats.broadcastRevenueStats"],
     [0xEC659737, "stats.broadcastRevenueWithdrawalUrl"],
     [0x557E2CC4, "broadcastRevenueTransactionProceeds"],
     [0x5A590978, "broadcastRevenueTransactionWithdrawal"],
     [0x42D30D2E, "broadcastRevenueTransactionRefund"],
     [0x87158466, "stats.broadcastRevenueTransactions"],
+    [0xBAC3A61A, "reactionNotificationsFromContacts"],
+    [0x4B9E22A0, "reactionNotificationsFromAll"],
+    [0x56E34970, "reactionsNotifySettings"],
+    [0x8438F1C6, "broadcastRevenueBalances"],
+    [0x93C3E27E, "availableEffect"],
+    [0xD1ED9A5B, "messages.availableEffectsNotModified"],
+    [0xBDDB616E, "messages.availableEffects"],
+    [0xB89BFCCF, "factCheck"],
+    [0x95F2BFE4, "starsTransactionPeerUnsupported"],
+    [0xB457B375, "starsTransactionPeerAppStore"],
+    [0x7B560A0B, "starsTransactionPeerPlayMarket"],
+    [0x250DBAF8, "starsTransactionPeerPremiumBot"],
+    [0xE92FD902, "starsTransactionPeerFragment"],
+    [0xD80DA15D, "starsTransactionPeer"],
+    [0x0BD915C0, "starsTopupOption"],
+    [0xCC7079B2, "starsTransaction"],
+    [0x8CF4EE60, "payments.starsStatus"],
 ]);
 export const getTypeName = map.get.bind(map);
 export const flags = Symbol();
@@ -1601,6 +1629,9 @@ const enums = new Map([
             "updateBotNewBusinessMessage",
             "updateBotEditBusinessMessage",
             "updateBotDeleteBusinessMessage",
+            "updateNewStoryReaction",
+            "updateBroadcastRevenueTransactions",
+            "updateStarsBalance",
         ]],
     ["updates.State", ["updates.state"]],
     ["updates.Difference", ["updates.differenceEmpty", "updates.difference", "updates.differenceSlice", "updates.differenceTooLong"]],
@@ -1675,7 +1706,7 @@ const enums = new Map([
     ["ExportedMessageLink", ["exportedMessageLink"]],
     ["MessageFwdHeader", ["messageFwdHeader"]],
     ["auth.CodeType", ["auth.codeTypeSms", "auth.codeTypeCall", "auth.codeTypeFlashCall", "auth.codeTypeMissedCall", "auth.codeTypeFragmentSms"]],
-    ["auth.SentCodeType", ["auth.sentCodeTypeApp", "auth.sentCodeTypeSms", "auth.sentCodeTypeCall", "auth.sentCodeTypeFlashCall", "auth.sentCodeTypeMissedCall", "auth.sentCodeTypeEmailCode", "auth.sentCodeTypeSetUpEmailRequired", "auth.sentCodeTypeFragmentSms", "auth.sentCodeTypeFirebaseSms"]],
+    ["auth.SentCodeType", ["auth.sentCodeTypeApp", "auth.sentCodeTypeSms", "auth.sentCodeTypeCall", "auth.sentCodeTypeFlashCall", "auth.sentCodeTypeMissedCall", "auth.sentCodeTypeEmailCode", "auth.sentCodeTypeSetUpEmailRequired", "auth.sentCodeTypeFragmentSms", "auth.sentCodeTypeFirebaseSms", "auth.sentCodeTypeSmsWord", "auth.sentCodeTypeSmsPhrase"]],
     ["messages.BotCallbackAnswer", ["messages.botCallbackAnswer"]],
     ["messages.MessageEditData", ["messages.messageEditData"]],
     ["InputBotInlineMessageID", ["inputBotInlineMessageID", "inputBotInlineMessageID64"]],
@@ -1711,10 +1742,10 @@ const enums = new Map([
     ["InputWebDocument", ["inputWebDocument"]],
     ["InputWebFileLocation", ["inputWebFileLocation", "inputWebFileGeoPointLocation", "inputWebFileAudioAlbumThumbLocation"]],
     ["upload.WebFile", ["upload.webFile"]],
-    ["payments.PaymentForm", ["payments.paymentForm"]],
+    ["payments.PaymentForm", ["payments.paymentForm", "payments.paymentFormStars"]],
     ["payments.ValidatedRequestedInfo", ["payments.validatedRequestedInfo"]],
     ["payments.PaymentResult", ["payments.paymentResult", "payments.paymentVerificationNeeded"]],
-    ["payments.PaymentReceipt", ["payments.paymentReceipt"]],
+    ["payments.PaymentReceipt", ["payments.paymentReceipt", "payments.paymentReceiptStars"]],
     ["payments.SavedInfo", ["payments.savedInfo"]],
     ["InputPaymentCredentials", ["inputPaymentCredentialsSaved", "inputPaymentCredentials", "inputPaymentCredentialsApplePay", "inputPaymentCredentialsGooglePay"]],
     ["account.TmpPassword", ["account.tmpPassword"]],
@@ -1866,7 +1897,7 @@ const enums = new Map([
     ["BaseTheme", ["baseThemeClassic", "baseThemeDay", "baseThemeNight", "baseThemeTinted", "baseThemeArctic"]],
     ["InputThemeSettings", ["inputThemeSettings"]],
     ["ThemeSettings", ["themeSettings"]],
-    ["WebPageAttribute", ["webPageAttributeTheme", "webPageAttributeStory"]],
+    ["WebPageAttribute", ["webPageAttributeTheme", "webPageAttributeStory", "webPageAttributeStickerSet"]],
     ["messages.VotesList", ["messages.votesList"]],
     ["BankCardOpenUrl", ["bankCardOpenUrl"]],
     ["payments.BankCardData", ["payments.bankCardData"]],
@@ -1949,11 +1980,11 @@ const enums = new Map([
     ["NotificationSound", ["notificationSoundDefault", "notificationSoundNone", "notificationSoundLocal", "notificationSoundRingtone"]],
     ["account.SavedRingtone", ["account.savedRingtone", "account.savedRingtoneConverted"]],
     ["AttachMenuPeerType", ["attachMenuPeerTypeSameBotPM", "attachMenuPeerTypeBotPM", "attachMenuPeerTypePM", "attachMenuPeerTypeChat", "attachMenuPeerTypeBroadcast"]],
-    ["InputInvoice", ["inputInvoiceMessage", "inputInvoiceSlug", "inputInvoicePremiumGiftCode"]],
+    ["InputInvoice", ["inputInvoiceMessage", "inputInvoiceSlug", "inputInvoicePremiumGiftCode", "inputInvoiceStars"]],
     ["payments.ExportedInvoice", ["payments.exportedInvoice"]],
     ["messages.TranscribedAudio", ["messages.transcribedAudio"]],
     ["help.PremiumPromo", ["help.premiumPromo"]],
-    ["InputStorePaymentPurpose", ["inputStorePaymentPremiumSubscription", "inputStorePaymentGiftPremium", "inputStorePaymentPremiumGiftCode", "inputStorePaymentPremiumGiveaway"]],
+    ["InputStorePaymentPurpose", ["inputStorePaymentPremiumSubscription", "inputStorePaymentGiftPremium", "inputStorePaymentPremiumGiftCode", "inputStorePaymentPremiumGiveaway", "inputStorePaymentStars"]],
     ["PremiumGiftOption", ["premiumGiftOption"]],
     ["PaymentFormMethod", ["paymentFormMethod"]],
     ["EmojiStatus", ["emojiStatusEmpty", "emojiStatus", "emojiStatusUntil"]],
@@ -1975,7 +2006,7 @@ const enums = new Map([
     ["ExportedContactToken", ["exportedContactToken"]],
     ["RequestPeerType", ["requestPeerTypeUser", "requestPeerTypeChat", "requestPeerTypeBroadcast"]],
     ["EmojiList", ["emojiListNotModified", "emojiList"]],
-    ["EmojiGroup", ["emojiGroup"]],
+    ["EmojiGroup", ["emojiGroup", "emojiGroupGreeting", "emojiGroupPremium"]],
     ["messages.EmojiGroups", ["messages.emojiGroupsNotModified", "messages.emojiGroups"]],
     ["TextWithEntities", ["textWithEntities"]],
     ["messages.TranslatedText", ["messages.translateResult"]],
@@ -1997,7 +2028,6 @@ const enums = new Map([
     ["chatlists.ChatlistUpdates", ["chatlists.chatlistUpdates"]],
     ["bots.BotInfo", ["bots.botInfo"]],
     ["MessagePeerVote", ["messagePeerVote", "messagePeerVoteInputOption", "messagePeerVoteMultiple"]],
-    ["SponsoredWebPage", ["sponsoredWebPage"]],
     ["StoryViews", ["storyViews"]],
     ["StoryItem", ["storyItemDeleted", "storyItemSkipped", "storyItem"]],
     ["stories.AllStories", ["stories.allStoriesNotModified", "stories.allStories"]],
@@ -2083,6 +2113,16 @@ const enums = new Map([
     ["stats.BroadcastRevenueWithdrawalUrl", ["stats.broadcastRevenueWithdrawalUrl"]],
     ["BroadcastRevenueTransaction", ["broadcastRevenueTransactionProceeds", "broadcastRevenueTransactionWithdrawal", "broadcastRevenueTransactionRefund"]],
     ["stats.BroadcastRevenueTransactions", ["stats.broadcastRevenueTransactions"]],
+    ["ReactionNotificationsFrom", ["reactionNotificationsFromContacts", "reactionNotificationsFromAll"]],
+    ["ReactionsNotifySettings", ["reactionsNotifySettings"]],
+    ["BroadcastRevenueBalances", ["broadcastRevenueBalances"]],
+    ["AvailableEffect", ["availableEffect"]],
+    ["messages.AvailableEffects", ["messages.availableEffectsNotModified", "messages.availableEffects"]],
+    ["FactCheck", ["factCheck"]],
+    ["StarsTransactionPeer", ["starsTransactionPeerUnsupported", "starsTransactionPeerAppStore", "starsTransactionPeerPlayMarket", "starsTransactionPeerPremiumBot", "starsTransactionPeerFragment", "starsTransactionPeer"]],
+    ["StarsTopupOption", ["starsTopupOption"]],
+    ["StarsTransaction", ["starsTransaction"]],
+    ["payments.StarsStatus", ["payments.starsStatus"]],
 ]);
 const types = new Map([
     [
@@ -2794,7 +2834,7 @@ const types = new Map([
     [
         "inputMediaInvoice",
         [
-            0x8EB5A6D5,
+            0x405FEF0D,
             [
                 ["flags", flags, "#"],
                 ["title", "string", "string"],
@@ -2802,7 +2842,7 @@ const types = new Map([
                 ["photo", "InputWebDocument", "flags.0?InputWebDocument"],
                 ["invoice", "Invoice", "Invoice"],
                 ["payload", Uint8Array, "bytes"],
-                ["provider", "string", "string"],
+                ["provider", "string", "flags.3?string"],
                 ["provider_data", "DataJSON", "DataJSON"],
                 ["start_param", "string", "flags.1?string"],
                 ["extended_media", "InputMedia", "flags.2?InputMedia"],
@@ -3391,7 +3431,7 @@ const types = new Map([
     [
         "chatFull",
         [
-            0xC9D31138,
+            0x2633421B,
             [
                 ["flags", flags, "#"],
                 ["can_set_username", "true", "flags.7?true"],
@@ -3413,13 +3453,14 @@ const types = new Map([
                 ["requests_pending", "number", "flags.17?int"],
                 ["recent_requesters", ["bigint"], "flags.17?Vector<long>"],
                 ["available_reactions", "ChatReactions", "flags.18?ChatReactions"],
+                ["reactions_limit", "number", "flags.20?int"],
             ],
         ],
     ],
     [
         "channelFull",
         [
-            0x44C054A7,
+            0xBBAB348D,
             [
                 ["flags", flags, "#"],
                 ["can_view_participants", "true", "flags.3?true"],
@@ -3474,6 +3515,7 @@ const types = new Map([
                 ["recent_requesters", ["bigint"], "flags.28?Vector<long>"],
                 ["default_send_as", "Peer", "flags.29?Peer"],
                 ["available_reactions", "ChatReactions", "flags.30?ChatReactions"],
+                ["reactions_limit", "number", "flags2.13?int"],
                 ["stories", "PeerStories", "flags2.4?PeerStories"],
                 ["wallpaper", "WallPaper", "flags2.7?WallPaper"],
                 ["boosts_applied", "number", "flags2.8?int"],
@@ -3569,7 +3611,7 @@ const types = new Map([
     [
         "message",
         [
-            0x2357BF25,
+            0x94345242,
             [
                 ["flags", flags, "#"],
                 ["out", "true", "flags.1?true"],
@@ -3609,6 +3651,8 @@ const types = new Map([
                 ["restriction_reason", ["RestrictionReason"], "flags.22?Vector<RestrictionReason>"],
                 ["ttl_period", "number", "flags.25?int"],
                 ["quick_reply_shortcut_id", "number", "flags.30?int"],
+                ["effect", "bigint", "flags2.2?long"],
+                ["factcheck", "FactCheck", "flags2.3?FactCheck"],
             ],
         ],
     ],
@@ -4700,6 +4744,7 @@ const types = new Map([
                 ["contact_require_premium", "true", "flags.29?true"],
                 ["read_dates_private", "true", "flags.30?true"],
                 ["flags2", flags, "#"],
+                ["sponsored_enabled", "true", "flags2.7?true"],
                 ["id", "bigint", "long"],
                 ["about", "string", "flags.1?string"],
                 ["settings", "PeerSettings", "PeerSettings"],
@@ -6502,6 +6547,36 @@ const types = new Map([
                 ["peer", "Peer", "Peer"],
                 ["messages", ["number"], "Vector<int>"],
                 ["qts", "number", "int"],
+            ],
+        ],
+    ],
+    [
+        "updateNewStoryReaction",
+        [
+            0x1824E40B,
+            [
+                ["story_id", "number", "int"],
+                ["peer", "Peer", "Peer"],
+                ["reaction", "Reaction", "Reaction"],
+            ],
+        ],
+    ],
+    [
+        "updateBroadcastRevenueTransactions",
+        [
+            0xDFD961F5,
+            [
+                ["peer", "Peer", "Peer"],
+                ["balances", "BroadcastRevenueBalances", "BroadcastRevenueBalances"],
+            ],
+        ],
+    ],
+    [
+        "updateStarsBalance",
+        [
+            0x0FB85198,
+            [
+                ["balance", "bigint", "long"],
             ],
         ],
     ],
@@ -8611,8 +8686,10 @@ const types = new Map([
     [
         "messageEntityBlockquote",
         [
-            0x020DF5D0,
+            0xF1CCAAAC,
             [
+                ["flags", flags, "#"],
+                ["collapsed", "true", "flags.0?true"],
                 ["offset", "number", "int"],
                 ["length", "number", "int"],
             ],
@@ -9410,13 +9487,34 @@ const types = new Map([
     [
         "auth.sentCodeTypeFirebaseSms",
         [
-            0xE57B1432,
+            0x13C90F17,
             [
                 ["flags", flags, "#"],
                 ["nonce", Uint8Array, "flags.0?bytes"],
+                ["play_integrity_nonce", Uint8Array, "flags.2?bytes"],
                 ["receipt", "string", "flags.1?string"],
                 ["push_timeout", "number", "flags.1?int"],
                 ["length", "number", "int"],
+            ],
+        ],
+    ],
+    [
+        "auth.sentCodeTypeSmsWord",
+        [
+            0xA416AC81,
+            [
+                ["flags", flags, "#"],
+                ["beginning", "string", "flags.0?string"],
+            ],
+        ],
+    ],
+    [
+        "auth.sentCodeTypeSmsPhrase",
+        [
+            0xB37794AF,
+            [
+                ["flags", flags, "#"],
+                ["beginning", "string", "flags.0?string"],
             ],
         ],
     ],
@@ -10492,6 +10590,22 @@ const types = new Map([
         ],
     ],
     [
+        "payments.paymentFormStars",
+        [
+            0x7BF6B15C,
+            [
+                ["flags", flags, "#"],
+                ["form_id", "bigint", "long"],
+                ["bot_id", "bigint", "long"],
+                ["title", "string", "string"],
+                ["description", "string", "string"],
+                ["photo", "WebDocument", "flags.5?WebDocument"],
+                ["invoice", "Invoice", "Invoice"],
+                ["users", ["User"], "Vector<User>"],
+            ],
+        ],
+    ],
+    [
         "payments.validatedRequestedInfo",
         [
             0xD1451883,
@@ -10539,6 +10653,25 @@ const types = new Map([
                 ["currency", "string", "string"],
                 ["total_amount", "bigint", "long"],
                 ["credentials_title", "string", "string"],
+                ["users", ["User"], "Vector<User>"],
+            ],
+        ],
+    ],
+    [
+        "payments.paymentReceiptStars",
+        [
+            0xDABBF83A,
+            [
+                ["flags", flags, "#"],
+                ["date", "number", "int"],
+                ["bot_id", "bigint", "long"],
+                ["title", "string", "string"],
+                ["description", "string", "string"],
+                ["photo", "WebDocument", "flags.2?WebDocument"],
+                ["invoice", "Invoice", "Invoice"],
+                ["currency", "string", "string"],
+                ["total_amount", "bigint", "long"],
+                ["transaction_id", "string", "string"],
                 ["users", ["User"], "Vector<User>"],
             ],
         ],
@@ -12364,9 +12497,9 @@ const types = new Map([
     [
         "pollAnswer",
         [
-            0x6CA9C2E9,
+            0xFF16E2CA,
             [
-                ["text", "string", "string"],
+                ["text", "TextWithEntities", "TextWithEntities"],
                 ["option", Uint8Array, "bytes"],
             ],
         ],
@@ -12374,7 +12507,7 @@ const types = new Map([
     [
         "poll",
         [
-            0x86E18161,
+            0x58747131,
             [
                 ["id", "bigint", "long"],
                 ["flags", flags, "#"],
@@ -12382,7 +12515,7 @@ const types = new Map([
                 ["public_voters", "true", "flags.1?true"],
                 ["multiple_choice", "true", "flags.2?true"],
                 ["quiz", "true", "flags.3?true"],
-                ["question", "string", "string"],
+                ["question", "TextWithEntities", "TextWithEntities"],
                 ["answers", ["PollAnswer"], "Vector<PollAnswer>"],
                 ["close_period", "number", "flags.4?int"],
                 ["close_date", "number", "flags.5?int"],
@@ -12545,6 +12678,7 @@ const types = new Map([
                 ["allow_app_hash", "true", "flags.4?true"],
                 ["allow_missed_call", "true", "flags.5?true"],
                 ["allow_firebase", "true", "flags.7?true"],
+                ["unknown_number", "true", "flags.9?true"],
                 ["logout_tokens", [Uint8Array], "flags.6?Vector<bytes>"],
                 ["token", "string", "flags.8?string"],
                 ["app_sandbox", "boolean", "flags.8?Bool"],
@@ -12966,6 +13100,18 @@ const types = new Map([
                 ["peer", "Peer", "Peer"],
                 ["id", "number", "int"],
                 ["story", "StoryItem", "flags.0?StoryItem"],
+            ],
+        ],
+    ],
+    [
+        "webPageAttributeStickerSet",
+        [
+            0x50CC03D3,
+            [
+                ["flags", flags, "#"],
+                ["emojis", "true", "flags.0?true"],
+                ["text_color", "true", "flags.1?true"],
+                ["stickers", ["Document"], "Vector<Document>"],
             ],
         ],
     ],
@@ -13831,23 +13977,19 @@ const types = new Map([
     [
         "sponsoredMessage",
         [
-            0xED5383F7,
+            0xBDEDF566,
             [
                 ["flags", flags, "#"],
                 ["recommended", "true", "flags.5?true"],
-                ["show_peer_photo", "true", "flags.6?true"],
                 ["can_report", "true", "flags.12?true"],
                 ["random_id", Uint8Array, "bytes"],
-                ["from_id", "Peer", "flags.3?Peer"],
-                ["chat_invite", "ChatInvite", "flags.4?ChatInvite"],
-                ["chat_invite_hash", "string", "flags.4?string"],
-                ["channel_post", "number", "flags.2?int"],
-                ["start_param", "string", "flags.0?string"],
-                ["webpage", "SponsoredWebPage", "flags.9?SponsoredWebPage"],
-                ["app", "BotApp", "flags.10?BotApp"],
+                ["url", "string", "string"],
+                ["title", "string", "string"],
                 ["message", "string", "string"],
                 ["entities", ["MessageEntity"], "flags.1?Vector<MessageEntity>"],
-                ["button_text", "string", "flags.11?string"],
+                ["photo", "Photo", "flags.6?Photo"],
+                ["color", "PeerColor", "flags.13?PeerColor"],
+                ["button_text", "string", "string"],
                 ["sponsor_info", "string", "flags.7?string"],
                 ["additional_info", "string", "flags.8?string"],
             ],
@@ -14342,6 +14484,15 @@ const types = new Map([
         ],
     ],
     [
+        "inputInvoiceStars",
+        [
+            0x1DA33AD8,
+            [
+                ["option", "StarsTopupOption", "StarsTopupOption"],
+            ],
+        ],
+    ],
+    [
         "payments.exportedInvoice",
         [
             0xAED0CBD9,
@@ -14427,6 +14578,18 @@ const types = new Map([
                 ["prize_description", "string", "flags.4?string"],
                 ["random_id", "bigint", "long"],
                 ["until_date", "number", "int"],
+                ["currency", "string", "string"],
+                ["amount", "bigint", "long"],
+            ],
+        ],
+    ],
+    [
+        "inputStorePaymentStars",
+        [
+            0x4F0EE8DF,
+            [
+                ["flags", flags, "#"],
+                ["stars", "bigint", "long"],
                 ["currency", "string", "string"],
                 ["amount", "bigint", "long"],
             ],
@@ -14849,6 +15012,27 @@ const types = new Map([
         ],
     ],
     [
+        "emojiGroupGreeting",
+        [
+            0x80D26CC7,
+            [
+                ["title", "string", "string"],
+                ["icon_emoji_id", "bigint", "long"],
+                ["emoticons", ["string"], "Vector<string>"],
+            ],
+        ],
+    ],
+    [
+        "emojiGroupPremium",
+        [
+            0x093BCF34,
+            [
+                ["title", "string", "string"],
+                ["icon_emoji_id", "bigint", "long"],
+            ],
+        ],
+    ],
+    [
         "messages.emojiGroupsNotModified",
         [
             0x6FB4AD87,
@@ -15147,18 +15331,6 @@ const types = new Map([
         ],
     ],
     [
-        "sponsoredWebPage",
-        [
-            0x3DB8EC63,
-            [
-                ["flags", flags, "#"],
-                ["url", "string", "string"],
-                ["site_name", "string", "string"],
-                ["photo", "Photo", "flags.0?Photo"],
-            ],
-        ],
-    ],
-    [
         "storyViews",
         [
             0x8D595CD6,
@@ -15255,10 +15427,12 @@ const types = new Map([
     [
         "stories.stories",
         [
-            0x5DD8C3C8,
+            0x63C3DD0A,
             [
+                ["flags", flags, "#"],
                 ["count", "number", "int"],
                 ["stories", ["StoryItem"], "Vector<StoryItem>"],
+                ["pinned_to_top", ["number"], "flags.0?Vector<int>"],
                 ["chats", ["Chat"], "Vector<Chat>"],
                 ["users", ["User"], "Vector<User>"],
             ],
@@ -16493,13 +16667,11 @@ const types = new Map([
     [
         "stats.broadcastRevenueStats",
         [
-            0xD07B4BAD,
+            0x5407E297,
             [
                 ["top_hours_graph", "StatsGraph", "StatsGraph"],
                 ["revenue_graph", "StatsGraph", "StatsGraph"],
-                ["current_balance", "bigint", "long"],
-                ["available_balance", "bigint", "long"],
-                ["overall_revenue", "bigint", "long"],
+                ["balances", "BroadcastRevenueBalances", "BroadcastRevenueBalances"],
                 ["usd_rate", "number", "double"],
             ],
         ],
@@ -16558,6 +16730,179 @@ const types = new Map([
             [
                 ["count", "number", "int"],
                 ["transactions", ["BroadcastRevenueTransaction"], "Vector<BroadcastRevenueTransaction>"],
+            ],
+        ],
+    ],
+    [
+        "reactionNotificationsFromContacts",
+        [
+            0xBAC3A61A,
+            [],
+        ],
+    ],
+    [
+        "reactionNotificationsFromAll",
+        [
+            0x4B9E22A0,
+            [],
+        ],
+    ],
+    [
+        "reactionsNotifySettings",
+        [
+            0x56E34970,
+            [
+                ["flags", flags, "#"],
+                ["messages_notify_from", "ReactionNotificationsFrom", "flags.0?ReactionNotificationsFrom"],
+                ["stories_notify_from", "ReactionNotificationsFrom", "flags.1?ReactionNotificationsFrom"],
+                ["sound", "NotificationSound", "NotificationSound"],
+                ["show_previews", "boolean", "Bool"],
+            ],
+        ],
+    ],
+    [
+        "broadcastRevenueBalances",
+        [
+            0x8438F1C6,
+            [
+                ["current_balance", "bigint", "long"],
+                ["available_balance", "bigint", "long"],
+                ["overall_revenue", "bigint", "long"],
+            ],
+        ],
+    ],
+    [
+        "availableEffect",
+        [
+            0x93C3E27E,
+            [
+                ["flags", flags, "#"],
+                ["premium_required", "true", "flags.2?true"],
+                ["id", "bigint", "long"],
+                ["emoticon", "string", "string"],
+                ["static_icon_id", "bigint", "flags.0?long"],
+                ["effect_sticker_id", "bigint", "long"],
+                ["effect_animation_id", "bigint", "flags.1?long"],
+            ],
+        ],
+    ],
+    [
+        "messages.availableEffectsNotModified",
+        [
+            0xD1ED9A5B,
+            [],
+        ],
+    ],
+    [
+        "messages.availableEffects",
+        [
+            0xBDDB616E,
+            [
+                ["hash", "number", "int"],
+                ["effects", ["AvailableEffect"], "Vector<AvailableEffect>"],
+                ["documents", ["Document"], "Vector<Document>"],
+            ],
+        ],
+    ],
+    [
+        "factCheck",
+        [
+            0xB89BFCCF,
+            [
+                ["flags", flags, "#"],
+                ["need_check", "true", "flags.0?true"],
+                ["country", "string", "flags.1?string"],
+                ["text", "TextWithEntities", "flags.1?TextWithEntities"],
+                ["hash", "bigint", "long"],
+            ],
+        ],
+    ],
+    [
+        "starsTransactionPeerUnsupported",
+        [
+            0x95F2BFE4,
+            [],
+        ],
+    ],
+    [
+        "starsTransactionPeerAppStore",
+        [
+            0xB457B375,
+            [],
+        ],
+    ],
+    [
+        "starsTransactionPeerPlayMarket",
+        [
+            0x7B560A0B,
+            [],
+        ],
+    ],
+    [
+        "starsTransactionPeerPremiumBot",
+        [
+            0x250DBAF8,
+            [],
+        ],
+    ],
+    [
+        "starsTransactionPeerFragment",
+        [
+            0xE92FD902,
+            [],
+        ],
+    ],
+    [
+        "starsTransactionPeer",
+        [
+            0xD80DA15D,
+            [
+                ["peer", "Peer", "Peer"],
+            ],
+        ],
+    ],
+    [
+        "starsTopupOption",
+        [
+            0x0BD915C0,
+            [
+                ["flags", flags, "#"],
+                ["extended", "true", "flags.1?true"],
+                ["stars", "bigint", "long"],
+                ["store_product", "string", "flags.0?string"],
+                ["currency", "string", "string"],
+                ["amount", "bigint", "long"],
+            ],
+        ],
+    ],
+    [
+        "starsTransaction",
+        [
+            0xCC7079B2,
+            [
+                ["flags", flags, "#"],
+                ["refund", "true", "flags.3?true"],
+                ["id", "string", "string"],
+                ["stars", "bigint", "long"],
+                ["date", "number", "int"],
+                ["peer", "StarsTransactionPeer", "StarsTransactionPeer"],
+                ["title", "string", "flags.0?string"],
+                ["description", "string", "flags.1?string"],
+                ["photo", "WebDocument", "flags.2?WebDocument"],
+            ],
+        ],
+    ],
+    [
+        "payments.starsStatus",
+        [
+            0x8CF4EE60,
+            [
+                ["flags", flags, "#"],
+                ["balance", "bigint", "long"],
+                ["history", ["StarsTransaction"], "Vector<StarsTransaction>"],
+                ["next_offset", "string", "flags.0?string"],
+                ["chats", ["Chat"], "Vector<Chat>"],
+                ["users", ["User"], "Vector<User>"],
             ],
         ],
     ],
@@ -16658,6 +17003,26 @@ const types = new Map([
         ],
     ],
     [
+        "invokeWithGooglePlayIntegrityPrefix",
+        [
+            0x1DF92984,
+            [
+                ["nonce", "string", "string"],
+                ["token", "string", "string"],
+            ],
+        ],
+    ],
+    [
+        "invokeWithApnsSecretPrefix",
+        [
+            0x0DAE54F8,
+            [
+                ["nonce", "string", "string"],
+                ["secret", "string", "string"],
+            ],
+        ],
+    ],
+    [
         "invokeAfterMsg",
         [
             0xCB9F372D,
@@ -16741,6 +17106,28 @@ const types = new Map([
             0xDD289F8E,
             [
                 ["connection_id", "string", "string"],
+                ["query", null, "!X"],
+            ],
+        ],
+    ],
+    [
+        "invokeWithGooglePlayIntegrity",
+        [
+            0x1DF92984,
+            [
+                ["nonce", "string", "string"],
+                ["token", "string", "string"],
+                ["query", null, "!X"],
+            ],
+        ],
+    ],
+    [
+        "invokeWithApnsSecret",
+        [
+            0x0DAE54F8,
+            [
+                ["nonce", "string", "string"],
+                ["secret", "string", "string"],
                 ["query", null, "!X"],
             ],
         ],
@@ -16871,10 +17258,12 @@ const types = new Map([
     [
         "auth.resendCode",
         [
-            0x3EF1A9BF,
+            0xCAE47523,
             [
+                ["flags", flags, "#"],
                 ["phone_number", "string", "string"],
                 ["phone_code_hash", "string", "string"],
+                ["reason", "string", "flags.0?string"],
             ],
         ],
     ],
@@ -16949,12 +17338,13 @@ const types = new Map([
     [
         "auth.requestFirebaseSms",
         [
-            0x89464B50,
+            0x8E39261E,
             [
                 ["flags", flags, "#"],
                 ["phone_number", "string", "string"],
                 ["phone_code_hash", "string", "string"],
                 ["safety_net_token", "string", "flags.0?string"],
+                ["play_integrity_token", "string", "flags.2?string"],
                 ["ios_push_secret", "string", "flags.1?string"],
             ],
         ],
@@ -16966,6 +17356,17 @@ const types = new Map([
             [
                 ["phone_number", "string", "string"],
                 ["phone_code_hash", "string", "string"],
+            ],
+        ],
+    ],
+    [
+        "auth.reportMissingCode",
+        [
+            0xCB9DEFF6,
+            [
+                ["phone_number", "string", "string"],
+                ["phone_code_hash", "string", "string"],
+                ["mnc", "string", "string"],
             ],
         ],
     ],
@@ -18020,6 +18421,31 @@ const types = new Map([
         ],
     ],
     [
+        "account.toggleSponsoredMessages",
+        [
+            0xB9D9A38D,
+            [
+                ["enabled", "boolean", "Bool"],
+            ],
+        ],
+    ],
+    [
+        "account.getReactionsNotifySettings",
+        [
+            0x06DD654C,
+            [],
+        ],
+    ],
+    [
+        "account.setReactionsNotifySettings",
+        [
+            0x316CE548,
+            [
+                ["settings", "ReactionsNotifySettings", "ReactionsNotifySettings"],
+            ],
+        ],
+    ],
+    [
         "users.getUsers",
         [
             0x0D91A548,
@@ -18440,7 +18866,7 @@ const types = new Map([
     [
         "messages.sendMessage",
         [
-            0xDFF8042C,
+            0x983F9745,
             [
                 ["flags", flags, "#"],
                 ["no_webpage", "true", "flags.1?true"],
@@ -18459,13 +18885,14 @@ const types = new Map([
                 ["schedule_date", "number", "flags.10?int"],
                 ["send_as", "InputPeer", "flags.13?InputPeer"],
                 ["quick_reply_shortcut", "InputQuickReplyShortcut", "flags.17?InputQuickReplyShortcut"],
+                ["effect", "bigint", "flags.18?long"],
             ],
         ],
     ],
     [
         "messages.sendMedia",
         [
-            0x7BD66041,
+            0x7852834E,
             [
                 ["flags", flags, "#"],
                 ["silent", "true", "flags.5?true"],
@@ -18484,6 +18911,7 @@ const types = new Map([
                 ["schedule_date", "number", "flags.10?int"],
                 ["send_as", "InputPeer", "flags.13?InputPeer"],
                 ["quick_reply_shortcut", "InputQuickReplyShortcut", "flags.17?InputQuickReplyShortcut"],
+                ["effect", "bigint", "flags.18?long"],
             ],
         ],
     ],
@@ -18882,6 +19310,7 @@ const types = new Map([
             0x4BC6589A,
             [
                 ["flags", flags, "#"],
+                ["broadcasts_only", "true", "flags.1?true"],
                 ["folder_id", "number", "flags.0?int"],
                 ["q", "string", "string"],
                 ["filter", "MessagesFilter", "MessagesFilter"],
@@ -19385,7 +19814,7 @@ const types = new Map([
     [
         "messages.sendMultiMedia",
         [
-            0x0C964709,
+            0x37B74355,
             [
                 ["flags", flags, "#"],
                 ["silent", "true", "flags.5?true"],
@@ -19400,6 +19829,7 @@ const types = new Map([
                 ["schedule_date", "number", "flags.10?int"],
                 ["send_as", "InputPeer", "flags.13?InputPeer"],
                 ["quick_reply_shortcut", "InputQuickReplyShortcut", "flags.17?InputQuickReplyShortcut"],
+                ["effect", "bigint", "flags.18?long"],
             ],
         ],
     ],
@@ -20067,10 +20497,12 @@ const types = new Map([
     [
         "messages.setChatAvailableReactions",
         [
-            0xFEB16771,
+            0x5A150BD4,
             [
+                ["flags", flags, "#"],
                 ["peer", "InputPeer", "InputPeer"],
                 ["available_reactions", "ChatReactions", "ChatReactions"],
+                ["reactions_limit", "number", "flags.0?int"],
             ],
         ],
     ],
@@ -20680,6 +21112,55 @@ const types = new Map([
             [
                 ["offset_id", "bigint", "long"],
                 ["limit", "number", "int"],
+            ],
+        ],
+    ],
+    [
+        "messages.getEmojiStickerGroups",
+        [
+            0x1DD840F5,
+            [
+                ["hash", "number", "int"],
+            ],
+        ],
+    ],
+    [
+        "messages.getAvailableEffects",
+        [
+            0xDEA20A39,
+            [
+                ["hash", "number", "int"],
+            ],
+        ],
+    ],
+    [
+        "messages.editFactCheck",
+        [
+            0x0589EE75,
+            [
+                ["peer", "InputPeer", "InputPeer"],
+                ["msg_id", "number", "int"],
+                ["text", "TextWithEntities", "TextWithEntities"],
+            ],
+        ],
+    ],
+    [
+        "messages.deleteFactCheck",
+        [
+            0xD1DA940C,
+            [
+                ["peer", "InputPeer", "InputPeer"],
+                ["msg_id", "number", "int"],
+            ],
+        ],
+    ],
+    [
+        "messages.getFactCheck",
+        [
+            0xB9CDC5EE,
+            [
+                ["peer", "InputPeer", "InputPeer"],
+                ["msg_id", ["number"], "Vector<int>"],
             ],
         ],
     ],
@@ -21703,9 +22184,10 @@ const types = new Map([
     [
         "channels.getChannelRecommendations",
         [
-            0x83B70D97,
+            0x25A71742,
             [
-                ["channel", "InputChannel", "InputChannel"],
+                ["flags", flags, "#"],
+                ["channel", "InputChannel", "flags.0?InputChannel"],
             ],
         ],
     ],
@@ -21757,6 +22239,19 @@ const types = new Map([
             [
                 ["channel", "InputChannel", "InputChannel"],
                 ["restricted", "boolean", "Bool"],
+            ],
+        ],
+    ],
+    [
+        "channels.searchPosts",
+        [
+            0xD19F987B,
+            [
+                ["hashtag", "string", "string"],
+                ["offset_rate", "number", "int"],
+                ["offset_peer", "InputPeer", "InputPeer"],
+                ["offset_id", "number", "int"],
+                ["limit", "number", "int"],
             ],
         ],
     ],
@@ -22082,6 +22577,56 @@ const types = new Map([
                 ["peer", "InputPeer", "InputPeer"],
                 ["giveaway_id", "bigint", "long"],
                 ["purpose", "InputStorePaymentPurpose", "InputStorePaymentPurpose"],
+            ],
+        ],
+    ],
+    [
+        "payments.getStarsTopupOptions",
+        [
+            0xC00EC7D3,
+            [],
+        ],
+    ],
+    [
+        "payments.getStarsStatus",
+        [
+            0x104FCFA7,
+            [
+                ["peer", "InputPeer", "InputPeer"],
+            ],
+        ],
+    ],
+    [
+        "payments.getStarsTransactions",
+        [
+            0x673AC2F9,
+            [
+                ["flags", flags, "#"],
+                ["inbound", "true", "flags.0?true"],
+                ["outbound", "true", "flags.1?true"],
+                ["peer", "InputPeer", "InputPeer"],
+                ["offset", "string", "string"],
+            ],
+        ],
+    ],
+    [
+        "payments.sendStarsForm",
+        [
+            0x02BB731D,
+            [
+                ["flags", flags, "#"],
+                ["form_id", "bigint", "long"],
+                ["invoice", "InputInvoice", "InputInvoice"],
+            ],
+        ],
+    ],
+    [
+        "payments.refundStarsCharge",
+        [
+            0x25AE8F4A,
+            [
+                ["user_id", "InputUser", "InputUser"],
+                ["charge_id", "string", "string"],
             ],
         ],
     ],
@@ -23095,6 +23640,16 @@ const types = new Map([
                 ["reaction", "Reaction", "flags.0?Reaction"],
                 ["offset", "string", "flags.1?string"],
                 ["limit", "number", "int"],
+            ],
+        ],
+    ],
+    [
+        "stories.togglePinnedToTop",
+        [
+            0x0B297E9B,
+            [
+                ["peer", "InputPeer", "InputPeer"],
+                ["id", ["number"], "Vector<int>"],
             ],
         ],
     ],
