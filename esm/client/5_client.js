@@ -747,13 +747,13 @@ export class Client extends Composer {
      */
     async connect() {
         const unlock = await __classPrivateFieldGet(this, _Client_connectMutex, "f").lock();
-        if (this.connected) {
-            return;
-        }
-        if (__classPrivateFieldGet(this, _Client_lastConnect, "f") != null && Date.now() - __classPrivateFieldGet(this, _Client_lastConnect, "f").getTime() <= 10 * second) {
-            await new Promise((r) => setTimeout(r, 3 * second));
-        }
         try {
+            if (this.connected) {
+                return;
+            }
+            if (__classPrivateFieldGet(this, _Client_lastConnect, "f") != null && Date.now() - __classPrivateFieldGet(this, _Client_lastConnect, "f").getTime() <= 10 * second) {
+                await new Promise((r) => setTimeout(r, 3 * second));
+            }
             await __classPrivateFieldGet(this, _Client_instances, "m", _Client_initStorage).call(this);
             const [authKey, dc] = await Promise.all([this.storage.getAuthKey(), this.storage.getDc()]);
             if (authKey != null && dc != null) {
