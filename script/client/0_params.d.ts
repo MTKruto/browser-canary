@@ -93,6 +93,10 @@ export interface ForwardMessagesParams extends Omit<_SendCommon, "replyToMessage
     dropCaption?: boolean;
 }
 export interface SendPollParams extends _SendCommon {
+    /** The entities of the poll's question. */
+    questionEntities?: MessageEntity[];
+    /** The parse mode to use for the poll's question. If not provided, the default parse mode will be used. */
+    questionParseMode?: ParseMode;
     /** Whether the poll should be anonymous. */
     isAnonymous?: boolean;
     /** The type of the poll. */

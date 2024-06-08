@@ -470,8 +470,9 @@ class MessageManager {
         const parseResult = explanation !== undefined ? await this.parseText(explanation, { parseMode: params?.explanationParseMode, entities: params?.explanationEntities }) : undefined;
         const solution = parseResult === undefined ? undefined : parseResult[0];
         const solutionEntities = parseResult === undefined ? undefined : parseResult[1];
-        const answers = options.map((v, i) => ({ _: "pollAnswer", option: new Uint8Array([i]), text: v }));
-        const poll = { _: "poll", id: (0, _1_utilities_js_1.getRandomId)(), answers, question, closed: params?.isClosed ? true : undefined, close_date: params?.closeDate ? (0, _1_utilities_js_1.toUnixTimestamp)(params.closeDate) : undefined, close_period: params?.openPeriod ? params.openPeriod : undefined, multiple_choice: params?.allowMultipleAnswers ? true : undefined, public_voters: params?.isAnonymous === false ? true : undefined, quiz: params?.type == "quiz" ? true : undefined };
+        const answers = options.map((v, i) => ({ _: "pollAnswer", option: new Uint8Array([i]), text: { _: "textWithEntities", text: v, entities: [] } }));
+        const questionParseResult = await this.parseText(question, { parseMode: params?.questionParseMode, entities: params?.questionEntities });
+        const poll = { _: "poll", id: (0, _1_utilities_js_1.getRandomId)(), answers, question: { _: "textWithEntities", text: questionParseResult[0], entities: questionParseResult[1] ?? [] }, closed: params?.isClosed ? true : undefined, close_date: params?.closeDate ? (0, _1_utilities_js_1.toUnixTimestamp)(params.closeDate) : undefined, close_period: params?.openPeriod ? params.openPeriod : undefined, multiple_choice: params?.allowMultipleAnswers ? true : undefined, public_voters: params?.isAnonymous === false ? true : undefined, quiz: params?.type == "quiz" ? true : undefined };
         const media = { _: "inputMediaPoll", poll, correct_answers: params?.correctOptionIndex ? [new Uint8Array([params.correctOptionIndex])] : undefined, solution, solution_entities: solutionEntities };
         const result = await __classPrivateFieldGet(this, _MessageManager_c, "f").invoke({
             _: "messages.sendMedia",
@@ -914,7 +915,7 @@ class MessageManager {
         if (message.poll.isClosed) {
             throw new _0_errors_js_1.InputError("Poll is already stopped.");
         }
-        const result = await __classPrivateFieldGet(this, _MessageManager_c, "f").invoke({ _: "messages.editMessage", peer: await __classPrivateFieldGet(this, _MessageManager_c, "f").getInputPeer(chatId), id: messageId, media: ({ _: "inputMediaPoll", poll: ({ _: "poll", id: BigInt(message.poll.id), closed: true, question: "", answers: [] }) }), reply_markup: await __classPrivateFieldGet(this, _MessageManager_instances, "m", _MessageManager_constructReplyMarkup).call(this, params) });
+        const result = await __classPrivateFieldGet(this, _MessageManager_c, "f").invoke({ _: "messages.editMessage", peer: await __classPrivateFieldGet(this, _MessageManager_c, "f").getInputPeer(chatId), id: messageId, media: ({ _: "inputMediaPoll", poll: ({ _: "poll", id: BigInt(message.poll.id), closed: true, question: { _: "textWithEntities", text: "", entities: [] }, answers: [] }) }), reply_markup: await __classPrivateFieldGet(this, _MessageManager_instances, "m", _MessageManager_constructReplyMarkup).call(this, params) });
         const message_ = (await __classPrivateFieldGet(this, _MessageManager_instances, "m", _MessageManager_updatesToMessages).call(this, chatId, result))[0];
         return (0, _3_types_js_2.assertMessageType)(message_, "poll").poll;
     }
