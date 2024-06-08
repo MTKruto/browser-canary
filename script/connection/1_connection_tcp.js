@@ -169,7 +169,9 @@ class ConnectionTCP {
                         this.stateChangeHandler?.(false);
                         throw new _0_errors_js_1.ConnectionError("Connection was closed");
                     }
-                    throw err;
+                    else {
+                        throw err;
+                    }
                 }
             }
         }

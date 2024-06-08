@@ -33,7 +33,7 @@ import { concat, unreachable } from "../0_deps.js";
 import { ConnectionError } from "../0_errors.js";
 import { getLogger, Mutex } from "../1_utilities.js";
 const L = getLogger("ConnectionWebSocket");
-const errConnectionNotOpen = new Error("Connection not open");
+const errConnectionNotOpen = new ConnectionError("Connection not open");
 export class ConnectionWebSocket {
     constructor(url) {
         _ConnectionWebSocket_instances.add(this);

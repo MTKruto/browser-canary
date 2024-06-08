@@ -143,7 +143,9 @@ export class ConnectionTCP {
                         this.stateChangeHandler?.(false);
                         throw new ConnectionError("Connection was closed");
                     }
-                    throw err;
+                    else {
+                        throw err;
+                    }
                 }
             }
         }

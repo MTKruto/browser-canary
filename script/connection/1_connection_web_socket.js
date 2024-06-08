@@ -36,7 +36,7 @@ const _0_deps_js_1 = require("../0_deps.js");
 const _0_errors_js_1 = require("../0_errors.js");
 const _1_utilities_js_1 = require("../1_utilities.js");
 const L = (0, _1_utilities_js_1.getLogger)("ConnectionWebSocket");
-const errConnectionNotOpen = new Error("Connection not open");
+const errConnectionNotOpen = new _0_errors_js_1.ConnectionError("Connection not open");
 class ConnectionWebSocket {
     constructor(url) {
         _ConnectionWebSocket_instances.add(this);
