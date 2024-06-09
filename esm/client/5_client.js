@@ -28,7 +28,7 @@ var __classPrivateFieldGet = (this && this.__classPrivateFieldGet) || function (
     if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot read private member from an object whose class did not declare it");
     return kind === "m" ? f : kind === "a" ? f.call(receiver) : f ? f.value : state.get(receiver);
 };
-var _Client_instances, _a, _Client_client, _Client_guaranteeUpdateDelivery, _Client_updateManager, _Client_networkStatisticsManager, _Client_botInfoManager, _Client_fileManager, _Client_reactionManager, _Client_videoChatManager, _Client_businessConnectionManager, _Client_messageManager, _Client_storyManager, _Client_callbackQueryManager, _Client_inlineQueryManager, _Client_chatListManager, _Client_accountManager, _Client_storage_, _Client_messageStorage_, _Client_parseMode, _Client_apiId, _Client_apiHash, _Client_publicKeys, _Client_ignoreOutgoing, _Client_persistCache, _Client_cdn, _Client_LsignIn, _Client_LpingLoop, _Client_LhandleMigrationError, _Client_L$initConncetion, _Client_getApiId, _Client_getCdnConnectionPool, _Client_getCdnConnection, _Client_constructContext, _Client_propagateConnectionState, _Client_lastPropagatedConnectionState, _Client_stateChangeHandler, _Client_storageInited, _Client_initStorage, _Client_connectMutex, _Client_lastConnect, _Client_connectionInited, _Client_lastPropagatedAuthorizationState, _Client_propagateAuthorizationState, _Client_getSelfId, _Client_pingLoopStarted, _Client_pingLoopAbortController, _Client_pingInterval, _Client_lastUpdates, _Client_startPingLoop, _Client_pingLoop, _Client_invoke, _Client_handleInvokeError, _Client_getUserAccessHash, _Client_getChannelAccessHash, _Client_getInputPeerInner, _Client_handleCtxUpdate, _Client_queueHandleCtxUpdate, _Client_handleUpdate, _Client_lastGetMe, _Client_getMe;
+var _Client_instances, _a, _Client_client, _Client_guaranteeUpdateDelivery, _Client_updateManager, _Client_networkStatisticsManager, _Client_botInfoManager, _Client_fileManager, _Client_reactionManager, _Client_videoChatManager, _Client_businessConnectionManager, _Client_messageManager, _Client_storyManager, _Client_callbackQueryManager, _Client_inlineQueryManager, _Client_chatListManager, _Client_accountManager, _Client_storage_, _Client_messageStorage_, _Client_parseMode, _Client_apiId, _Client_apiHash, _Client_publicKeys, _Client_ignoreOutgoing, _Client_persistCache, _Client_cdn, _Client_LsignIn, _Client_LpingLoop, _Client_LhandleMigrationError, _Client_L$initConncetion, _Client_getApiId, _Client_getCdnConnectionPool, _Client_getCdnConnection, _Client_constructContext, _Client_propagateConnectionState, _Client_lastPropagatedConnectionState, _Client_stateChangeHandler, _Client_storageInited, _Client_initStorage, _Client_connectMutex, _Client_lastConnect, _Client_connectionInited, _Client_lastPropagatedAuthorizationState, _Client_propagateAuthorizationState, _Client_getSelfId, _Client_pingLoopAbortController, _Client_pingInterval, _Client_lastUpdates, _Client_startPingLoop, _Client_pingLoop, _Client_invoke, _Client_handleInvokeError, _Client_getUserAccessHash, _Client_getChannelAccessHash, _Client_getInputPeerInner, _Client_handleCtxUpdate, _Client_queueHandleCtxUpdate, _Client_handleUpdate, _Client_lastGetMe, _Client_getMe;
 import { unreachable } from "../0_deps.js";
 import { AccessError, ConnectionError, InputError } from "../0_errors.js";
 import { cleanObject, drop, getLogger, getRandomId, minute, mustPrompt, mustPromptOneOf, Mutex, second, ZERO_CHANNEL_ID } from "../1_utilities.js";
@@ -511,7 +511,6 @@ export class Client extends Composer {
         _Client_lastConnect.set(this, null);
         _Client_connectionInited.set(this, false);
         _Client_lastPropagatedAuthorizationState.set(this, null);
-        _Client_pingLoopStarted.set(this, false);
         _Client_pingLoopAbortController.set(this, null);
         _Client_pingInterval.set(this, 1 * minute);
         _Client_lastUpdates.set(this, new Date());
@@ -671,6 +670,7 @@ export class Client extends Composer {
             if (connectionState != "notConnected") {
                 return next();
             }
+            __classPrivateFieldGet(this, _Client_pingLoopAbortController, "f")?.abort();
             if (this.disconnected) {
                 L.debug("not reconnecting");
                 return next();
@@ -779,6 +779,7 @@ export class Client extends Composer {
             await __classPrivateFieldGet(this, _Client_client, "f").connect();
             __classPrivateFieldSet(this, _Client_lastConnect, new Date(), "f");
             await Promise.all([this.storage.setAuthKey(__classPrivateFieldGet(this, _Client_client, "f").authKey), this.storage.setDc(__classPrivateFieldGet(this, _Client_client, "f").dc), this.storage.setServerSalt(__classPrivateFieldGet(this, _Client_client, "f").serverSalt)]);
+            __classPrivateFieldGet(this, _Client_instances, "m", _Client_startPingLoop).call(this);
         }
         finally {
             unlock();
@@ -790,7 +791,7 @@ export class Client extends Composer {
         }
         await __classPrivateFieldGet(this, _Client_client, "f").reconnect();
     }
-    async [(_Client_client = new WeakMap(), _Client_guaranteeUpdateDelivery = new WeakMap(), _Client_updateManager = new WeakMap(), _Client_networkStatisticsManager = new WeakMap(), _Client_botInfoManager = new WeakMap(), _Client_fileManager = new WeakMap(), _Client_reactionManager = new WeakMap(), _Client_videoChatManager = new WeakMap(), _Client_businessConnectionManager = new WeakMap(), _Client_messageManager = new WeakMap(), _Client_storyManager = new WeakMap(), _Client_callbackQueryManager = new WeakMap(), _Client_inlineQueryManager = new WeakMap(), _Client_chatListManager = new WeakMap(), _Client_accountManager = new WeakMap(), _Client_storage_ = new WeakMap(), _Client_messageStorage_ = new WeakMap(), _Client_parseMode = new WeakMap(), _Client_apiId = new WeakMap(), _Client_apiHash = new WeakMap(), _Client_publicKeys = new WeakMap(), _Client_ignoreOutgoing = new WeakMap(), _Client_persistCache = new WeakMap(), _Client_cdn = new WeakMap(), _Client_LsignIn = new WeakMap(), _Client_LpingLoop = new WeakMap(), _Client_LhandleMigrationError = new WeakMap(), _Client_L$initConncetion = new WeakMap(), _Client_constructContext = new WeakMap(), _Client_lastPropagatedConnectionState = new WeakMap(), _Client_stateChangeHandler = new WeakMap(), _Client_storageInited = new WeakMap(), _Client_connectMutex = new WeakMap(), _Client_lastConnect = new WeakMap(), _Client_connectionInited = new WeakMap(), _Client_lastPropagatedAuthorizationState = new WeakMap(), _Client_pingLoopStarted = new WeakMap(), _Client_pingLoopAbortController = new WeakMap(), _Client_pingInterval = new WeakMap(), _Client_lastUpdates = new WeakMap(), _Client_handleInvokeError = new WeakMap(), _Client_lastGetMe = new WeakMap(), _Client_instances = new WeakSet(), _Client_getApiId = async function _Client_getApiId() {
+    async [(_Client_client = new WeakMap(), _Client_guaranteeUpdateDelivery = new WeakMap(), _Client_updateManager = new WeakMap(), _Client_networkStatisticsManager = new WeakMap(), _Client_botInfoManager = new WeakMap(), _Client_fileManager = new WeakMap(), _Client_reactionManager = new WeakMap(), _Client_videoChatManager = new WeakMap(), _Client_businessConnectionManager = new WeakMap(), _Client_messageManager = new WeakMap(), _Client_storyManager = new WeakMap(), _Client_callbackQueryManager = new WeakMap(), _Client_inlineQueryManager = new WeakMap(), _Client_chatListManager = new WeakMap(), _Client_accountManager = new WeakMap(), _Client_storage_ = new WeakMap(), _Client_messageStorage_ = new WeakMap(), _Client_parseMode = new WeakMap(), _Client_apiId = new WeakMap(), _Client_apiHash = new WeakMap(), _Client_publicKeys = new WeakMap(), _Client_ignoreOutgoing = new WeakMap(), _Client_persistCache = new WeakMap(), _Client_cdn = new WeakMap(), _Client_LsignIn = new WeakMap(), _Client_LpingLoop = new WeakMap(), _Client_LhandleMigrationError = new WeakMap(), _Client_L$initConncetion = new WeakMap(), _Client_constructContext = new WeakMap(), _Client_lastPropagatedConnectionState = new WeakMap(), _Client_stateChangeHandler = new WeakMap(), _Client_storageInited = new WeakMap(), _Client_connectMutex = new WeakMap(), _Client_lastConnect = new WeakMap(), _Client_connectionInited = new WeakMap(), _Client_lastPropagatedAuthorizationState = new WeakMap(), _Client_pingLoopAbortController = new WeakMap(), _Client_pingInterval = new WeakMap(), _Client_lastUpdates = new WeakMap(), _Client_handleInvokeError = new WeakMap(), _Client_lastGetMe = new WeakMap(), _Client_instances = new WeakSet(), _Client_getApiId = async function _Client_getApiId() {
         const apiId = __classPrivateFieldGet(this, _Client_apiId, "f") || await this.storage.getApiId();
         if (!apiId) {
             throw new InputError("apiId not set");
@@ -888,7 +889,6 @@ export class Client extends Composer {
     async disconnect() {
         __classPrivateFieldSet(this, _Client_connectionInited, false, "f");
         await __classPrivateFieldGet(this, _Client_client, "f").disconnect();
-        __classPrivateFieldGet(this, _Client_pingLoopAbortController, "f")?.abort();
     }
     /**
      * Signs in using the provided parameters if not already signed in.
@@ -1163,8 +1163,8 @@ export class Client extends Composer {
                 if (!this.connected) {
                     continue;
                 }
-                __classPrivateFieldGet(this, _Client_pingLoopAbortController, "f").signal.throwIfAborted();
                 await this.invoke({ _: "ping_delay_disconnect", ping_id: getRandomId(), disconnect_delay: __classPrivateFieldGet(this, _Client_pingInterval, "f") / second + 15 });
+                __classPrivateFieldGet(this, _Client_pingLoopAbortController, "f").signal.throwIfAborted();
                 if (Date.now() - __classPrivateFieldGet(this, _Client_lastUpdates, "f").getTime() >= 15 * minute) {
                     drop(__classPrivateFieldGet(this, _Client_updateManager, "f").recoverUpdateGap("lastUpdates"));
                 }
@@ -1214,12 +1214,6 @@ export class Client extends Composer {
                 }
                 else {
                     throw err;
-                }
-            }
-            finally {
-                if (!__classPrivateFieldGet(this, _Client_pingLoopStarted, "f")) {
-                    __classPrivateFieldGet(this, _Client_instances, "m", _Client_startPingLoop).call(this);
-                    __classPrivateFieldSet(this, _Client_pingLoopStarted, true, "f");
                 }
             }
         }
