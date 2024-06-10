@@ -313,6 +313,9 @@ async function constructMessage(message_, getEntity, getMessage, getStickerSetNa
         const entity = await getEntity(message_.peer_id);
         if (entity) {
             chat_ = (0, _1_chat_p_js_1.constructChatP)(entity);
+            if (chat_.username) {
+                link = link.replace(`/c/${message_.peer_id.channel_id}/`, `/${chat_.username}/`);
+            }
         }
         else {
             (0, _0_deps_js_1.unreachable)();
