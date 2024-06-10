@@ -124,7 +124,7 @@ export interface SendInvoiceParams extends _SendCommon {
     providerToken?: string;
     maxTipAmount?: number;
     suggestedTipAmounts?: number[];
-    startParameter: string;
+    startParameter?: string;
     providerData?: string;
     photoUrl?: string;
     photoSize?: number;
