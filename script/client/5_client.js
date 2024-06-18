@@ -1158,7 +1158,7 @@ class Client extends Composer {
             return;
         }
         __classPrivateFieldSet(this, _Client_pingLoopAbortController, new AbortController(), "f");
-        while (true) {
+        while (this.connected) {
             try {
                 await new Promise((resolve, reject) => {
                     const timeout = setTimeout(resolve, __classPrivateFieldGet(this, _Client_pingInterval, "f"));
