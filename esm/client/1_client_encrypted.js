@@ -93,6 +93,9 @@ export class ClientEncrypted extends ClientAbstract {
     get serverSalt() {
         return __classPrivateFieldGet(this, _ClientEncrypted_state, "f").serverSalt;
     }
+    reassignSessionId() {
+        __classPrivateFieldSet(this, _ClientEncrypted_sessionId, getRandomBigInt(8, true, false), "f");
+    }
     async invoke(function_, noWait) {
         const messageId = __classPrivateFieldGet(this, _ClientEncrypted_instances, "m", _ClientEncrypted_nextMessageId).call(this);
         let message_ = {

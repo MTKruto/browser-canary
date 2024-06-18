@@ -31,7 +31,7 @@ var __classPrivateFieldGet = (this && this.__classPrivateFieldGet) || function (
 var _Client_instances, _a, _Client_client, _Client_guaranteeUpdateDelivery, _Client_updateManager, _Client_networkStatisticsManager, _Client_botInfoManager, _Client_fileManager, _Client_reactionManager, _Client_videoChatManager, _Client_businessConnectionManager, _Client_messageManager, _Client_storyManager, _Client_callbackQueryManager, _Client_inlineQueryManager, _Client_chatListManager, _Client_accountManager, _Client_storage_, _Client_messageStorage_, _Client_parseMode, _Client_apiId, _Client_apiHash, _Client_publicKeys, _Client_ignoreOutgoing, _Client_persistCache, _Client_cdn, _Client_LsignIn, _Client_LpingLoop, _Client_LhandleMigrationError, _Client_L$initConncetion, _Client_getApiId, _Client_getCdnConnectionPool, _Client_getCdnConnection, _Client_constructContext, _Client_propagateConnectionState, _Client_lastPropagatedConnectionState, _Client_stateChangeHandler, _Client_storageInited, _Client_initStorage, _Client_connectMutex, _Client_lastConnect, _Client_connectionInited, _Client_lastPropagatedAuthorizationState, _Client_propagateAuthorizationState, _Client_getSelfId, _Client_pingLoopAbortController, _Client_pingInterval, _Client_lastUpdates, _Client_startPingLoop, _Client_pingLoop, _Client_invoke, _Client_handleInvokeError, _Client_getUserAccessHash, _Client_getChannelAccessHash, _Client_getInputPeerInner, _Client_handleCtxUpdate, _Client_queueHandleCtxUpdate, _Client_handleUpdate, _Client_lastGetMe, _Client_getMe;
 import { unreachable } from "../0_deps.js";
 import { AccessError, ConnectionError, InputError } from "../0_errors.js";
-import { cleanObject, drop, getLogger, getRandomId, minute, mustPrompt, mustPromptOneOf, Mutex, second, ZERO_CHANNEL_ID } from "../1_utilities.js";
+import { cleanObject, drop, getLogger, getRandomId, hour, minute, mustPrompt, mustPromptOneOf, Mutex, second, ZERO_CHANNEL_ID } from "../1_utilities.js";
 import { as, chatIdToPeerId, getChatIdPeerType, is, peerToChatId } from "../2_tl.js";
 import { StorageMemory } from "../2_storage.js";
 import { constructUser } from "../3_types.js";
@@ -754,6 +754,9 @@ export class Client extends Composer {
             if (__classPrivateFieldGet(this, _Client_lastConnect, "f") != null && Date.now() - __classPrivateFieldGet(this, _Client_lastConnect, "f").getTime() <= 10 * second) {
                 await new Promise((r) => setTimeout(r, 3 * second));
             }
+            if (__classPrivateFieldGet(this, _Client_lastConnect, "f") != null && Date.now() - __classPrivateFieldGet(this, _Client_lastConnect, "f").getTime() <= 1 * hour) {
+                __classPrivateFieldGet(this, _Client_client, "f").reassignSessionId();
+            }
             await __classPrivateFieldGet(this, _Client_instances, "m", _Client_initStorage).call(this);
             const [authKey, dc] = await Promise.all([this.storage.getAuthKey(), this.storage.getDc()]);
             if (authKey != null && dc != null) {
@@ -1151,7 +1154,7 @@ export class Client extends Composer {
             return;
         }
         __classPrivateFieldSet(this, _Client_pingLoopAbortController, new AbortController(), "f");
-        while (this.connected) {
+        while (true) {
             try {
                 await new Promise((resolve, reject) => {
                     const timeout = setTimeout(resolve, __classPrivateFieldGet(this, _Client_pingInterval, "f"));
@@ -1165,7 +1168,10 @@ export class Client extends Composer {
                 }
                 await this.invoke({ _: "ping_delay_disconnect", ping_id: getRandomId(), disconnect_delay: __classPrivateFieldGet(this, _Client_pingInterval, "f") / second + 15 });
                 __classPrivateFieldGet(this, _Client_pingLoopAbortController, "f").signal.throwIfAborted();
-                if (Date.now() - __classPrivateFieldGet(this, _Client_lastUpdates, "f").getTime() >= 15 * minute) {
+                if (Date.now() - __classPrivateFieldGet(this, _Client_lastUpdates, "f").getTime() >= 2 * hour) {
+                    drop(this.reconnect());
+                }
+                else if (Date.now() - __classPrivateFieldGet(this, _Client_lastUpdates, "f").getTime() >= 15 * minute) {
                     drop(__classPrivateFieldGet(this, _Client_updateManager, "f").recoverUpdateGap("lastUpdates"));
                 }
             }
