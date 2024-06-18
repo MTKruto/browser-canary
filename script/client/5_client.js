@@ -758,9 +758,6 @@ class Client extends Composer {
             if (__classPrivateFieldGet(this, _Client_lastConnect, "f") != null && Date.now() - __classPrivateFieldGet(this, _Client_lastConnect, "f").getTime() <= 10 * _1_utilities_js_1.second) {
                 await new Promise((r) => setTimeout(r, 3 * _1_utilities_js_1.second));
             }
-            if (__classPrivateFieldGet(this, _Client_lastConnect, "f") != null && Date.now() - __classPrivateFieldGet(this, _Client_lastConnect, "f").getTime() <= 1 * _1_utilities_js_1.hour) {
-                __classPrivateFieldGet(this, _Client_client, "f").reassignSessionId();
-            }
             await __classPrivateFieldGet(this, _Client_instances, "m", _Client_initStorage).call(this);
             const [authKey, dc] = await Promise.all([this.storage.getAuthKey(), this.storage.getDc()]);
             if (authKey != null && dc != null) {
@@ -1172,10 +1169,7 @@ class Client extends Composer {
                 }
                 await this.invoke({ _: "ping_delay_disconnect", ping_id: (0, _1_utilities_js_1.getRandomId)(), disconnect_delay: __classPrivateFieldGet(this, _Client_pingInterval, "f") / _1_utilities_js_1.second + 15 });
                 __classPrivateFieldGet(this, _Client_pingLoopAbortController, "f").signal.throwIfAborted();
-                if (Date.now() - __classPrivateFieldGet(this, _Client_lastUpdates, "f").getTime() >= 2 * _1_utilities_js_1.hour) {
-                    (0, _1_utilities_js_1.drop)(this.reconnect());
-                }
-                else if (Date.now() - __classPrivateFieldGet(this, _Client_lastUpdates, "f").getTime() >= 15 * _1_utilities_js_1.minute) {
+                if (Date.now() - __classPrivateFieldGet(this, _Client_lastUpdates, "f").getTime() >= 15 * _1_utilities_js_1.minute) {
                     (0, _1_utilities_js_1.drop)(__classPrivateFieldGet(this, _Client_updateManager, "f").recoverUpdateGap("lastUpdates"));
                 }
             }

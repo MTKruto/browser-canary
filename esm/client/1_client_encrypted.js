@@ -31,7 +31,7 @@ var __classPrivateFieldGet = (this && this.__classPrivateFieldGet) || function (
 var _ClientEncrypted_instances, _ClientEncrypted_authKey, _ClientEncrypted_authKeyId, _ClientEncrypted_sessionId, _ClientEncrypted_state, _ClientEncrypted_toAcknowledge, _ClientEncrypted_recentAcks, _ClientEncrypted_promises, _ClientEncrypted_L, _ClientEncrypted_LreceiveLoop, _ClientEncrypted_Linvoke, _ClientEncrypted_nextMessageId, _ClientEncrypted_nextSeqNo, _ClientEncrypted_sendMessage, _ClientEncrypted_receiveLoop;
 import { gunzip, unreachable } from "../0_deps.js";
 import { ConnectionError } from "../0_errors.js";
-import { bigIntFromBuffer, CacheMap, drop, getLogger, getRandomBigInt, sha1 } from "../1_utilities.js";
+import { bigIntFromBuffer, CacheMap, drop, getLogger, getRandomId, sha1 } from "../1_utilities.js";
 import { is, isOfEnum, TLError, TLReader } from "../2_tl.js";
 import { constructTelegramError } from "../4_errors.js";
 import { ClientAbstract } from "./0_client_abstract.js";
@@ -55,7 +55,7 @@ export class ClientEncrypted extends ClientAbstract {
         _ClientEncrypted_instances.add(this);
         _ClientEncrypted_authKey.set(this, new Uint8Array());
         _ClientEncrypted_authKeyId.set(this, 0n);
-        _ClientEncrypted_sessionId.set(this, getRandomBigInt(8, true, false));
+        _ClientEncrypted_sessionId.set(this, 0n);
         _ClientEncrypted_state.set(this, { serverSalt: 0n, seqNo: 0, messageId: 0n });
         _ClientEncrypted_toAcknowledge.set(this, new Set());
         _ClientEncrypted_recentAcks.set(this, new CacheMap(20));
@@ -77,6 +77,7 @@ export class ClientEncrypted extends ClientAbstract {
     }
     async connect() {
         await super.connect();
+        __classPrivateFieldSet(this, _ClientEncrypted_sessionId, getRandomId(), "f");
         drop(__classPrivateFieldGet(this, _ClientEncrypted_instances, "m", _ClientEncrypted_receiveLoop).call(this)); // TODO: ability to join this promise
     }
     async setAuthKey(key) {
@@ -92,9 +93,6 @@ export class ClientEncrypted extends ClientAbstract {
     }
     get serverSalt() {
         return __classPrivateFieldGet(this, _ClientEncrypted_state, "f").serverSalt;
-    }
-    reassignSessionId() {
-        __classPrivateFieldSet(this, _ClientEncrypted_sessionId, getRandomBigInt(8, true, false), "f");
     }
     async invoke(function_, noWait) {
         const messageId = __classPrivateFieldGet(this, _ClientEncrypted_instances, "m", _ClientEncrypted_nextMessageId).call(this);

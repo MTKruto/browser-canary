@@ -58,7 +58,7 @@ class ClientEncrypted extends _0_client_abstract_js_1.ClientAbstract {
         _ClientEncrypted_instances.add(this);
         _ClientEncrypted_authKey.set(this, new Uint8Array());
         _ClientEncrypted_authKeyId.set(this, 0n);
-        _ClientEncrypted_sessionId.set(this, (0, _1_utilities_js_1.getRandomBigInt)(8, true, false));
+        _ClientEncrypted_sessionId.set(this, 0n);
         _ClientEncrypted_state.set(this, { serverSalt: 0n, seqNo: 0, messageId: 0n });
         _ClientEncrypted_toAcknowledge.set(this, new Set());
         _ClientEncrypted_recentAcks.set(this, new _1_utilities_js_1.CacheMap(20));
@@ -80,6 +80,7 @@ class ClientEncrypted extends _0_client_abstract_js_1.ClientAbstract {
     }
     async connect() {
         await super.connect();
+        __classPrivateFieldSet(this, _ClientEncrypted_sessionId, (0, _1_utilities_js_1.getRandomId)(), "f");
         (0, _1_utilities_js_1.drop)(__classPrivateFieldGet(this, _ClientEncrypted_instances, "m", _ClientEncrypted_receiveLoop).call(this)); // TODO: ability to join this promise
     }
     async setAuthKey(key) {
@@ -95,9 +96,6 @@ class ClientEncrypted extends _0_client_abstract_js_1.ClientAbstract {
     }
     get serverSalt() {
         return __classPrivateFieldGet(this, _ClientEncrypted_state, "f").serverSalt;
-    }
-    reassignSessionId() {
-        __classPrivateFieldSet(this, _ClientEncrypted_sessionId, (0, _1_utilities_js_1.getRandomBigInt)(8, true, false), "f");
     }
     async invoke(function_, noWait) {
         const messageId = __classPrivateFieldGet(this, _ClientEncrypted_instances, "m", _ClientEncrypted_nextMessageId).call(this);
