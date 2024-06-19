@@ -505,9 +505,6 @@ class Client extends Composer {
         });
         _Client_lastPropagatedConnectionState.set(this, null);
         _Client_stateChangeHandler.set(this, ((connected) => {
-            if (!connected) {
-                __classPrivateFieldGet(this, _Client_client, "f").resetState();
-            }
             const connectionState = connected ? "ready" : "notConnected";
             if (__classPrivateFieldGet(this, _Client_lastPropagatedConnectionState, "f") != connectionState) {
                 __classPrivateFieldGet(this, _Client_instances, "m", _Client_propagateConnectionState).call(this, connectionState);
