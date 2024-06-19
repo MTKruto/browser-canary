@@ -55,7 +55,7 @@ export class ClientEncrypted extends ClientAbstract {
         _ClientEncrypted_instances.add(this);
         _ClientEncrypted_authKey.set(this, new Uint8Array());
         _ClientEncrypted_authKeyId.set(this, 0n);
-        _ClientEncrypted_sessionId.set(this, 0n);
+        _ClientEncrypted_sessionId.set(this, getRandomId());
         _ClientEncrypted_state.set(this, { serverSalt: 0n, seqNo: 0, messageId: 0n });
         _ClientEncrypted_toAcknowledge.set(this, new Set());
         _ClientEncrypted_recentAcks.set(this, new CacheMap(20));
@@ -77,8 +77,12 @@ export class ClientEncrypted extends ClientAbstract {
     }
     async connect() {
         await super.connect();
-        __classPrivateFieldSet(this, _ClientEncrypted_sessionId, getRandomId(), "f");
         drop(__classPrivateFieldGet(this, _ClientEncrypted_instances, "m", _ClientEncrypted_receiveLoop).call(this)); // TODO: ability to join this promise
+    }
+    resetState() {
+        __classPrivateFieldSet(this, _ClientEncrypted_state, { serverSalt: 0n, seqNo: 0, messageId: 0n }, "f");
+        __classPrivateFieldGet(this, _ClientEncrypted_toAcknowledge, "f").clear();
+        __classPrivateFieldGet(this, _ClientEncrypted_recentAcks, "f").clear();
     }
     async setAuthKey(key) {
         const hash = await sha1(key);

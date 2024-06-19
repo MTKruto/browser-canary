@@ -43,6 +43,7 @@ export declare class ClientEncrypted extends ClientAbstract {
     handlers: Handlers;
     constructor(params?: ClientAbstractParams);
     connect(): Promise<void>;
+    resetState(): void;
     setAuthKey(key: Uint8Array): Promise<void>;
     get authKey(): Uint8Array;
     set serverSalt(serverSalt: bigint);
