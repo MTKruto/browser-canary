@@ -119,6 +119,7 @@ _ConnectionWebSocket_url = new WeakMap(), _ConnectionWebSocket_webSocket = new W
         webSocket.addEventListener("open", () => {
             this.stateChangeHandler?.(true);
             resolve(webSocket);
+            L.debug("connected to", __classPrivateFieldGet(this, _ConnectionWebSocket_url, "f"));
         });
         webSocket.addEventListener("message", async (e) => {
             if (typeof e.data === "string") {

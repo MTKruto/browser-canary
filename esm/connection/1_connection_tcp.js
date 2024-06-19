@@ -82,6 +82,7 @@ export class ConnectionTCP {
         connection.setKeepAlive(true);
         __classPrivateFieldSet(this, _ConnectionTCP_canRead, __classPrivateFieldSet(this, _ConnectionTCP_canWrite, true, "f"), "f");
         this.stateChangeHandler?.(true);
+        L.debug("connected to", __classPrivateFieldGet(this, _ConnectionTCP_hostname, "f"), "port", __classPrivateFieldGet(this, _ConnectionTCP_port, "f"));
         Promise.resolve().then(async () => {
             do {
                 try {
