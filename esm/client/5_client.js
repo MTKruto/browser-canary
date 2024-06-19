@@ -1166,7 +1166,9 @@ export class Client extends Composer {
                 await this.invoke({ _: "ping_delay_disconnect", ping_id: getRandomId(), disconnect_delay: __classPrivateFieldGet(this, _Client_pingInterval, "f") / second + 15 });
                 __classPrivateFieldGet(this, _Client_pingLoopAbortController, "f").signal.throwIfAborted();
                 if (Date.now() - __classPrivateFieldGet(this, _Client_lastUpdates, "f").getTime() >= 15 * minute) {
-                    drop(__classPrivateFieldGet(this, _Client_updateManager, "f").recoverUpdateGap("lastUpdates"));
+                    drop(__classPrivateFieldGet(this, _Client_updateManager, "f").recoverUpdateGap("lastUpdates").then((v) => {
+                        __classPrivateFieldSet(this, _Client_lastUpdates, new Date(), "f");
+                    }));
                 }
             }
             catch (err) {
