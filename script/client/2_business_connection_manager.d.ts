@@ -20,7 +20,8 @@
 import { Api } from "../2_tl.js";
 import { Update } from "../3_types.js";
 import { C } from "./1_types.js";
-export type BusinessConnectionManagerUpdate = Api.updateBotBusinessConnect;
+declare const businessConnectionManagerUpdates: readonly ["updateBotBusinessConnect"];
+type BusinessConnectionManagerUpdate = Api.Types[(typeof businessConnectionManagerUpdates)[number]];
 export declare class BusinessConnectionManager {
     #private;
     constructor(c: C);
@@ -28,4 +29,5 @@ export declare class BusinessConnectionManager {
     static canHandleUpdate(update: Api.Update): update is BusinessConnectionManagerUpdate;
     handleUpdate(update: BusinessConnectionManagerUpdate): Promise<Update>;
 }
+export {};
 //# sourceMappingURL=2_business_connection_manager.d.ts.map

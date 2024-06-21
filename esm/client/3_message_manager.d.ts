@@ -26,7 +26,8 @@ import { FileManager } from "./2_file_manager.js";
 interface C extends C_ {
     fileManager: FileManager;
 }
-type MessageManagerUpdate = Api.updateNewMessage | Api.updateNewChannelMessage | Api.updateEditMessage | Api.updateEditChannelMessage | Api.updateBotNewBusinessMessage | Api.updateBotEditBusinessMessage | Api.updateBotDeleteBusinessMessage | Api.updateDeleteMessages | Api.updateDeleteChannelMessages | Api.updateChannelParticipant | Api.updateChatParticipant | Api.updateBotPrecheckoutQuery;
+declare const messageManagerUpdates: readonly ["updateNewMessage", "updateNewChannelMessage", "updateEditMessage", "updateEditChannelMessage", "updateBotNewBusinessMessage", "updateBotEditBusinessMessage", "updateBotDeleteBusinessMessage", "updateDeleteMessages", "updateDeleteChannelMessages", "updateChannelParticipant", "updateChatParticipant", "updateBotPrecheckoutQuery"];
+type MessageManagerUpdate = Api.Types[(typeof messageManagerUpdates)[number]];
 export declare class MessageManager {
     #private;
     constructor(c: C);

@@ -33,6 +33,10 @@ import { isOneOf, peerToChatId } from "../2_tl.js";
 import { constructCallbackQuery, constructCallbackQueryAnswer, validateCallbackQueryQuestion } from "../3_types.js";
 import { checkCallbackQueryId, checkMessageId } from "./0_utilities.js";
 import { checkPassword } from "./0_password.js";
+const callbackQueryManagerUpdates = [
+    "updateBotCallbackQuery",
+    "updateInlineBotCallbackQuery",
+];
 export class CallbackQueryManager {
     constructor(c) {
         _CallbackQueryManager_instances.add(this);
@@ -60,7 +64,7 @@ export class CallbackQueryManager {
         return constructCallbackQueryAnswer(answer);
     }
     static canHandleUpdate(update) {
-        return isOneOf(["updateBotCallbackQuery", "updateInlineBotCallbackQuery"], update);
+        return isOneOf(callbackQueryManagerUpdates, update);
     }
     async handleUpdate(update) {
         return { callbackQuery: await constructCallbackQuery(update, __classPrivateFieldGet(this, _CallbackQueryManager_c, "f").getEntity, __classPrivateFieldGet(this, _CallbackQueryManager_c, "f").messageManager.getMessageWithReply.bind(__classPrivateFieldGet(this, _CallbackQueryManager_c, "f").messageManager)) };

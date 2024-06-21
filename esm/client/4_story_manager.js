@@ -32,9 +32,12 @@ var _StoryManager_instances, _StoryManager_c, _StoryManager_updatesToStory, _Sto
 import { contentType, unreachable } from "../0_deps.js";
 import { InputError } from "../0_errors.js";
 import { getRandomId } from "../1_utilities.js";
-import { as, inputPeerToPeer, is, peerToChatId } from "../2_tl.js";
+import { as, inputPeerToPeer, is, isOneOf, peerToChatId } from "../2_tl.js";
 import { constructStory, FileType, storyInteractiveAreaToTlObject, storyPrivacyToTlObject } from "../3_types.js";
 import { checkArray, checkStoryId, isHttpUrl } from "./0_utilities.js";
+const storyManagerUpdates = [
+    "updateStory",
+];
 export class StoryManager {
     constructor(c) {
         _StoryManager_instances.add(this);
@@ -123,7 +126,7 @@ export class StoryManager {
         await this.removeStoriesFromHighlights(chatId, [storyId]);
     }
     static canHandleUpdate(update) {
-        return is("updateStory", update);
+        return isOneOf(storyManagerUpdates, update);
     }
     async handleUpdate(update) {
         if (is("storyItemDeleted", update.story)) {

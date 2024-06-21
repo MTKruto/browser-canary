@@ -36,6 +36,10 @@ const _2_tl_js_1 = require("../2_tl.js");
 const _3_types_js_1 = require("../3_types.js");
 const _0_utilities_js_1 = require("./0_utilities.js");
 const _0_password_js_1 = require("./0_password.js");
+const callbackQueryManagerUpdates = [
+    "updateBotCallbackQuery",
+    "updateInlineBotCallbackQuery",
+];
 class CallbackQueryManager {
     constructor(c) {
         _CallbackQueryManager_instances.add(this);
@@ -63,7 +67,7 @@ class CallbackQueryManager {
         return (0, _3_types_js_1.constructCallbackQueryAnswer)(answer);
     }
     static canHandleUpdate(update) {
-        return (0, _2_tl_js_1.isOneOf)(["updateBotCallbackQuery", "updateInlineBotCallbackQuery"], update);
+        return (0, _2_tl_js_1.isOneOf)(callbackQueryManagerUpdates, update);
     }
     async handleUpdate(update) {
         return { callbackQuery: await (0, _3_types_js_1.constructCallbackQuery)(update, __classPrivateFieldGet(this, _CallbackQueryManager_c, "f").getEntity, __classPrivateFieldGet(this, _CallbackQueryManager_c, "f").messageManager.getMessageWithReply.bind(__classPrivateFieldGet(this, _CallbackQueryManager_c, "f").messageManager)) };

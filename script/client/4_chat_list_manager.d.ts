@@ -26,7 +26,8 @@ type C = C_ & {
     fileManager: FileManager;
     messageManager: MessageManager;
 };
-type ChatListManagerUpdate = Api.updateNewMessage | Api.updateNewChannelMessage | Api.updatePinnedDialogs | Api.updateFolderPeers | Api.updateChannel | Api.updateChat | Api.updateUser | Api.updateUserName;
+declare const chatListManagerUpdates: readonly ["updateNewMessage", "updateNewChannelMessage", "updatePinnedDialogs", "updateFolderPeers", "updateChannel", "updateChat", "updateUser", "updateUserName"];
+type ChatListManagerUpdate = Api.Types[(typeof chatListManagerUpdates)[number]];
 export declare class ChatListManager {
     #private;
     constructor(c: C);

@@ -37,6 +37,9 @@ const _0_errors_js_1 = require("../0_errors.js");
 const _1_utilities_js_1 = require("../1_utilities.js");
 const _2_tl_js_1 = require("../2_tl.js");
 const _3_types_js_1 = require("../3_types.js");
+const videoChatManagerUpdates = [
+    "updateGroupCall",
+];
 class VideoChatManager {
     constructor(c) {
         _VideoChatManager_instances.add(this);
@@ -93,7 +96,7 @@ class VideoChatManager {
         return (0, _3_types_js_1.constructVideoChat)(await __classPrivateFieldGet(this, _VideoChatManager_instances, "m", _VideoChatManager_getCall).call(this, id));
     }
     static canHandleUpdate(update) {
-        return (0, _2_tl_js_1.is)("updateGroupCall", update);
+        return (0, _2_tl_js_1.isOneOf)(videoChatManagerUpdates, update);
     }
     async handleUpdate(update) {
         let chatId = Number(-update.chat_id);

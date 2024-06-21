@@ -38,6 +38,16 @@ const _1_utilities_js_1 = require("../1_utilities.js");
 const _2_tl_js_1 = require("../2_tl.js");
 const _3_types_js_1 = require("../3_types.js");
 const _0_utilities_js_1 = require("./0_utilities.js");
+const chatListManagerUpdates = [
+    "updateNewMessage",
+    "updateNewChannelMessage",
+    "updatePinnedDialogs",
+    "updateFolderPeers",
+    "updateChannel",
+    "updateChat",
+    "updateUser",
+    "updateUserName",
+];
 class ChatListManager {
     constructor(c) {
         _ChatListManager_instances.add(this);
@@ -144,7 +154,7 @@ class ChatListManager {
         return chats;
     }
     static canHandleUpdate(update) {
-        return (0, _2_tl_js_1.is)("updateNewMessage", update) || (0, _2_tl_js_1.is)("updateNewChannelMessage", update) || (0, _2_tl_js_1.is)("updatePinnedDialogs", update) || (0, _2_tl_js_1.is)("updateFolderPeers", update) || (0, _2_tl_js_1.is)("updateChannel", update) || (0, _2_tl_js_1.is)("updateChat", update) || (0, _2_tl_js_1.is)("updateUser", update) || (0, _2_tl_js_1.is)("updateUserName", update);
+        return (0, _2_tl_js_1.isOneOf)(chatListManagerUpdates, update);
     }
     async handleUpdate(update) {
         if ((0, _2_tl_js_1.is)("updateNewMessage", update) || (0, _2_tl_js_1.is)("updateNewChannelMessage", update) || (0, _2_tl_js_1.is)("updateEditMessage", update) || (0, _2_tl_js_1.is)("updateEditChannelMessage", update)) {

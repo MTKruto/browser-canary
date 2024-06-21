@@ -32,8 +32,11 @@ var _VideoChatManager_instances, _VideoChatManager_c, _VideoChatManager_createGr
 import { unreachable } from "../0_deps.js";
 import { InputError } from "../0_errors.js";
 import { getRandomId, toUnixTimestamp, ZERO_CHANNEL_ID } from "../1_utilities.js";
-import { as, is } from "../2_tl.js";
+import { as, is, isOneOf } from "../2_tl.js";
 import { constructLiveStreamChannel, constructVideoChat } from "../3_types.js";
+const videoChatManagerUpdates = [
+    "updateGroupCall",
+];
 export class VideoChatManager {
     constructor(c) {
         _VideoChatManager_instances.add(this);
@@ -90,7 +93,7 @@ export class VideoChatManager {
         return constructVideoChat(await __classPrivateFieldGet(this, _VideoChatManager_instances, "m", _VideoChatManager_getCall).call(this, id));
     }
     static canHandleUpdate(update) {
-        return is("updateGroupCall", update);
+        return isOneOf(videoChatManagerUpdates, update);
     }
     async handleUpdate(update) {
         let chatId = Number(-update.chat_id);

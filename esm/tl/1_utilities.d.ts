@@ -26,7 +26,7 @@ export declare function analyzeOptionalParam(ntype: string): {
 export declare function isValidType(object: any): object is AnyType;
 export declare function assertIsValidType(object: any): void;
 export declare function is<S extends keyof (Types & Functions)>(typeName: S, value: unknown): value is S extends keyof Types ? Types[S] : S extends keyof Functions ? Functions[S] : never;
-export declare function isOneOf<S extends keyof (Types & Functions)>(typeNames: S[], value: unknown): value is S extends keyof Types ? Types[S] : S extends keyof Functions ? Functions[S] : never;
+export declare function isOneOf<S extends keyof (Types & Functions)>(typeNames: S[] | readonly S[], value: unknown): value is S extends keyof Types ? Types[S] : S extends keyof Functions ? Functions[S] : never;
 export declare function isOfEnum<S extends keyof Enums>(enumName: S, value: unknown): value is Enums[S];
 export declare function as<S extends keyof Types>(typeName: S, value: unknown): Types[S];
 //# sourceMappingURL=1_utilities.d.ts.map

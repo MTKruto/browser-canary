@@ -35,19 +35,20 @@ exports.ReactionManager = void 0;
 const _0_deps_js_1 = require("../0_deps.js");
 const _2_tl_js_1 = require("../2_tl.js");
 const _3_types_js_1 = require("../3_types.js");
+const reactionManagerUpdates = [
+    "updateBotMessageReactions",
+    "updateBotMessageReaction",
+    "updateMessageReactions",
+    "updateChannelMessageViews",
+    "updateChannelMessageForwards",
+];
 class ReactionManager {
     constructor(c) {
         _ReactionManager_c.set(this, void 0);
         __classPrivateFieldSet(this, _ReactionManager_c, c, "f");
     }
     static canHandleUpdate(update) {
-        return (0, _2_tl_js_1.isOneOf)([
-            "updateBotMessageReactions",
-            "updateBotMessageReaction",
-            "updateMessageReactions",
-            "updateChannelMessageViews",
-            "updateChannelMessageForwards",
-        ], update);
+        return (0, _2_tl_js_1.isOneOf)(reactionManagerUpdates, update);
     }
     async handleUpdate(update) {
         if ((0, _2_tl_js_1.is)("updateBotMessageReactions", update)) {

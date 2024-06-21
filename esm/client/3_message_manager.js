@@ -32,7 +32,7 @@ var _MessageManager_instances, _MessageManager_c, _MessageManager_LresolveFileId
 import { contentType, unreachable } from "../0_deps.js";
 import { InputError } from "../0_errors.js";
 import { getLogger, getRandomId, toUnixTimestamp } from "../1_utilities.js";
-import { as, getChannelChatId, is, peerToChatId } from "../2_tl.js";
+import { as, getChannelChatId, is, isOneOf, peerToChatId } from "../2_tl.js";
 import { constructChatMemberUpdated, constructInviteLink, constructPreCheckoutQuery, deserializeFileId, selfDestructOptionToInt } from "../3_types.js";
 import { assertMessageType, chatMemberRightsToTlObject, constructChatMember, constructMessage as constructMessage_, deserializeInlineMessageId, FileType, messageEntityToTlObject, reactionEqual, reactionToTlObject, replyMarkupToTlObject } from "../3_types.js";
 import { messageSearchFilterToTlObject } from "../types/0_message_search_filter.js";
@@ -43,6 +43,20 @@ import { checkArray } from "./0_utilities.js";
 import { isHttpUrl } from "./0_utilities.js";
 const FALLBACK_MIME_TYPE = "application/octet-stream";
 const STICKER_MIME_TYPES = ["image/webp", "video/webm", "application/x-tgsticker"];
+const messageManagerUpdates = [
+    "updateNewMessage",
+    "updateNewChannelMessage",
+    "updateEditMessage",
+    "updateEditChannelMessage",
+    "updateBotNewBusinessMessage",
+    "updateBotEditBusinessMessage",
+    "updateBotDeleteBusinessMessage",
+    "updateDeleteMessages",
+    "updateDeleteChannelMessages",
+    "updateChannelParticipant",
+    "updateChatParticipant",
+    "updateBotPrecheckoutQuery",
+];
 export class MessageManager {
     constructor(c) {
         _MessageManager_instances.add(this);
@@ -599,18 +613,7 @@ export class MessageManager {
         }
     }
     static canHandleUpdate(update) {
-        return is("updateNewMessage", update) ||
-            is("updateNewChannelMessage", update) ||
-            is("updateEditMessage", update) ||
-            is("updateEditChannelMessage", update) ||
-            is("updateBotNewBusinessMessage", update) ||
-            is("updateBotEditBusinessMessage", update) ||
-            is("updateBotDeleteBusinessMessage", update) ||
-            is("updateDeleteMessages", update) ||
-            is("updateDeleteChannelMessages", update) ||
-            is("updateChannelParticipant", update) ||
-            is("updateChatParticipant", update) ||
-            is("updateBotPrecheckoutQuery", update);
+        return isOneOf(messageManagerUpdates, update);
     }
     async handleUpdate(update) {
         if (is("updateNewMessage", update) || is("updateNewChannelMessage", update) || is("updateEditMessage", update) || is("updateEditChannelMessage", update)) {

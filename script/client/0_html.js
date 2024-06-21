@@ -66,7 +66,7 @@ function parseHtml(html) {
                     if (attribs.class != "tg-spoiler") {
                         throw new _0_errors_js_1.InputError('The class attribute must be "tg-spoiler."');
                     }
-                // falls through
+                /* falls through */
                 case "tg-spoiler":
                     stack.push({ type: "spoiler", offset: text.length, length: 0 });
                     break;

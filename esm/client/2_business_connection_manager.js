@@ -29,9 +29,11 @@ var __classPrivateFieldGet = (this && this.__classPrivateFieldGet) || function (
     return kind === "m" ? f : kind === "a" ? f.call(receiver) : f ? f.value : state.get(receiver);
 };
 var _BusinessConnectionManager_c;
-import { is } from "../2_tl.js";
-import { as } from "../2_tl.js";
+import { as, isOneOf } from "../2_tl.js";
 import { constructBusinessConnection } from "../3_types.js";
+const businessConnectionManagerUpdates = [
+    "updateBotBusinessConnect",
+];
 export class BusinessConnectionManager {
     constructor(c) {
         _BusinessConnectionManager_c.set(this, void 0);
@@ -51,7 +53,7 @@ export class BusinessConnectionManager {
         }
     }
     static canHandleUpdate(update) {
-        return is("updateBotBusinessConnect", update);
+        return isOneOf(businessConnectionManagerUpdates, update);
     }
     async handleUpdate(update) {
         if (update.connection.disabled) {

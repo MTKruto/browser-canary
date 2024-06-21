@@ -38,6 +38,9 @@ const _1_utilities_js_1 = require("../1_utilities.js");
 const _2_tl_js_1 = require("../2_tl.js");
 const _3_types_js_1 = require("../3_types.js");
 const _0_utilities_js_1 = require("./0_utilities.js");
+const storyManagerUpdates = [
+    "updateStory",
+];
 class StoryManager {
     constructor(c) {
         _StoryManager_instances.add(this);
@@ -126,7 +129,7 @@ class StoryManager {
         await this.removeStoriesFromHighlights(chatId, [storyId]);
     }
     static canHandleUpdate(update) {
-        return (0, _2_tl_js_1.is)("updateStory", update);
+        return (0, _2_tl_js_1.isOneOf)(storyManagerUpdates, update);
     }
     async handleUpdate(update) {
         if ((0, _2_tl_js_1.is)("storyItemDeleted", update.story)) {

@@ -25,7 +25,8 @@ import { FileManager } from "./2_file_manager.js";
 interface C extends C_ {
     fileManager: FileManager;
 }
-type VideoChatManagerUpdate = Api.updateGroupCall;
+declare const videoChatManagerUpdates: readonly ["updateGroupCall"];
+type VideoChatManagerUpdate = Api.Types[(typeof videoChatManagerUpdates)[number]];
 export declare class VideoChatManager {
     #private;
     constructor(c: C);

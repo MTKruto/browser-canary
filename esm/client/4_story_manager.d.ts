@@ -28,7 +28,8 @@ type C = C_ & {
     fileManager: FileManager;
     messageManager: MessageManager;
 };
-type StoryManagerUpdate = Api.updateStory;
+declare const storyManagerUpdates: readonly ["updateStory"];
+type StoryManagerUpdate = Api.Types[(typeof storyManagerUpdates)[number]];
 export declare class StoryManager {
     #private;
     constructor(c: C);

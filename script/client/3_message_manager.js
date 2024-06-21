@@ -46,6 +46,20 @@ const _0_utilities_js_2 = require("./0_utilities.js");
 const _0_utilities_js_3 = require("./0_utilities.js");
 const FALLBACK_MIME_TYPE = "application/octet-stream";
 const STICKER_MIME_TYPES = ["image/webp", "video/webm", "application/x-tgsticker"];
+const messageManagerUpdates = [
+    "updateNewMessage",
+    "updateNewChannelMessage",
+    "updateEditMessage",
+    "updateEditChannelMessage",
+    "updateBotNewBusinessMessage",
+    "updateBotEditBusinessMessage",
+    "updateBotDeleteBusinessMessage",
+    "updateDeleteMessages",
+    "updateDeleteChannelMessages",
+    "updateChannelParticipant",
+    "updateChatParticipant",
+    "updateBotPrecheckoutQuery",
+];
 class MessageManager {
     constructor(c) {
         _MessageManager_instances.add(this);
@@ -602,18 +616,7 @@ class MessageManager {
         }
     }
     static canHandleUpdate(update) {
-        return (0, _2_tl_js_1.is)("updateNewMessage", update) ||
-            (0, _2_tl_js_1.is)("updateNewChannelMessage", update) ||
-            (0, _2_tl_js_1.is)("updateEditMessage", update) ||
-            (0, _2_tl_js_1.is)("updateEditChannelMessage", update) ||
-            (0, _2_tl_js_1.is)("updateBotNewBusinessMessage", update) ||
-            (0, _2_tl_js_1.is)("updateBotEditBusinessMessage", update) ||
-            (0, _2_tl_js_1.is)("updateBotDeleteBusinessMessage", update) ||
-            (0, _2_tl_js_1.is)("updateDeleteMessages", update) ||
-            (0, _2_tl_js_1.is)("updateDeleteChannelMessages", update) ||
-            (0, _2_tl_js_1.is)("updateChannelParticipant", update) ||
-            (0, _2_tl_js_1.is)("updateChatParticipant", update) ||
-            (0, _2_tl_js_1.is)("updateBotPrecheckoutQuery", update);
+        return (0, _2_tl_js_1.isOneOf)(messageManagerUpdates, update);
     }
     async handleUpdate(update) {
         if ((0, _2_tl_js_1.is)("updateNewMessage", update) || (0, _2_tl_js_1.is)("updateNewChannelMessage", update) || (0, _2_tl_js_1.is)("updateEditMessage", update) || (0, _2_tl_js_1.is)("updateEditChannelMessage", update)) {

@@ -32,19 +32,20 @@ var _ReactionManager_c;
 import { unreachable } from "../0_deps.js";
 import { is, isOneOf, peerToChatId } from "../2_tl.js";
 import { constructMessageReaction, constructMessageReactionCount, constructMessageReactions } from "../3_types.js";
+const reactionManagerUpdates = [
+    "updateBotMessageReactions",
+    "updateBotMessageReaction",
+    "updateMessageReactions",
+    "updateChannelMessageViews",
+    "updateChannelMessageForwards",
+];
 export class ReactionManager {
     constructor(c) {
         _ReactionManager_c.set(this, void 0);
         __classPrivateFieldSet(this, _ReactionManager_c, c, "f");
     }
     static canHandleUpdate(update) {
-        return isOneOf([
-            "updateBotMessageReactions",
-            "updateBotMessageReaction",
-            "updateMessageReactions",
-            "updateChannelMessageViews",
-            "updateChannelMessageForwards",
-        ], update);
+        return isOneOf(reactionManagerUpdates, update);
     }
     async handleUpdate(update) {
         if (is("updateBotMessageReactions", update)) {

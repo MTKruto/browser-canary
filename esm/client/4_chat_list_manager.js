@@ -32,9 +32,19 @@ var _ChatListManager_instances, _ChatListManager_c, _ChatListManager_LgetChats, 
 import { unreachable } from "../0_deps.js";
 import { InputError } from "../0_errors.js";
 import { getLogger, toUnixTimestamp } from "../1_utilities.js";
-import { is, peerToChatId } from "../2_tl.js";
+import { is, isOneOf, peerToChatId } from "../2_tl.js";
 import { constructChat, constructChatListItem, constructChatListItem3, constructChatListItem4, constructChatMember, getChatListItemOrder } from "../3_types.js";
 import { getChatListId } from "./0_utilities.js";
+const chatListManagerUpdates = [
+    "updateNewMessage",
+    "updateNewChannelMessage",
+    "updatePinnedDialogs",
+    "updateFolderPeers",
+    "updateChannel",
+    "updateChat",
+    "updateUser",
+    "updateUserName",
+];
 export class ChatListManager {
     constructor(c) {
         _ChatListManager_instances.add(this);
@@ -141,7 +151,7 @@ export class ChatListManager {
         return chats;
     }
     static canHandleUpdate(update) {
-        return is("updateNewMessage", update) || is("updateNewChannelMessage", update) || is("updatePinnedDialogs", update) || is("updateFolderPeers", update) || is("updateChannel", update) || is("updateChat", update) || is("updateUser", update) || is("updateUserName", update);
+        return isOneOf(chatListManagerUpdates, update);
     }
     async handleUpdate(update) {
         if (is("updateNewMessage", update) || is("updateNewChannelMessage", update) || is("updateEditMessage", update) || is("updateEditChannelMessage", update)) {

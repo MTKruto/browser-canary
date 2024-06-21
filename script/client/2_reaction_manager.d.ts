@@ -20,7 +20,8 @@
 import { Api } from "../2_tl.js";
 import { Update } from "../3_types.js";
 import { C } from "./1_types.js";
-type ReactionManagerUpdate = Api.updateBotMessageReactions | Api.updateBotMessageReaction | Api.updateMessageReactions | Api.updateChannelMessageViews | Api.updateChannelMessageForwards;
+declare const reactionManagerUpdates: readonly ["updateBotMessageReactions", "updateBotMessageReaction", "updateMessageReactions", "updateChannelMessageViews", "updateChannelMessageForwards"];
+type ReactionManagerUpdate = Api.Types[(typeof reactionManagerUpdates)[number]];
 export declare class ReactionManager {
     #private;
     constructor(c: C);

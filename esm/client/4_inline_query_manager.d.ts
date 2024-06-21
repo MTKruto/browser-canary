@@ -25,7 +25,8 @@ import { MessageManager } from "./3_message_manager.js";
 type C = C_ & {
     messageManager: MessageManager;
 };
-type InlineQueryManagerUpdate = Api.updateBotInlineQuery | Api.updateBotInlineSend;
+declare const inlineQueryManagerUpdates: readonly ["updateBotInlineQuery", "updateBotInlineSend"];
+type InlineQueryManagerUpdate = Api.Types[(typeof inlineQueryManagerUpdates)[number]];
 export declare class InlineQueryManager {
     #private;
     constructor(c: C);

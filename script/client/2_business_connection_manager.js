@@ -33,8 +33,10 @@ var _BusinessConnectionManager_c;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.BusinessConnectionManager = void 0;
 const _2_tl_js_1 = require("../2_tl.js");
-const _2_tl_js_2 = require("../2_tl.js");
 const _3_types_js_1 = require("../3_types.js");
+const businessConnectionManagerUpdates = [
+    "updateBotBusinessConnect",
+];
 class BusinessConnectionManager {
     constructor(c) {
         _BusinessConnectionManager_c.set(this, void 0);
@@ -44,8 +46,8 @@ class BusinessConnectionManager {
         const connection_ = await __classPrivateFieldGet(this, _BusinessConnectionManager_c, "f").messageStorage.getBusinessConnection(id);
         if (!connection_) {
             const connection_ = await __classPrivateFieldGet(this, _BusinessConnectionManager_c, "f").invoke({ _: "account.getBotBusinessConnection", connection_id: id })
-                .then((v) => (0, _2_tl_js_2.as)("updates", v))
-                .then((v) => (0, _2_tl_js_2.as)("updateBotBusinessConnect", v.updates[0]).connection);
+                .then((v) => (0, _2_tl_js_1.as)("updates", v))
+                .then((v) => (0, _2_tl_js_1.as)("updateBotBusinessConnect", v.updates[0]).connection);
             await __classPrivateFieldGet(this, _BusinessConnectionManager_c, "f").messageStorage.setBusinessConnection(id, connection_);
             return await (0, _3_types_js_1.constructBusinessConnection)(connection_, __classPrivateFieldGet(this, _BusinessConnectionManager_c, "f").getEntity);
         }
@@ -54,7 +56,7 @@ class BusinessConnectionManager {
         }
     }
     static canHandleUpdate(update) {
-        return (0, _2_tl_js_1.is)("updateBotBusinessConnect", update);
+        return (0, _2_tl_js_1.isOneOf)(businessConnectionManagerUpdates, update);
     }
     async handleUpdate(update) {
         if (update.connection.disabled) {
