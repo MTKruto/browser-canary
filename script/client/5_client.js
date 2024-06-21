@@ -665,6 +665,9 @@ class Client extends Composer {
                 }
                 return true;
             }
+            else if ((0, _2_tl_js_1.is)("bad_msg_notification", error)) {
+                return true;
+            }
             else {
                 return next();
             }

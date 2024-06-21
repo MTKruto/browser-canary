@@ -18,7 +18,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 import { message } from "../2_tl.js";
-export declare function getMessageId(lastMsgId: bigint): bigint;
+export declare function getMessageId(lastMsgId: bigint, difference: number): bigint;
 export declare function packUnencryptedMessage(data: Uint8Array, messageId: bigint): Uint8Array;
 export declare function unpackUnencryptedMessage(buffer: Uint8Array): {
     messageId: bigint;

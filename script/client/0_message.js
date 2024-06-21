@@ -23,8 +23,8 @@ exports.decryptMessage = exports.encryptMessage = exports.unpackUnencryptedMessa
 const _0_deps_js_1 = require("../0_deps.js");
 const _1_utilities_js_1 = require("../1_utilities.js");
 const _2_tl_js_1 = require("../2_tl.js");
-function getMessageId(lastMsgId) {
-    const now = (0, _1_utilities_js_1.toUnixTimestamp)(new Date()) + 0;
+function getMessageId(lastMsgId, difference) {
+    const now = (0, _1_utilities_js_1.toUnixTimestamp)(new Date()) + difference;
     const nanoseconds = Math.floor((now - Math.floor(now)) * 1e9);
     let newMsgId = (BigInt(Math.floor(now)) <<
         32n) ||

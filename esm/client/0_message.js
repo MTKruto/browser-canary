@@ -20,8 +20,8 @@
 import { assertEquals, concat, ige256Decrypt, ige256Encrypt } from "../0_deps.js";
 import { bufferFromBigInt, mod, sha256, toUnixTimestamp } from "../1_utilities.js";
 import { deserializeMessage, serializeMessage, TLReader, TLWriter } from "../2_tl.js";
-export function getMessageId(lastMsgId) {
-    const now = toUnixTimestamp(new Date()) + 0;
+export function getMessageId(lastMsgId, difference) {
+    const now = toUnixTimestamp(new Date()) + difference;
     const nanoseconds = Math.floor((now - Math.floor(now)) * 1e9);
     let newMsgId = (BigInt(Math.floor(now)) <<
         32n) ||

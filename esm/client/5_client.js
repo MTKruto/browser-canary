@@ -661,6 +661,9 @@ export class Client extends Composer {
                 }
                 return true;
             }
+            else if (is("bad_msg_notification", error)) {
+                return true;
+            }
             else {
                 return next();
             }

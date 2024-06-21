@@ -55,7 +55,7 @@ class ClientPlain extends _0_client_abstract_js_1.ClientAbstract {
         if (!this.transport) {
             throw new _0_errors_js_1.ConnectionError("Not connected.");
         }
-        const messageId = __classPrivateFieldSet(this, _ClientPlain_lastMessageId, (0, _0_message_js_1.getMessageId)(__classPrivateFieldGet(this, _ClientPlain_lastMessageId, "f")), "f");
+        const messageId = __classPrivateFieldSet(this, _ClientPlain_lastMessageId, (0, _0_message_js_1.getMessageId)(__classPrivateFieldGet(this, _ClientPlain_lastMessageId, "f"), 0), "f");
         const payload = (0, _0_message_js_1.packUnencryptedMessage)((0, _2_tl_js_1.serialize)(function_), messageId);
         await this.transport.transport.send(payload);
         L.out(function_);
