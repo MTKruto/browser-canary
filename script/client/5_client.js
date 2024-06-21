@@ -2412,7 +2412,7 @@ class Client extends Composer {
         await __classPrivateFieldGet(this, _Client_paymentManager, "f").answerPreCheckoutQuery(preCheckoutQueryId, ok, params);
     }
     /**
-     * Answer a pre-checkout query. Bot-only.
+     * Refund a star payment. Bot-only.
      *
      * @method pa
      * @param userId The identifier of the user that was charged.

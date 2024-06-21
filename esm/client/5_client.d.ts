@@ -1179,7 +1179,7 @@ export declare class Client<C extends Context = Context> extends Composer<C> {
      */
     answerPreCheckoutQuery(preCheckoutQueryId: string, ok: boolean, params?: AnswerPreCheckoutQueryParams): Promise<void>;
     /**
-     * Answer a pre-checkout query. Bot-only.
+     * Refund a star payment. Bot-only.
      *
      * @method pa
      * @param userId The identifier of the user that was charged.
