@@ -1,4 +1,3 @@
-"use strict";
 /**
  * MTKruto - Cross-runtime JavaScript library for building Telegram clients
  * Copyright (C) 2023-2024 Roj <https://roj.im/>
@@ -18,16 +17,19 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.constructOrderInfo = void 0;
-const _1_utilities_js_1 = require("../1_utilities.js");
-const _0_shipping_address_js_1 = require("./0_shipping_address.js");
-function constructOrderInfo(info) {
-    return (0, _1_utilities_js_1.cleanObject)({
-        name: info.name,
-        phoneNumber: info.phone,
-        email: info.email,
-        shippingAddress: info.shipping_address ? (0, _0_shipping_address_js_1.constructShippingAddress)(info.shipping_address) : undefined,
-    });
+import { Api } from "../2_tl.js";
+import { ID, Update } from "../3_types.js";
+import { AnswerPreCheckoutQueryParams } from "./0_params.js";
+import { C } from "./1_types.js";
+declare const paymentManagerUpdates: readonly ["updateBotPrecheckoutQuery"];
+type PaymentManagerUpdate = Api.Types[(typeof paymentManagerUpdates)[number]];
+export declare class PaymentManager {
+    #private;
+    constructor(c: C);
+    static canHandleUpdate(update: Api.Update): update is PaymentManagerUpdate;
+    handleUpdate(update: PaymentManagerUpdate): Promise<Update | null>;
+    answerPreCheckoutQuery(preCheckoutQueryId: string, ok: boolean, params?: AnswerPreCheckoutQueryParams): Promise<void>;
+    refundStarPayment(userId: ID, telegramPaymentChargeId: string): Promise<void>;
 }
-exports.constructOrderInfo = constructOrderInfo;
+export {};
+//# sourceMappingURL=2_payment_manager.d.ts.map

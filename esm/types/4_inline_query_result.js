@@ -18,13 +18,13 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 import { unreachable } from "../0_deps.js";
-import { as, is } from "../2_tl.js";
 import { cleanObject } from "../1_utilities.js";
+import { as, is } from "../2_tl.js";
 import { deserializeFileId, FileType, getPhotoFileId, serializeFileId } from "./_file_id.js";
 import { constructMessageEntity } from "./0_message_entity.js";
+import { constructThumbnail } from "./0_thumbnail.js";
 import { getPhotoSizes } from "./1_photo.js";
 import { constructReplyMarkup, replyMarkupToTlObject } from "./3_reply_markup.js";
-import { constructThumbnail } from "./0_thumbnail.js";
 export function constructInlineQueryResult(result) {
     const id = result.id, title = result.title ?? "", type = result.type, description = result.description;
     if (is("botInlineMessageMediaGeo", result.send_message)) {

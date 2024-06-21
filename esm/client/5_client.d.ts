@@ -18,15 +18,15 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 import { MaybePromise } from "../1_utilities.js";
-import { Api } from "../2_tl.js";
 import { Storage } from "../2_storage.js";
+import { Api } from "../2_tl.js";
 import { DC } from "../3_transport.js";
 import { BotCommand, BusinessConnection, CallbackQueryAnswer, CallbackQueryQuestion, Chat, ChatAction, ChatListItem, ChatMember, ChatP, FileSource, ID, InactiveChat, InlineQueryAnswer, InlineQueryResult, InputMedia, InputStoryContent, InviteLink, LiveStreamChannel, Message, MessageAnimation, MessageAudio, MessageContact, MessageDice, MessageDocument, MessageInvoice, MessageLocation, MessagePhoto, MessagePoll, MessageSticker, MessageText, MessageVenue, MessageVideo, MessageVideoNote, MessageVoice, NetworkStatistics, ParseMode, Poll, PriceTag, Reaction, Sticker, Story, Update, User, VideoChat, VideoChatActive, VideoChatScheduled } from "../3_types.js";
 import { Migrate } from "../4_errors.js";
 import { AddReactionParams, AnswerCallbackQueryParams, AnswerInlineQueryParams, AnswerPreCheckoutQueryParams, BanChatMemberParams, CreateInviteLinkParams, CreateStoryParams, DeleteMessageParams, DeleteMessagesParams, DownloadLiveStreamChunkParams, DownloadParams, EditMessageLiveLocationParams, EditMessageMediaParams, EditMessageParams, EditMessageReplyMarkupParams, ForwardMessagesParams, GetChatsParams, GetCreatedInviteLinksParams, GetHistoryParams, GetMyCommandsParams, JoinVideoChatParams, PinMessageParams, ReplyParams, ScheduleVideoChatParams, SearchMessagesParams, SendAnimationParams, SendAudioParams, SendContactParams, SendDiceParams, SendDocumentParams, SendInlineQueryParams, SendInvoiceParams, SendLocationParams, SendMessageParams, SendPhotoParams, SendPollParams, SendStickerParams, SendVenueParams, SendVideoNoteParams, SendVideoParams, SendVoiceParams, SetChatMemberRightsParams, SetChatPhotoParams, SetMyCommandsParams, SetReactionsParams, SignInParams, StartVideoChatParams, StopPollParams } from "./0_params.js";
+import { StorageOperations } from "./0_storage_operations.js";
 import { ClientPlainParams } from "./1_client_plain.js";
 import { Composer as Composer_, NextFunction } from "./1_composer.js";
-import { StorageOperations } from "./0_storage_operations.js";
 export interface Context {
     /** The client that received the update. */
     client: Client;
@@ -1107,14 +1107,6 @@ export declare class Client<C extends Context = Context> extends Composer<C> {
      */
     unblockUser(userId: ID): Promise<void>;
     /**
-     * Answer a pre-checkout query. Bot-only.
-     *
-     * @method vc
-     * @param preCheckoutQueryId The identifier of the pre-checkout query.
-     * @param ok Whether the checkout is going to be processed.
-     */
-    answerPreCheckoutQuery(preCheckoutQueryId: string, ok: boolean, params?: AnswerPreCheckoutQueryParams): Promise<void>;
-    /**
      * Start a video chat. User-only.
      *
      * @method vc
@@ -1178,6 +1170,22 @@ export declare class Client<C extends Context = Context> extends Composer<C> {
      * @param timestamp Millisecond timestamp of the chunk to download.
      */
     downloadLiveStreamChunk(id: string, channelId: number, scale: number, timestamp: number, params?: DownloadLiveStreamChunkParams): AsyncGenerator<Uint8Array, void, unknown>;
+    /**
+     * Answer a pre-checkout query. Bot-only.
+     *
+     * @method pa
+     * @param preCheckoutQueryId The identifier of the pre-checkout query.
+     * @param ok Whether the checkout is going to be processed.
+     */
+    answerPreCheckoutQuery(preCheckoutQueryId: string, ok: boolean, params?: AnswerPreCheckoutQueryParams): Promise<void>;
+    /**
+     * Answer a pre-checkout query. Bot-only.
+     *
+     * @method pa
+     * @param userId The identifier of the user that was charged.
+     * @param telegramPaymentChargeId The identifier of the charge.
+     */
+    refundStarPayment(userId: ID, telegramPaymentChargeId: string): Promise<void>;
 }
 export {};
 //# sourceMappingURL=5_client.d.ts.map

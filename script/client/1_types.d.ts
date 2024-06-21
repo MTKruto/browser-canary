@@ -18,8 +18,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 import { Api } from "../2_tl.js";
-import { StorageOperations } from "./0_storage_operations.js";
 import { ConnectionState, EntityGetter, ID, ParseMode, Update } from "../3_types.js";
+import { StorageOperations } from "./0_storage_operations.js";
 export type Invoke = <T extends Api.AnyFunction<P>, P extends Api.Function, R extends unknown = Api.ReturnType<Api.Functions[T["_"]]>>(function_: T, businessConnectionId?: string) => Promise<R>;
 interface Connection {
     invoke: Invoke;

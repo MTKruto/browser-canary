@@ -34,8 +34,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.CallbackQueryManager = void 0;
 const _2_tl_js_1 = require("../2_tl.js");
 const _3_types_js_1 = require("../3_types.js");
-const _0_utilities_js_1 = require("./0_utilities.js");
 const _0_password_js_1 = require("./0_password.js");
+const _0_utilities_js_1 = require("./0_utilities.js");
 const callbackQueryManagerUpdates = [
     "updateBotCallbackQuery",
     "updateInlineBotCallbackQuery",

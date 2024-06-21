@@ -18,9 +18,9 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 import { MaybePromise } from "../1_utilities.js";
+import { Storage, StorageKeyPart } from "../2_storage.js";
 import { AnyEntity, Api, ReadObject } from "../2_tl.js";
 import { DC } from "../3_transport.js";
-import { Storage, StorageKeyPart } from "../2_storage.js";
 export declare const K: {
     connection: {
         P: (string: string) => string;

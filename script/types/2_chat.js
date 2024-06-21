@@ -21,13 +21,13 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.constructChat = void 0;
 const _0_deps_js_1 = require("../0_deps.js");
+const _1_utilities_js_1 = require("../1_utilities.js");
 const _2_tl_js_1 = require("../2_tl.js");
+const _0_birthday_js_1 = require("./0_birthday.js");
+const _0_location_js_1 = require("./0_location.js");
 const _0_opening_hours_js_1 = require("./0_opening_hours.js");
 const _1_chat_p_js_1 = require("./1_chat_p.js");
 const _1_photo_js_1 = require("./1_photo.js");
-const _0_location_js_1 = require("./0_location.js");
-const _0_birthday_js_1 = require("./0_birthday.js");
-const _1_utilities_js_1 = require("../1_utilities.js");
 async function constructChat(fullChat, getEntity) {
     if ((0, _2_tl_js_1.is)("userFull", fullChat)) {
         const user = await getEntity({ _: "peerUser", user_id: fullChat.id });

@@ -58,7 +58,6 @@ const messageManagerUpdates = [
     "updateDeleteChannelMessages",
     "updateChannelParticipant",
     "updateChatParticipant",
-    "updateBotPrecheckoutQuery",
 ];
 class MessageManager {
     constructor(c) {
@@ -687,10 +686,6 @@ class MessageManager {
                 return { chatMember };
             }
         }
-        if ((0, _2_tl_js_1.is)("updateBotPrecheckoutQuery", update)) {
-            const preCheckoutQuery = await (0, _3_types_js_1.constructPreCheckoutQuery)(update, __classPrivateFieldGet(this, _MessageManager_c, "f").getEntity);
-            return { preCheckoutQuery };
-        }
         return null;
     }
     async sendChatAction(chatId, action, params) {
@@ -997,17 +992,6 @@ class MessageManager {
                 : undefined,
         }, params);
         return (0, _3_types_js_2.assertMessageType)(message, "invoice");
-    }
-    async answerPreCheckoutQuery(preCheckoutQueryId, ok, params) {
-        await __classPrivateFieldGet(this, _MessageManager_c, "f").storage.assertBot("answerPreCheckoutQuery");
-        if (!ok && !params?.error) {
-            throw new _0_errors_js_1.InputError("error is required when ok is false");
-        }
-        const queryId = BigInt(preCheckoutQueryId);
-        if (!queryId) {
-            throw new _0_errors_js_1.InputError("Invalid pre-checkout query ID");
-        }
-        await __classPrivateFieldGet(this, _MessageManager_c, "f").invoke({ _: "messages.setBotPrecheckoutResults", query_id: queryId, error: params?.error, success: ok ? true : undefined });
     }
 }
 exports.MessageManager = MessageManager;

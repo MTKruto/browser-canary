@@ -17,9 +17,9 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
+import { AnyObject } from "./0_api.js";
 import { TLReader } from "./3_tl_reader.js";
 import { rpc_result } from "./4_rpc_result.js";
-import { AnyObject } from "./0_api.js";
 export interface message {
     _: "message";
     msg_id: bigint;

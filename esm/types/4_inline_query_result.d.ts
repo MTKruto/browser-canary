@@ -21,9 +21,9 @@ import { Api } from "../2_tl.js";
 import { UsernameResolver } from "./_getters.js";
 import { MessageEntity } from "./0_message_entity.js";
 import { ParseMode } from "./0_parse_mode.js";
+import { Thumbnail } from "./0_thumbnail.js";
 import { MessageContent } from "./1_message_content.js";
 import { ReplyMarkupInlineKeyboard } from "./3_reply_markup.js";
-import { Thumbnail } from "./0_thumbnail.js";
 /** @unlisted */
 export type InlineQueryResultType = "article" | "audio" | "document" | "gif" | "mpeg4Gif" | "photo" | "sticker" | "video" | "voice" | "game" | "location" | "venue";
 /** @unlisted */

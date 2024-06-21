@@ -21,13 +21,13 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.inlineQueryResultToTlObject = exports.constructInlineQueryResult = void 0;
 const _0_deps_js_1 = require("../0_deps.js");
-const _2_tl_js_1 = require("../2_tl.js");
 const _1_utilities_js_1 = require("../1_utilities.js");
+const _2_tl_js_1 = require("../2_tl.js");
 const _file_id_js_1 = require("./_file_id.js");
 const _0_message_entity_js_1 = require("./0_message_entity.js");
+const _0_thumbnail_js_1 = require("./0_thumbnail.js");
 const _1_photo_js_1 = require("./1_photo.js");
 const _3_reply_markup_js_1 = require("./3_reply_markup.js");
-const _0_thumbnail_js_1 = require("./0_thumbnail.js");
 function constructInlineQueryResult(result) {
     const id = result.id, title = result.title ?? "", type = result.type, description = result.description;
     if ((0, _2_tl_js_1.is)("botInlineMessageMediaGeo", result.send_message)) {

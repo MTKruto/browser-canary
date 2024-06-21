@@ -31,8 +31,8 @@ var __classPrivateFieldGet = (this && this.__classPrivateFieldGet) || function (
 var _CallbackQueryManager_instances, _a, _CallbackQueryManager_c, _CallbackQueryManager_enc, _CallbackQueryManager_isExpired, _CallbackQueryManager_getPasswordCheck;
 import { isOneOf, peerToChatId } from "../2_tl.js";
 import { constructCallbackQuery, constructCallbackQueryAnswer, validateCallbackQueryQuestion } from "../3_types.js";
-import { checkCallbackQueryId, checkMessageId } from "./0_utilities.js";
 import { checkPassword } from "./0_password.js";
+import { checkCallbackQueryId, checkMessageId } from "./0_utilities.js";
 const callbackQueryManagerUpdates = [
     "updateBotCallbackQuery",
     "updateInlineBotCallbackQuery",

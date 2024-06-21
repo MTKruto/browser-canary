@@ -33,7 +33,7 @@ import { contentType, unreachable } from "../0_deps.js";
 import { InputError } from "../0_errors.js";
 import { getLogger, getRandomId, toUnixTimestamp } from "../1_utilities.js";
 import { as, getChannelChatId, is, isOneOf, peerToChatId } from "../2_tl.js";
-import { constructChatMemberUpdated, constructInviteLink, constructPreCheckoutQuery, deserializeFileId, selfDestructOptionToInt } from "../3_types.js";
+import { constructChatMemberUpdated, constructInviteLink, deserializeFileId, selfDestructOptionToInt } from "../3_types.js";
 import { assertMessageType, chatMemberRightsToTlObject, constructChatMember, constructMessage as constructMessage_, deserializeInlineMessageId, FileType, messageEntityToTlObject, reactionEqual, reactionToTlObject, replyMarkupToTlObject } from "../3_types.js";
 import { messageSearchFilterToTlObject } from "../types/0_message_search_filter.js";
 import { parseHtml } from "./0_html.js";
@@ -55,7 +55,6 @@ const messageManagerUpdates = [
     "updateDeleteChannelMessages",
     "updateChannelParticipant",
     "updateChatParticipant",
-    "updateBotPrecheckoutQuery",
 ];
 export class MessageManager {
     constructor(c) {
@@ -684,10 +683,6 @@ export class MessageManager {
                 return { chatMember };
             }
         }
-        if (is("updateBotPrecheckoutQuery", update)) {
-            const preCheckoutQuery = await constructPreCheckoutQuery(update, __classPrivateFieldGet(this, _MessageManager_c, "f").getEntity);
-            return { preCheckoutQuery };
-        }
         return null;
     }
     async sendChatAction(chatId, action, params) {
@@ -994,17 +989,6 @@ export class MessageManager {
                 : undefined,
         }, params);
         return assertMessageType(message, "invoice");
-    }
-    async answerPreCheckoutQuery(preCheckoutQueryId, ok, params) {
-        await __classPrivateFieldGet(this, _MessageManager_c, "f").storage.assertBot("answerPreCheckoutQuery");
-        if (!ok && !params?.error) {
-            throw new InputError("error is required when ok is false");
-        }
-        const queryId = BigInt(preCheckoutQueryId);
-        if (!queryId) {
-            throw new InputError("Invalid pre-checkout query ID");
-        }
-        await __classPrivateFieldGet(this, _MessageManager_c, "f").invoke({ _: "messages.setBotPrecheckoutResults", query_id: queryId, error: params?.error, success: ok ? true : undefined });
     }
 }
 _MessageManager_c = new WeakMap(), _MessageManager_LresolveFileId = new WeakMap(), _MessageManager_instances = new WeakSet(), _MessageManager_updatesToMessages = async function _MessageManager_updatesToMessages(chatId, updates, businessConnectionId) {

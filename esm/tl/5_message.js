@@ -17,10 +17,10 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-import { TLReader } from "./3_tl_reader.js";
-import { TLWriter } from "./4_tl_writer.js";
-import { deserializeRpcResult, RPC_RESULT_ID } from "./4_rpc_result.js";
 import { serialize } from "./2_serialize.js";
+import { TLReader } from "./3_tl_reader.js";
+import { deserializeRpcResult, RPC_RESULT_ID } from "./4_rpc_result.js";
+import { TLWriter } from "./4_tl_writer.js";
 export function calculateLength(object) {
     let length = 0;
     if (Array.isArray(object)) {

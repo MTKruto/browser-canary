@@ -29,37 +29,38 @@ var __classPrivateFieldGet = (this && this.__classPrivateFieldGet) || function (
     if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot read private member from an object whose class did not declare it");
     return kind === "m" ? f : kind === "a" ? f.call(receiver) : f ? f.value : state.get(receiver);
 };
-var _Client_instances, _a, _Client_client, _Client_guaranteeUpdateDelivery, _Client_updateManager, _Client_networkStatisticsManager, _Client_botInfoManager, _Client_fileManager, _Client_reactionManager, _Client_videoChatManager, _Client_businessConnectionManager, _Client_messageManager, _Client_storyManager, _Client_callbackQueryManager, _Client_inlineQueryManager, _Client_chatListManager, _Client_accountManager, _Client_storage_, _Client_messageStorage_, _Client_parseMode, _Client_apiId, _Client_apiHash, _Client_publicKeys, _Client_ignoreOutgoing, _Client_persistCache, _Client_cdn, _Client_LsignIn, _Client_LpingLoop, _Client_LhandleMigrationError, _Client_L$initConncetion, _Client_getApiId, _Client_getCdnConnectionPool, _Client_getCdnConnection, _Client_constructContext, _Client_propagateConnectionState, _Client_lastPropagatedConnectionState, _Client_stateChangeHandler, _Client_storageInited, _Client_initStorage, _Client_connectMutex, _Client_lastConnect, _Client_connectionInited, _Client_lastPropagatedAuthorizationState, _Client_propagateAuthorizationState, _Client_getSelfId, _Client_pingLoopAbortController, _Client_pingInterval, _Client_lastUpdates, _Client_startPingLoop, _Client_pingLoop, _Client_invoke, _Client_handleInvokeError, _Client_getUserAccessHash, _Client_getChannelAccessHash, _Client_getInputPeerInner, _Client_handleCtxUpdate, _Client_queueHandleCtxUpdate, _Client_handleUpdate, _Client_lastGetMe, _Client_getMe;
+var _Client_instances, _a, _Client_client, _Client_guaranteeUpdateDelivery, _Client_updateManager, _Client_networkStatisticsManager, _Client_botInfoManager, _Client_fileManager, _Client_reactionManager, _Client_videoChatManager, _Client_businessConnectionManager, _Client_messageManager, _Client_storyManager, _Client_callbackQueryManager, _Client_inlineQueryManager, _Client_chatListManager, _Client_accountManager, _Client_paymentManager, _Client_storage_, _Client_messageStorage_, _Client_parseMode, _Client_apiId, _Client_apiHash, _Client_publicKeys, _Client_ignoreOutgoing, _Client_persistCache, _Client_cdn, _Client_LsignIn, _Client_LpingLoop, _Client_LhandleMigrationError, _Client_L$initConncetion, _Client_getApiId, _Client_getCdnConnectionPool, _Client_getCdnConnection, _Client_constructContext, _Client_propagateConnectionState, _Client_lastPropagatedConnectionState, _Client_stateChangeHandler, _Client_storageInited, _Client_initStorage, _Client_connectMutex, _Client_lastConnect, _Client_connectionInited, _Client_lastPropagatedAuthorizationState, _Client_propagateAuthorizationState, _Client_getSelfId, _Client_pingLoopAbortController, _Client_pingInterval, _Client_lastUpdates, _Client_startPingLoop, _Client_pingLoop, _Client_invoke, _Client_handleInvokeError, _Client_getUserAccessHash, _Client_getChannelAccessHash, _Client_getInputPeerInner, _Client_handleCtxUpdate, _Client_queueHandleCtxUpdate, _Client_handleUpdate, _Client_lastGetMe, _Client_getMe;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Client = exports.handleMigrationError = exports.restartAuth = exports.Composer = void 0;
 const _0_deps_js_1 = require("../0_deps.js");
 const _0_errors_js_1 = require("../0_errors.js");
 const _1_utilities_js_1 = require("../1_utilities.js");
-const _2_tl_js_1 = require("../2_tl.js");
 const _2_storage_js_1 = require("../2_storage.js");
+const _2_tl_js_1 = require("../2_tl.js");
 const _3_types_js_1 = require("../3_types.js");
 const _4_constants_js_1 = require("../4_constants.js");
 const _4_errors_js_1 = require("../4_errors.js");
+const _4_errors_js_2 = require("../4_errors.js");
 const _0_password_js_1 = require("./0_password.js");
+const _0_storage_operations_js_1 = require("./0_storage_operations.js");
 const _0_utilities_js_1 = require("./0_utilities.js");
-const _2_account_manager_js_1 = require("./2_account_manager.js");
-const _2_bot_info_manager_js_1 = require("./2_bot_info_manager.js");
-const _2_business_connection_manager_js_1 = require("./2_business_connection_manager.js");
 const _1_client_encrypted_js_1 = require("./1_client_encrypted.js");
 const _1_client_plain_js_1 = require("./1_client_plain.js");
 const _1_composer_js_1 = require("./1_composer.js");
+const _2_account_manager_js_1 = require("./2_account_manager.js");
+const _2_bot_info_manager_js_1 = require("./2_bot_info_manager.js");
+const _2_business_connection_manager_js_1 = require("./2_business_connection_manager.js");
 const _2_file_manager_js_1 = require("./2_file_manager.js");
 const _2_network_statistics_manager_js_1 = require("./2_network_statistics_manager.js");
+const _2_payment_manager_js_1 = require("./2_payment_manager.js");
 const _2_reaction_manager_js_1 = require("./2_reaction_manager.js");
 const _2_update_manager_js_1 = require("./2_update_manager.js");
 const _3_message_manager_js_1 = require("./3_message_manager.js");
+const _3_video_chat_manager_js_1 = require("./3_video_chat_manager.js");
 const _4_callback_query_manager_js_1 = require("./4_callback_query_manager.js");
 const _4_chat_list_manager_js_1 = require("./4_chat_list_manager.js");
 const _4_inline_query_manager_js_1 = require("./4_inline_query_manager.js");
 const _4_story_manager_js_1 = require("./4_story_manager.js");
-const _3_video_chat_manager_js_1 = require("./3_video_chat_manager.js");
-const _0_storage_operations_js_1 = require("./0_storage_operations.js");
-const _4_errors_js_2 = require("../4_errors.js");
 class Composer extends _1_composer_js_1.Composer {
 }
 exports.Composer = Composer;
@@ -96,6 +97,7 @@ class Client extends Composer {
         _Client_inlineQueryManager.set(this, void 0);
         _Client_chatListManager.set(this, void 0);
         _Client_accountManager.set(this, void 0);
+        _Client_paymentManager.set(this, void 0);
         _Client_storage_.set(this, void 0);
         _Client_messageStorage_.set(this, void 0);
         Object.defineProperty(this, "storage", {
@@ -649,6 +651,7 @@ class Client extends Composer {
         __classPrivateFieldSet(this, _Client_inlineQueryManager, new _4_inline_query_manager_js_1.InlineQueryManager({ ...c, messageManager: __classPrivateFieldGet(this, _Client_messageManager, "f") }), "f");
         __classPrivateFieldSet(this, _Client_chatListManager, new _4_chat_list_manager_js_1.ChatListManager({ ...c, fileManager: __classPrivateFieldGet(this, _Client_fileManager, "f"), messageManager: __classPrivateFieldGet(this, _Client_messageManager, "f") }), "f");
         __classPrivateFieldSet(this, _Client_accountManager, new _2_account_manager_js_1.AccountManager(c), "f");
+        __classPrivateFieldSet(this, _Client_paymentManager, new _2_payment_manager_js_1.PaymentManager(c), "f");
         __classPrivateFieldGet(this, _Client_updateManager, "f").setUpdateHandler(__classPrivateFieldGet(this, _Client_instances, "m", _Client_handleUpdate).bind(this));
         const transportProvider = __classPrivateFieldGet(this, _Client_client, "f").transportProvider;
         __classPrivateFieldGet(this, _Client_client, "f").transportProvider = (params) => {
@@ -804,7 +807,7 @@ class Client extends Composer {
         }
         await __classPrivateFieldGet(this, _Client_client, "f").reconnect();
     }
-    async [(_Client_client = new WeakMap(), _Client_guaranteeUpdateDelivery = new WeakMap(), _Client_updateManager = new WeakMap(), _Client_networkStatisticsManager = new WeakMap(), _Client_botInfoManager = new WeakMap(), _Client_fileManager = new WeakMap(), _Client_reactionManager = new WeakMap(), _Client_videoChatManager = new WeakMap(), _Client_businessConnectionManager = new WeakMap(), _Client_messageManager = new WeakMap(), _Client_storyManager = new WeakMap(), _Client_callbackQueryManager = new WeakMap(), _Client_inlineQueryManager = new WeakMap(), _Client_chatListManager = new WeakMap(), _Client_accountManager = new WeakMap(), _Client_storage_ = new WeakMap(), _Client_messageStorage_ = new WeakMap(), _Client_parseMode = new WeakMap(), _Client_apiId = new WeakMap(), _Client_apiHash = new WeakMap(), _Client_publicKeys = new WeakMap(), _Client_ignoreOutgoing = new WeakMap(), _Client_persistCache = new WeakMap(), _Client_cdn = new WeakMap(), _Client_LsignIn = new WeakMap(), _Client_LpingLoop = new WeakMap(), _Client_LhandleMigrationError = new WeakMap(), _Client_L$initConncetion = new WeakMap(), _Client_constructContext = new WeakMap(), _Client_lastPropagatedConnectionState = new WeakMap(), _Client_stateChangeHandler = new WeakMap(), _Client_storageInited = new WeakMap(), _Client_connectMutex = new WeakMap(), _Client_lastConnect = new WeakMap(), _Client_connectionInited = new WeakMap(), _Client_lastPropagatedAuthorizationState = new WeakMap(), _Client_pingLoopAbortController = new WeakMap(), _Client_pingInterval = new WeakMap(), _Client_lastUpdates = new WeakMap(), _Client_handleInvokeError = new WeakMap(), _Client_lastGetMe = new WeakMap(), _Client_instances = new WeakSet(), _Client_getApiId = async function _Client_getApiId() {
+    async [(_Client_client = new WeakMap(), _Client_guaranteeUpdateDelivery = new WeakMap(), _Client_updateManager = new WeakMap(), _Client_networkStatisticsManager = new WeakMap(), _Client_botInfoManager = new WeakMap(), _Client_fileManager = new WeakMap(), _Client_reactionManager = new WeakMap(), _Client_videoChatManager = new WeakMap(), _Client_businessConnectionManager = new WeakMap(), _Client_messageManager = new WeakMap(), _Client_storyManager = new WeakMap(), _Client_callbackQueryManager = new WeakMap(), _Client_inlineQueryManager = new WeakMap(), _Client_chatListManager = new WeakMap(), _Client_accountManager = new WeakMap(), _Client_paymentManager = new WeakMap(), _Client_storage_ = new WeakMap(), _Client_messageStorage_ = new WeakMap(), _Client_parseMode = new WeakMap(), _Client_apiId = new WeakMap(), _Client_apiHash = new WeakMap(), _Client_publicKeys = new WeakMap(), _Client_ignoreOutgoing = new WeakMap(), _Client_persistCache = new WeakMap(), _Client_cdn = new WeakMap(), _Client_LsignIn = new WeakMap(), _Client_LpingLoop = new WeakMap(), _Client_LhandleMigrationError = new WeakMap(), _Client_L$initConncetion = new WeakMap(), _Client_constructContext = new WeakMap(), _Client_lastPropagatedConnectionState = new WeakMap(), _Client_stateChangeHandler = new WeakMap(), _Client_storageInited = new WeakMap(), _Client_connectMutex = new WeakMap(), _Client_lastConnect = new WeakMap(), _Client_connectionInited = new WeakMap(), _Client_lastPropagatedAuthorizationState = new WeakMap(), _Client_pingLoopAbortController = new WeakMap(), _Client_pingInterval = new WeakMap(), _Client_lastUpdates = new WeakMap(), _Client_handleInvokeError = new WeakMap(), _Client_lastGetMe = new WeakMap(), _Client_instances = new WeakSet(), _Client_getApiId = async function _Client_getApiId() {
         const apiId = __classPrivateFieldGet(this, _Client_apiId, "f") || await this.storage.getApiId();
         if (!apiId) {
             throw new _0_errors_js_1.InputError("apiId not set");
@@ -2312,16 +2315,6 @@ class Client extends Composer {
     async unblockUser(userId) {
         await __classPrivateFieldGet(this, _Client_messageManager, "f").unblockUser(userId);
     }
-    /**
-     * Answer a pre-checkout query. Bot-only.
-     *
-     * @method vc
-     * @param preCheckoutQueryId The identifier of the pre-checkout query.
-     * @param ok Whether the checkout is going to be processed.
-     */
-    async answerPreCheckoutQuery(preCheckoutQueryId, ok, params) {
-        await __classPrivateFieldGet(this, _Client_messageManager, "f").answerPreCheckoutQuery(preCheckoutQueryId, ok, params);
-    }
     //
     // ========================= VIDEO CHATS ========================= //
     //
@@ -2404,6 +2397,29 @@ class Client extends Composer {
      */
     async *downloadLiveStreamChunk(id, channelId, scale, timestamp, params) {
         yield* __classPrivateFieldGet(this, _Client_videoChatManager, "f").downloadLiveStreamChunk(id, channelId, scale, timestamp, params);
+    }
+    //
+    // ========================= PAYMENTS ========================= //
+    //
+    /**
+     * Answer a pre-checkout query. Bot-only.
+     *
+     * @method pa
+     * @param preCheckoutQueryId The identifier of the pre-checkout query.
+     * @param ok Whether the checkout is going to be processed.
+     */
+    async answerPreCheckoutQuery(preCheckoutQueryId, ok, params) {
+        await __classPrivateFieldGet(this, _Client_paymentManager, "f").answerPreCheckoutQuery(preCheckoutQueryId, ok, params);
+    }
+    /**
+     * Answer a pre-checkout query. Bot-only.
+     *
+     * @method pa
+     * @param userId The identifier of the user that was charged.
+     * @param telegramPaymentChargeId The identifier of the charge.
+     */
+    async refundStarPayment(userId, telegramPaymentChargeId) {
+        await __classPrivateFieldGet(this, _Client_paymentManager, "f").refundStarPayment(userId, telegramPaymentChargeId);
     }
 }
 exports.Client = Client;

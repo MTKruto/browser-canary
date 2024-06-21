@@ -20,10 +20,10 @@
  */
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deserializeMsgContainer = exports.serializeMsgContainer = exports.MSG_CONTAINER_ID = exports.deserializeMessage = exports.serializeMessage = exports.calculateLength = void 0;
-const _3_tl_reader_js_1 = require("./3_tl_reader.js");
-const _4_tl_writer_js_1 = require("./4_tl_writer.js");
-const _4_rpc_result_js_1 = require("./4_rpc_result.js");
 const _2_serialize_js_1 = require("./2_serialize.js");
+const _3_tl_reader_js_1 = require("./3_tl_reader.js");
+const _4_rpc_result_js_1 = require("./4_rpc_result.js");
+const _4_tl_writer_js_1 = require("./4_tl_writer.js");
 function calculateLength(object) {
     let length = 0;
     if (Array.isArray(object)) {

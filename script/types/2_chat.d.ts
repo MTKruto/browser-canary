@@ -19,11 +19,11 @@
  */
 import { Api } from "../2_tl.js";
 import { EntityGetter } from "./_getters.js";
+import { Birthday } from "./0_birthday.js";
+import { Location } from "./0_location.js";
 import { OpeningHours } from "./0_opening_hours.js";
 import { ChatPChannel, ChatPGroup, ChatPPrivate, ChatPSupergroup } from "./1_chat_p.js";
 import { Photo } from "./1_photo.js";
-import { Location } from "./0_location.js";
-import { Birthday } from "./0_birthday.js";
 /** @unlisted */
 export interface ChatBase {
     /** The chat's photo. */

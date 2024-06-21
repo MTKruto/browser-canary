@@ -21,19 +21,19 @@ import { AuthorizationState } from "./0_authorization_state.js";
 import { ConnectionState } from "./0_connection_state.js";
 import { MessageReference } from "./0_message_reference.js";
 import { StoryReference } from "./0_story_reference.js";
+import { VideoChat } from "./0_video_chat.js";
 import { BusinessConnection } from "./2_business_connection.js";
 import { ChosenInlineResult } from "./2_chosen_inline_result.js";
 import { InlineQuery } from "./2_inline_query.js";
 import { MessageInteractions } from "./2_message_interactions.js";
 import { MessageReactionCount } from "./2_message_reaction_count.js";
 import { MessageReactions } from "./2_message_reactions.js";
+import { PreCheckoutQuery } from "./2_pre_checkout_query.js";
 import { ChatMemberUpdated } from "./3_chat_member_updated.js";
 import { Story } from "./3_story.js";
 import { Message } from "./4_message.js";
 import { CallbackQuery } from "./5_callback_query.js";
 import { ChatListItem } from "./5_chat_list_item.js";
-import { VideoChat } from "./0_video_chat.js";
-import { PreCheckoutQuery } from "./2_pre_checkout_query.js";
 /**
  * A client's connection state was changed.
  *

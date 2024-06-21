@@ -18,13 +18,13 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 import { unreachable } from "../0_deps.js";
+import { cleanObject } from "../1_utilities.js";
 import { is } from "../2_tl.js";
+import { constructBirthday } from "./0_birthday.js";
+import { constructLocation } from "./0_location.js";
 import { constructOpeningHours } from "./0_opening_hours.js";
 import { constructChatP } from "./1_chat_p.js";
 import { constructPhoto } from "./1_photo.js";
-import { constructLocation } from "./0_location.js";
-import { constructBirthday } from "./0_birthday.js";
-import { cleanObject } from "../1_utilities.js";
 export async function constructChat(fullChat, getEntity) {
     if (is("userFull", fullChat)) {
         const user = await getEntity({ _: "peerUser", user_id: fullChat.id });
