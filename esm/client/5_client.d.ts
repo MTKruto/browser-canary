@@ -23,7 +23,7 @@ import { Storage } from "../2_storage.js";
 import { DC } from "../3_transport.js";
 import { BotCommand, BusinessConnection, CallbackQueryAnswer, CallbackQueryQuestion, Chat, ChatAction, ChatListItem, ChatMember, ChatP, FileSource, ID, InactiveChat, InlineQueryAnswer, InlineQueryResult, InputMedia, InputStoryContent, InviteLink, LiveStreamChannel, Message, MessageAnimation, MessageAudio, MessageContact, MessageDice, MessageDocument, MessageInvoice, MessageLocation, MessagePhoto, MessagePoll, MessageSticker, MessageText, MessageVenue, MessageVideo, MessageVideoNote, MessageVoice, NetworkStatistics, ParseMode, Poll, PriceTag, Reaction, Sticker, Story, Update, User, VideoChat, VideoChatActive, VideoChatScheduled } from "../3_types.js";
 import { Migrate } from "../4_errors.js";
-import { AddReactionParams, AnswerCallbackQueryParams, AnswerInlineQueryParams, BanChatMemberParams, CreateInviteLinkParams, CreateStoryParams, DeleteMessageParams, DeleteMessagesParams, DownloadLiveStreamChunkParams, DownloadParams, EditMessageLiveLocationParams, EditMessageMediaParams, EditMessageParams, EditMessageReplyMarkupParams, ForwardMessagesParams, GetChatsParams, GetCreatedInviteLinksParams, GetHistoryParams, GetMyCommandsParams, JoinVideoChatParams, PinMessageParams, ReplyParams, ScheduleVideoChatParams, SearchMessagesParams, SendAnimationParams, SendAudioParams, SendContactParams, SendDiceParams, SendDocumentParams, SendInlineQueryParams, SendInvoiceParams, SendLocationParams, SendMessageParams, SendPhotoParams, SendPollParams, SendStickerParams, SendVenueParams, SendVideoNoteParams, SendVideoParams, SendVoiceParams, SetChatMemberRightsParams, SetChatPhotoParams, SetMyCommandsParams, SetReactionsParams, SignInParams, StartVideoChatParams, StopPollParams } from "./0_params.js";
+import { AddReactionParams, AnswerCallbackQueryParams, AnswerInlineQueryParams, AnswerPreCheckoutQueryParams, BanChatMemberParams, CreateInviteLinkParams, CreateStoryParams, DeleteMessageParams, DeleteMessagesParams, DownloadLiveStreamChunkParams, DownloadParams, EditMessageLiveLocationParams, EditMessageMediaParams, EditMessageParams, EditMessageReplyMarkupParams, ForwardMessagesParams, GetChatsParams, GetCreatedInviteLinksParams, GetHistoryParams, GetMyCommandsParams, JoinVideoChatParams, PinMessageParams, ReplyParams, ScheduleVideoChatParams, SearchMessagesParams, SendAnimationParams, SendAudioParams, SendContactParams, SendDiceParams, SendDocumentParams, SendInlineQueryParams, SendInvoiceParams, SendLocationParams, SendMessageParams, SendPhotoParams, SendPollParams, SendStickerParams, SendVenueParams, SendVideoNoteParams, SendVideoParams, SendVoiceParams, SetChatMemberRightsParams, SetChatPhotoParams, SetMyCommandsParams, SetReactionsParams, SignInParams, StartVideoChatParams, StopPollParams } from "./0_params.js";
 import { ClientPlainParams } from "./1_client_plain.js";
 import { Composer as Composer_, NextFunction } from "./1_composer.js";
 import { StorageOperations } from "./0_storage_operations.js";
@@ -169,6 +169,8 @@ export interface Context {
     deleteChatStickerSet: () => Promise<void>;
     /** Context-aware alias for `client.getBusinessConnection()`. */
     getBusinessConnection: () => Promise<BusinessConnection>;
+    /** Context-aware alias for `client.answerPreCheckoutQuery()`. */
+    answerPreCheckoutQuery: (ok: boolean, params?: AnswerPreCheckoutQueryParams) => Promise<void>;
 }
 export declare class Composer<C extends Context = Context> extends Composer_<C> {
 }
@@ -1104,6 +1106,14 @@ export declare class Client<C extends Context = Context> extends Composer<C> {
      * @param userId The identifier of the user to unblock.
      */
     unblockUser(userId: ID): Promise<void>;
+    /**
+     * Answer a pre-checkout query. Bot-only.
+     *
+     * @method vc
+     * @param preCheckoutQueryId The identifier of the pre-checkout query.
+     * @param ok Whether the checkout is going to be processed.
+     */
+    answerPreCheckoutQuery(preCheckoutQueryId: string, ok: boolean, params?: AnswerPreCheckoutQueryParams): Promise<void>;
     /**
      * Start a video chat. User-only.
      *

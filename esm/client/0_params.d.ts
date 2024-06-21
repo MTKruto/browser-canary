@@ -407,4 +407,7 @@ export interface DownloadLiveStreamChunkParams {
     /** Video quality. */
     quality?: "low" | "medium" | "high";
 }
+export interface AnswerPreCheckoutQueryParams {
+    error?: string;
+}
 //# sourceMappingURL=0_params.d.ts.map

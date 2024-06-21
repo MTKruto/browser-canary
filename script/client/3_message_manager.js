@@ -612,7 +612,8 @@ class MessageManager {
             (0, _2_tl_js_1.is)("updateDeleteMessages", update) ||
             (0, _2_tl_js_1.is)("updateDeleteChannelMessages", update) ||
             (0, _2_tl_js_1.is)("updateChannelParticipant", update) ||
-            (0, _2_tl_js_1.is)("updateChatParticipant", update);
+            (0, _2_tl_js_1.is)("updateChatParticipant", update) ||
+            (0, _2_tl_js_1.is)("updateBotPrecheckoutQuery", update);
     }
     async handleUpdate(update) {
         if ((0, _2_tl_js_1.is)("updateNewMessage", update) || (0, _2_tl_js_1.is)("updateNewChannelMessage", update) || (0, _2_tl_js_1.is)("updateEditMessage", update) || (0, _2_tl_js_1.is)("updateEditChannelMessage", update)) {
@@ -682,6 +683,10 @@ class MessageManager {
             else {
                 return { chatMember };
             }
+        }
+        if ((0, _2_tl_js_1.is)("updateBotPrecheckoutQuery", update)) {
+            const preCheckoutQuery = await (0, _3_types_js_1.constructPreCheckoutQuery)(update, __classPrivateFieldGet(this, _MessageManager_c, "f").getEntity);
+            return { preCheckoutQuery };
         }
         return null;
     }
@@ -989,6 +994,17 @@ class MessageManager {
                 : undefined,
         }, params);
         return (0, _3_types_js_2.assertMessageType)(message, "invoice");
+    }
+    async answerPreCheckoutQuery(preCheckoutQueryId, ok, params) {
+        await __classPrivateFieldGet(this, _MessageManager_c, "f").storage.assertBot("answerPreCheckoutQuery");
+        if (!ok && !params?.error) {
+            throw new _0_errors_js_1.InputError("error is required when ok is false");
+        }
+        const queryId = BigInt(preCheckoutQueryId);
+        if (!queryId) {
+            throw new _0_errors_js_1.InputError("Invalid pre-checkout query ID");
+        }
+        await __classPrivateFieldGet(this, _MessageManager_c, "f").invoke({ _: "messages.setBotPrecheckoutResults", query_id: queryId, error: params?.error, success: ok ? true : undefined });
     }
 }
 exports.MessageManager = MessageManager;

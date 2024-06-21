@@ -200,7 +200,7 @@ class Client extends Composer {
             };
             const chat_ = "messageReactions" in update ? update.messageReactions.chat : "messageReactionCount" in update ? update.messageReactionCount.chat : "chatMember" in update ? update.chatMember.chat : undefined;
             const chat = chat_ ?? msg?.chat;
-            const from = "callbackQuery" in update ? update.callbackQuery.from : "inlineQuery" in update ? update.inlineQuery.from : "message" in update ? update.message.from : "editedMessage" in update ? update.editedMessage?.from : "chatMember" in update ? update.chatMember.from : "messageReactions" in update ? update.messageReactions.user : undefined;
+            const from = "callbackQuery" in update ? update.callbackQuery.from : "inlineQuery" in update ? update.inlineQuery.from : "message" in update ? update.message.from : "editedMessage" in update ? update.editedMessage?.from : "chatMember" in update ? update.chatMember.from : "messageReactions" in update ? update.messageReactions.user : "preCheckoutQuery" in update ? update.preCheckoutQuery.from : undefined;
             const senderChat = msg?.senderChat;
             const getReplyToMessageId = (quote, chatId, messageId) => {
                 const isPrivate = chatId > 0;
@@ -499,6 +499,12 @@ class Client extends Composer {
                         (0, _0_deps_js_1.unreachable)();
                     }
                     return this.getBusinessConnection(businessConnectionId);
+                },
+                answerPreCheckoutQuery: (ok, params) => {
+                    if (!("preCheckoutQuery" in update)) {
+                        (0, _0_deps_js_1.unreachable)();
+                    }
+                    return this.answerPreCheckoutQuery(update.preCheckoutQuery.id, ok, params);
                 },
             };
             return (0, _1_utilities_js_1.cleanObject)(context);
@@ -2305,6 +2311,16 @@ class Client extends Composer {
      */
     async unblockUser(userId) {
         await __classPrivateFieldGet(this, _Client_messageManager, "f").unblockUser(userId);
+    }
+    /**
+     * Answer a pre-checkout query. Bot-only.
+     *
+     * @method vc
+     * @param preCheckoutQueryId The identifier of the pre-checkout query.
+     * @param ok Whether the checkout is going to be processed.
+     */
+    async answerPreCheckoutQuery(preCheckoutQueryId, ok, params) {
+        await __classPrivateFieldGet(this, _Client_messageManager, "f").answerPreCheckoutQuery(preCheckoutQueryId, ok, params);
     }
     //
     // ========================= VIDEO CHATS ========================= //
