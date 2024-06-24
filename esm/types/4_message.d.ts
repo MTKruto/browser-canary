@@ -43,6 +43,7 @@ import { Video } from "./1_video.js";
 import { Game } from "./2_game.js";
 import { Poll } from "./2_poll.js";
 import { ReplyMarkup } from "./3_reply_markup.js";
+import { SuccessfulPayment } from "./2_successful_payment.js";
 /**
  * Properties shared between all message types.
  * @unlisted
@@ -538,6 +539,14 @@ export interface MessageUnsupported extends _MessageBase {
     /** @discriminator */
     unsupported: true;
 }
+/**
+ * A payment was successfully received. Bot-only.
+ * @unlisted
+ */
+export interface MessageSuccessfulPayment extends _MessageBase {
+    /** @discriminator */
+    successfulPayment: SuccessfulPayment;
+}
 /** @unlisted */
 export interface MessageTypes {
     text: MessageText;
@@ -580,10 +589,11 @@ export interface MessageTypes {
     videoChatEnded: MessageVideoChatEnded;
     giveaway: MessageGiveaway;
     unsupported: MessageUnsupported;
+    successfulPayment: MessageSuccessfulPayment;
 }
 export declare function assertMessageType<T extends keyof MessageTypes>(message: Message, type: T): MessageTypes[T];
 /** Any type of message. */
-export type Message = MessageText | MessageLink | MessagePhoto | MessageDocument | MessageVideo | MessageSticker | MessageAnimation | MessageVoice | MessageAudio | MessageDice | MessageVideoNote | MessageContact | MessageGame | MessagePoll | MessageInvoice | MessageVenue | MessageLocation | MessageNewChatMembers | MessageLeftChatMember | MessageNewChatTitle | MessageNewChatPhoto | MessageDeletedChatPhoto | MessageGroupCreated | MessageSupergroupCreated | MessageChannelCreated | MessageAutoDeleteTimerChanged | MessageChatMigratedTo | MessageChatMigratedFrom | MessagePinnedMessage | MessageUserShared | MessageWriteAccessAllowed | MessageForumTopicCreated | MessageForumTopicEdited | MessageForumTopicClosed | MessageForumTopicReopened | MessageVideoChatScheduled | MessageVideoChatStarted | MessageVideoChatEnded | MessageGiveaway | MessageUnsupported;
+export type Message = MessageText | MessageLink | MessagePhoto | MessageDocument | MessageVideo | MessageSticker | MessageAnimation | MessageVoice | MessageAudio | MessageDice | MessageVideoNote | MessageContact | MessageGame | MessagePoll | MessageInvoice | MessageVenue | MessageLocation | MessageNewChatMembers | MessageLeftChatMember | MessageNewChatTitle | MessageNewChatPhoto | MessageDeletedChatPhoto | MessageGroupCreated | MessageSupergroupCreated | MessageChannelCreated | MessageAutoDeleteTimerChanged | MessageChatMigratedTo | MessageChatMigratedFrom | MessagePinnedMessage | MessageUserShared | MessageWriteAccessAllowed | MessageForumTopicCreated | MessageForumTopicEdited | MessageForumTopicClosed | MessageForumTopicReopened | MessageVideoChatScheduled | MessageVideoChatStarted | MessageVideoChatEnded | MessageGiveaway | MessageUnsupported | MessageSuccessfulPayment;
 /** @unlisted */
 export interface MessageGetter {
     (chatId: number, messageId: number): MaybePromise<Message | null>;

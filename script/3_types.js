@@ -115,6 +115,7 @@ __exportStar(require("./types/2_pre_checkout_query.js"), exports);
 __exportStar(require("./types/2_story_content.js"), exports);
 __exportStar(require("./types/2_story_interactions.js"), exports);
 __exportStar(require("./types/2_story_interactive_area.js"), exports);
+__exportStar(require("./types/2_successful_payment.js"), exports);
 __exportStar(require("./types/3_chat_member_updated.js"), exports);
 __exportStar(require("./types/3_reply_markup.js"), exports);
 __exportStar(require("./types/3_story.js"), exports);

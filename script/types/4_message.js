@@ -48,6 +48,7 @@ const _1_video_js_1 = require("./1_video.js");
 const _2_game_js_1 = require("./2_game.js");
 const _2_poll_js_1 = require("./2_poll.js");
 const _3_reply_markup_js_1 = require("./3_reply_markup.js");
+const _2_successful_payment_js_1 = require("./2_successful_payment.js");
 const L = (0, _1_utilities_js_1.getLogger)("Message");
 const keys = {
     text: ["text"],
@@ -90,6 +91,7 @@ const keys = {
     videoChatEnded: ["videoChatEnded"],
     giveaway: ["giveaway"],
     unsupported: ["unsupported"],
+    successfulPayment: ["successfulPayment"],
 };
 function assertMessageType(message, type) {
     for (const key of keys[type]) {
@@ -281,6 +283,10 @@ async function constructServiceMessage(message_, chat, getEntity, getMessage) {
     else if ((0, _2_tl_js_1.is)("messageActionSetMessagesTTL", message_.action)) {
         const newAutoDeleteTime = message_.action.period || 0;
         return { ...message, newAutoDeleteTime };
+    }
+    else if ((0, _2_tl_js_1.is)("messageActionPaymentSentMe", message_.action)) {
+        const successfulPayment = (0, _2_successful_payment_js_1.constructSuccessfulPayment)(message_.action);
+        return { ...message, successfulPayment };
     }
     return { ...message, unsupported: true };
 }

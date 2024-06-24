@@ -45,6 +45,7 @@ import { constructVideo } from "./1_video.js";
 import { constructGame } from "./2_game.js";
 import { constructPoll } from "./2_poll.js";
 import { constructReplyMarkup } from "./3_reply_markup.js";
+import { constructSuccessfulPayment } from "./2_successful_payment.js";
 const L = getLogger("Message");
 const keys = {
     text: ["text"],
@@ -87,6 +88,7 @@ const keys = {
     videoChatEnded: ["videoChatEnded"],
     giveaway: ["giveaway"],
     unsupported: ["unsupported"],
+    successfulPayment: ["successfulPayment"],
 };
 export function assertMessageType(message, type) {
     for (const key of keys[type]) {
@@ -277,6 +279,10 @@ async function constructServiceMessage(message_, chat, getEntity, getMessage) {
     else if (is("messageActionSetMessagesTTL", message_.action)) {
         const newAutoDeleteTime = message_.action.period || 0;
         return { ...message, newAutoDeleteTime };
+    }
+    else if (is("messageActionPaymentSentMe", message_.action)) {
+        const successfulPayment = constructSuccessfulPayment(message_.action);
+        return { ...message, successfulPayment };
     }
     return { ...message, unsupported: true };
 }

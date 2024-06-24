@@ -99,6 +99,7 @@ export * from "./types/2_pre_checkout_query.js";
 export * from "./types/2_story_content.js";
 export * from "./types/2_story_interactions.js";
 export * from "./types/2_story_interactive_area.js";
+export * from "./types/2_successful_payment.js";
 export * from "./types/3_chat_member_updated.js";
 export * from "./types/3_reply_markup.js";
 export * from "./types/3_story.js";
