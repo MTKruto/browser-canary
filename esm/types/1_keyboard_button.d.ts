@@ -23,10 +23,12 @@ import { KeyboardButtonPollType } from "./0_keyboard_button_poll_type.js";
 import { MiniAppInfo } from "./0_mini_app_info.js";
 /** @unlisted */
 export interface KeyboardButtonText {
+    /** @discriminator */
     text: string;
 }
 /** @unlisted */
 export interface KeyboardButtonRequestUser extends KeyboardButtonText {
+    /** @discriminator */
     requestUser: {
         requestId: number;
         userIsBot?: boolean;
@@ -35,6 +37,7 @@ export interface KeyboardButtonRequestUser extends KeyboardButtonText {
 }
 /** @unlisted */
 export interface KeyboardButtonRequestChat extends KeyboardButtonText {
+    /** @discriminator */
     requestChat: {
         requestId: number;
         chatIsChannel: boolean;
@@ -48,18 +51,22 @@ export interface KeyboardButtonRequestChat extends KeyboardButtonText {
 }
 /** @unlisted */
 export interface KeyboardButtonRequestContact extends KeyboardButtonText {
+    /** @discriminator */
     requestContact: true;
 }
 /** @unlisted */
 export interface KeyboardButtonRequestLocation extends KeyboardButtonText {
+    /** @discriminator */
     requestLocation: true;
 }
 /** @unlisted */
 export interface KeyboardButtonRequestPoll extends KeyboardButtonText {
+    /** @discriminator */
     requestPoll: KeyboardButtonPollType;
 }
 /** @unlisted */
 export interface KeyboardButtonMiniApp extends KeyboardButtonText {
+    /** @discriminator */
     miniApp: MiniAppInfo;
 }
 /** A button of a custom keyboard. */
