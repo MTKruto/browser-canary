@@ -222,7 +222,7 @@ export class StorageOperations {
             await __classPrivateFieldGet(this, _StorageOperations_storage, "f").set(key, null);
         }
         else {
-            await __classPrivateFieldGet(this, _StorageOperations_storage, "f").set(key, __classPrivateFieldGet(this, _StorageOperations_mustSerialize, "f") ? serialize(value) : value);
+            await __classPrivateFieldGet(this, _StorageOperations_storage, "f").set(key, __classPrivateFieldGet(this, _StorageOperations_mustSerialize, "f") ? rleEncode(serialize(value)) : value);
         }
     }
     async getTlObject(keyOrBuffer) {

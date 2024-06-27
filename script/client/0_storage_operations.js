@@ -225,7 +225,7 @@ class StorageOperations {
             await __classPrivateFieldGet(this, _StorageOperations_storage, "f").set(key, null);
         }
         else {
-            await __classPrivateFieldGet(this, _StorageOperations_storage, "f").set(key, __classPrivateFieldGet(this, _StorageOperations_mustSerialize, "f") ? (0, _2_tl_js_1.serialize)(value) : value);
+            await __classPrivateFieldGet(this, _StorageOperations_storage, "f").set(key, __classPrivateFieldGet(this, _StorageOperations_mustSerialize, "f") ? (0, _1_utilities_js_1.rleEncode)((0, _2_tl_js_1.serialize)(value)) : value);
         }
     }
     async getTlObject(keyOrBuffer) {
