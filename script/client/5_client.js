@@ -2033,6 +2033,44 @@ class Client extends Composer {
     async createInviteLink(chatId, params) {
         return await __classPrivateFieldGet(this, _Client_messageManager, "f").createInviteLink(chatId, params);
     }
+    /**
+     * Approve a join request.
+     *
+     * @method ch
+     * @param chatId The identifier of the chat that contains the join request.
+     * @param userId The user who made the join request.
+     */
+    async approveJoinRequest(chatId, userId) {
+        await __classPrivateFieldGet(this, _Client_messageManager, "f").approveJoinRequest(chatId, userId);
+    }
+    /**
+     * Decline a join request.
+     *
+     * @method ch
+     * @param chatId The identifier of the chat that contains the join request.
+     * @param userId The user who made the join request.
+     */
+    async declineJoinRequest(chatId, userId) {
+        await __classPrivateFieldGet(this, _Client_messageManager, "f").declineJoinRequest(chatId, userId);
+    }
+    /**
+     * Approve all join requests. User-only.
+     *
+     * @method ch
+     * @param chatId The identifier of the chat that contains the join requests.
+     */
+    async approveJoinRequests(chatId, params) {
+        await __classPrivateFieldGet(this, _Client_messageManager, "f").approveJoinRequests(chatId, params);
+    }
+    /**
+     * Decline all join requests. User-only.
+     *
+     * @method ch
+     * @param chatId The identifier of the chat that contains the join requests.
+     */
+    async declineJoinRequests(chatId, params) {
+        await __classPrivateFieldGet(this, _Client_messageManager, "f").declineJoinRequests(chatId, params);
+    }
     //
     // ========================= CALLBACK QUERIES ========================= //
     //

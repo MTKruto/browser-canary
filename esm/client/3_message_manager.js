@@ -810,6 +810,38 @@ export class MessageManager {
         await __classPrivateFieldGet(this, _MessageManager_c, "f").storage.assertUser("disableJoinRequests");
         await __classPrivateFieldGet(this, _MessageManager_instances, "m", _MessageManager_toggleJoinRequests).call(this, chatId, false);
     }
+    async approveJoinRequest(chatId, userId) {
+        await __classPrivateFieldGet(this, _MessageManager_c, "f").invoke({
+            _: "messages.hideChatJoinRequest",
+            peer: await __classPrivateFieldGet(this, _MessageManager_c, "f").getInputPeer(chatId),
+            user_id: await __classPrivateFieldGet(this, _MessageManager_c, "f").getInputUser(userId),
+            approved: true,
+        });
+    }
+    async declineJoinRequest(chatId, userId) {
+        await __classPrivateFieldGet(this, _MessageManager_c, "f").invoke({
+            _: "messages.hideChatJoinRequest",
+            peer: await __classPrivateFieldGet(this, _MessageManager_c, "f").getInputPeer(chatId),
+            user_id: await __classPrivateFieldGet(this, _MessageManager_c, "f").getInputUser(userId),
+        });
+    }
+    async approveJoinRequests(chatId, params) {
+        await __classPrivateFieldGet(this, _MessageManager_c, "f").storage.assertUser("approveJoinRequests");
+        await __classPrivateFieldGet(this, _MessageManager_c, "f").invoke({
+            _: "messages.hideAllChatJoinRequests",
+            peer: await __classPrivateFieldGet(this, _MessageManager_c, "f").getInputPeer(chatId),
+            approved: true,
+            link: params?.inviteLink,
+        });
+    }
+    async declineJoinRequests(chatId, params) {
+        await __classPrivateFieldGet(this, _MessageManager_c, "f").storage.assertUser("declineJoinRequests");
+        await __classPrivateFieldGet(this, _MessageManager_c, "f").invoke({
+            _: "messages.hideAllChatJoinRequests",
+            peer: await __classPrivateFieldGet(this, _MessageManager_c, "f").getInputPeer(chatId),
+            link: params?.inviteLink,
+        });
+    }
     async searchMessages(chatId, query, params) {
         const result = await __classPrivateFieldGet(this, _MessageManager_c, "f").invoke({ _: "messages.search", peer: await __classPrivateFieldGet(this, _MessageManager_c, "f").getInputPeer(chatId), q: query, add_offset: 0, filter: messageSearchFilterToTlObject(params?.filter ?? "empty"), hash: 0n, limit: params?.limit ?? 100, max_date: 0, max_id: 0, min_date: 0, min_id: 0, offset_id: params?.after ? params.after : 0, from_id: params?.from ? await __classPrivateFieldGet(this, _MessageManager_c, "f").getInputPeer(params.from) : undefined });
         if (!("messages" in result)) {
