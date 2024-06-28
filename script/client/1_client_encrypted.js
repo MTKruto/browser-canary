@@ -268,7 +268,6 @@ _ClientEncrypted_authKey = new WeakMap(), _ClientEncrypted_authKeyId = new WeakM
                 }
                 else if ((0, _2_tl_js_1.is)("bad_msg_notification", message.body)) {
                     let low = false;
-                    let unreachable_ = false;
                     switch (message.body.error_code) {
                         case 16: // message ID too low
                             low = true;
@@ -285,32 +284,18 @@ _ClientEncrypted_authKey = new WeakMap(), _ClientEncrypted_authKeyId = new WeakM
                                 __classPrivateFieldGet(this, _ClientEncrypted_LreceiveLoop, "f").debug("message ID too low, resending message");
                             }
                             break;
-                        case 18: // message ID not divisible by 4
-                        case 19: // duplicate message ID
-                        case 20: // message ID too old
-                        case 32: // seqNo too low
-                        case 33: // seqNo too high
-                        case 34: // invalid seqNo
-                        case 35: // invalid seqNo
-                            unreachable_ = true;
-                            __classPrivateFieldGet(this, _ClientEncrypted_LreceiveLoop, "f").error("unexpected bad_msg_notification:", message.body.error_code);
-                            break;
                         case 48: // bad server salt
                             // resend
                             __classPrivateFieldGet(this, _ClientEncrypted_LreceiveLoop, "f").debug("resending message that caused bad_server_salt");
                             break;
-                        case 64: // invalid container
-                            unreachable_ = true;
-                            __classPrivateFieldGet(this, _ClientEncrypted_LreceiveLoop, "f").error("unexpected bad_msg_notification:", message.body.error_code);
-                            break;
                         default:
                             await __classPrivateFieldGet(this, _ClientEncrypted_instances, "m", _ClientEncrypted_invalidateSession).call(this);
-                            __classPrivateFieldGet(this, _ClientEncrypted_LreceiveLoop, "f").debug("invalidating session because of unknown bad_msg_notification:", message.body.error_code);
+                            __classPrivateFieldGet(this, _ClientEncrypted_LreceiveLoop, "f").debug("invalidating session because of unexpected bad_msg_notification:", message.body.error_code);
                             break loop;
                     }
                     const promise = __classPrivateFieldGet(this, _ClientEncrypted_promises, "f").get(message.body.bad_msg_id);
                     if (promise) {
-                        promise.reject?.(unreachable_ ? (0, _0_deps_js_1.unreachable)() : message.body);
+                        promise.reject?.(message.body);
                         __classPrivateFieldGet(this, _ClientEncrypted_promises, "f").delete(message.body.bad_msg_id);
                     }
                 }
