@@ -34,6 +34,7 @@ import { Story } from "./3_story.js";
 import { Message } from "./4_message.js";
 import { CallbackQuery } from "./5_callback_query.js";
 import { ChatListItem } from "./5_chat_list_item.js";
+import { JoinRequest } from "./3_join_request.js";
 /**
  * A client's connection state was changed.
  *
@@ -299,6 +300,14 @@ export interface UpdatePreCheckoutQuery {
     /** @discriminator */
     preCheckoutQuery: PreCheckoutQuery;
 }
+/**
+ * A user requested to join a chat. Bot-only.
+ * @unlisted
+ */
+export interface UpdateJoinRequest {
+    /** @discriminator */
+    joinRequest: JoinRequest;
+}
 /** @unlisted */
 export interface UpdateMap {
     message: UpdateNewMessage;
@@ -322,9 +331,10 @@ export interface UpdateMap {
     businessConnection: UpdateBusinessConnection;
     videoChat: UpdateVideoChat;
     preCheckoutQuery: UpdatePreCheckoutQuery;
+    joinRequest: UpdateJoinRequest;
 }
 /** @unlisted */
-export type UpdateIntersection = Partial<UpdateConnectionState & UpdateAuthorizationState & UpdateNewMessage & UpdateEditedMessage & UpdateDeletedMessages & UpdateCallbackQuery & UpdateInlineQuery & UpdateChosenInlineResult & UpdateNewChat & UpdateEditedChat & UpdateDeletedChat & UpdateMessageInteractions & UpdateMessageReactionCount & UpdateMessageReactions & UpdateChatMember & UpdateMyChatMember & UpdateDeletedStory & UpdateNewStory & UpdateBusinessConnection & UpdateVideoChat & UpdatePreCheckoutQuery>;
+export type UpdateIntersection = Partial<UpdateConnectionState & UpdateAuthorizationState & UpdateNewMessage & UpdateEditedMessage & UpdateDeletedMessages & UpdateCallbackQuery & UpdateInlineQuery & UpdateChosenInlineResult & UpdateNewChat & UpdateEditedChat & UpdateDeletedChat & UpdateMessageInteractions & UpdateMessageReactionCount & UpdateMessageReactions & UpdateChatMember & UpdateMyChatMember & UpdateDeletedStory & UpdateNewStory & UpdateBusinessConnection & UpdateVideoChat & UpdatePreCheckoutQuery & UpdateJoinRequest>;
 /** An incoming update. */
-export type Update = UpdateConnectionState | UpdateAuthorizationState | UpdateNewMessage | UpdateEditedMessage | UpdateDeletedMessages | UpdateCallbackQuery | UpdateInlineQuery | UpdateChosenInlineResult | UpdateNewChat | UpdateEditedChat | UpdateDeletedChat | UpdateMessageInteractions | UpdateMessageReactionCount | UpdateMessageReactions | UpdateChatMember | UpdateMyChatMember | UpdateDeletedStory | UpdateNewStory | UpdateBusinessConnection | UpdateVideoChat | UpdatePreCheckoutQuery;
+export type Update = UpdateConnectionState | UpdateAuthorizationState | UpdateNewMessage | UpdateEditedMessage | UpdateDeletedMessages | UpdateCallbackQuery | UpdateInlineQuery | UpdateChosenInlineResult | UpdateNewChat | UpdateEditedChat | UpdateDeletedChat | UpdateMessageInteractions | UpdateMessageReactionCount | UpdateMessageReactions | UpdateChatMember | UpdateMyChatMember | UpdateDeletedStory | UpdateNewStory | UpdateBusinessConnection | UpdateVideoChat | UpdatePreCheckoutQuery | UpdateJoinRequest;
 //# sourceMappingURL=6_update.d.ts.map

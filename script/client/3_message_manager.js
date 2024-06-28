@@ -58,6 +58,7 @@ const messageManagerUpdates = [
     "updateDeleteChannelMessages",
     "updateChannelParticipant",
     "updateChatParticipant",
+    "updateBotChatInviteRequester",
 ];
 class MessageManager {
     constructor(c) {
@@ -685,6 +686,10 @@ class MessageManager {
             else {
                 return { chatMember };
             }
+        }
+        if ((0, _2_tl_js_1.is)("updateBotChatInviteRequester", update)) {
+            const joinRequest = await (0, _3_types_js_1.constructJoinRequest)(update, __classPrivateFieldGet(this, _MessageManager_c, "f").getEntity);
+            return { joinRequest };
         }
         return null;
     }

@@ -33,7 +33,7 @@ import { contentType, unreachable } from "../0_deps.js";
 import { InputError } from "../0_errors.js";
 import { getLogger, getRandomId, toUnixTimestamp } from "../1_utilities.js";
 import { as, getChannelChatId, is, isOneOf, peerToChatId } from "../2_tl.js";
-import { constructChatMemberUpdated, constructInviteLink, deserializeFileId, selfDestructOptionToInt } from "../3_types.js";
+import { constructChatMemberUpdated, constructInviteLink, constructJoinRequest, deserializeFileId, selfDestructOptionToInt } from "../3_types.js";
 import { assertMessageType, chatMemberRightsToTlObject, constructChatMember, constructMessage as constructMessage_, deserializeInlineMessageId, FileType, messageEntityToTlObject, reactionEqual, reactionToTlObject, replyMarkupToTlObject } from "../3_types.js";
 import { messageSearchFilterToTlObject } from "../types/0_message_search_filter.js";
 import { parseHtml } from "./0_html.js";
@@ -55,6 +55,7 @@ const messageManagerUpdates = [
     "updateDeleteChannelMessages",
     "updateChannelParticipant",
     "updateChatParticipant",
+    "updateBotChatInviteRequester",
 ];
 export class MessageManager {
     constructor(c) {
@@ -682,6 +683,10 @@ export class MessageManager {
             else {
                 return { chatMember };
             }
+        }
+        if (is("updateBotChatInviteRequester", update)) {
+            const joinRequest = await constructJoinRequest(update, __classPrivateFieldGet(this, _MessageManager_c, "f").getEntity);
+            return { joinRequest };
         }
         return null;
     }
