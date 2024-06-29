@@ -18,7 +18,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 import { MaybePromise } from "../1_utilities.js";
-import { BotCommandScope, ChatListItem, ChatMemberRights, FileSource, ID, InlineQueryResultButton, LinkPreview, Message, MessageEntity, MessageSearchFilter, ParseMode, ReplyMarkup, ReplyQuote, SelfDestructOption, StoryInteractiveArea, StoryPrivacy } from "../3_types.js";
+import { BotCommandScope, ChatListItem, ChatMemberRights, FileSource, ID, InlineQueryResultButton, LinkPreview, MessageEntity, MessageSearchFilter, ParseMode, ReplyMarkup, ReplyQuote, SelfDestructOption, StoryInteractiveArea, StoryPrivacy } from "../3_types.js";
 export interface AnswerCallbackQueryParams {
     /** A text to be shown to the user. */
     text?: string;
@@ -283,8 +283,8 @@ export interface ReplyParams {
     quote?: boolean;
 }
 export interface GetHistoryParams {
-    /** The oldest message to get messages after. */
-    after?: Message;
+    /** The identifier of a message. If specified, the chat history will be fetched from that message. */
+    fromMessageId?: number;
     /** The maximum number of results to return. Must be in the range of 1-100. Defaults to 100. */
     limit?: number;
 }

@@ -183,7 +183,7 @@ class MessageManager {
         else if (limit > 100) {
             limit = 100;
         }
-        let offsetId = params?.after?.id ?? 0;
+        let offsetId = params?.fromMessageId ?? 0;
         if (offsetId < 0) {
             offsetId = 0;
         }
