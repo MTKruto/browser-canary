@@ -209,6 +209,7 @@ export class MessageManager {
         const silent = params?.disableNotification ? true : undefined;
         const noforwards = params?.protectContent ? true : undefined;
         const sendAs = await __classPrivateFieldGet(this, _MessageManager_instances, "m", _MessageManager_resolveSendAs).call(this, params);
+        const effect = params?.messageEffectId ? BigInt(params.messageEffectId) : undefined;
         let result;
         if (!noWebpage && params?.linkPreview?.url) {
             result = await __classPrivateFieldGet(this, _MessageManager_c, "f").invoke({
@@ -230,6 +231,7 @@ export class MessageManager {
                 send_as: sendAs,
                 entities,
                 reply_markup: replyMarkup,
+                effect,
             }, params?.businessConnectionId);
         }
         else {
@@ -246,6 +248,7 @@ export class MessageManager {
                 send_as: sendAs,
                 entities,
                 reply_markup: replyMarkup,
+                effect,
             }, params?.businessConnectionId);
         }
         const message_ = (await __classPrivateFieldGet(this, _MessageManager_instances, "m", _MessageManager_updatesToMessages).call(this, chatId, result, params?.businessConnectionId))[0];
@@ -281,6 +284,7 @@ export class MessageManager {
                 provider: "foursquare",
             }),
             message: "",
+            effect: params?.messageEffectId ? BigInt(params.messageEffectId) : undefined,
         }, params?.businessConnectionId);
         const message = (await __classPrivateFieldGet(this, _MessageManager_instances, "m", _MessageManager_updatesToMessages).call(this, chatId, result, params?.businessConnectionId))[0];
         return assertMessageType(message, "venue");
@@ -309,6 +313,7 @@ export class MessageManager {
                 vcard: params?.vcard ?? "",
             }),
             message: "",
+            effect: params?.messageEffectId ? BigInt(params.messageEffectId) : undefined,
         }, params?.businessConnectionId);
         const message = (await __classPrivateFieldGet(this, _MessageManager_instances, "m", _MessageManager_updatesToMessages).call(this, chatId, result, params?.businessConnectionId))[0];
         return assertMessageType(message, "contact");
@@ -334,6 +339,7 @@ export class MessageManager {
                 emoticon: params?.emoji ?? "🎲",
             }),
             message: "",
+            effect: params?.messageEffectId ? BigInt(params.messageEffectId) : undefined,
         }, params?.businessConnectionId);
         const message = (await __classPrivateFieldGet(this, _MessageManager_instances, "m", _MessageManager_updatesToMessages).call(this, chatId, result, params?.businessConnectionId))[0];
         return assertMessageType(message, "dice");
@@ -377,6 +383,7 @@ export class MessageManager {
                     }),
                 }),
             message: "",
+            effect: params?.messageEffectId ? BigInt(params.messageEffectId) : undefined,
         }, params?.businessConnectionId);
         const message = (await __classPrivateFieldGet(this, _MessageManager_instances, "m", _MessageManager_updatesToMessages).call(this, chatId, result, params?.businessConnectionId))[0];
         return assertMessageType(message, "location");
@@ -501,6 +508,7 @@ export class MessageManager {
             send_as: sendAs,
             media,
             message: "",
+            effect: params?.messageEffectId ? BigInt(params.messageEffectId) : undefined,
         }, params?.businessConnectionId);
         const message = (await __classPrivateFieldGet(this, _MessageManager_instances, "m", _MessageManager_updatesToMessages).call(this, chatId, result, params?.businessConnectionId))[0];
         return assertMessageType(message, "poll");
@@ -1166,6 +1174,7 @@ _MessageManager_c = new WeakMap(), _MessageManager_LresolveFileId = new WeakMap(
         media,
         message: caption ?? "",
         entities: captionEntities,
+        effect: params?.messageEffectId ? BigInt(params.messageEffectId) : undefined,
     }, params?.businessConnectionId);
     return (await __classPrivateFieldGet(this, _MessageManager_instances, "m", _MessageManager_updatesToMessages).call(this, chatId, result, params?.businessConnectionId))[0];
 }, _MessageManager_resolveInputMediaInner = async function _MessageManager_resolveInputMediaInner(document, media, fileType, otherAttribs) {
