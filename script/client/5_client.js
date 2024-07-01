@@ -524,7 +524,7 @@ class Client extends Composer {
         _Client_connectionInited.set(this, false);
         _Client_lastPropagatedAuthorizationState.set(this, null);
         _Client_pingLoopAbortController.set(this, null);
-        _Client_pingInterval.set(this, 1 * _1_utilities_js_1.minute);
+        _Client_pingInterval.set(this, 56 * _1_utilities_js_1.second);
         _Client_lastUpdates.set(this, new Date());
         _Client_handleInvokeError.set(this, skipInvoke());
         /**
@@ -1188,6 +1188,9 @@ class Client extends Composer {
                 }
             }
             catch (err) {
+                if (err instanceof DOMException && err.name == "AbortError") {
+                    __classPrivateFieldSet(this, _Client_pingLoopAbortController, new AbortController(), "f");
+                }
                 if (!this.connected) {
                     continue;
                 }
