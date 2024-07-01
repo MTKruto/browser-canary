@@ -47,6 +47,7 @@ __exportStar(require("./types/0_chat_photo.js"), exports);
 __exportStar(require("./types/0_connection_state.js"), exports);
 __exportStar(require("./types/0_contact.js"), exports);
 __exportStar(require("./types/0_dice.js"), exports);
+__exportStar(require("./types/0_failed_invitation.js"), exports);
 __exportStar(require("./types/0_file_source.js"), exports);
 __exportStar(require("./types/0_giveaway_parameters.js"), exports);
 __exportStar(require("./types/0_id.js"), exports);

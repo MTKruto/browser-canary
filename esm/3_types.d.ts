@@ -31,6 +31,7 @@ export * from "./types/0_chat_photo.js";
 export * from "./types/0_connection_state.js";
 export * from "./types/0_contact.js";
 export * from "./types/0_dice.js";
+export * from "./types/0_failed_invitation.js";
 export * from "./types/0_file_source.js";
 export * from "./types/0_giveaway_parameters.js";
 export * from "./types/0_id.js";

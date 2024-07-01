@@ -2071,6 +2071,27 @@ class Client extends Composer {
     async declineJoinRequests(chatId, params) {
         await __classPrivateFieldGet(this, _Client_messageManager, "f").declineJoinRequests(chatId, params);
     }
+    /**
+     * Add a single user to a chat.
+     *
+     * @method ch
+     * @param chatId The identifier of the chat to add the user to.
+     * @param userId The identifier of the user to add to the chat.
+     * @returns An array of FailedInvitation that has at most a length of 1. If empty, it means that the user was added.
+     */
+    async addChatMember(chatId, userId, params) {
+        return await __classPrivateFieldGet(this, _Client_messageManager, "f").addChatMember(chatId, userId, params);
+    }
+    /**
+     * Add multiple users at once to a channel or a supergroup.
+     *
+     * @method ch
+     * @param chatId The identifier of the channel or supergroup to add the users to.
+     * @param userId The identifiers of the users to add to the channel or supergroup.
+     */
+    async addChatMembers(chatId, userId, params) {
+        await __classPrivateFieldGet(this, _Client_messageManager, "f").addChatMember(chatId, userId, params);
+    }
     //
     // ========================= CALLBACK QUERIES ========================= //
     //

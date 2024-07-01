@@ -33,7 +33,7 @@ import { contentType, unreachable } from "../0_deps.js";
 import { InputError } from "../0_errors.js";
 import { getLogger, getRandomId, toUnixTimestamp } from "../1_utilities.js";
 import { as, getChannelChatId, is, isOneOf, peerToChatId } from "../2_tl.js";
-import { constructChatMemberUpdated, constructInviteLink, constructJoinRequest, deserializeFileId, selfDestructOptionToInt } from "../3_types.js";
+import { constructChatMemberUpdated, constructFailedInvitation, constructInviteLink, constructJoinRequest, deserializeFileId, selfDestructOptionToInt } from "../3_types.js";
 import { assertMessageType, chatMemberRightsToTlObject, constructChatMember, constructMessage as constructMessage_, deserializeInlineMessageId, FileType, messageEntityToTlObject, reactionEqual, reactionToTlObject, replyMarkupToTlObject } from "../3_types.js";
 import { messageSearchFilterToTlObject } from "../types/0_message_search_filter.js";
 import { parseHtml } from "./0_html.js";
@@ -1026,6 +1026,40 @@ export class MessageManager {
                 : undefined,
         }, params);
         return assertMessageType(message, "invoice");
+    }
+    async addChatMember(chatId, userId, params) {
+        const chat = await __classPrivateFieldGet(this, _MessageManager_c, "f").getInputPeer(chatId);
+        if (isOneOf(["inputPeerEmpty", "inputPeerSelf", "inputPeerUser", "inputPeerUserFromMessage"], chat)) {
+            throw new InputError("Cannot add members to private chats");
+        }
+        const user = await __classPrivateFieldGet(this, _MessageManager_c, "f").getInputUser(userId);
+        if (is("inputPeerChat", chat)) {
+            const result = await __classPrivateFieldGet(this, _MessageManager_c, "f").invoke({ _: "messages.addChatUser", chat_id: chat.chat_id, user_id: user, fwd_limit: params?.historyLimit ?? 0 });
+            return result.missing_invitees.map(constructFailedInvitation);
+        }
+        else if (is("inputPeerChannel", chat)) {
+            const result = await __classPrivateFieldGet(this, _MessageManager_c, "f").invoke({ _: "channels.inviteToChannel", channel: { ...chat, _: "inputChannel" }, users: [user] });
+            return result.missing_invitees.map(constructFailedInvitation);
+        }
+        unreachable();
+    }
+    async addChatMembers(chatId, userIds) {
+        const chat = await __classPrivateFieldGet(this, _MessageManager_c, "f").getInputPeer(chatId);
+        if (isOneOf(["inputPeerEmpty", "inputPeerSelf", "inputPeerUser", "inputPeerUserFromMessage"], chat)) {
+            throw new InputError("Cannot add members to private chats");
+        }
+        const users = new Array();
+        for (const userId of userIds) {
+            users.push(await __classPrivateFieldGet(this, _MessageManager_c, "f").getInputUser(userId));
+        }
+        if (is("inputPeerChat", chat)) {
+            throw new InputError("addChatMembers cannot be used with basic groups");
+        }
+        else if (is("inputPeerChannel", chat)) {
+            const result = await __classPrivateFieldGet(this, _MessageManager_c, "f").invoke({ _: "channels.inviteToChannel", channel: { ...chat, _: "inputChannel" }, users });
+            return result.missing_invitees.map(constructFailedInvitation);
+        }
+        unreachable();
     }
 }
 _MessageManager_c = new WeakMap(), _MessageManager_LresolveFileId = new WeakMap(), _MessageManager_instances = new WeakSet(), _MessageManager_updatesToMessages = async function _MessageManager_updatesToMessages(chatId, updates, businessConnectionId) {

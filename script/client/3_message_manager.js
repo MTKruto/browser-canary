@@ -1030,6 +1030,40 @@ class MessageManager {
         }, params);
         return (0, _3_types_js_2.assertMessageType)(message, "invoice");
     }
+    async addChatMember(chatId, userId, params) {
+        const chat = await __classPrivateFieldGet(this, _MessageManager_c, "f").getInputPeer(chatId);
+        if ((0, _2_tl_js_1.isOneOf)(["inputPeerEmpty", "inputPeerSelf", "inputPeerUser", "inputPeerUserFromMessage"], chat)) {
+            throw new _0_errors_js_1.InputError("Cannot add members to private chats");
+        }
+        const user = await __classPrivateFieldGet(this, _MessageManager_c, "f").getInputUser(userId);
+        if ((0, _2_tl_js_1.is)("inputPeerChat", chat)) {
+            const result = await __classPrivateFieldGet(this, _MessageManager_c, "f").invoke({ _: "messages.addChatUser", chat_id: chat.chat_id, user_id: user, fwd_limit: params?.historyLimit ?? 0 });
+            return result.missing_invitees.map(_3_types_js_1.constructFailedInvitation);
+        }
+        else if ((0, _2_tl_js_1.is)("inputPeerChannel", chat)) {
+            const result = await __classPrivateFieldGet(this, _MessageManager_c, "f").invoke({ _: "channels.inviteToChannel", channel: { ...chat, _: "inputChannel" }, users: [user] });
+            return result.missing_invitees.map(_3_types_js_1.constructFailedInvitation);
+        }
+        (0, _0_deps_js_1.unreachable)();
+    }
+    async addChatMembers(chatId, userIds) {
+        const chat = await __classPrivateFieldGet(this, _MessageManager_c, "f").getInputPeer(chatId);
+        if ((0, _2_tl_js_1.isOneOf)(["inputPeerEmpty", "inputPeerSelf", "inputPeerUser", "inputPeerUserFromMessage"], chat)) {
+            throw new _0_errors_js_1.InputError("Cannot add members to private chats");
+        }
+        const users = new Array();
+        for (const userId of userIds) {
+            users.push(await __classPrivateFieldGet(this, _MessageManager_c, "f").getInputUser(userId));
+        }
+        if ((0, _2_tl_js_1.is)("inputPeerChat", chat)) {
+            throw new _0_errors_js_1.InputError("addChatMembers cannot be used with basic groups");
+        }
+        else if ((0, _2_tl_js_1.is)("inputPeerChannel", chat)) {
+            const result = await __classPrivateFieldGet(this, _MessageManager_c, "f").invoke({ _: "channels.inviteToChannel", channel: { ...chat, _: "inputChannel" }, users });
+            return result.missing_invitees.map(_3_types_js_1.constructFailedInvitation);
+        }
+        (0, _0_deps_js_1.unreachable)();
+    }
 }
 exports.MessageManager = MessageManager;
 _MessageManager_c = new WeakMap(), _MessageManager_LresolveFileId = new WeakMap(), _MessageManager_instances = new WeakSet(), _MessageManager_updatesToMessages = async function _MessageManager_updatesToMessages(chatId, updates, businessConnectionId) {
