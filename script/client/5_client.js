@@ -1482,7 +1482,7 @@ class Client extends Composer {
      *
      * @method ms
      * @param chatId The chat to send the media group to.
-     * @param media The media to include in the media group. All of them must be of the same media type.
+     * @param media The media to include in the media group. Animations are not allowed. All of them must be of the same media type, but an exception is that photos and videos can be mixed.
      * @returns The sent messages.
      */
     async sendMediaGroup(chatId, media, params) {
