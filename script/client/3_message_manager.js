@@ -1072,6 +1072,62 @@ class MessageManager {
         }
         (0, _0_deps_js_1.unreachable)();
     }
+    async sendMediaGroup(chatId, media, params) {
+        {
+            if (!Array.isArray(media) || !media.length) {
+                throw new _0_errors_js_1.InputError("Media group must not be empty.");
+            }
+            // deno-lint-ignore no-explicit-any
+            const firstMedia = media?.[0];
+            const firstMediaType = firstMedia?.animation !== undefined ? "animation" : firstMedia?.audio !== undefined ? "audio" : firstMedia?.photo !== undefined ? "photo" : firstMedia?.video !== undefined ? "video" : "document";
+            for (const media_ of media) {
+                // deno-lint-ignore no-explicit-any
+                const thisMediaType = media_?.animation !== undefined ? "animation" : media_?.audio !== undefined ? "audio" : media_?.photo !== undefined ? "photo" : media_?.video !== undefined ? "video" : "document";
+                if (thisMediaType == "animation") {
+                    throw new _0_errors_js_1.InputError("Media groups cannot consist of animations.");
+                }
+                if ((firstMediaType == "video" || firstMediaType == "photo") && (thisMediaType != "video" && thisMediaType != "photo")) {
+                    throw new _0_errors_js_1.InputError(`Media of the type ${firstMediaType} cannot be mixed with those of the type ${thisMediaType}.`);
+                }
+                if (firstMediaType != "video" && firstMediaType != "photo" && firstMediaType != thisMediaType) {
+                    throw new _0_errors_js_1.InputError(`Media of the type ${firstMediaType} cannot be mixed with other types.`);
+                }
+            }
+        }
+        const multiMedia = new Array();
+        for (const v of media) {
+            const randomId = (0, _1_utilities_js_1.getRandomId)();
+            const [message, entities] = v.caption ? await this.parseText(v.caption || "", { entities: v.captionEntities, parseMode: v.parseMode }) : ["", []];
+            multiMedia.push({ _: "inputSingleMedia", message, entities, random_id: randomId, media: await __classPrivateFieldGet(this, _MessageManager_instances, "m", _MessageManager_resolveInputMedia).call(this, v) });
+        }
+        const peer = await __classPrivateFieldGet(this, _MessageManager_c, "f").getInputPeer(chatId);
+        for (const [i, media_] of multiMedia.entries()) {
+            if ((0, _2_tl_js_1.is)("inputMediaUploadedPhoto", media_.media)) {
+                const result = (0, _2_tl_js_1.as)("messageMediaPhoto", await __classPrivateFieldGet(this, _MessageManager_c, "f").invoke({ _: "messages.uploadMedia", media: media_.media, peer }));
+                const photo = (0, _2_tl_js_1.as)("photo", result.photo);
+                multiMedia[i] = { ...media_, media: { _: "inputMediaPhoto", id: { ...photo, _: "inputPhoto" } } };
+            }
+            else if ((0, _2_tl_js_1.is)("inputMediaUploadedDocument", media_.media)) {
+                const result = (0, _2_tl_js_1.as)("messageMediaDocument", await __classPrivateFieldGet(this, _MessageManager_c, "f").invoke({ _: "messages.uploadMedia", media: media_.media, peer }));
+                const document = (0, _2_tl_js_1.as)("document", result.document);
+                multiMedia[i] = { ...media_, media: { _: "inputMediaDocument", id: { ...document, _: "inputDocument" } } };
+            }
+        }
+        const silent = params?.disableNotification ? true : undefined;
+        const noforwards = params?.protectContent ? true : undefined;
+        const sendAs = params?.sendAs ? await __classPrivateFieldGet(this, _MessageManager_c, "f").getInputPeer(params.sendAs) : undefined;
+        const result = await __classPrivateFieldGet(this, _MessageManager_c, "f").invoke({
+            _: "messages.sendMultiMedia",
+            peer,
+            multi_media: multiMedia,
+            effect: params?.messageEffectId ? BigInt(params.messageEffectId) : undefined,
+            noforwards,
+            silent,
+            send_as: sendAs,
+            reply_to: await __classPrivateFieldGet(this, _MessageManager_instances, "m", _MessageManager_constructReplyTo).call(this, params),
+        });
+        return await __classPrivateFieldGet(this, _MessageManager_instances, "m", _MessageManager_updatesToMessages).call(this, chatId, result);
+    }
 }
 exports.MessageManager = MessageManager;
 _MessageManager_c = new WeakMap(), _MessageManager_LresolveFileId = new WeakMap(), _MessageManager_instances = new WeakSet(), _MessageManager_updatesToMessages = async function _MessageManager_updatesToMessages(chatId, updates, businessConnectionId) {

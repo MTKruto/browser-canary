@@ -18,6 +18,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 import { FileSource } from "./0_file_source.js";
+import { MessageEntity } from "./0_message_entity.js";
+import { ParseMode } from "./0_parse_mode.js";
 import { SelfDestructOption } from "./0_self_destruct_option.js";
 /** @unlisted */
 export interface _InputMediaCommon {
@@ -29,6 +31,12 @@ export interface _InputMediaCommon {
     chunkSize?: number;
     /** Upload abort signal. */
     signal?: AbortSignal | null;
+    /** The caption of the media. */
+    caption?: string;
+    /** The entities of media's caption. */
+    captionEntities?: MessageEntity[];
+    /** Override the parse mode used for the media's caption. */
+    parseMode?: ParseMode;
 }
 /** @unlisted */
 export interface InputMediaAnimation extends _InputMediaCommon {
@@ -39,8 +47,6 @@ export interface InputMediaAnimation extends _InputMediaCommon {
     animation: FileSource;
     /** A thumbnail to assign. Cannot be a URL. */
     thumbnail?: FileSource;
-    /** The caption of the media. */
-    caption?: string;
     /** The duration of the animation in seconds. */
     duration?: number;
     /** The width of the animation file. */
@@ -59,8 +65,6 @@ export interface InputMediaAudio extends _InputMediaCommon {
     audio: FileSource;
     /** A thumbnail to assign. Cannot be a URL. */
     thumbnail?: FileSource;
-    /** The caption of the media. */
-    caption?: string;
     /** The duration of the audio file in seconds. */
     duration?: number;
     /** Names of the entities that are being featured in the audio. */
@@ -77,8 +81,6 @@ export interface InputMediaDocument extends _InputMediaCommon {
     document: FileSource;
     /** A thumbnail to assign. Cannot be a URL. */
     thumbnail?: FileSource;
-    /** The caption of the media. */
-    caption?: string;
 }
 /** @unlisted */
 export interface InputMediaPhoto extends _InputMediaCommon {
@@ -91,8 +93,6 @@ export interface InputMediaPhoto extends _InputMediaCommon {
     width?: number;
     /** The height of the photo in pixels. */
     height?: number;
-    /** The caption of the media. */
-    caption?: string;
     /** Whether to mark the media as a spoiler. */
     hasSpoiler?: boolean;
     selfDestruct?: SelfDestructOption;
@@ -114,8 +114,6 @@ export interface InputMediaVideo extends _InputMediaCommon {
     height?: number;
     /** Whether the video is suitable for streaming. */
     supportsStreaming?: boolean;
-    /** The caption of the media. */
-    caption?: string;
     /** Whether to mark the media as a spoiler. */
     hasSpoiler?: boolean;
     selfDestruct?: SelfDestructOption;

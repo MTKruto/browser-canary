@@ -1478,6 +1478,17 @@ class Client extends Composer {
         return await __classPrivateFieldGet(this, _Client_messageManager, "f").sendAudio(chatId, audio, params);
     }
     /**
+     * Send a media group.
+     *
+     * @method ms
+     * @param chatId The chat to send the media group to.
+     * @param media The media to include in the media group. All of them must be of the same media type.
+     * @returns The sent messages.
+     */
+    async sendMediaGroup(chatId, media, params) {
+        return await __classPrivateFieldGet(this, _Client_messageManager, "f").sendMediaGroup(chatId, media, params);
+    }
+    /**
      * Send a video note.
      *
      * @method ms
