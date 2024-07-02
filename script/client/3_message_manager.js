@@ -556,7 +556,16 @@ class MessageManager {
         if (!("animation" in message) && !("audio" in message) && !("document" in message) && !("photo" in message) && !("video" in message)) {
             throw new _0_errors_js_1.InputError("Unexpected message type.");
         }
-        const result = await __classPrivateFieldGet(this, _MessageManager_c, "f").invoke({ _: "messages.editMessage", peer: await __classPrivateFieldGet(this, _MessageManager_c, "f").getInputPeer(chatId), id: messageId, media: await __classPrivateFieldGet(this, _MessageManager_instances, "m", _MessageManager_resolveInputMedia).call(this, media), reply_markup: await __classPrivateFieldGet(this, _MessageManager_instances, "m", _MessageManager_constructReplyMarkup).call(this, params) });
+        const [text, entities] = media.caption !== undefined ? await this.parseText(media.caption, { entities: media.captionEntities, parseMode: media.parseMode }) : ["", []];
+        const result = await __classPrivateFieldGet(this, _MessageManager_c, "f").invoke({
+            _: "messages.editMessage",
+            peer: await __classPrivateFieldGet(this, _MessageManager_c, "f").getInputPeer(chatId),
+            id: messageId,
+            media: await __classPrivateFieldGet(this, _MessageManager_instances, "m", _MessageManager_resolveInputMedia).call(this, media),
+            reply_markup: await __classPrivateFieldGet(this, _MessageManager_instances, "m", _MessageManager_constructReplyMarkup).call(this, params),
+            message: text,
+            entities,
+        });
         const message_ = (await __classPrivateFieldGet(this, _MessageManager_instances, "m", _MessageManager_updatesToMessages).call(this, chatId, result))[0];
         return message_;
     }
@@ -1097,7 +1106,7 @@ class MessageManager {
         const multiMedia = new Array();
         for (const v of media) {
             const randomId = (0, _1_utilities_js_1.getRandomId)();
-            const [message, entities] = v.caption ? await this.parseText(v.caption || "", { entities: v.captionEntities, parseMode: v.parseMode }) : ["", []];
+            const [message, entities] = v.caption !== undefined ? await this.parseText(v.caption, { entities: v.captionEntities, parseMode: v.parseMode }) : ["", []];
             multiMedia.push({ _: "inputSingleMedia", message, entities, random_id: randomId, media: await __classPrivateFieldGet(this, _MessageManager_instances, "m", _MessageManager_resolveInputMedia).call(this, v) });
         }
         const peer = await __classPrivateFieldGet(this, _MessageManager_c, "f").getInputPeer(chatId);
