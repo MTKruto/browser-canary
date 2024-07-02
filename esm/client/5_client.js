@@ -2100,8 +2100,8 @@ export class Client extends Composer {
      * @param chatId The identifier of the channel or supergroup to add the users to.
      * @param userId The identifiers of the users to add to the channel or supergroup.
      */
-    async addChatMembers(chatId, userId, params) {
-        await __classPrivateFieldGet(this, _Client_messageManager, "f").addChatMember(chatId, userId, params);
+    async addChatMembers(chatId, userIds) {
+        return await __classPrivateFieldGet(this, _Client_messageManager, "f").addChatMembers(chatId, userIds);
     }
     //
     // ========================= CALLBACK QUERIES ========================= //

@@ -939,7 +939,7 @@ export declare class Client<C extends Context = Context> extends Composer<C> {
      * @param chatId The identifier of the channel or supergroup to add the users to.
      * @param userId The identifiers of the users to add to the channel or supergroup.
      */
-    addChatMembers(chatId: ID, userId: ID, params?: AddChatMemberParams): Promise<void>;
+    addChatMembers(chatId: ID, userIds: ID[]): Promise<FailedInvitation[]>;
     /**
      * Send a callback query. User-only.
      *
