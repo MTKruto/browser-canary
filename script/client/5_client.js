@@ -166,7 +166,7 @@ class Client extends Composer {
             const reactions = "messageInteractions" in update ? update.messageInteractions : undefined;
             const mustGetMsg = () => {
                 if (msg !== undefined) {
-                    return { chatId: msg.chat.id, messageId: msg.id, businessConnectionId: msg.businessConnectionId, senderId: (msg.from ?? msg.senderChat)?.id };
+                    return { chatId: msg.chat.id, messageId: msg.id, businessConnectionId: msg.businessConnectionId, senderId: (msg.from ?? msg.senderChat)?.id, userId: msg.from?.id };
                 }
                 else if (reactions !== undefined) {
                     return { chatId: reactions.chatId, messageId: reactions.messageId };
@@ -238,6 +238,16 @@ class Client extends Composer {
                     const { chatId, messageId, businessConnectionId } = mustGetMsg();
                     const replyToMessageId = getReplyToMessageId(params?.quote, chatId, messageId);
                     return this.sendPhoto(chatId, photo, { ...params, replyToMessageId, businessConnectionId });
+                },
+                replyMediaGroup: (media, params) => {
+                    const { chatId, messageId, businessConnectionId } = mustGetMsg();
+                    const replyToMessageId = getReplyToMessageId(params?.quote, chatId, messageId);
+                    return this.sendMediaGroup(chatId, media, { ...params, replyToMessageId, businessConnectionId });
+                },
+                replyInvoice: (title, description, payload, currency, prices, params) => {
+                    const { chatId, messageId, businessConnectionId } = mustGetMsg();
+                    const replyToMessageId = getReplyToMessageId(params?.quote, chatId, messageId);
+                    return this.sendInvoice(chatId, title, description, payload, currency, prices, { ...params, replyToMessageId, businessConnectionId });
                 },
                 replyDocument: (document, params) => {
                     const { chatId, messageId, businessConnectionId } = mustGetMsg();
@@ -509,6 +519,20 @@ class Client extends Composer {
                         (0, _0_deps_js_1.unreachable)();
                     }
                     return this.answerPreCheckoutQuery(update.preCheckoutQuery.id, ok, params);
+                },
+                approveJoinRequest: () => {
+                    const { chatId, userId } = mustGetMsg();
+                    if (!userId) {
+                        (0, _0_deps_js_1.unreachable)();
+                    }
+                    return this.approveJoinRequest(chatId, userId);
+                },
+                declineJoinRequest: () => {
+                    const { chatId, userId } = mustGetMsg();
+                    if (!userId) {
+                        (0, _0_deps_js_1.unreachable)();
+                    }
+                    return this.declineJoinRequest(chatId, userId);
                 },
             };
             return (0, _1_utilities_js_1.cleanObject)(context);
