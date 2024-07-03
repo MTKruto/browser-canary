@@ -903,7 +903,7 @@ export class Client extends Composer {
         __classPrivateFieldSet(this, _Client_connectionInited, false, "f");
         await __classPrivateFieldGet(this, _Client_client, "f").disconnect();
         __classPrivateFieldGet(this, _Client_pingLoopAbortController, "f")?.abort();
-        __classPrivateFieldGet(this, _Client_instances, "m", _Client_connectionInsuranceLoop)?.abort();
+        __classPrivateFieldGet(this, _Client_connectionInsuranceLoopAbortController, "f")?.abort();
     }
     /**
      * Signs in using the provided parameters if not already signed in.
