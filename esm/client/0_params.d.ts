@@ -255,7 +255,7 @@ export interface SendVideoNoteParams extends _CaptionCommon, _ThumbnailCommon, _
     /** The video's width and height (diameter). */
     length?: number;
 }
-export interface SendMediaGroupParams extends _UploadCommon, _SendCommon {
+export interface SendMediaGroupParams extends _SendCommon {
 }
 export interface SendLocationParams extends _SendCommon, _ReplyMarkupCommon {
     /** The accuracy radius of the location in meters. Must be in the range of 0-1500. */
