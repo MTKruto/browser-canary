@@ -32,7 +32,7 @@ var _ClientEncrypted_instances, _ClientEncrypted_authKey, _ClientEncrypted_authK
 import { gunzip, unreachable } from "../0_deps.js";
 import { ConnectionError } from "../0_errors.js";
 import { bigIntFromBuffer, CacheMap, drop, getLogger, getRandomBigInt, sha1, toUnixTimestamp } from "../1_utilities.js";
-import { is, isOfEnum, TLError, TLReader } from "../2_tl.js";
+import { is, isOfEnum, isOneOf, TLError, TLReader } from "../2_tl.js";
 import { constructTelegramError } from "../4_errors.js";
 import { ClientAbstract } from "./0_client_abstract.js";
 import { decryptMessage, encryptMessage, getMessageId } from "./0_message.js";
@@ -58,7 +58,7 @@ export class ClientEncrypted extends ClientAbstract {
         _ClientEncrypted_sessionId.set(this, 0n);
         _ClientEncrypted_state.set(this, { serverSalt: 0n, seqNo: 0, messageId: 0n });
         _ClientEncrypted_shouldInvalidateSession.set(this, true);
-        _ClientEncrypted_toAcknowledge.set(this, new Set());
+        _ClientEncrypted_toAcknowledge.set(this, new Array());
         _ClientEncrypted_recentAcks.set(this, new CacheMap(20));
         _ClientEncrypted_promises.set(this, new Map());
         // loggers
@@ -110,12 +110,12 @@ export class ClientEncrypted extends ClientAbstract {
         };
         const message__ = message_;
         let container = undefined;
-        if (__classPrivateFieldGet(this, _ClientEncrypted_toAcknowledge, "f").size) {
+        if (__classPrivateFieldGet(this, _ClientEncrypted_toAcknowledge, "f").length) {
             const ack = {
                 _: "message",
                 msg_id: __classPrivateFieldGet(this, _ClientEncrypted_instances, "m", _ClientEncrypted_nextMessageId).call(this),
                 seqno: __classPrivateFieldGet(this, _ClientEncrypted_instances, "m", _ClientEncrypted_nextSeqNo).call(this, false),
-                body: { _: "msgs_ack", msg_ids: [...__classPrivateFieldGet(this, _ClientEncrypted_toAcknowledge, "f")] },
+                body: { _: "msgs_ack", msg_ids: __classPrivateFieldGet(this, _ClientEncrypted_toAcknowledge, "f").splice(0, 8192) },
             };
             __classPrivateFieldGet(this, _ClientEncrypted_recentAcks, "f").set(ack.msg_id, { container, message: ack });
             message_ = {
@@ -185,6 +185,7 @@ _ClientEncrypted_authKey = new WeakMap(), _ClientEncrypted_authKeyId = new WeakM
             }
             const messages = decrypted.body._ == "msg_container" ? decrypted.body.messages : [decrypted];
             for (const message of messages) {
+                let sendAck = true;
                 let body = message.body;
                 if (is("gzip_packed", body)) {
                     body = new TLReader(gunzip(body.packed_data)).readObject();
@@ -198,8 +199,8 @@ _ClientEncrypted_authKey = new WeakMap(), _ClientEncrypted_authKeyId = new WeakM
                     drop(this.handlers.serverSaltReassigned?.(this.serverSalt));
                     __classPrivateFieldGet(this, _ClientEncrypted_LreceiveLoop, "f").debug("new session created with ID", body.unique_id);
                 }
-                else if (message.body._ == "rpc_result") {
-                    let result = message.body.result;
+                else if (body._ == "rpc_result") {
+                    let result = body.result;
                     if (is("gzip_packed", result)) {
                         result = new TLReader(gunzip(result.packed_data)).readObject();
                     }
@@ -209,7 +210,7 @@ _ClientEncrypted_authKey = new WeakMap(), _ClientEncrypted_authKeyId = new WeakM
                     else {
                         __classPrivateFieldGet(this, _ClientEncrypted_LreceiveLoop, "f").debug("RPCResult:", Array.isArray(result) ? "Array" : typeof result === "object" ? result._ : result);
                     }
-                    const messageId = message.body.req_msg_id;
+                    const messageId = body.req_msg_id;
                     const promise = __classPrivateFieldGet(this, _ClientEncrypted_promises, "f").get(messageId);
                     const resolvePromise = () => {
                         if (promise) {
@@ -230,19 +231,20 @@ _ClientEncrypted_authKey = new WeakMap(), _ClientEncrypted_authKeyId = new WeakM
                         drop(this.handlers.result?.(result, resolvePromise));
                     }
                 }
-                else if (is("pong", message.body)) {
-                    const promise = __classPrivateFieldGet(this, _ClientEncrypted_promises, "f").get(message.body.msg_id);
+                else if (is("pong", body)) {
+                    const promise = __classPrivateFieldGet(this, _ClientEncrypted_promises, "f").get(body.msg_id);
                     if (promise) {
-                        promise.resolve?.(message.body);
-                        __classPrivateFieldGet(this, _ClientEncrypted_promises, "f").delete(message.body.msg_id);
+                        promise.resolve?.(body);
+                        __classPrivateFieldGet(this, _ClientEncrypted_promises, "f").delete(body.msg_id);
                     }
                 }
-                else if (is("bad_server_salt", message.body)) {
+                else if (is("bad_server_salt", body)) {
+                    sendAck = false;
                     __classPrivateFieldGet(this, _ClientEncrypted_LreceiveLoop, "f").debug("server salt reassigned");
-                    this.serverSalt = message.body.new_server_salt;
+                    this.serverSalt = body.new_server_salt;
                     drop(this.handlers.serverSaltReassigned?.(this.serverSalt));
-                    const promise = __classPrivateFieldGet(this, _ClientEncrypted_promises, "f").get(message.body.bad_msg_id);
-                    const ack = __classPrivateFieldGet(this, _ClientEncrypted_recentAcks, "f").get(message.body.bad_msg_id);
+                    const promise = __classPrivateFieldGet(this, _ClientEncrypted_promises, "f").get(body.bad_msg_id);
+                    const ack = __classPrivateFieldGet(this, _ClientEncrypted_recentAcks, "f").get(body.bad_msg_id);
                     if (promise) {
                         drop(__classPrivateFieldGet(this, _ClientEncrypted_instances, "m", _ClientEncrypted_sendMessage).call(this, promise.message));
                     }
@@ -251,20 +253,21 @@ _ClientEncrypted_authKey = new WeakMap(), _ClientEncrypted_authKeyId = new WeakM
                     }
                     else {
                         for (const promise of __classPrivateFieldGet(this, _ClientEncrypted_promises, "f").values()) {
-                            if (promise.container && promise.container == message.body.bad_msg_id) {
+                            if (promise.container && promise.container == body.bad_msg_id) {
                                 drop(__classPrivateFieldGet(this, _ClientEncrypted_instances, "m", _ClientEncrypted_sendMessage).call(this, promise.message));
                             }
                         }
                         for (const ack of __classPrivateFieldGet(this, _ClientEncrypted_recentAcks, "f").values()) {
-                            if (ack.container && ack.container == message.body.bad_msg_id) {
+                            if (ack.container && ack.container == body.bad_msg_id) {
                                 drop(__classPrivateFieldGet(this, _ClientEncrypted_instances, "m", _ClientEncrypted_sendMessage).call(this, ack.message));
                             }
                         }
                     }
                 }
-                else if (is("bad_msg_notification", message.body)) {
+                else if (is("bad_msg_notification", body)) {
+                    sendAck = false;
                     let low = false;
-                    switch (message.body.error_code) {
+                    switch (body.error_code) {
                         case 16: // message ID too low
                             low = true;
                         /* falls through */
@@ -286,16 +289,22 @@ _ClientEncrypted_authKey = new WeakMap(), _ClientEncrypted_authKeyId = new WeakM
                             break;
                         default:
                             await __classPrivateFieldGet(this, _ClientEncrypted_instances, "m", _ClientEncrypted_invalidateSession).call(this);
-                            __classPrivateFieldGet(this, _ClientEncrypted_LreceiveLoop, "f").debug("invalidating session because of unexpected bad_msg_notification:", message.body.error_code);
+                            __classPrivateFieldGet(this, _ClientEncrypted_LreceiveLoop, "f").debug("invalidating session because of unexpected bad_msg_notification:", body.error_code);
                             break loop;
                     }
-                    const promise = __classPrivateFieldGet(this, _ClientEncrypted_promises, "f").get(message.body.bad_msg_id);
+                    const promise = __classPrivateFieldGet(this, _ClientEncrypted_promises, "f").get(body.bad_msg_id);
                     if (promise) {
-                        promise.reject?.(message.body);
-                        __classPrivateFieldGet(this, _ClientEncrypted_promises, "f").delete(message.body.bad_msg_id);
+                        promise.reject?.(body);
+                        __classPrivateFieldGet(this, _ClientEncrypted_promises, "f").delete(body.bad_msg_id);
                     }
                 }
-                __classPrivateFieldGet(this, _ClientEncrypted_toAcknowledge, "f").add(message.msg_id);
+                else if (isOneOf(["msg_detailed_info", "msg_new_detailed_info"], body)) {
+                    sendAck = false;
+                    __classPrivateFieldGet(this, _ClientEncrypted_toAcknowledge, "f").push(body.answer_msg_id);
+                }
+                if (sendAck) {
+                    __classPrivateFieldGet(this, _ClientEncrypted_toAcknowledge, "f").push(message.msg_id);
+                }
             }
         }
         catch (err) {
