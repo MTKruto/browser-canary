@@ -112,6 +112,7 @@ export interface MessageEntityStrikethrough extends _MessageEntityBase {
 export interface MessageEntityBlockquote extends _MessageEntityBase {
     /** @discriminator */
     type: "blockquote";
+    collapsible?: true;
 }
 /** @unlisted */
 export interface MessageEntityBankCard extends _MessageEntityBase {

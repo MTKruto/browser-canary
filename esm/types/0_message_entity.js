@@ -18,6 +18,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 import { unreachable } from "../0_deps.js";
+import { cleanObject } from "../1_utilities.js";
 import { is } from "../2_tl.js";
 export function constructMessageEntity(obj) {
     if (is("messageEntityMention", obj)) {
@@ -66,7 +67,7 @@ export function constructMessageEntity(obj) {
         return { type: "strikethrough", offset: obj.offset, length: obj.length };
     }
     else if (is("messageEntityBlockquote", obj)) {
-        return { type: "blockquote", offset: obj.offset, length: obj.length };
+        return cleanObject({ type: "blockquote", offset: obj.offset, length: obj.length, collapsible: obj.collapsed ? true : undefined });
     }
     else if (is("messageEntityBankCard", obj)) {
         return { type: "bankCard", offset: obj.offset, length: obj.length };
@@ -137,7 +138,7 @@ export async function messageEntityToTlObject(entity, getEntity) {
         case "strikethrough":
             return { _: "messageEntityStrike", offset, length };
         case "blockquote":
-            return { _: "messageEntityBlockquote", offset, length };
+            return { _: "messageEntityBlockquote", offset, length, collapsed: entity.collapsible };
         case "bankCard":
             return { _: "messageEntityBankCard", offset, length };
         case "spoiler":

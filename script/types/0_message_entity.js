@@ -21,6 +21,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.sortMessageEntities = exports.messageEntityToTlObject = exports.constructMessageEntity = void 0;
 const _0_deps_js_1 = require("../0_deps.js");
+const _1_utilities_js_1 = require("../1_utilities.js");
 const _2_tl_js_1 = require("../2_tl.js");
 function constructMessageEntity(obj) {
     if ((0, _2_tl_js_1.is)("messageEntityMention", obj)) {
@@ -69,7 +70,7 @@ function constructMessageEntity(obj) {
         return { type: "strikethrough", offset: obj.offset, length: obj.length };
     }
     else if ((0, _2_tl_js_1.is)("messageEntityBlockquote", obj)) {
-        return { type: "blockquote", offset: obj.offset, length: obj.length };
+        return (0, _1_utilities_js_1.cleanObject)({ type: "blockquote", offset: obj.offset, length: obj.length, collapsible: obj.collapsed ? true : undefined });
     }
     else if ((0, _2_tl_js_1.is)("messageEntityBankCard", obj)) {
         return { type: "bankCard", offset: obj.offset, length: obj.length };
@@ -141,7 +142,7 @@ async function messageEntityToTlObject(entity, getEntity) {
         case "strikethrough":
             return { _: "messageEntityStrike", offset, length };
         case "blockquote":
-            return { _: "messageEntityBlockquote", offset, length };
+            return { _: "messageEntityBlockquote", offset, length, collapsed: entity.collapsible };
         case "bankCard":
             return { _: "messageEntityBankCard", offset, length };
         case "spoiler":

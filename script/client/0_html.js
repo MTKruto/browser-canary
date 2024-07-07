@@ -78,6 +78,9 @@ function parseHtml(html) {
                     break;
                 case "blockquote":
                     stack.push({ type: "blockquote", offset: text.length, length: 0 });
+                    if (attribs.collapsible) {
+                        stack[stack.length - 1].collapsible = true;
+                    }
             }
         },
         ontext(data) {
