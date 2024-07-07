@@ -1176,8 +1176,20 @@ _MessageManager_c = new WeakMap(), _MessageManager_LresolveFileId = new WeakMap(
     }
 }, _MessageManager_constructReplyTo = async function _MessageManager_constructReplyTo(params) {
     const topMsgId = params?.messageThreadId;
-    const replyToMsgId = params?.replyToMessageId;
-    return replyToMsgId !== undefined ? ({ _: "inputReplyToMessage", reply_to_msg_id: replyToMsgId, top_msg_id: topMsgId, quote_text: params?.replyQuote?.text, quote_entities: await Promise.all(params?.replyQuote?.entities.map((v) => messageEntityToTlObject(v, __classPrivateFieldGet(this, _MessageManager_c, "f").getEntity)) ?? []), quote_offset: params?.replyQuote?.offset }) : undefined;
+    if (!params?.replyTo) {
+        if (topMsgId) {
+            return { _: "inputReplyToMessage", reply_to_msg_id: topMsgId };
+        }
+        else {
+            return undefined;
+        }
+    }
+    if ("messageId" in params.replyTo) {
+        return { _: "inputReplyToMessage", reply_to_msg_id: params.replyTo.messageId, top_msg_id: topMsgId, quote_text: params.replyTo.quote?.text, quote_entities: await Promise.all(params.replyTo.quote?.entities.map((v) => messageEntityToTlObject(v, __classPrivateFieldGet(this, _MessageManager_c, "f").getEntity)) ?? []), quote_offset: params.replyTo.quote?.offset };
+    }
+    else {
+        return { _: "inputReplyToStory", peer: await __classPrivateFieldGet(this, _MessageManager_c, "f").getInputPeer(params.replyTo.chatId), story_id: params.replyTo.storyId };
+    }
 }, _MessageManager_sendDocumentInner = async function _MessageManager_sendDocumentInner(chatId, document, params, fileType, otherAttribs, urlSupported = true, expectedMimeTypes) {
     let media = null;
     const spoiler = params?.hasSpoiler ? true : undefined;

@@ -42,37 +42,37 @@ export interface Context {
     senderChat?: ChatP;
     toJSON: () => Update;
     /** Context-aware alias for `client.sendMessage()`. */
-    reply: (text: string, params?: Omit<SendMessageParams, "replyToMessageId" | "businessConnectionId"> & ReplyParams) => Promise<MessageText>;
+    reply: (text: string, params?: Omit<SendMessageParams, "replyTo" | "businessConnectionId"> & ReplyParams) => Promise<MessageText>;
     /** Context-aware alias for `client.sendPoll()`. */
-    replyPoll: (question: string, options: [string, string, ...string[]], params?: Omit<SendPollParams, "replyToMessageId" | "businessConnectionId"> & ReplyParams) => Promise<MessagePoll>;
+    replyPoll: (question: string, options: [string, string, ...string[]], params?: Omit<SendPollParams, "replyTo" | "businessConnectionId"> & ReplyParams) => Promise<MessagePoll>;
     /** Context-aware alias for `client.sendPhoto()`. */
-    replyPhoto: (photo: FileSource, params?: Omit<SendPhotoParams, "replyToMessageId" | "businessConnectionId"> & ReplyParams) => Promise<MessagePhoto>;
+    replyPhoto: (photo: FileSource, params?: Omit<SendPhotoParams, "replyTo" | "businessConnectionId"> & ReplyParams) => Promise<MessagePhoto>;
     /** Context-aware alias for `client.sendMediaGroup()`. */
-    replyMediaGroup: (media: InputMedia[], params?: Omit<SendMediaGroupParams, "replyToMessageId" | "businessConnectionId"> & ReplyParams) => Promise<Message[]>;
+    replyMediaGroup: (media: InputMedia[], params?: Omit<SendMediaGroupParams, "replyTo" | "businessConnectionId"> & ReplyParams) => Promise<Message[]>;
     /** Context-aware alias for `client.sendInvoice()`. */
-    replyInvoice: (title: string, description: string, payload: string, currency: string, prices: PriceTag[], params?: Omit<SendInvoiceParams, "replyToMessageId" | "businessConnectionId"> & ReplyParams) => Promise<MessageInvoice>;
+    replyInvoice: (title: string, description: string, payload: string, currency: string, prices: PriceTag[], params?: Omit<SendInvoiceParams, "replyTo" | "businessConnectionId"> & ReplyParams) => Promise<MessageInvoice>;
     /** Context-aware alias for `client.sendDocument()`. */
-    replyDocument: (document: FileSource, params?: Omit<SendDocumentParams, "replyToMessageId" | "businessConnectionId"> & ReplyParams) => Promise<MessageDocument>;
+    replyDocument: (document: FileSource, params?: Omit<SendDocumentParams, "replyTo" | "businessConnectionId"> & ReplyParams) => Promise<MessageDocument>;
     /** Context-aware alias for `client.sendSticker()`. */
-    replySticker: (sticker: FileSource, params?: Omit<SendStickerParams, "replyToMessageId" | "businessConnectionId"> & ReplyParams) => Promise<MessageSticker>;
+    replySticker: (sticker: FileSource, params?: Omit<SendStickerParams, "replyTo" | "businessConnectionId"> & ReplyParams) => Promise<MessageSticker>;
     /** Context-aware alias for `client.sendLocation()`. */
-    replyLocation: (latitude: number, longitude: number, params?: Omit<SendLocationParams, "replyToMessageId" | "businessConnectionId"> & ReplyParams) => Promise<MessageLocation>;
+    replyLocation: (latitude: number, longitude: number, params?: Omit<SendLocationParams, "replyTo" | "businessConnectionId"> & ReplyParams) => Promise<MessageLocation>;
     /** Context-aware alias for `client.sendDice()`. */
-    replyDice: (params?: Omit<SendDiceParams, "replyToMessageId" | "businessConnectionId"> & ReplyParams) => Promise<MessageDice>;
+    replyDice: (params?: Omit<SendDiceParams, "replyTo" | "businessConnectionId"> & ReplyParams) => Promise<MessageDice>;
     /** Context-aware alias for `client.sendVenue()`. */
-    replyVenue: (latitude: number, longitude: number, title: string, address: string, params?: Omit<SendVenueParams, "replyToMessageId" | "businessConnectionId"> & ReplyParams) => Promise<MessageVenue>;
+    replyVenue: (latitude: number, longitude: number, title: string, address: string, params?: Omit<SendVenueParams, "replyTo" | "businessConnectionId"> & ReplyParams) => Promise<MessageVenue>;
     /** Context-aware alias for `client.sendContact()`. */
-    replyContact: (firstName: string, number: string, params?: Omit<SendContactParams, "replyToMessageId" | "businessConnectionId"> & ReplyParams) => Promise<MessageContact>;
+    replyContact: (firstName: string, number: string, params?: Omit<SendContactParams, "replyTo" | "businessConnectionId"> & ReplyParams) => Promise<MessageContact>;
     /** Context-aware alias for `client.sendVideo()`. */
-    replyVideo: (video: FileSource, params?: Omit<SendVideoParams, "replyToMessageId" | "businessConnectionId"> & ReplyParams) => Promise<MessageVideo>;
+    replyVideo: (video: FileSource, params?: Omit<SendVideoParams, "replyTo" | "businessConnectionId"> & ReplyParams) => Promise<MessageVideo>;
     /** Context-aware alias for `client.sendAnimation()`. */
-    replyAnimation: (animation: FileSource, params?: Omit<SendAnimationParams, "replyToMessageId" | "businessConnectionId"> & ReplyParams) => Promise<MessageAnimation>;
+    replyAnimation: (animation: FileSource, params?: Omit<SendAnimationParams, "replyTo" | "businessConnectionId"> & ReplyParams) => Promise<MessageAnimation>;
     /** Context-aware alias for `client.sendVoice()`. */
-    replyVoice: (voice: FileSource, params?: Omit<SendVoiceParams, "replyToMessageId" | "businessConnectionId"> & ReplyParams) => Promise<MessageVoice>;
+    replyVoice: (voice: FileSource, params?: Omit<SendVoiceParams, "replyTo" | "businessConnectionId"> & ReplyParams) => Promise<MessageVoice>;
     /** Context-aware alias for `client.sendAudio()`. */
-    replyAudio: (audio: FileSource, params?: Omit<SendAudioParams, "replyToMessageId" | "businessConnectionId"> & ReplyParams) => Promise<MessageAudio>;
+    replyAudio: (audio: FileSource, params?: Omit<SendAudioParams, "replyTo" | "businessConnectionId"> & ReplyParams) => Promise<MessageAudio>;
     /** Context-aware alias for `client.sendPoll()`. */
-    replyVideoNote: (videoNote: FileSource, params?: Omit<SendVideoNoteParams, "replyToMessageId" | "businessConnectionId"> & ReplyParams) => Promise<MessageVideoNote>;
+    replyVideoNote: (videoNote: FileSource, params?: Omit<SendVideoNoteParams, "replyTo" | "businessConnectionId"> & ReplyParams) => Promise<MessageVideoNote>;
     /** Context-aware alias for `client.deleteMessage()`. */
     delete: () => Promise<void>;
     /** Context-aware alias for `client.forwardMessage()`. */

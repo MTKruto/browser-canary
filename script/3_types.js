@@ -113,6 +113,7 @@ __exportStar(require("./types/2_message_reaction_count.js"), exports);
 __exportStar(require("./types/2_message_reactions.js"), exports);
 __exportStar(require("./types/2_poll.js"), exports);
 __exportStar(require("./types/2_pre_checkout_query.js"), exports);
+__exportStar(require("./types/2_reply_to.js"), exports);
 __exportStar(require("./types/2_story_content.js"), exports);
 __exportStar(require("./types/2_story_interactions.js"), exports);
 __exportStar(require("./types/2_story_interactive_area.js"), exports);
