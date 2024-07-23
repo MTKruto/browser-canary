@@ -47,6 +47,6 @@ export declare class ClientEncrypted extends ClientAbstract {
     get authKey(): Uint8Array;
     set serverSalt(serverSalt: bigint);
     get serverSalt(): bigint;
-    invoke<T extends Api.AnyObject<P>, P extends Api.Function, R extends unknown = Promise<T["_"] extends keyof Api.Functions ? Api.ReturnType<Api.Functions[T["_"]]> : never>>(function_: T, noWait?: boolean): Promise<R | void>;
+    invoke<T extends Api.AnyObject, R = T["_"] extends keyof Api.Functions ? Api.ReturnType<T> extends never ? Api.ReturnType<Api.Functions[T["_"]]> : never : never>(function_: T, noWait?: boolean): Promise<R | void>;
 }
 //# sourceMappingURL=1_client_encrypted.d.ts.map
