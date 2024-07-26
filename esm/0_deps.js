@@ -17,12 +17,12 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-export * from "./deps/deno.land/std@0.224.0/assert/mod.js";
-export * as path from "./deps/deno.land/std@0.224.0/path/mod.js";
-export { concat } from "./deps/deno.land/std@0.224.0/bytes/concat.js";
-export { iterateReader } from "./deps/deno.land/std@0.224.0/io/iterate_reader.js";
-export { decodeBase64, encodeBase64 } from "./deps/deno.land/std@0.224.0/encoding/base64.js";
-import { contentType as contentType_ } from "./deps/deno.land/std@0.224.0/media_types/content_type.js";
+export * from "./deps/jsr.io/@std/assert/1.0.1/mod.js";
+export * as path from "./deps/jsr.io/@std/path/1.0.2/mod.js";
+export { concat } from "./deps/jsr.io/@std/bytes/1.0.2/concat.js";
+export { iterateReader } from "./deps/jsr.io/@std/io/0.224.3/iterate_reader.js";
+export { decodeBase64, encodeBase64 } from "./deps/jsr.io/@std/encoding/1.0.1/base64.js";
+import { contentType as contentType_ } from "./deps/jsr.io/@std/media-types/1.0.2/content_type.js";
 export const contentType = (extentionOrType) => {
     if (extentionOrType == "tgs") {
         return "application/x-tgsticker";
@@ -31,7 +31,7 @@ export const contentType = (extentionOrType) => {
         return contentType_(extentionOrType);
     }
 };
-import { extension as extension_ } from "./deps/deno.land/std@0.224.0/media_types/extension.js";
+import { extension as extension_ } from "./deps/jsr.io/@std/media-types/1.0.2/extension.js";
 export function extension(mimeType) {
     if (mimeType == "application/x-tgsticker") {
         return "tgs";
