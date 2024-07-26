@@ -14792,6 +14792,7 @@ export interface Enums {
 }
 export type AnyType = Types[keyof Types];
 export type AnyFunction<T = Function> = Functions<T>[keyof Functions<T>];
+export type AnyGenericFunction<T> = invokeAfterMsg<T> | invokeAfterMsgs<T> | initConnection<T> | invokeWithLayer<T> | invokeWithoutUpdates<T> | invokeWithMessagesRange<T> | invokeWithTakeout<T> | invokeWithBusinessConnection<T> | invokeWithGooglePlayIntegrity<T> | invokeWithApnsSecret<T>;
 export type AnyObject<T = Function> = AnyType | AnyFunction<T>;
 export type ResPQ = resPQ;
 export type P_Q_inner_data = p_q_inner_data_dc | p_q_inner_data_temp_dc;

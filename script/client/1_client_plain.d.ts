@@ -32,7 +32,7 @@ export interface ClientPlainParams extends ClientAbstractParams {
 export declare class ClientPlain extends ClientAbstract {
     #private;
     constructor(params?: ClientPlainParams);
-    invoke<T extends Api.AnyObject, R = T["_"] extends keyof Api.Functions ? Api.ReturnType<T> extends never ? Api.ReturnType<Api.Functions[T["_"]]> : never : never>(function_: T): Promise<R>;
+    invoke<T extends Api.AnyObject, R = T extends Api.AnyGenericFunction<infer X> ? Api.ReturnType<X> : T["_"] extends keyof Api.Functions ? Api.ReturnType<T> extends never ? Api.ReturnType<Api.Functions[T["_"]]> : never : never>(function_: T): Promise<R>;
     createAuthKey(): Promise<[Uint8Array, bigint]>;
 }
 //# sourceMappingURL=1_client_plain.d.ts.map
