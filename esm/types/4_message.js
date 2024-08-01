@@ -46,6 +46,7 @@ import { constructGame } from "./2_game.js";
 import { constructPoll } from "./2_poll.js";
 import { constructReplyMarkup } from "./3_reply_markup.js";
 import { constructSuccessfulPayment } from "./2_successful_payment.js";
+import { constructRefundedPayment } from "./0_refunded_payment.js";
 const L = getLogger("Message");
 const keys = {
     text: ["text"],
@@ -89,6 +90,7 @@ const keys = {
     giveaway: ["giveaway"],
     unsupported: ["unsupported"],
     successfulPayment: ["successfulPayment"],
+    refundedPayment: ["refundedPayment"],
 };
 export function assertMessageType(message, type) {
     for (const key of keys[type]) {
@@ -283,6 +285,10 @@ async function constructServiceMessage(message_, chat, getEntity, getMessage) {
     else if (is("messageActionPaymentSentMe", message_.action)) {
         const successfulPayment = constructSuccessfulPayment(message_.action);
         return { ...message, successfulPayment };
+    }
+    else if (is("messageActionPaymentRefunded", message_.action)) {
+        const refundedPayment = constructRefundedPayment(message_.action);
+        return { ...message, refundedPayment };
     }
     return { ...message, unsupported: true };
 }

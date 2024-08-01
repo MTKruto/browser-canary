@@ -66,6 +66,7 @@ __exportStar(require("./types/0_network_statistics_entry.js"), exports);
 __exportStar(require("./types/0_opening_hours.js"), exports);
 __exportStar(require("./types/0_parse_mode.js"), exports);
 __exportStar(require("./types/0_price_tag.js"), exports);
+__exportStar(require("./types/0_refunded_payment.js"), exports);
 __exportStar(require("./types/0_reaction.js"), exports);
 __exportStar(require("./types/0_restriction_reason.js"), exports);
 __exportStar(require("./types/0_self_destruct_option.js"), exports);

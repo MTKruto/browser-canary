@@ -50,6 +50,7 @@ export * from "./types/0_network_statistics_entry.js";
 export * from "./types/0_opening_hours.js";
 export * from "./types/0_parse_mode.js";
 export * from "./types/0_price_tag.js";
+export * from "./types/0_refunded_payment.js";
 export * from "./types/0_reaction.js";
 export * from "./types/0_restriction_reason.js";
 export * from "./types/0_self_destruct_option.js";

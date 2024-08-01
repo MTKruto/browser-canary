@@ -49,6 +49,7 @@ const _2_game_js_1 = require("./2_game.js");
 const _2_poll_js_1 = require("./2_poll.js");
 const _3_reply_markup_js_1 = require("./3_reply_markup.js");
 const _2_successful_payment_js_1 = require("./2_successful_payment.js");
+const _0_refunded_payment_js_1 = require("./0_refunded_payment.js");
 const L = (0, _1_utilities_js_1.getLogger)("Message");
 const keys = {
     text: ["text"],
@@ -92,6 +93,7 @@ const keys = {
     giveaway: ["giveaway"],
     unsupported: ["unsupported"],
     successfulPayment: ["successfulPayment"],
+    refundedPayment: ["refundedPayment"],
 };
 function assertMessageType(message, type) {
     for (const key of keys[type]) {
@@ -287,6 +289,10 @@ async function constructServiceMessage(message_, chat, getEntity, getMessage) {
     else if ((0, _2_tl_js_1.is)("messageActionPaymentSentMe", message_.action)) {
         const successfulPayment = (0, _2_successful_payment_js_1.constructSuccessfulPayment)(message_.action);
         return { ...message, successfulPayment };
+    }
+    else if ((0, _2_tl_js_1.is)("messageActionPaymentRefunded", message_.action)) {
+        const refundedPayment = (0, _0_refunded_payment_js_1.constructRefundedPayment)(message_.action);
+        return { ...message, refundedPayment };
     }
     return { ...message, unsupported: true };
 }
