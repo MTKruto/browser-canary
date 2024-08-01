@@ -38,6 +38,7 @@ export async function constructChat(fullChat, getEntity) {
             address: fullChat.business_location?.address,
             location: fullChat.business_location?.geo_point && is("geoPoint", fullChat.business_location.geo_point) ? constructLocation(fullChat.business_location.geo_point) : undefined,
             openingHours: fullChat.business_work_hours ? constructOpeningHours(fullChat.business_work_hours) : undefined,
+            hasMainMiniApp: user.bot ? user.bot_has_main_app : undefined,
         });
     }
     else if (is("chatFull", fullChat)) {

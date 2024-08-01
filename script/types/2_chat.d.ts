@@ -54,6 +54,7 @@ export interface ChatPrivate extends ChatBase, ChatPPrivate {
     location?: Location;
     /** The opening hours of the business. */
     openingHours?: OpeningHours;
+    hasMainMiniApp?: boolean;
 }
 /**
  * A chat with more fields.
