@@ -1219,6 +1219,9 @@ _MessageManager_c = new WeakMap(), _MessageManager_LresolveFileId = new WeakMap(
                 }
                 return name;
             });
+            if (is("inputFileStoryDocument", file)) {
+                unreachable();
+            }
             let thumb = undefined;
             if (params?.thumbnail) {
                 thumb = await __classPrivateFieldGet(this, _MessageManager_c, "f").fileManager.upload(params.thumbnail, { chunkSize: params?.chunkSize, signal: params?.signal });
@@ -1276,6 +1279,9 @@ _MessageManager_c = new WeakMap(), _MessageManager_LresolveFileId = new WeakMap(
                 }
                 return name;
             });
+            if (is("inputFileStoryDocument", file)) {
+                unreachable();
+            }
             let thumb = undefined;
             if ("thumbnail" in media && media.thumbnail) {
                 thumb = await __classPrivateFieldGet(this, _MessageManager_c, "f").fileManager.upload(media.thumbnail, { chunkSize: media?.chunkSize, signal: media?.signal });
