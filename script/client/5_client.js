@@ -37,6 +37,7 @@ const _0_errors_js_1 = require("../0_errors.js");
 const _1_utilities_js_1 = require("../1_utilities.js");
 const _2_storage_js_1 = require("../2_storage.js");
 const _2_tl_js_1 = require("../2_tl.js");
+const _3_transport_js_1 = require("../3_transport.js");
 const _3_types_js_1 = require("../3_types.js");
 const _4_constants_js_1 = require("../4_constants.js");
 const _4_errors_js_1 = require("../4_errors.js");
@@ -879,6 +880,7 @@ class Client extends Composer {
             systemLangCode: this.systemLangCode,
             systemVersion: this.systemVersion,
             cdn: true,
+            initialDc: (0, _3_transport_js_1.getDc)(dcId || __classPrivateFieldGet(this, _Client_client, "f").dcId),
         });
         __classPrivateFieldGet(client, _Client_client, "f").serverSalt = __classPrivateFieldGet(this, _Client_client, "f").serverSalt;
         client.invoke.use(async (ctx, next) => {
@@ -1264,6 +1266,7 @@ class Client extends Composer {
             try {
                 if (!__classPrivateFieldGet(this, _Client_connectionInited, "f") && !(0, _0_utilities_js_1.isMtprotoFunction)(function_)) {
                     __classPrivateFieldSet(this, _Client_connectionInited, true, "f");
+                    __classPrivateFieldGet(this, _Client_L, "f").debug("init");
                     const result = await __classPrivateFieldGet(this, _Client_client, "f").invoke({
                         _: "initConnection",
                         api_id: await __classPrivateFieldGet(this, _Client_instances, "m", _Client_getApiId).call(this),

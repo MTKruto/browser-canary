@@ -34,6 +34,7 @@ import { AccessError, ConnectionError, InputError } from "../0_errors.js";
 import { cleanObject, drop, getLogger, getRandomId, minute, mustPrompt, mustPromptOneOf, Mutex, second, ZERO_CHANNEL_ID } from "../1_utilities.js";
 import { StorageMemory } from "../2_storage.js";
 import { as, chatIdToPeerId, getChatIdPeerType, is, peerToChatId } from "../2_tl.js";
+import { getDc } from "../3_transport.js";
 import { constructUser } from "../3_types.js";
 import { APP_VERSION, DEVICE_MODEL, LANG_CODE, LANG_PACK, LAYER, MAX_CHANNEL_ID, MAX_CHAT_ID, SYSTEM_LANG_CODE, SYSTEM_VERSION, USERNAME_TTL } from "../4_constants.js";
 import { AuthKeyUnregistered, ConnectionNotInited, FloodWait, Migrate, PasswordHashInvalid, PhoneNumberInvalid, SessionPasswordNeeded } from "../4_errors.js";
@@ -875,6 +876,7 @@ export class Client extends Composer {
             systemLangCode: this.systemLangCode,
             systemVersion: this.systemVersion,
             cdn: true,
+            initialDc: getDc(dcId || __classPrivateFieldGet(this, _Client_client, "f").dcId),
         });
         __classPrivateFieldGet(client, _Client_client, "f").serverSalt = __classPrivateFieldGet(this, _Client_client, "f").serverSalt;
         client.invoke.use(async (ctx, next) => {
@@ -1260,6 +1262,7 @@ export class Client extends Composer {
             try {
                 if (!__classPrivateFieldGet(this, _Client_connectionInited, "f") && !isMtprotoFunction(function_)) {
                     __classPrivateFieldSet(this, _Client_connectionInited, true, "f");
+                    __classPrivateFieldGet(this, _Client_L, "f").debug("init");
                     const result = await __classPrivateFieldGet(this, _Client_client, "f").invoke({
                         _: "initConnection",
                         api_id: await __classPrivateFieldGet(this, _Client_instances, "m", _Client_getApiId).call(this),

@@ -71,3 +71,11 @@ export function getDcIps(dc, version) {
 export function getDcId(dc, cdn) {
     return Number(dc[0]) + (dc.endsWith("-test") ? 10000 : 0) * (cdn ? -1 : 1);
 }
+export function getDc(dcId) {
+    dcId = Math.abs(dcId);
+    const test = dcId >= 10000;
+    if (dcId >= 10000) {
+        dcId -= 10000;
+    }
+    return `${dcId}${test ? "-test" : ""}`;
+}

@@ -31,4 +31,5 @@ export type TransportProvider = (params: TransportProviderParams) => {
     dcId: number;
 };
 export declare function getDcId(dc: DC, cdn: boolean): number;
+export declare function getDc(dcId: number): DC;
 //# sourceMappingURL=2_transport_provider.d.ts.map
