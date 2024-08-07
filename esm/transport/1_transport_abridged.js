@@ -31,7 +31,7 @@ var __classPrivateFieldGet = (this && this.__classPrivateFieldGet) || function (
 var _TransportAbridged_initialized, _TransportAbridged_connection, _TransportAbridged_obfuscated;
 import { concat } from "../0_deps.js";
 import { ConnectionError } from "../0_errors.js";
-import { bufferFromBigInt } from "../1_utilities.js";
+import { bigIntFromBuffer, bufferFromBigInt } from "../1_utilities.js";
 import { getObfuscationParameters } from "./0_obfuscation.js";
 import { Transport } from "./0_transport.js";
 export class TransportAbridged extends Transport {
@@ -67,8 +67,7 @@ export class TransportAbridged extends Transport {
                 const buffer = new Uint8Array(3);
                 await __classPrivateFieldGet(this, _TransportAbridged_connection, "f").read(buffer);
                 this.decrypt(buffer);
-                const dataView = new DataView(buffer.buffer, buffer.byteOffset, buffer.byteLength);
-                length = dataView.getUint16(0, true);
+                length = Number(bigIntFromBuffer(buffer, true, true));
             }
         }
         length *= 4;

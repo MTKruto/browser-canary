@@ -70,8 +70,7 @@ class TransportAbridged extends _0_transport_js_1.Transport {
                 const buffer = new Uint8Array(3);
                 await __classPrivateFieldGet(this, _TransportAbridged_connection, "f").read(buffer);
                 this.decrypt(buffer);
-                const dataView = new DataView(buffer.buffer, buffer.byteOffset, buffer.byteLength);
-                length = dataView.getUint16(0, true);
+                length = Number((0, _1_utilities_js_1.bigIntFromBuffer)(buffer, true, true));
             }
         }
         length *= 4;
