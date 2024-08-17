@@ -29,13 +29,16 @@ function constructReaction(reaction) {
     else if ((0, _2_tl_js_1.is)("reactionCustomEmoji", reaction)) {
         return { type: "customEmoji", id: String(reaction.document_id) };
     }
+    else if ((0, _2_tl_js_1.is)("reactionPaid", reaction)) {
+        return { type: "paid" };
+    }
     else {
         (0, _0_deps_js_1.unreachable)();
     }
 }
 exports.constructReaction = constructReaction;
 function reactionToTlObject(reaction) {
-    return reaction.type == "emoji" ? ({ _: "reactionEmoji", emoticon: reaction.emoji }) : ({ _: "reactionCustomEmoji", document_id: BigInt(reaction.id) });
+    return reaction.type == "emoji" ? ({ _: "reactionEmoji", emoticon: reaction.emoji }) : reaction.type == "customEmoji" ? ({ _: "reactionCustomEmoji", document_id: BigInt(reaction.id) }) : { _: "reactionPaid" };
 }
 exports.reactionToTlObject = reactionToTlObject;
 function reactionEqual(left, right) {

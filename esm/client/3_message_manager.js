@@ -596,7 +596,7 @@ export class MessageManager {
         await __classPrivateFieldGet(this, _MessageManager_c, "f").invoke({ _: "messages.unpinAllMessages", peer: await __classPrivateFieldGet(this, _MessageManager_c, "f").getInputPeer(chatId) });
     }
     async setAvailableReactions(chatId, availableReactions) {
-        await __classPrivateFieldGet(this, _MessageManager_c, "f").invoke({ _: "messages.setChatAvailableReactions", peer: await __classPrivateFieldGet(this, _MessageManager_c, "f").getInputPeer(chatId), available_reactions: availableReactions == "none" ? { _: "chatReactionsNone" } : availableReactions == "all" ? { _: "chatReactionsAll" } : Array.isArray(availableReactions) ? ({ _: "chatReactionsSome", reactions: availableReactions.map((v) => v.type == "emoji" ? ({ _: "reactionEmoji", emoticon: v.emoji }) : ({ _: "reactionCustomEmoji", document_id: BigInt(v.id) })) }) : unreachable() });
+        await __classPrivateFieldGet(this, _MessageManager_c, "f").invoke({ _: "messages.setChatAvailableReactions", peer: await __classPrivateFieldGet(this, _MessageManager_c, "f").getInputPeer(chatId), available_reactions: availableReactions == "none" ? { _: "chatReactionsNone" } : availableReactions == "all" ? { _: "chatReactionsAll" } : Array.isArray(availableReactions) ? ({ _: "chatReactionsSome", reactions: availableReactions.map((v) => reactionToTlObject(v)) }) : unreachable() });
     }
     async setReactions(chatId, messageId, reactions, params) {
         await __classPrivateFieldGet(this, _MessageManager_instances, "m", _MessageManager_sendReaction).call(this, chatId, messageId, reactions, params);

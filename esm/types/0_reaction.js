@@ -26,12 +26,15 @@ export function constructReaction(reaction) {
     else if (is("reactionCustomEmoji", reaction)) {
         return { type: "customEmoji", id: String(reaction.document_id) };
     }
+    else if (is("reactionPaid", reaction)) {
+        return { type: "paid" };
+    }
     else {
         unreachable();
     }
 }
 export function reactionToTlObject(reaction) {
-    return reaction.type == "emoji" ? ({ _: "reactionEmoji", emoticon: reaction.emoji }) : ({ _: "reactionCustomEmoji", document_id: BigInt(reaction.id) });
+    return reaction.type == "emoji" ? ({ _: "reactionEmoji", emoticon: reaction.emoji }) : reaction.type == "customEmoji" ? ({ _: "reactionCustomEmoji", document_id: BigInt(reaction.id) }) : { _: "reactionPaid" };
 }
 export function reactionEqual(left, right) {
     if (left.type == "emoji") {

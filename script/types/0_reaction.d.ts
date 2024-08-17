@@ -28,8 +28,12 @@ export interface ReactionCustomEmoji {
     type: "customEmoji";
     id: string;
 }
+/** @unlisted */
+export interface ReactionPaid {
+    type: "paid";
+}
 /** A reaction type. */
-export type Reaction = ReactionEmoji | ReactionCustomEmoji;
+export type Reaction = ReactionEmoji | ReactionCustomEmoji | ReactionPaid;
 export declare function constructReaction(reaction: Api.Reaction): Reaction;
 export declare function reactionToTlObject(reaction: Reaction): Api.Reaction;
 export declare function reactionEqual(left: Reaction, right: Reaction): boolean;
