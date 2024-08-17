@@ -21,6 +21,8 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.inlineKeyboardButtonToTlObject = exports.constructInlineKeyboardButton = void 0;
 const _0_deps_js_1 = require("../0_deps.js");
+const _0_errors_js_1 = require("../0_errors.js");
+const _1_utilities_js_1 = require("../1_utilities.js");
 const _2_tl_js_1 = require("../2_tl.js");
 const _0_mini_app_info_js_1 = require("./0_mini_app_info.js");
 function constructInlineKeyboardButton(button_) {
@@ -40,6 +42,13 @@ function constructInlineKeyboardButton(button_) {
         if (button_.same_peer) {
             return { text: button_.text, switchInlineQueryCurrentChat: button_.query };
         }
+        else if (button_.peer_types && button_.peer_types.length) {
+            const allowUsers = button_.peer_types.some((v) => v._ == "inlineQueryPeerTypeBotPM") || undefined;
+            const allowBots = button_.peer_types.some((v) => v._ == "inlineQueryPeerTypeSameBotPM" || v._ == "inlineQueryPeerTypeBotPM") || undefined;
+            const allowGroups = button_.peer_types.some((v) => v._ == "inlineQueryPeerTypeChat" || v._ == "inlineQueryPeerTypeMegagroup") || undefined;
+            const allowChannels = button_.peer_types.some((v) => v._ == "inlineQueryPeerTypeBroadcast") || undefined;
+            return (0, _1_utilities_js_1.cleanObject)({ text: button_.text, switchInlineQueryChosenChats: { query: button_.query, allowUsers, allowBots, allowGroups, allowChannels } });
+        }
         else {
             return { text: button_.text, switchInlineQuery: button_.query };
         }
@@ -49,6 +58,9 @@ function constructInlineKeyboardButton(button_) {
     }
     else if ((0, _2_tl_js_1.is)("keyboardButtonGame", button_)) {
         return { text: button_.text, callbackGame: {} };
+    }
+    else if ((0, _2_tl_js_1.is)("keyboardButtonRequestPeer", button_)) {
+        (0, _0_deps_js_1.unreachable)();
     }
     else {
         (0, _0_deps_js_1.unreachable)();
@@ -73,6 +85,26 @@ async function inlineKeyboardButtonToTlObject(button, usernameResolver) {
     }
     else if ("switchInlineQueryCurrentChat" in button) {
         return { _: "keyboardButtonSwitchInline", text: button.text, query: button.switchInlineQueryCurrentChat, same_peer: true };
+    }
+    else if ("switchInlineQueryChosenChats" in button) {
+        const peerTypes = new Array();
+        const { allowUsers, allowBots, allowGroups, allowChannels } = button.switchInlineQueryChosenChats;
+        if (!allowUsers && !allowBots && !allowGroups && !allowChannels) {
+            throw new _0_errors_js_1.InputError("switchInlineQueryChosenChats: At least one chat type must be allowed");
+        }
+        if (allowUsers) {
+            peerTypes.push({ _: "inlineQueryPeerTypeBotPM" });
+        }
+        if (allowBots) {
+            peerTypes.push({ _: "inlineQueryPeerTypeSameBotPM" }, { _: "inlineQueryPeerTypeBotPM" });
+        }
+        if (allowGroups) {
+            peerTypes.push({ _: "inlineQueryPeerTypeChat" }, { _: "inlineQueryPeerTypeMegagroup" });
+        }
+        if (allowChannels) {
+            peerTypes.push({ _: "inlineQueryPeerTypeBroadcast" });
+        }
+        return { _: "keyboardButtonSwitchInline", text: button.text, query: button.switchInlineQueryChosenChats.query, peer_types: peerTypes };
     }
     else if ("pay" in button) {
         return { _: "keyboardButtonBuy", text: button.text };

@@ -56,6 +56,17 @@ export interface InlineKeyboardButtonSwitchInlineCurrent extends _InlineKeyboard
     switchInlineQueryCurrentChat: string;
 }
 /** @unlisted */
+export interface InlineKeyboardButtonSwitchInlineChosen extends _InlineKeyboardButtonBase {
+    /** @discriminator */
+    switchInlineQueryChosenChats: {
+        query: string;
+        allowUsers?: boolean;
+        allowBots?: boolean;
+        allowGroups?: boolean;
+        allowChannels?: boolean;
+    };
+}
+/** @unlisted */
 export interface InlineKeyboardButtonGame extends _InlineKeyboardButtonBase {
     /** @discriminator */
     callbackGame: Record<never, never>;
@@ -66,7 +77,7 @@ export interface InlineKeyboardButtonPay extends _InlineKeyboardButtonBase {
     pay: boolean;
 }
 /** A button of an inline keyboard. */
-export type InlineKeyboardButton = InlineKeyboardButtonURL | InlineKeyboardButtonCallback | InlineKeyboardButtonMiniApp | InlineKeyboardButtonLogin | InlineKeyboardButtonSwitchInline | InlineKeyboardButtonSwitchInlineCurrent | InlineKeyboardButtonGame | InlineKeyboardButtonPay;
+export type InlineKeyboardButton = InlineKeyboardButtonURL | InlineKeyboardButtonCallback | InlineKeyboardButtonMiniApp | InlineKeyboardButtonLogin | InlineKeyboardButtonSwitchInline | InlineKeyboardButtonSwitchInlineCurrent | InlineKeyboardButtonSwitchInlineChosen | InlineKeyboardButtonGame | InlineKeyboardButtonPay;
 export declare function constructInlineKeyboardButton(button_: Api.KeyboardButton): InlineKeyboardButton;
 export declare function inlineKeyboardButtonToTlObject(button: InlineKeyboardButton, usernameResolver: UsernameResolver): Promise<Api.KeyboardButton>;
 //# sourceMappingURL=2_inline_keyboard_button.d.ts.map
