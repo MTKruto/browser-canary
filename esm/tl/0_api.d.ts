@@ -202,41 +202,8 @@ export interface error {
     code: number;
     text: string;
 }
-export interface ipPort {
-    _: "ipPort";
-    ipv4: number;
-    port: number;
-}
-export interface ipPortSecret {
-    _: "ipPortSecret";
-    ipv4: number;
-    port: number;
-    secret: Uint8Array;
-}
-export interface accessPointRule {
-    _: "accessPointRule";
-    phone_prefix_rules: string;
-    dc_id: number;
-    ips: Array<IpPort>;
-}
-export interface help_configSimple {
-    _: "help.configSimple";
-    date: number;
-    expires: number;
-    rules: Array<AccessPointRule>;
-}
-export interface inputPeerPhotoFileLocationLegacy {
-    _: "inputPeerPhotoFileLocationLegacy";
-    big?: true;
-    peer: InputPeer;
-    volume_id: bigint;
-    local_id: number;
-}
-export interface inputStickerSetThumbLegacy {
-    _: "inputStickerSetThumbLegacy";
-    stickerset: InputStickerSet;
-    volume_id: bigint;
-    local_id: number;
+export interface null_ {
+    _: "null";
 }
 export interface inputPeerEmpty {
     _: "inputPeerEmpty";
@@ -702,6 +669,7 @@ export interface channel {
     stories_hidden?: true;
     stories_hidden_min?: true;
     stories_unavailable?: true;
+    signature_profiles?: true;
     id: bigint;
     access_hash?: bigint;
     title: string;
@@ -719,6 +687,7 @@ export interface channel {
     profile_color?: PeerColor;
     emoji_status?: EmojiStatus;
     level?: number;
+    subscription_until_date?: number;
 }
 export interface channelForbidden {
     _: "channelForbidden";
@@ -772,6 +741,7 @@ export interface channelFull {
     can_view_revenue?: true;
     paid_media_allowed?: true;
     can_view_stars_revenue?: true;
+    paid_reactions_available?: true;
     id: bigint;
     about: string;
     participants_count?: number;
@@ -3270,7 +3240,9 @@ export interface chatInviteExported {
     usage_limit?: number;
     usage?: number;
     requested?: number;
+    subscription_expired?: number;
     title?: string;
+    subscription_pricing?: StarsSubscriptionPricing;
 }
 export interface chatInvitePublicJoinRequests {
     _: "chatInvitePublicJoinRequests";
@@ -3289,12 +3261,15 @@ export interface chatInvite {
     verified?: true;
     scam?: true;
     fake?: true;
+    can_refulfill_subscription?: true;
     title: string;
     about?: string;
     photo: Photo;
     participants_count: number;
     participants?: Array<User>;
     color: number;
+    subscription_pricing?: StarsSubscriptionPricing;
+    subscription_form_id?: bigint;
 }
 export interface chatInvitePeek {
     _: "chatInvitePeek";
@@ -3383,6 +3358,7 @@ export interface botInfo {
     description_document?: Document;
     commands?: Array<BotCommand>;
     menu_button?: BotMenuButton;
+    privacy_policy_url?: string;
 }
 export interface keyboardButton {
     _: "keyboardButton";
@@ -3679,6 +3655,7 @@ export interface channelParticipant {
     _: "channelParticipant";
     user_id: bigint;
     date: number;
+    subscription_until_date?: number;
 }
 export interface channelParticipantSelf {
     _: "channelParticipantSelf";
@@ -3686,6 +3663,7 @@ export interface channelParticipantSelf {
     user_id: bigint;
     inviter_id: bigint;
     date: number;
+    subscription_until_date?: number;
 }
 export interface channelParticipantCreator {
     _: "channelParticipantCreator";
@@ -5092,6 +5070,10 @@ export interface channelAdminLogEventActionChangeEmojiStickerSet {
     prev_stickerset: InputStickerSet;
     new_stickerset: InputStickerSet;
 }
+export interface channelAdminLogEventActionToggleSignatureProfiles {
+    _: "channelAdminLogEventActionToggleSignatureProfiles";
+    new_value: boolean;
+}
 export interface channelAdminLogEvent {
     _: "channelAdminLogEvent";
     id: bigint;
@@ -6454,6 +6436,7 @@ export interface sponsoredMessage {
     message: string;
     entities?: Array<MessageEntity>;
     photo?: Photo;
+    media?: MessageMedia;
     color?: PeerColor;
     button_text: string;
     sponsor_info?: string;
@@ -6534,6 +6517,7 @@ export interface messageReactions {
     reactions_as_tags?: true;
     results: Array<ReactionCount>;
     recent_reactions?: Array<MessagePeerReaction>;
+    top_reactors?: Array<MessageReactor>;
 }
 export interface messages_messageReactionsList {
     _: "messages.messageReactionsList";
@@ -6711,6 +6695,10 @@ export interface inputInvoiceStars {
     _: "inputInvoiceStars";
     purpose: InputStorePaymentPurpose;
 }
+export interface inputInvoiceChatInviteSubscription {
+    _: "inputInvoiceChatInviteSubscription";
+    hash: string;
+}
 export interface payments_exportedInvoice {
     _: "payments.exportedInvoice";
     url: string;
@@ -6819,6 +6807,9 @@ export interface reactionEmoji {
 export interface reactionCustomEmoji {
     _: "reactionCustomEmoji";
     document_id: bigint;
+}
+export interface reactionPaid {
+    _: "reactionPaid";
 }
 export interface chatReactionsNone {
     _: "chatReactionsNone";
@@ -8015,6 +8006,7 @@ export interface starsTransaction {
     pending?: true;
     failed?: true;
     gift?: true;
+    reaction?: true;
     id: string;
     stars: bigint;
     date: number;
@@ -8027,11 +8019,15 @@ export interface starsTransaction {
     bot_payload?: Uint8Array;
     msg_id?: number;
     extended_media?: Array<MessageMedia>;
+    subscription_period?: number;
 }
 export interface payments_starsStatus {
     _: "payments.starsStatus";
     balance: bigint;
-    history: Array<StarsTransaction>;
+    subscriptions?: Array<StarsSubscription>;
+    subscriptions_next_offset?: string;
+    subscriptions_missing_balance?: bigint;
+    history?: Array<StarsTransaction>;
     next_offset?: string;
     chats: Array<Chat>;
     users: Array<User>;
@@ -8106,6 +8102,30 @@ export interface bots_previewInfo {
     media: Array<BotPreviewMedia>;
     lang_codes: Array<string>;
 }
+export interface starsSubscriptionPricing {
+    _: "starsSubscriptionPricing";
+    period: number;
+    amount: bigint;
+}
+export interface starsSubscription {
+    _: "starsSubscription";
+    canceled?: true;
+    can_refulfill?: true;
+    missing_balance?: true;
+    id: string;
+    peer: Peer;
+    until_date: number;
+    pricing: StarsSubscriptionPricing;
+    chat_invite_hash?: string;
+}
+export interface messageReactor {
+    _: "messageReactor";
+    top?: true;
+    my?: true;
+    anonymous?: true;
+    peer_id?: Peer;
+    count: number;
+}
 export interface req_pq_multi {
     _: "req_pq_multi";
     nonce: bigint;
@@ -8157,23 +8177,6 @@ export interface destroy_session {
 export interface destroy_auth_key {
     _: "destroy_auth_key";
     [R]?: DestroyAuthKeyRes;
-}
-export interface invokeWithBusinessConnectionPrefix {
-    _: "invokeWithBusinessConnectionPrefix";
-    connection_id: string;
-    [R]?: Error;
-}
-export interface invokeWithGooglePlayIntegrityPrefix {
-    _: "invokeWithGooglePlayIntegrityPrefix";
-    nonce: string;
-    token: string;
-    [R]?: Error;
-}
-export interface invokeWithApnsSecretPrefix {
-    _: "invokeWithApnsSecretPrefix";
-    nonce: string;
-    secret: string;
-    [R]?: Error;
 }
 export interface invokeAfterMsg<T> {
     _: "invokeAfterMsg";
@@ -9492,6 +9495,7 @@ export interface messages_exportChatInvite {
     expire_date?: number;
     usage_limit?: number;
     title?: string;
+    subscription_pricing?: StarsSubscriptionPricing;
     [R]?: ExportedChatInvite;
 }
 export interface messages_checkChatInvite {
@@ -10186,6 +10190,7 @@ export interface messages_getAdminsWithInvites {
 export interface messages_getChatInviteImporters {
     _: "messages.getChatInviteImporters";
     requested?: true;
+    subscription_expired?: true;
     peer: InputPeer;
     link?: string;
     q?: string;
@@ -10290,6 +10295,7 @@ export interface messages_setChatAvailableReactions {
     peer: InputPeer;
     available_reactions: ChatReactions;
     reactions_limit?: number;
+    paid_enabled?: boolean;
     [R]?: Updates;
 }
 export interface messages_getAvailableReactions {
@@ -10704,6 +10710,22 @@ export interface messages_requestMainWebView {
     platform: string;
     [R]?: WebViewResult;
 }
+export interface messages_sendPaidReaction {
+    _: "messages.sendPaidReaction";
+    private?: true;
+    peer: InputPeer;
+    msg_id: number;
+    count: number;
+    random_id: bigint;
+    [R]?: Updates;
+}
+export interface messages_togglePaidReactionPrivacy {
+    _: "messages.togglePaidReactionPrivacy";
+    peer: InputPeer;
+    msg_id: number;
+    private: boolean;
+    [R]?: boolean;
+}
 export interface updates_getState {
     _: "updates.getState";
     [R]?: updates_State;
@@ -11071,8 +11093,9 @@ export interface channels_exportMessageLink {
 }
 export interface channels_toggleSignatures {
     _: "channels.toggleSignatures";
+    signatures_enabled?: true;
+    profiles_enabled?: true;
     channel: InputChannel;
-    enabled: boolean;
     [R]?: Updates;
 }
 export interface channels_getAdminedPublicChannels {
@@ -11617,6 +11640,7 @@ export interface payments_getStarsTransactions {
     inbound?: true;
     outbound?: true;
     ascending?: true;
+    subscription_id?: string;
     peer: InputPeer;
     offset: string;
     limit: number;
@@ -11662,6 +11686,26 @@ export interface payments_getStarsGiftOptions {
     _: "payments.getStarsGiftOptions";
     user_id?: InputUser;
     [R]?: Array<StarsGiftOption>;
+}
+export interface payments_getStarsSubscriptions {
+    _: "payments.getStarsSubscriptions";
+    missing_balance?: true;
+    peer: InputPeer;
+    offset: string;
+    [R]?: payments_StarsStatus;
+}
+export interface payments_changeStarsSubscription {
+    _: "payments.changeStarsSubscription";
+    peer: InputPeer;
+    subscription_id: string;
+    canceled?: boolean;
+    [R]?: boolean;
+}
+export interface payments_fulfillStarsSubscription {
+    _: "payments.fulfillStarsSubscription";
+    peer: InputPeer;
+    subscription_id: string;
+    [R]?: boolean;
 }
 export interface stickers_createStickerSet {
     _: "stickers.createStickerSet";
@@ -12398,12 +12442,7 @@ export interface Types {
     "http_wait": http_wait;
     "true": true_;
     "error": error;
-    "ipPort": ipPort;
-    "ipPortSecret": ipPortSecret;
-    "accessPointRule": accessPointRule;
-    "help.configSimple": help_configSimple;
-    "inputPeerPhotoFileLocationLegacy": inputPeerPhotoFileLocationLegacy;
-    "inputStickerSetThumbLegacy": inputStickerSetThumbLegacy;
+    "null": null_;
     "inputPeerEmpty": inputPeerEmpty;
     "inputPeerSelf": inputPeerSelf;
     "inputPeerChat": inputPeerChat;
@@ -13229,6 +13268,7 @@ export interface Types {
     "channelAdminLogEventActionChangeWallpaper": channelAdminLogEventActionChangeWallpaper;
     "channelAdminLogEventActionChangeEmojiStatus": channelAdminLogEventActionChangeEmojiStatus;
     "channelAdminLogEventActionChangeEmojiStickerSet": channelAdminLogEventActionChangeEmojiStickerSet;
+    "channelAdminLogEventActionToggleSignatureProfiles": channelAdminLogEventActionToggleSignatureProfiles;
     "channelAdminLogEvent": channelAdminLogEvent;
     "channels.adminLogResults": channels_adminLogResults;
     "channelAdminLogEventsFilter": channelAdminLogEventsFilter;
@@ -13506,6 +13546,7 @@ export interface Types {
     "inputInvoiceSlug": inputInvoiceSlug;
     "inputInvoicePremiumGiftCode": inputInvoicePremiumGiftCode;
     "inputInvoiceStars": inputInvoiceStars;
+    "inputInvoiceChatInviteSubscription": inputInvoiceChatInviteSubscription;
     "payments.exportedInvoice": payments_exportedInvoice;
     "messages.transcribedAudio": messages_transcribedAudio;
     "help.premiumPromo": help_premiumPromo;
@@ -13525,6 +13566,7 @@ export interface Types {
     "reactionEmpty": reactionEmpty;
     "reactionEmoji": reactionEmoji;
     "reactionCustomEmoji": reactionCustomEmoji;
+    "reactionPaid": reactionPaid;
     "chatReactionsNone": chatReactionsNone;
     "chatReactionsAll": chatReactionsAll;
     "chatReactionsSome": chatReactionsSome;
@@ -13734,6 +13776,9 @@ export interface Types {
     "bots.popularAppBots": bots_popularAppBots;
     "botPreviewMedia": botPreviewMedia;
     "bots.previewInfo": bots_previewInfo;
+    "starsSubscriptionPricing": starsSubscriptionPricing;
+    "starsSubscription": starsSubscription;
+    "messageReactor": messageReactor;
 }
 export interface Functions<T = Function> {
     "req_pq_multi": req_pq_multi;
@@ -13745,9 +13790,6 @@ export interface Functions<T = Function> {
     "ping_delay_disconnect": ping_delay_disconnect;
     "destroy_session": destroy_session;
     "destroy_auth_key": destroy_auth_key;
-    "invokeWithBusinessConnectionPrefix": invokeWithBusinessConnectionPrefix;
-    "invokeWithGooglePlayIntegrityPrefix": invokeWithGooglePlayIntegrityPrefix;
-    "invokeWithApnsSecretPrefix": invokeWithApnsSecretPrefix;
     "invokeAfterMsg": invokeAfterMsg<T>;
     "invokeAfterMsgs": invokeAfterMsgs<T>;
     "initConnection": initConnection<T>;
@@ -14137,6 +14179,8 @@ export interface Functions<T = Function> {
     "messages.deleteFactCheck": messages_deleteFactCheck;
     "messages.getFactCheck": messages_getFactCheck;
     "messages.requestMainWebView": messages_requestMainWebView;
+    "messages.sendPaidReaction": messages_sendPaidReaction;
+    "messages.togglePaidReactionPrivacy": messages_togglePaidReactionPrivacy;
     "updates.getState": updates_getState;
     "updates.getDifference": updates_getDifference;
     "updates.getChannelDifference": updates_getChannelDifference;
@@ -14292,6 +14336,9 @@ export interface Functions<T = Function> {
     "payments.getStarsRevenueAdsAccountUrl": payments_getStarsRevenueAdsAccountUrl;
     "payments.getStarsTransactionsByID": payments_getStarsTransactionsByID;
     "payments.getStarsGiftOptions": payments_getStarsGiftOptions;
+    "payments.getStarsSubscriptions": payments_getStarsSubscriptions;
+    "payments.changeStarsSubscription": payments_changeStarsSubscription;
+    "payments.fulfillStarsSubscription": payments_fulfillStarsSubscription;
     "stickers.createStickerSet": stickers_createStickerSet;
     "stickers.removeStickerFromSet": stickers_removeStickerFromSet;
     "stickers.changeStickerPosition": stickers_changeStickerPosition;
@@ -14428,10 +14475,7 @@ export interface Enums {
     "HttpWait": HttpWait;
     "True": True;
     "Error": Error;
-    "IpPort": IpPort;
-    "AccessPointRule": AccessPointRule;
-    "help.ConfigSimple": help_ConfigSimple;
-    "InputFileLocation": InputFileLocation;
+    "Null": Null;
     "InputPeer": InputPeer;
     "InputUser": InputUser;
     "InputContact": InputContact;
@@ -14440,6 +14484,7 @@ export interface Enums {
     "InputChatPhoto": InputChatPhoto;
     "InputGeoPoint": InputGeoPoint;
     "InputPhoto": InputPhoto;
+    "InputFileLocation": InputFileLocation;
     "Peer": Peer;
     "storage.FileType": storage_FileType;
     "User": User;
@@ -14931,6 +14976,9 @@ export interface Enums {
     "bots.PopularAppBots": bots_PopularAppBots;
     "BotPreviewMedia": BotPreviewMedia;
     "bots.PreviewInfo": bots_PreviewInfo;
+    "StarsSubscriptionPricing": StarsSubscriptionPricing;
+    "StarsSubscription": StarsSubscription;
+    "MessageReactor": MessageReactor;
 }
 export type AnyType = Types[keyof Types];
 export type AnyFunction<T = Function> = Functions<T>[keyof Functions<T>];
@@ -14962,10 +15010,7 @@ export type DestroyAuthKeyRes = destroy_auth_key_ok | destroy_auth_key_none | de
 export type HttpWait = http_wait;
 export type True = true_;
 export type Error = error;
-export type IpPort = ipPort | ipPortSecret;
-export type AccessPointRule = accessPointRule;
-export type help_ConfigSimple = help_configSimple;
-export type InputFileLocation = inputPeerPhotoFileLocationLegacy | inputStickerSetThumbLegacy | inputFileLocation | inputEncryptedFileLocation | inputDocumentFileLocation | inputSecureFileLocation | inputTakeoutFileLocation | inputPhotoFileLocation | inputPhotoLegacyFileLocation | inputPeerPhotoFileLocation | inputStickerSetThumb | inputGroupCallStream;
+export type Null = null_;
 export type InputPeer = inputPeerEmpty | inputPeerSelf | inputPeerChat | inputPeerUser | inputPeerChannel | inputPeerUserFromMessage | inputPeerChannelFromMessage;
 export type InputUser = inputUserEmpty | inputUserSelf | inputUser | inputUserFromMessage;
 export type InputContact = inputPhoneContact;
@@ -14974,6 +15019,7 @@ export type InputMedia = inputMediaEmpty | inputMediaUploadedPhoto | inputMediaP
 export type InputChatPhoto = inputChatPhotoEmpty | inputChatUploadedPhoto | inputChatPhoto;
 export type InputGeoPoint = inputGeoPointEmpty | inputGeoPoint;
 export type InputPhoto = inputPhotoEmpty | inputPhoto;
+export type InputFileLocation = inputFileLocation | inputEncryptedFileLocation | inputDocumentFileLocation | inputSecureFileLocation | inputTakeoutFileLocation | inputPhotoFileLocation | inputPhotoLegacyFileLocation | inputPeerPhotoFileLocation | inputStickerSetThumb | inputGroupCallStream;
 export type Peer = peerUser | peerChat | peerChannel;
 export type storage_FileType = storage_fileUnknown | storage_filePartial | storage_fileJpeg | storage_fileGif | storage_filePng | storage_filePdf | storage_fileMp3 | storage_fileMov | storage_fileMp4 | storage_fileWebp;
 export type User = userEmpty | user;
@@ -15143,7 +15189,7 @@ export type CdnConfig = cdnConfig;
 export type LangPackString = langPackString | langPackStringPluralized | langPackStringDeleted;
 export type LangPackDifference = langPackDifference;
 export type LangPackLanguage = langPackLanguage;
-export type ChannelAdminLogEventAction = channelAdminLogEventActionChangeTitle | channelAdminLogEventActionChangeAbout | channelAdminLogEventActionChangeUsername | channelAdminLogEventActionChangePhoto | channelAdminLogEventActionToggleInvites | channelAdminLogEventActionToggleSignatures | channelAdminLogEventActionUpdatePinned | channelAdminLogEventActionEditMessage | channelAdminLogEventActionDeleteMessage | channelAdminLogEventActionParticipantJoin | channelAdminLogEventActionParticipantLeave | channelAdminLogEventActionParticipantInvite | channelAdminLogEventActionParticipantToggleBan | channelAdminLogEventActionParticipantToggleAdmin | channelAdminLogEventActionChangeStickerSet | channelAdminLogEventActionTogglePreHistoryHidden | channelAdminLogEventActionDefaultBannedRights | channelAdminLogEventActionStopPoll | channelAdminLogEventActionChangeLinkedChat | channelAdminLogEventActionChangeLocation | channelAdminLogEventActionToggleSlowMode | channelAdminLogEventActionStartGroupCall | channelAdminLogEventActionDiscardGroupCall | channelAdminLogEventActionParticipantMute | channelAdminLogEventActionParticipantUnmute | channelAdminLogEventActionToggleGroupCallSetting | channelAdminLogEventActionParticipantJoinByInvite | channelAdminLogEventActionExportedInviteDelete | channelAdminLogEventActionExportedInviteRevoke | channelAdminLogEventActionExportedInviteEdit | channelAdminLogEventActionParticipantVolume | channelAdminLogEventActionChangeHistoryTTL | channelAdminLogEventActionParticipantJoinByRequest | channelAdminLogEventActionToggleNoForwards | channelAdminLogEventActionSendMessage | channelAdminLogEventActionChangeAvailableReactions | channelAdminLogEventActionChangeUsernames | channelAdminLogEventActionToggleForum | channelAdminLogEventActionCreateTopic | channelAdminLogEventActionEditTopic | channelAdminLogEventActionDeleteTopic | channelAdminLogEventActionPinTopic | channelAdminLogEventActionToggleAntiSpam | channelAdminLogEventActionChangePeerColor | channelAdminLogEventActionChangeProfilePeerColor | channelAdminLogEventActionChangeWallpaper | channelAdminLogEventActionChangeEmojiStatus | channelAdminLogEventActionChangeEmojiStickerSet;
+export type ChannelAdminLogEventAction = channelAdminLogEventActionChangeTitle | channelAdminLogEventActionChangeAbout | channelAdminLogEventActionChangeUsername | channelAdminLogEventActionChangePhoto | channelAdminLogEventActionToggleInvites | channelAdminLogEventActionToggleSignatures | channelAdminLogEventActionUpdatePinned | channelAdminLogEventActionEditMessage | channelAdminLogEventActionDeleteMessage | channelAdminLogEventActionParticipantJoin | channelAdminLogEventActionParticipantLeave | channelAdminLogEventActionParticipantInvite | channelAdminLogEventActionParticipantToggleBan | channelAdminLogEventActionParticipantToggleAdmin | channelAdminLogEventActionChangeStickerSet | channelAdminLogEventActionTogglePreHistoryHidden | channelAdminLogEventActionDefaultBannedRights | channelAdminLogEventActionStopPoll | channelAdminLogEventActionChangeLinkedChat | channelAdminLogEventActionChangeLocation | channelAdminLogEventActionToggleSlowMode | channelAdminLogEventActionStartGroupCall | channelAdminLogEventActionDiscardGroupCall | channelAdminLogEventActionParticipantMute | channelAdminLogEventActionParticipantUnmute | channelAdminLogEventActionToggleGroupCallSetting | channelAdminLogEventActionParticipantJoinByInvite | channelAdminLogEventActionExportedInviteDelete | channelAdminLogEventActionExportedInviteRevoke | channelAdminLogEventActionExportedInviteEdit | channelAdminLogEventActionParticipantVolume | channelAdminLogEventActionChangeHistoryTTL | channelAdminLogEventActionParticipantJoinByRequest | channelAdminLogEventActionToggleNoForwards | channelAdminLogEventActionSendMessage | channelAdminLogEventActionChangeAvailableReactions | channelAdminLogEventActionChangeUsernames | channelAdminLogEventActionToggleForum | channelAdminLogEventActionCreateTopic | channelAdminLogEventActionEditTopic | channelAdminLogEventActionDeleteTopic | channelAdminLogEventActionPinTopic | channelAdminLogEventActionToggleAntiSpam | channelAdminLogEventActionChangePeerColor | channelAdminLogEventActionChangeProfilePeerColor | channelAdminLogEventActionChangeWallpaper | channelAdminLogEventActionChangeEmojiStatus | channelAdminLogEventActionChangeEmojiStickerSet | channelAdminLogEventActionToggleSignatureProfiles;
 export type ChannelAdminLogEvent = channelAdminLogEvent;
 export type channels_AdminLogResults = channels_adminLogResults;
 export type ChannelAdminLogEventsFilter = channelAdminLogEventsFilter;
@@ -15311,7 +15357,7 @@ export type account_SavedRingtones = account_savedRingtonesNotModified | account
 export type NotificationSound = notificationSoundDefault | notificationSoundNone | notificationSoundLocal | notificationSoundRingtone;
 export type account_SavedRingtone = account_savedRingtone | account_savedRingtoneConverted;
 export type AttachMenuPeerType = attachMenuPeerTypeSameBotPM | attachMenuPeerTypeBotPM | attachMenuPeerTypePM | attachMenuPeerTypeChat | attachMenuPeerTypeBroadcast;
-export type InputInvoice = inputInvoiceMessage | inputInvoiceSlug | inputInvoicePremiumGiftCode | inputInvoiceStars;
+export type InputInvoice = inputInvoiceMessage | inputInvoiceSlug | inputInvoicePremiumGiftCode | inputInvoiceStars | inputInvoiceChatInviteSubscription;
 export type payments_ExportedInvoice = payments_exportedInvoice;
 export type messages_TranscribedAudio = messages_transcribedAudio;
 export type help_PremiumPromo = help_premiumPromo;
@@ -15320,7 +15366,7 @@ export type PremiumGiftOption = premiumGiftOption;
 export type PaymentFormMethod = paymentFormMethod;
 export type EmojiStatus = emojiStatusEmpty | emojiStatus | emojiStatusUntil;
 export type account_EmojiStatuses = account_emojiStatusesNotModified | account_emojiStatuses;
-export type Reaction = reactionEmpty | reactionEmoji | reactionCustomEmoji;
+export type Reaction = reactionEmpty | reactionEmoji | reactionCustomEmoji | reactionPaid;
 export type ChatReactions = chatReactionsNone | chatReactionsAll | chatReactionsSome;
 export type messages_Reactions = messages_reactionsNotModified | messages_reactions;
 export type EmailVerifyPurpose = emailVerifyPurposeLoginSetup | emailVerifyPurposeLoginChange | emailVerifyPurposePassport;
@@ -15465,6 +15511,9 @@ export type StarsGiftOption = starsGiftOption;
 export type bots_PopularAppBots = bots_popularAppBots;
 export type BotPreviewMedia = botPreviewMedia;
 export type bots_PreviewInfo = bots_previewInfo;
+export type StarsSubscriptionPricing = starsSubscriptionPricing;
+export type StarsSubscription = starsSubscription;
+export type MessageReactor = messageReactor;
 export declare const getTypeName: (id: number) => string | undefined;
 export declare const flags: symbol;
 export type Parameters = [number, [string, unknown, string][]];
