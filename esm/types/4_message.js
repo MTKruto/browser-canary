@@ -346,6 +346,7 @@ export async function constructMessage(message_, getEntity, getMessage, getStick
         isTopicMessage: message_.reply_to && is("messageReplyHeader", message_.reply_to) && message_.reply_to.reply_to_top_id ? true : false,
         hasProtectedContent: message_.noforwards || false,
         senderBoostCount: message_.from_boosts_applied,
+        effectId: message_.effect ? String(message_.effect) : undefined,
     };
     if (message_.reactions) {
         const recentReactions = message_.reactions.recent_reactions ?? [];

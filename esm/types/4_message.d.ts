@@ -109,6 +109,7 @@ export interface _MessageBase {
     businessConnectionId?: string;
     senderBoostCount?: number;
     viaBusinessBot?: User;
+    effectId?: string;
 }
 /**
  * Properties shared between media message types.
