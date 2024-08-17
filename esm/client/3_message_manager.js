@@ -589,8 +589,8 @@ export class MessageManager {
     async pinMessage(chatId, messageId, params) {
         await __classPrivateFieldGet(this, _MessageManager_c, "f").invoke({ _: "messages.updatePinnedMessage", peer: await __classPrivateFieldGet(this, _MessageManager_c, "f").getInputPeer(chatId), id: checkMessageId(messageId), silent: params?.disableNotification ? true : undefined, pm_oneside: params?.bothSides ? undefined : true });
     }
-    async unpinMessage(chatId, messageId) {
-        await __classPrivateFieldGet(this, _MessageManager_c, "f").invoke({ _: "messages.updatePinnedMessage", peer: await __classPrivateFieldGet(this, _MessageManager_c, "f").getInputPeer(chatId), id: checkMessageId(messageId), unpin: true });
+    async unpinMessage(chatId, messageId, params) {
+        await __classPrivateFieldGet(this, _MessageManager_c, "f").invoke({ _: "messages.updatePinnedMessage", peer: await __classPrivateFieldGet(this, _MessageManager_c, "f").getInputPeer(chatId), id: checkMessageId(messageId), unpin: true }, params?.businessConnectionId);
     }
     async unpinMessages(chatId) {
         await __classPrivateFieldGet(this, _MessageManager_c, "f").invoke({ _: "messages.unpinAllMessages", peer: await __classPrivateFieldGet(this, _MessageManager_c, "f").getInputPeer(chatId) });

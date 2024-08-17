@@ -316,12 +316,12 @@ class Client extends Composer {
                     return this.forwardMessage(chatId, to, messageId, params);
                 },
                 pin: (params) => {
-                    const { chatId, messageId } = mustGetMsg();
-                    return this.pinMessage(chatId, messageId, params);
+                    const { chatId, messageId, businessConnectionId } = mustGetMsg();
+                    return this.pinMessage(chatId, messageId, { ...params, businessConnectionId });
                 },
                 unpin: () => {
-                    const { chatId, messageId } = mustGetMsg();
-                    return this.unpinMessage(chatId, messageId);
+                    const { chatId, messageId, businessConnectionId } = mustGetMsg();
+                    return this.unpinMessage(chatId, messageId, { businessConnectionId });
                 },
                 banSender: (params) => {
                     const { chatId, senderId } = mustGetMsg();
@@ -1801,8 +1801,8 @@ class Client extends Composer {
      * @param chatId The identifier of the chat that contains the message.
      * @param messageId The message's identifier.
      */
-    async unpinMessage(chatId, messageId) {
-        await __classPrivateFieldGet(this, _Client_messageManager, "f").unpinMessage(chatId, messageId);
+    async unpinMessage(chatId, messageId, params) {
+        await __classPrivateFieldGet(this, _Client_messageManager, "f").unpinMessage(chatId, messageId, params);
     }
     /**
      * Unpin all pinned messages.
