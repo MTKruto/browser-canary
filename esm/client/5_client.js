@@ -1178,7 +1178,7 @@ export class Client extends Composer {
     }
     async [(_Client_propagateAuthorizationState = async function _Client_propagateAuthorizationState(authorized) {
         if (__classPrivateFieldGet(this, _Client_lastPropagatedAuthorizationState, "f") != authorized) {
-            await this.middleware()(await __classPrivateFieldGet(this, _Client_constructContext, "f").call(this, { authorizationState: { authorized } }), resolve);
+            await __classPrivateFieldGet(this, _Client_instances, "m", _Client_handleCtxUpdate).call(this, { authorizationState: { authorized } });
             __classPrivateFieldSet(this, _Client_lastPropagatedAuthorizationState, authorized, "f");
         }
     }, _Client_getSelfId = async function _Client_getSelfId() {
@@ -2556,7 +2556,12 @@ export class Client extends Composer {
     }
 }
 _a = Client, _Client_handleCtxUpdate = async function _Client_handleCtxUpdate(update) {
-    await this.middleware()(await __classPrivateFieldGet(this, _Client_constructContext, "f").call(this, update), resolve);
+    try {
+        await this.middleware()(await __classPrivateFieldGet(this, _Client_constructContext, "f").call(this, update), resolve);
+    }
+    catch (err) {
+        __classPrivateFieldGet(this, _Client_L, "f").error("Failed to handle update:", err);
+    }
 }, _Client_queueHandleCtxUpdate = function _Client_queueHandleCtxUpdate(update) {
     __classPrivateFieldGet(this, _Client_updateManager, "f").getHandleUpdateQueue(UpdateManager.MAIN_BOX_ID).add(async () => {
         await __classPrivateFieldGet(this, _Client_instances, "m", _Client_handleCtxUpdate).call(this, update);
