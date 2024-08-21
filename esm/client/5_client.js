@@ -1147,7 +1147,6 @@ export class Client extends Composer {
         if (id === "me" || id == await __classPrivateFieldGet(this, _Client_instances, "m", _Client_getSelfId).call(this)) {
             return { _: "inputPeerSelf" };
         }
-        console.log("v");
         const inputPeer = await __classPrivateFieldGet(this, _Client_instances, "m", _Client_getInputPeerInner).call(this, id);
         if (((is("inputPeerUser", inputPeer) || is("inputPeerChannel", inputPeer)) && inputPeer.access_hash == 0n) && await this.storage.getAccountType() == "bot") {
             if ("channel_id" in inputPeer) {
