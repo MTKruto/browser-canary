@@ -238,6 +238,8 @@ export interface ClientParams extends ClientPlainParams {
     persistCache?: boolean;
     /** Whether to disable receiving updates. UpdateConnectionState and UpdatesAuthorizationState will always be received. Defaults to `false`. */
     disableUpdates?: boolean;
+    /** An auth string to automatically import. Can be overriden by a later importAuthString call. */
+    authString?: string;
 }
 /**
  * An MTKruto client.

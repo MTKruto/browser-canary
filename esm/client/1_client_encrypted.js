@@ -158,6 +158,9 @@ _ClientEncrypted_authKey = new WeakMap(), _ClientEncrypted_authKeyId = new WeakM
     __classPrivateFieldSet(this, _ClientEncrypted_shouldInvalidateSession, true, "f");
 }, _ClientEncrypted_sendMessage = async function _ClientEncrypted_sendMessage(message) {
     const payload = await encryptMessage(message, __classPrivateFieldGet(this, _ClientEncrypted_authKey, "f"), __classPrivateFieldGet(this, _ClientEncrypted_authKeyId, "f"), __classPrivateFieldGet(this, _ClientEncrypted_state, "f").serverSalt, __classPrivateFieldGet(this, _ClientEncrypted_sessionId, "f"));
+    if (!this.transport) {
+        throw new ConnectionError("Not connected.");
+    }
     await this.transport.transport.send(payload);
     __classPrivateFieldGet(this, _ClientEncrypted_L, "f").out(message);
     __classPrivateFieldGet(this, _ClientEncrypted_L, "f").outBin(payload);
