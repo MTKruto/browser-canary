@@ -148,3 +148,16 @@ const MTPROTO_FUNCTIONS = [
 export function isMtprotoFunction(value) {
     return isOneOf(MTPROTO_FUNCTIONS, value);
 }
+const CDN_FUNCTIONS = [
+    "upload.saveFilePart",
+    "upload.getFile",
+    "upload.saveBigFilePart",
+    "upload.getWebFile",
+    "upload.getCdnFile",
+    "upload.reuploadCdnFile",
+    "upload.getCdnFileHashes",
+    "upload.getFileHashes",
+];
+export function isCdnFunction(value) {
+    return isOneOf(CDN_FUNCTIONS, value);
+}

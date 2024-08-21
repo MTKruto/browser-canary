@@ -236,6 +236,8 @@ export interface ClientParams extends ClientPlainParams {
      * When the provided storage takes advantage of memory, nothing changes, even if set to `true`.
      */
     persistCache?: boolean;
+    /** Whether to disable receiving updates. UpdateConnectionState and UpdatesAuthorizationState will always be received. Defaults to `false`. */
+    disableUpdates?: boolean;
 }
 /**
  * An MTKruto client.

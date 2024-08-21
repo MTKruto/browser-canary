@@ -19,7 +19,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.isMtprotoFunction = exports.checkInlineQueryId = exports.checkCallbackQueryId = exports.checkArray = exports.checkPollOption = exports.checkStoryId = exports.checkMessageId = exports.getChatListId = exports.getUsername = exports.isHttpUrl = exports.resolve = void 0;
+exports.isCdnFunction = exports.isMtprotoFunction = exports.checkInlineQueryId = exports.checkCallbackQueryId = exports.checkArray = exports.checkPollOption = exports.checkStoryId = exports.checkMessageId = exports.getChatListId = exports.getUsername = exports.isHttpUrl = exports.resolve = void 0;
 const _0_deps_js_1 = require("../0_deps.js");
 const _0_errors_js_1 = require("../0_errors.js");
 const _2_tl_js_1 = require("../2_tl.js");
@@ -162,3 +162,17 @@ function isMtprotoFunction(value) {
     return (0, _2_tl_js_1.isOneOf)(MTPROTO_FUNCTIONS, value);
 }
 exports.isMtprotoFunction = isMtprotoFunction;
+const CDN_FUNCTIONS = [
+    "upload.saveFilePart",
+    "upload.getFile",
+    "upload.saveBigFilePart",
+    "upload.getWebFile",
+    "upload.getCdnFile",
+    "upload.reuploadCdnFile",
+    "upload.getCdnFileHashes",
+    "upload.getFileHashes",
+];
+function isCdnFunction(value) {
+    return (0, _2_tl_js_1.isOneOf)(CDN_FUNCTIONS, value);
+}
+exports.isCdnFunction = isCdnFunction;

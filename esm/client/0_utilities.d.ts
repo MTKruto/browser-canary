@@ -28,4 +28,5 @@ export declare function checkArray<T>(array: T[], check: (value: T) => void): vo
 export declare function checkCallbackQueryId(id: string): void;
 export declare function checkInlineQueryId(id: string): void;
 export declare function isMtprotoFunction(value: unknown): boolean;
+export declare function isCdnFunction(value: unknown): boolean;
 //# sourceMappingURL=0_utilities.d.ts.map

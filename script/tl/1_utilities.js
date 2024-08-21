@@ -48,7 +48,19 @@ function assertIsValidType(object) {
     }
 }
 exports.assertIsValidType = assertIsValidType;
-function is(typeName, value) {
+const GENERIC_FUNCTIONS = [
+    "invokeAfterMsg",
+    "invokeAfterMsgs",
+    "initConnection",
+    "invokeWithLayer",
+    "invokeWithoutUpdates",
+    "invokeWithMessagesRange",
+    "invokeWithTakeout",
+];
+function is(typeName, value, deep = false) {
+    if (deep && isOneOf(GENERIC_FUNCTIONS, value)) {
+        value = value.query;
+    }
     if (!isValidType(value)) {
         return false;
     }
