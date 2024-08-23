@@ -27,7 +27,7 @@ function constructReaction(reaction) {
         return { type: "emoji", emoji: reaction.emoticon };
     }
     else if ((0, _2_tl_js_1.is)("reactionCustomEmoji", reaction)) {
-        return { type: "customEmoji", id: String(reaction.document_id) };
+        return { type: "custom", id: String(reaction.document_id) };
     }
     else if ((0, _2_tl_js_1.is)("reactionPaid", reaction)) {
         return { type: "paid" };

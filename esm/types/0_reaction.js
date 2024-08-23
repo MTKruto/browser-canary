@@ -24,7 +24,7 @@ export function constructReaction(reaction) {
         return { type: "emoji", emoji: reaction.emoticon };
     }
     else if (is("reactionCustomEmoji", reaction)) {
-        return { type: "customEmoji", id: String(reaction.document_id) };
+        return { type: "custom", id: String(reaction.document_id) };
     }
     else if (is("reactionPaid", reaction)) {
         return { type: "paid" };
