@@ -38,7 +38,7 @@ function constructReaction(reaction) {
 }
 exports.constructReaction = constructReaction;
 function reactionToTlObject(reaction) {
-    return reaction.type == "emoji" ? ({ _: "reactionEmoji", emoticon: reaction.emoji }) : reaction.type == "customEmoji" ? ({ _: "reactionCustomEmoji", document_id: BigInt(reaction.id) }) : { _: "reactionPaid" };
+    return reaction.type == "emoji" ? ({ _: "reactionEmoji", emoticon: reaction.emoji }) : reaction.type == "custom" ? ({ _: "reactionCustomEmoji", document_id: BigInt(reaction.id) }) : { _: "reactionPaid" };
 }
 exports.reactionToTlObject = reactionToTlObject;
 function reactionEqual(left, right) {
@@ -47,8 +47,8 @@ function reactionEqual(left, right) {
             return true;
         }
     }
-    else if (left.type == "customEmoji") {
-        if (right.type == "customEmoji" && left.id == right.id) {
+    else if (left.type == "custom") {
+        if (right.type == "custom" && left.id == right.id) {
             return true;
         }
     }

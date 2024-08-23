@@ -212,7 +212,7 @@ class MessageManager {
         const silent = params?.disableNotification ? true : undefined;
         const noforwards = params?.protectContent ? true : undefined;
         const sendAs = await __classPrivateFieldGet(this, _MessageManager_instances, "m", _MessageManager_resolveSendAs).call(this, params);
-        const effect = params?.messageEffectId ? BigInt(params.messageEffectId) : undefined;
+        const effect = params?.effectId ? BigInt(params.effectId) : undefined;
         let result;
         if (!noWebpage && params?.linkPreview?.url) {
             result = await __classPrivateFieldGet(this, _MessageManager_c, "f").invoke({
@@ -287,7 +287,7 @@ class MessageManager {
                 provider: "foursquare",
             }),
             message: "",
-            effect: params?.messageEffectId ? BigInt(params.messageEffectId) : undefined,
+            effect: params?.effectId ? BigInt(params.effectId) : undefined,
         }, params?.businessConnectionId);
         const message = (await __classPrivateFieldGet(this, _MessageManager_instances, "m", _MessageManager_updatesToMessages).call(this, chatId, result, params?.businessConnectionId))[0];
         return (0, _3_types_js_2.assertMessageType)(message, "venue");
@@ -316,7 +316,7 @@ class MessageManager {
                 vcard: params?.vcard ?? "",
             }),
             message: "",
-            effect: params?.messageEffectId ? BigInt(params.messageEffectId) : undefined,
+            effect: params?.effectId ? BigInt(params.effectId) : undefined,
         }, params?.businessConnectionId);
         const message = (await __classPrivateFieldGet(this, _MessageManager_instances, "m", _MessageManager_updatesToMessages).call(this, chatId, result, params?.businessConnectionId))[0];
         return (0, _3_types_js_2.assertMessageType)(message, "contact");
@@ -342,7 +342,7 @@ class MessageManager {
                 emoticon: params?.emoji ?? "🎲",
             }),
             message: "",
-            effect: params?.messageEffectId ? BigInt(params.messageEffectId) : undefined,
+            effect: params?.effectId ? BigInt(params.effectId) : undefined,
         }, params?.businessConnectionId);
         const message = (await __classPrivateFieldGet(this, _MessageManager_instances, "m", _MessageManager_updatesToMessages).call(this, chatId, result, params?.businessConnectionId))[0];
         return (0, _3_types_js_2.assertMessageType)(message, "dice");
@@ -386,7 +386,7 @@ class MessageManager {
                     }),
                 }),
             message: "",
-            effect: params?.messageEffectId ? BigInt(params.messageEffectId) : undefined,
+            effect: params?.effectId ? BigInt(params.effectId) : undefined,
         }, params?.businessConnectionId);
         const message = (await __classPrivateFieldGet(this, _MessageManager_instances, "m", _MessageManager_updatesToMessages).call(this, chatId, result, params?.businessConnectionId))[0];
         return (0, _3_types_js_2.assertMessageType)(message, "location");
@@ -511,7 +511,7 @@ class MessageManager {
             send_as: sendAs,
             media,
             message: "",
-            effect: params?.messageEffectId ? BigInt(params.messageEffectId) : undefined,
+            effect: params?.effectId ? BigInt(params.effectId) : undefined,
         }, params?.businessConnectionId);
         const message = (await __classPrivateFieldGet(this, _MessageManager_instances, "m", _MessageManager_updatesToMessages).call(this, chatId, result, params?.businessConnectionId))[0];
         return (0, _3_types_js_2.assertMessageType)(message, "poll");
@@ -1129,7 +1129,7 @@ class MessageManager {
             _: "messages.sendMultiMedia",
             peer,
             multi_media: multiMedia,
-            effect: params?.messageEffectId ? BigInt(params.messageEffectId) : undefined,
+            effect: params?.effectId ? BigInt(params.effectId) : undefined,
             noforwards,
             silent,
             send_as: sendAs,
@@ -1258,7 +1258,7 @@ _MessageManager_c = new WeakMap(), _MessageManager_LresolveFileId = new WeakMap(
         media,
         message: caption ?? "",
         entities: captionEntities,
-        effect: params?.messageEffectId ? BigInt(params.messageEffectId) : undefined,
+        effect: params?.effectId ? BigInt(params.effectId) : undefined,
     }, params?.businessConnectionId);
     return (await __classPrivateFieldGet(this, _MessageManager_instances, "m", _MessageManager_updatesToMessages).call(this, chatId, result, params?.businessConnectionId))[0];
 }, _MessageManager_resolveInputMediaInner = async function _MessageManager_resolveInputMediaInner(document, media, fileType, otherAttribs) {
