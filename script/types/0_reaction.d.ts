@@ -18,17 +18,26 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 import { Api } from "../2_tl.js";
-/** @unlisted */
+/**
+ * A regular reaction.
+ * @unlisted
+ */
 export interface ReactionEmoji {
     type: "emoji";
     emoji: string;
 }
-/** @unlisted */
+/**
+ * A custom reaction.
+ * @unlisted
+ */
 export interface ReactionCustom {
     type: "custom";
     id: string;
 }
-/** @unlisted */
+/**
+ * A paid (star) reaction.
+ * @unlisted
+ */
 export interface ReactionPaid {
     type: "paid";
 }

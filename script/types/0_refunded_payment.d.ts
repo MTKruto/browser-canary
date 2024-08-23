@@ -18,11 +18,17 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 import { Api } from "../2_tl.js";
+/** Information on a refunded payment. */
 export interface RefundedPayment {
+    /** The payment's currency. */
     currency: string;
+    /** The payment's total amount. */
     totalAmount: number;
+    /** The payload of the payment's invoice. */
     invoicePayload: string;
+    /** Telegram identifier of the payment. */
     telegramPaymentChargeId: string;
+    /** Payment provider identifier of the payment. */
     providerPaymentChargeId?: string;
 }
 export declare function constructRefundedPayment(action: Api.messageActionPaymentRefunded): RefundedPayment;

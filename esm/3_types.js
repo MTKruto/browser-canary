@@ -56,6 +56,7 @@ export * from "./types/0_restriction_reason.js";
 export * from "./types/0_self_destruct_option.js";
 export * from "./types/0_shipping_address.js";
 export * from "./types/0_story_reference.js";
+export * from "./types/0_switch_inline_query_chosen_chats.js";
 export * from "./types/0_thumbnail.js";
 export * from "./types/0_video_chat.js";
 export * from "./types/0_voice.js";

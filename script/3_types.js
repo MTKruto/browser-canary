@@ -72,6 +72,7 @@ __exportStar(require("./types/0_restriction_reason.js"), exports);
 __exportStar(require("./types/0_self_destruct_option.js"), exports);
 __exportStar(require("./types/0_shipping_address.js"), exports);
 __exportStar(require("./types/0_story_reference.js"), exports);
+__exportStar(require("./types/0_switch_inline_query_chosen_chats.js"), exports);
 __exportStar(require("./types/0_thumbnail.js"), exports);
 __exportStar(require("./types/0_video_chat.js"), exports);
 __exportStar(require("./types/0_voice.js"), exports);

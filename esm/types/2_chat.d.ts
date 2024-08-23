@@ -54,6 +54,7 @@ export interface ChatPrivate extends ChatBase, ChatPPrivate {
     location?: Location;
     /** The opening hours of the business. */
     openingHours?: OpeningHours;
+    /** Whether the bot has specified a main mini app. */
     hasMainMiniApp?: boolean;
 }
 /**
