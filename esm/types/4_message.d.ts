@@ -109,6 +109,7 @@ export interface _MessageBase {
     businessConnectionId?: string;
     senderBoostCount?: number;
     viaBusinessBot?: User;
+    /** The identifier of a message effect to be attached to the message. */
     effectId?: string;
 }
 /**
