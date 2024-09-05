@@ -1138,6 +1138,9 @@ class Client extends Composer {
         return this.storage.exportAuthString(__classPrivateFieldGet(this, _Client_apiId, "f"));
     }
     async importAuthString(authString) {
+        if (this.connected) {
+            throw new Error("Cannot import auth string while the client is connected");
+        }
         await __classPrivateFieldGet(this, _Client_instances, "m", _Client_initStorage).call(this);
         await this.storage.importAuthString(authString);
         __classPrivateFieldSet(this, _Client_authStringImported, true, "f");
