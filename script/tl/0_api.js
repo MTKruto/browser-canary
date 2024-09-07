@@ -81,7 +81,12 @@ const map = new Map([
     [0x9299359F, "http_wait"],
     [0x3FEDD339, "true"],
     [0xC4B9F9BB, "error"],
-    [0x56730BCC, "null"],
+    [0xD433AD73, "ipPort"],
+    [0x37982646, "ipPortSecret"],
+    [0x4679B65F, "accessPointRule"],
+    [0x5A592A6C, "help.configSimple"],
+    [0x27D69997, "inputPeerPhotoFileLocationLegacy"],
+    [0x0DBAEAE9, "inputStickerSetThumbLegacy"],
     [0x7F3B18EA, "inputPeerEmpty"],
     [0x7DA07EC9, "inputPeerSelf"],
     [0x35A95CB9, "inputPeerChat"],
@@ -114,7 +119,7 @@ const map = new Map([
     [0xE66FBF7B, "inputMediaDice"],
     [0x89FDD778, "inputMediaStory"],
     [0xC21B8849, "inputMediaWebPage"],
-    [0xAA661FC3, "inputMediaPaidMedia"],
+    [0xC4103386, "inputMediaPaidMedia"],
     [0x1CA48F57, "inputChatPhotoEmpty"],
     [0xBDCDAEC0, "inputChatUploadedPhoto"],
     [0x8953AD37, "inputChatPhoto"],
@@ -186,8 +191,8 @@ const map = new Map([
     [0x4BD6E798, "messageMediaPoll"],
     [0x3F7EE58B, "messageMediaDice"],
     [0x68CB6283, "messageMediaStory"],
-    [0xDAAD85B0, "messageMediaGiveaway"],
-    [0xC6991068, "messageMediaGiveawayResults"],
+    [0xAA073BEB, "messageMediaGiveaway"],
+    [0xCEAA3EA1, "messageMediaGiveawayResults"],
     [0xA8852491, "messageMediaPaidMedia"],
     [0xB6AEF7B0, "messageActionEmpty"],
     [0xBD47CBAD, "messageActionChatCreate"],
@@ -228,12 +233,13 @@ const map = new Map([
     [0x31518E9B, "messageActionRequestedPeer"],
     [0x5060A3F4, "messageActionSetChatWallPaper"],
     [0x678C2E09, "messageActionGiftCode"],
-    [0x332BA9ED, "messageActionGiveawayLaunch"],
-    [0x2A9FADC5, "messageActionGiveawayResults"],
+    [0xA80F51E4, "messageActionGiveawayLaunch"],
+    [0x87E2F155, "messageActionGiveawayResults"],
     [0xCC02AA6D, "messageActionBoostApply"],
     [0x93B31848, "messageActionRequestedPeerSentMe"],
     [0x41B3E202, "messageActionPaymentRefunded"],
     [0x45D5B021, "messageActionGiftStars"],
+    [0xB00C47A2, "messageActionPrizeStars"],
     [0xD58A08C6, "dialog"],
     [0x71BD134C, "dialogFolder"],
     [0x2331B22D, "photoEmpty"],
@@ -447,6 +453,8 @@ const map = new Map([
     [0x0FB85198, "updateStarsBalance"],
     [0x1EA2FDA7, "updateBusinessBotCallbackQuery"],
     [0xA584B019, "updateStarsRevenueStatus"],
+    [0x283BD312, "updateBotPurchasedPaidMedia"],
+    [0x51CA7AEC, "updatePaidReactionPrivacy"],
     [0xA56C2A3E, "updates.state"],
     [0x5D75A138, "updates.differenceEmpty"],
     [0x00F49CA0, "updates.difference"],
@@ -908,6 +916,7 @@ const map = new Map([
     [0x3EA9FEB1, "channelAdminLogEventActionChangeEmojiStatus"],
     [0x46D840AB, "channelAdminLogEventActionChangeEmojiStickerSet"],
     [0x60A79C79, "channelAdminLogEventActionToggleSignatureProfiles"],
+    [0x64642DB3, "channelAdminLogEventActionParticipantSubExtend"],
     [0x1FAD68CD, "channelAdminLogEvent"],
     [0xED8AF74D, "channels.adminLogResults"],
     [0xEA107AE4, "channelAdminLogEventsFilter"],
@@ -1195,6 +1204,7 @@ const map = new Map([
     [0x160544CA, "inputStorePaymentPremiumGiveaway"],
     [0xDDDD0F56, "inputStorePaymentStarsTopup"],
     [0x1D741EF7, "inputStorePaymentStarsGift"],
+    [0x751F08FA, "inputStorePaymentStarsGiveaway"],
     [0x74C34319, "premiumGiftOption"],
     [0x88F8F21B, "paymentFormMethod"],
     [0x2DE11AAE, "emojiStatusEmpty"],
@@ -1296,9 +1306,10 @@ const map = new Map([
     [0x257E962B, "premiumGiftCodeOption"],
     [0x284A1096, "payments.checkedGiftCode"],
     [0x4367DAA0, "payments.giveawayInfo"],
-    [0x00CD5570, "payments.giveawayInfoResults"],
+    [0xE175E66F, "payments.giveawayInfoResults"],
     [0xB2539D54, "prepaidGiveaway"],
-    [0x2A1C8C71, "boost"],
+    [0x9A9D77E0, "prepaidStarsGiveaway"],
+    [0x4B3E14D6, "boost"],
     [0x86F8613C, "premium.boostsList"],
     [0xC448415C, "myBoost"],
     [0x9AE228E2, "premium.myBoosts"],
@@ -1388,7 +1399,7 @@ const map = new Map([
     [0xBAC3A61A, "reactionNotificationsFromContacts"],
     [0x4B9E22A0, "reactionNotificationsFromAll"],
     [0x56E34970, "reactionsNotifySettings"],
-    [0x8438F1C6, "broadcastRevenueBalances"],
+    [0xC3FF71E7, "broadcastRevenueBalances"],
     [0x93C3E27E, "availableEffect"],
     [0xD1ED9A5B, "messages.availableEffectsNotModified"],
     [0xBDDB616E, "messages.availableEffects"],
@@ -1401,7 +1412,7 @@ const map = new Map([
     [0xD80DA15D, "starsTransactionPeer"],
     [0x60682812, "starsTransactionPeerAds"],
     [0x0BD915C0, "starsTopupOption"],
-    [0x433AEB2B, "starsTransaction"],
+    [0xEE7522D5, "starsTransaction"],
     [0xBBFA316C, "payments.starsStatus"],
     [0xE87ACBC0, "foundStory"],
     [0xE2DE7737, "stories.foundStories"],
@@ -1418,6 +1429,8 @@ const map = new Map([
     [0x05416D58, "starsSubscriptionPricing"],
     [0x538ECF18, "starsSubscription"],
     [0x4BA3A95A, "messageReactor"],
+    [0x94CE852A, "starsGiveawayOption"],
+    [0x54236209, "starsGiveawayWinnersOption"],
 ]);
 exports.getTypeName = map.get.bind(map);
 exports.flags = Symbol();
@@ -1448,7 +1461,10 @@ const enums = new Map([
     ["HttpWait", ["http_wait"]],
     ["True", ["true"]],
     ["Error", ["error"]],
-    ["Null", ["null"]],
+    ["IpPort", ["ipPort", "ipPortSecret"]],
+    ["AccessPointRule", ["accessPointRule"]],
+    ["help.ConfigSimple", ["help.configSimple"]],
+    ["InputFileLocation", ["inputPeerPhotoFileLocationLegacy", "inputStickerSetThumbLegacy", "inputFileLocation", "inputEncryptedFileLocation", "inputDocumentFileLocation", "inputSecureFileLocation", "inputTakeoutFileLocation", "inputPhotoFileLocation", "inputPhotoLegacyFileLocation", "inputPeerPhotoFileLocation", "inputStickerSetThumb", "inputGroupCallStream"]],
     ["InputPeer", ["inputPeerEmpty", "inputPeerSelf", "inputPeerChat", "inputPeerUser", "inputPeerChannel", "inputPeerUserFromMessage", "inputPeerChannelFromMessage"]],
     ["InputUser", ["inputUserEmpty", "inputUserSelf", "inputUser", "inputUserFromMessage"]],
     ["InputContact", ["inputPhoneContact"]],
@@ -1457,7 +1473,6 @@ const enums = new Map([
     ["InputChatPhoto", ["inputChatPhotoEmpty", "inputChatUploadedPhoto", "inputChatPhoto"]],
     ["InputGeoPoint", ["inputGeoPointEmpty", "inputGeoPoint"]],
     ["InputPhoto", ["inputPhotoEmpty", "inputPhoto"]],
-    ["InputFileLocation", ["inputFileLocation", "inputEncryptedFileLocation", "inputDocumentFileLocation", "inputSecureFileLocation", "inputTakeoutFileLocation", "inputPhotoFileLocation", "inputPhotoLegacyFileLocation", "inputPeerPhotoFileLocation", "inputStickerSetThumb", "inputGroupCallStream"]],
     ["Peer", ["peerUser", "peerChat", "peerChannel"]],
     ["storage.FileType", ["storage.fileUnknown", "storage.filePartial", "storage.fileJpeg", "storage.fileGif", "storage.filePng", "storage.filePdf", "storage.fileMp3", "storage.fileMov", "storage.fileMp4", "storage.fileWebp"]],
     ["User", ["userEmpty", "user"]],
@@ -1470,7 +1485,7 @@ const enums = new Map([
     ["ChatPhoto", ["chatPhotoEmpty", "chatPhoto"]],
     ["Message", ["messageEmpty", "message", "messageService"]],
     ["MessageMedia", ["messageMediaEmpty", "messageMediaPhoto", "messageMediaGeo", "messageMediaContact", "messageMediaUnsupported", "messageMediaDocument", "messageMediaWebPage", "messageMediaVenue", "messageMediaGame", "messageMediaInvoice", "messageMediaGeoLive", "messageMediaPoll", "messageMediaDice", "messageMediaStory", "messageMediaGiveaway", "messageMediaGiveawayResults", "messageMediaPaidMedia"]],
-    ["MessageAction", ["messageActionEmpty", "messageActionChatCreate", "messageActionChatEditTitle", "messageActionChatEditPhoto", "messageActionChatDeletePhoto", "messageActionChatAddUser", "messageActionChatDeleteUser", "messageActionChatJoinedByLink", "messageActionChannelCreate", "messageActionChatMigrateTo", "messageActionChannelMigrateFrom", "messageActionPinMessage", "messageActionHistoryClear", "messageActionGameScore", "messageActionPaymentSentMe", "messageActionPaymentSent", "messageActionPhoneCall", "messageActionScreenshotTaken", "messageActionCustomAction", "messageActionBotAllowed", "messageActionSecureValuesSentMe", "messageActionSecureValuesSent", "messageActionContactSignUp", "messageActionGeoProximityReached", "messageActionGroupCall", "messageActionInviteToGroupCall", "messageActionSetMessagesTTL", "messageActionGroupCallScheduled", "messageActionSetChatTheme", "messageActionChatJoinedByRequest", "messageActionWebViewDataSentMe", "messageActionWebViewDataSent", "messageActionGiftPremium", "messageActionTopicCreate", "messageActionTopicEdit", "messageActionSuggestProfilePhoto", "messageActionRequestedPeer", "messageActionSetChatWallPaper", "messageActionGiftCode", "messageActionGiveawayLaunch", "messageActionGiveawayResults", "messageActionBoostApply", "messageActionRequestedPeerSentMe", "messageActionPaymentRefunded", "messageActionGiftStars"]],
+    ["MessageAction", ["messageActionEmpty", "messageActionChatCreate", "messageActionChatEditTitle", "messageActionChatEditPhoto", "messageActionChatDeletePhoto", "messageActionChatAddUser", "messageActionChatDeleteUser", "messageActionChatJoinedByLink", "messageActionChannelCreate", "messageActionChatMigrateTo", "messageActionChannelMigrateFrom", "messageActionPinMessage", "messageActionHistoryClear", "messageActionGameScore", "messageActionPaymentSentMe", "messageActionPaymentSent", "messageActionPhoneCall", "messageActionScreenshotTaken", "messageActionCustomAction", "messageActionBotAllowed", "messageActionSecureValuesSentMe", "messageActionSecureValuesSent", "messageActionContactSignUp", "messageActionGeoProximityReached", "messageActionGroupCall", "messageActionInviteToGroupCall", "messageActionSetMessagesTTL", "messageActionGroupCallScheduled", "messageActionSetChatTheme", "messageActionChatJoinedByRequest", "messageActionWebViewDataSentMe", "messageActionWebViewDataSent", "messageActionGiftPremium", "messageActionTopicCreate", "messageActionTopicEdit", "messageActionSuggestProfilePhoto", "messageActionRequestedPeer", "messageActionSetChatWallPaper", "messageActionGiftCode", "messageActionGiveawayLaunch", "messageActionGiveawayResults", "messageActionBoostApply", "messageActionRequestedPeerSentMe", "messageActionPaymentRefunded", "messageActionGiftStars", "messageActionPrizeStars"]],
     ["Dialog", ["dialog", "dialogFolder"]],
     ["Photo", ["photoEmpty", "photo"]],
     ["PhotoSize", ["photoSizeEmpty", "photoSize", "photoCachedSize", "photoStrippedSize", "photoSizeProgressive", "photoPathSize"]],
@@ -1637,6 +1652,8 @@ const enums = new Map([
             "updateStarsBalance",
             "updateBusinessBotCallbackQuery",
             "updateStarsRevenueStatus",
+            "updateBotPurchasedPaidMedia",
+            "updatePaidReactionPrivacy",
         ]],
     ["updates.State", ["updates.state"]],
     ["updates.Difference", ["updates.differenceEmpty", "updates.difference", "updates.differenceSlice", "updates.differenceTooLong"]],
@@ -1817,6 +1834,7 @@ const enums = new Map([
             "channelAdminLogEventActionChangeEmojiStatus",
             "channelAdminLogEventActionChangeEmojiStickerSet",
             "channelAdminLogEventActionToggleSignatureProfiles",
+            "channelAdminLogEventActionParticipantSubExtend",
         ]],
     ["ChannelAdminLogEvent", ["channelAdminLogEvent"]],
     ["channels.AdminLogResults", ["channels.adminLogResults"]],
@@ -1989,7 +2007,7 @@ const enums = new Map([
     ["payments.ExportedInvoice", ["payments.exportedInvoice"]],
     ["messages.TranscribedAudio", ["messages.transcribedAudio"]],
     ["help.PremiumPromo", ["help.premiumPromo"]],
-    ["InputStorePaymentPurpose", ["inputStorePaymentPremiumSubscription", "inputStorePaymentGiftPremium", "inputStorePaymentPremiumGiftCode", "inputStorePaymentPremiumGiveaway", "inputStorePaymentStarsTopup", "inputStorePaymentStarsGift"]],
+    ["InputStorePaymentPurpose", ["inputStorePaymentPremiumSubscription", "inputStorePaymentGiftPremium", "inputStorePaymentPremiumGiftCode", "inputStorePaymentPremiumGiveaway", "inputStorePaymentStarsTopup", "inputStorePaymentStarsGift", "inputStorePaymentStarsGiveaway"]],
     ["PremiumGiftOption", ["premiumGiftOption"]],
     ["PaymentFormMethod", ["paymentFormMethod"]],
     ["EmojiStatus", ["emojiStatusEmpty", "emojiStatus", "emojiStatusUntil"]],
@@ -2050,7 +2068,7 @@ const enums = new Map([
     ["PremiumGiftCodeOption", ["premiumGiftCodeOption"]],
     ["payments.CheckedGiftCode", ["payments.checkedGiftCode"]],
     ["payments.GiveawayInfo", ["payments.giveawayInfo", "payments.giveawayInfoResults"]],
-    ["PrepaidGiveaway", ["prepaidGiveaway"]],
+    ["PrepaidGiveaway", ["prepaidGiveaway", "prepaidStarsGiveaway"]],
     ["Boost", ["boost"]],
     ["premium.BoostsList", ["premium.boostsList"]],
     ["MyBoost", ["myBoost"]],
@@ -2142,6 +2160,8 @@ const enums = new Map([
     ["StarsSubscriptionPricing", ["starsSubscriptionPricing"]],
     ["StarsSubscription", ["starsSubscription"]],
     ["MessageReactor", ["messageReactor"]],
+    ["StarsGiveawayOption", ["starsGiveawayOption"]],
+    ["StarsGiveawayWinnersOption", ["starsGiveawayWinnersOption"]],
 ]);
 const types = new Map([
     [
@@ -2518,10 +2538,70 @@ const types = new Map([
         ],
     ],
     [
-        "null",
+        "ipPort",
         [
-            0x56730BCC,
-            [],
+            0xD433AD73,
+            [
+                ["ipv4", "number", "int"],
+                ["port", "number", "int"],
+            ],
+        ],
+    ],
+    [
+        "ipPortSecret",
+        [
+            0x37982646,
+            [
+                ["ipv4", "number", "int"],
+                ["port", "number", "int"],
+                ["secret", Uint8Array, "bytes"],
+            ],
+        ],
+    ],
+    [
+        "accessPointRule",
+        [
+            0x4679B65F,
+            [
+                ["phone_prefix_rules", "string", "string"],
+                ["dc_id", "number", "int"],
+                ["ips", ["IpPort"], "vector<IpPort>"],
+            ],
+        ],
+    ],
+    [
+        "help.configSimple",
+        [
+            0x5A592A6C,
+            [
+                ["date", "number", "int"],
+                ["expires", "number", "int"],
+                ["rules", ["AccessPointRule"], "vector<AccessPointRule>"],
+            ],
+        ],
+    ],
+    [
+        "inputPeerPhotoFileLocationLegacy",
+        [
+            0x27D69997,
+            [
+                ["flags", exports.flags, "#"],
+                ["big", "true", "flags.0?true"],
+                ["peer", "InputPeer", "InputPeer"],
+                ["volume_id", "bigint", "long"],
+                ["local_id", "number", "int"],
+            ],
+        ],
+    ],
+    [
+        "inputStickerSetThumbLegacy",
+        [
+            0x0DBAEAE9,
+            [
+                ["stickerset", "InputStickerSet", "InputStickerSet"],
+                ["volume_id", "bigint", "long"],
+                ["local_id", "number", "int"],
+            ],
         ],
     ],
     [
@@ -2879,10 +2959,12 @@ const types = new Map([
     [
         "inputMediaPaidMedia",
         [
-            0xAA661FC3,
+            0xC4103386,
             [
+                ["flags", exports.flags, "#"],
                 ["stars_amount", "bigint", "long"],
                 ["extended_media", ["InputMedia"], "Vector<InputMedia>"],
+                ["payload", "string", "flags.0?string"],
             ],
         ],
     ],
@@ -3833,7 +3915,7 @@ const types = new Map([
     [
         "messageMediaGiveaway",
         [
-            0xDAAD85B0,
+            0xAA073BEB,
             [
                 ["flags", exports.flags, "#"],
                 ["only_new_subscribers", "true", "flags.0?true"],
@@ -3842,7 +3924,8 @@ const types = new Map([
                 ["countries_iso2", ["string"], "flags.1?Vector<string>"],
                 ["prize_description", "string", "flags.3?string"],
                 ["quantity", "number", "int"],
-                ["months", "number", "int"],
+                ["months", "number", "flags.4?int"],
+                ["stars", "bigint", "flags.5?long"],
                 ["until_date", "number", "int"],
             ],
         ],
@@ -3850,7 +3933,7 @@ const types = new Map([
     [
         "messageMediaGiveawayResults",
         [
-            0xC6991068,
+            0xCEAA3EA1,
             [
                 ["flags", exports.flags, "#"],
                 ["only_new_subscribers", "true", "flags.0?true"],
@@ -3861,7 +3944,8 @@ const types = new Map([
                 ["winners_count", "number", "int"],
                 ["unclaimed_count", "number", "int"],
                 ["winners", ["bigint"], "Vector<long>"],
-                ["months", "number", "int"],
+                ["months", "number", "flags.4?int"],
+                ["stars", "bigint", "flags.5?long"],
                 ["prize_description", "string", "flags.1?string"],
                 ["until_date", "number", "int"],
             ],
@@ -4276,15 +4360,20 @@ const types = new Map([
     [
         "messageActionGiveawayLaunch",
         [
-            0x332BA9ED,
-            [],
+            0xA80F51E4,
+            [
+                ["flags", exports.flags, "#"],
+                ["stars", "bigint", "flags.0?long"],
+            ],
         ],
     ],
     [
         "messageActionGiveawayResults",
         [
-            0x2A9FADC5,
+            0x87E2F155,
             [
+                ["flags", exports.flags, "#"],
+                ["stars", "true", "flags.0?true"],
                 ["winners_count", "number", "int"],
                 ["unclaimed_count", "number", "int"],
             ],
@@ -4335,6 +4424,20 @@ const types = new Map([
                 ["crypto_currency", "string", "flags.0?string"],
                 ["crypto_amount", "bigint", "flags.0?long"],
                 ["transaction_id", "string", "flags.1?string"],
+            ],
+        ],
+    ],
+    [
+        "messageActionPrizeStars",
+        [
+            0xB00C47A2,
+            [
+                ["flags", exports.flags, "#"],
+                ["unclaimed", "true", "flags.0?true"],
+                ["stars", "bigint", "long"],
+                ["transaction_id", "string", "string"],
+                ["boost_peer", "Peer", "Peer"],
+                ["giveaway_msg_id", "number", "int"],
             ],
         ],
     ],
@@ -6627,6 +6730,26 @@ const types = new Map([
             [
                 ["peer", "Peer", "Peer"],
                 ["status", "StarsRevenueStatus", "StarsRevenueStatus"],
+            ],
+        ],
+    ],
+    [
+        "updateBotPurchasedPaidMedia",
+        [
+            0x283BD312,
+            [
+                ["user_id", "bigint", "long"],
+                ["payload", "string", "string"],
+                ["qts", "number", "int"],
+            ],
+        ],
+    ],
+    [
+        "updatePaidReactionPrivacy",
+        [
+            0x51CA7AEC,
+            [
+                ["private", "boolean", "Bool"],
             ],
         ],
     ],
@@ -11562,6 +11685,16 @@ const types = new Map([
         ],
     ],
     [
+        "channelAdminLogEventActionParticipantSubExtend",
+        [
+            0x64642DB3,
+            [
+                ["prev_participant", "ChannelParticipant", "ChannelParticipant"],
+                ["new_participant", "ChannelParticipant", "ChannelParticipant"],
+            ],
+        ],
+    ],
+    [
         "channelAdminLogEvent",
         [
             0x1FAD68CD,
@@ -11608,6 +11741,7 @@ const types = new Map([
                 ["invites", "true", "flags.15?true"],
                 ["send", "true", "flags.16?true"],
                 ["forums", "true", "flags.17?true"],
+                ["sub_extend", "true", "flags.18?true"],
             ],
         ],
     ],
@@ -14690,6 +14824,27 @@ const types = new Map([
         ],
     ],
     [
+        "inputStorePaymentStarsGiveaway",
+        [
+            0x751F08FA,
+            [
+                ["flags", exports.flags, "#"],
+                ["only_new_subscribers", "true", "flags.0?true"],
+                ["winners_are_visible", "true", "flags.3?true"],
+                ["stars", "bigint", "long"],
+                ["boost_peer", "InputPeer", "InputPeer"],
+                ["additional_peers", ["InputPeer"], "flags.1?Vector<InputPeer>"],
+                ["countries_iso2", ["string"], "flags.2?Vector<string>"],
+                ["prize_description", "string", "flags.4?string"],
+                ["random_id", "bigint", "long"],
+                ["until_date", "number", "int"],
+                ["currency", "string", "string"],
+                ["amount", "bigint", "long"],
+                ["users", "number", "int"],
+            ],
+        ],
+    ],
+    [
         "premiumGiftOption",
         [
             0x74C34319,
@@ -15836,16 +15991,17 @@ const types = new Map([
     [
         "payments.giveawayInfoResults",
         [
-            0x00CD5570,
+            0xE175E66F,
             [
                 ["flags", exports.flags, "#"],
                 ["winner", "true", "flags.0?true"],
                 ["refunded", "true", "flags.1?true"],
                 ["start_date", "number", "int"],
-                ["gift_code_slug", "string", "flags.0?string"],
+                ["gift_code_slug", "string", "flags.3?string"],
+                ["stars_prize", "bigint", "flags.4?long"],
                 ["finish_date", "number", "int"],
                 ["winners_count", "number", "int"],
-                ["activated_count", "number", "int"],
+                ["activated_count", "number", "flags.2?int"],
             ],
         ],
     ],
@@ -15862,9 +16018,22 @@ const types = new Map([
         ],
     ],
     [
+        "prepaidStarsGiveaway",
+        [
+            0x9A9D77E0,
+            [
+                ["id", "bigint", "long"],
+                ["stars", "bigint", "long"],
+                ["quantity", "number", "int"],
+                ["boosts", "number", "int"],
+                ["date", "number", "int"],
+            ],
+        ],
+    ],
+    [
         "boost",
         [
-            0x2A1C8C71,
+            0x4B3E14D6,
             [
                 ["flags", exports.flags, "#"],
                 ["gift", "true", "flags.1?true"],
@@ -15877,6 +16046,7 @@ const types = new Map([
                 ["expires", "number", "int"],
                 ["used_gift_slug", "string", "flags.4?string"],
                 ["multiplier", "number", "flags.5?int"],
+                ["stars", "bigint", "flags.6?long"],
             ],
         ],
     ],
@@ -16881,8 +17051,10 @@ const types = new Map([
     [
         "broadcastRevenueBalances",
         [
-            0x8438F1C6,
+            0xC3FF71E7,
             [
+                ["flags", exports.flags, "#"],
+                ["withdrawal_enabled", "true", "flags.0?true"],
                 ["current_balance", "bigint", "long"],
                 ["available_balance", "bigint", "long"],
                 ["overall_revenue", "bigint", "long"],
@@ -17003,7 +17175,7 @@ const types = new Map([
     [
         "starsTransaction",
         [
-            0x433AEB2B,
+            0xEE7522D5,
             [
                 ["flags", exports.flags, "#"],
                 ["refund", "true", "flags.3?true"],
@@ -17024,6 +17196,7 @@ const types = new Map([
                 ["msg_id", "number", "flags.8?int"],
                 ["extended_media", ["MessageMedia"], "flags.9?Vector<MessageMedia>"],
                 ["subscription_period", "number", "flags.12?int"],
+                ["giveaway_post_id", "number", "flags.13?int"],
             ],
         ],
     ],
@@ -17222,6 +17395,35 @@ const types = new Map([
         ],
     ],
     [
+        "starsGiveawayOption",
+        [
+            0x94CE852A,
+            [
+                ["flags", exports.flags, "#"],
+                ["extended", "true", "flags.0?true"],
+                ["default", "true", "flags.1?true"],
+                ["stars", "bigint", "long"],
+                ["yearly_boosts", "number", "int"],
+                ["store_product", "string", "flags.2?string"],
+                ["currency", "string", "string"],
+                ["amount", "bigint", "long"],
+                ["winners", ["StarsGiveawayWinnersOption"], "Vector<StarsGiveawayWinnersOption>"],
+            ],
+        ],
+    ],
+    [
+        "starsGiveawayWinnersOption",
+        [
+            0x54236209,
+            [
+                ["flags", exports.flags, "#"],
+                ["default", "true", "flags.0?true"],
+                ["users", "number", "int"],
+                ["per_user_stars", "bigint", "long"],
+            ],
+        ],
+    ],
+    [
         "req_pq_multi",
         [
             0xBE7E8EF1,
@@ -17306,6 +17508,35 @@ const types = new Map([
         [
             0xD1435160,
             [],
+        ],
+    ],
+    [
+        "invokeWithBusinessConnectionPrefix",
+        [
+            0xDD289F8E,
+            [
+                ["connection_id", "string", "string"],
+            ],
+        ],
+    ],
+    [
+        "invokeWithGooglePlayIntegrityPrefix",
+        [
+            0x1DF92984,
+            [
+                ["nonce", "string", "string"],
+                ["token", "string", "string"],
+            ],
+        ],
+    ],
+    [
+        "invokeWithApnsSecretPrefix",
+        [
+            0x0DAE54F8,
+            [
+                ["nonce", "string", "string"],
+                ["secret", "string", "string"],
+            ],
         ],
     ],
     [
@@ -21476,14 +21707,14 @@ const types = new Map([
     [
         "messages.sendPaidReaction",
         [
-            0x25C8FE3E,
+            0x9DD6A67B,
             [
                 ["flags", exports.flags, "#"],
-                ["private", "true", "flags.0?true"],
                 ["peer", "InputPeer", "InputPeer"],
                 ["msg_id", "number", "int"],
                 ["count", "number", "int"],
                 ["random_id", "bigint", "long"],
+                ["private", "boolean", "flags.0?Bool"],
             ],
         ],
     ],
@@ -21496,6 +21727,13 @@ const types = new Map([
                 ["msg_id", "number", "int"],
                 ["private", "boolean", "Bool"],
             ],
+        ],
+    ],
+    [
+        "messages.getPaidReactionPrivacy",
+        [
+            0x472455AA,
+            [],
         ],
     ],
     [
@@ -23126,6 +23364,13 @@ const types = new Map([
                 ["peer", "InputPeer", "InputPeer"],
                 ["subscription_id", "string", "string"],
             ],
+        ],
+    ],
+    [
+        "payments.getStarsGiveawayOptions",
+        [
+            0xBD1EFD3E,
+            [],
         ],
     ],
     [

@@ -25,7 +25,9 @@ export interface Giveaway {
     /** The quantity of the Telegram Premium subscriptions that will be given away.. */
     winnerCount: number;
     /** The duration of each Telegram Premium subscription that is to be given away in months. */
-    monthCount: number;
+    premiumMonthCount?: number;
+    /** The amount of Telegram Stars that is to be given away to each user. */
+    starCount?: number;
 }
 export declare function constructGiveaway(g: Api.messageMediaGiveaway): Giveaway;
 //# sourceMappingURL=1_giveaway.d.ts.map
