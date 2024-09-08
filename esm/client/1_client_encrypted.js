@@ -32,7 +32,7 @@ var _ClientEncrypted_instances, _ClientEncrypted_authKey, _ClientEncrypted_authK
 import { gunzip, unreachable } from "../0_deps.js";
 import { ConnectionError } from "../0_errors.js";
 import { bigIntFromBuffer, CacheMap, drop, getLogger, getRandomBigInt, sha1, toUnixTimestamp } from "../1_utilities.js";
-import { is, isOfEnum, isOneOf, TLError, TLReader } from "../2_tl.js";
+import { is, isGenericFunction, isOfEnum, isOneOf, TLError, TLReader } from "../2_tl.js";
 import { constructTelegramError } from "../4_errors.js";
 import { ClientAbstract } from "./0_client_abstract.js";
 import { decryptMessage, encryptMessage, getMessageId } from "./0_message.js";
@@ -227,8 +227,12 @@ _ClientEncrypted_authKey = new WeakMap(), _ClientEncrypted_authKeyId = new WeakM
                         }
                     };
                     if (isOfEnum("Updates", result) || isOfEnum("Update", result)) {
-                        // @ts-ignore tbd
-                        drop(this.handlers.updates?.(result, promise?.call ?? null, resolvePromise));
+                        // @ts-ignore: tbd
+                        let call = promise?.call ?? null;
+                        if (isGenericFunction(call)) {
+                            call = call.query;
+                        }
+                        drop(this.handlers.updates?.(result, call, resolvePromise));
                     }
                     else {
                         drop(this.handlers.result?.(result, resolvePromise));

@@ -41,19 +41,7 @@ export function assertIsValidType(object) {
         throw new Error("Invalid object");
     }
 }
-const GENERIC_FUNCTIONS = [
-    "invokeAfterMsg",
-    "invokeAfterMsgs",
-    "initConnection",
-    "invokeWithLayer",
-    "invokeWithoutUpdates",
-    "invokeWithMessagesRange",
-    "invokeWithTakeout",
-];
-export function is(typeName, value, deep = false) {
-    if (deep && isOneOf(GENERIC_FUNCTIONS, value)) {
-        value = value.query;
-    }
+export function is(typeName, value) {
     if (!isValidType(value)) {
         return false;
     }
@@ -74,4 +62,16 @@ export function as(typeName, value) {
     else {
         unreachable();
     }
+}
+const GENERIC_FUNCTIONS = [
+    "invokeAfterMsg",
+    "invokeAfterMsgs",
+    "initConnection",
+    "invokeWithLayer",
+    "invokeWithoutUpdates",
+    "invokeWithMessagesRange",
+    "invokeWithTakeout",
+];
+export function isGenericFunction(value) {
+    return isOneOf(GENERIC_FUNCTIONS, value);
 }

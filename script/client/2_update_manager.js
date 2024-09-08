@@ -564,7 +564,7 @@ _a = UpdateManager, _UpdateManager_c = new WeakMap(), _UpdateManager_updateState
         ];
     }
     else if ((0, _2_tl_js_1.is)("updateShortSentMessage", updates_)) {
-        if (!(0, _2_tl_js_1.is)("messages.sendMessage", call, true)) {
+        if (!(0, _2_tl_js_1.is)("messages.sendMessage", call)) {
             (0, _0_deps_js_1.unreachable)();
         }
         updates = [{

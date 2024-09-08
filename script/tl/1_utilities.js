@@ -20,7 +20,7 @@
  */
 // deno-lint-ignore-file no-explicit-any
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.as = exports.isOfEnum = exports.isOneOf = exports.is = exports.assertIsValidType = exports.isValidType = exports.analyzeOptionalParam = exports.isOptionalParam = void 0;
+exports.isGenericFunction = exports.as = exports.isOfEnum = exports.isOneOf = exports.is = exports.assertIsValidType = exports.isValidType = exports.analyzeOptionalParam = exports.isOptionalParam = void 0;
 const _0_deps_js_1 = require("../0_deps.js");
 const _0_api_js_1 = require("./0_api.js");
 function isOptionalParam(ntype) {
@@ -48,19 +48,7 @@ function assertIsValidType(object) {
     }
 }
 exports.assertIsValidType = assertIsValidType;
-const GENERIC_FUNCTIONS = [
-    "invokeAfterMsg",
-    "invokeAfterMsgs",
-    "initConnection",
-    "invokeWithLayer",
-    "invokeWithoutUpdates",
-    "invokeWithMessagesRange",
-    "invokeWithTakeout",
-];
-function is(typeName, value, deep = false) {
-    if (deep && isOneOf(GENERIC_FUNCTIONS, value)) {
-        value = value.query;
-    }
+function is(typeName, value) {
     if (!isValidType(value)) {
         return false;
     }
@@ -86,3 +74,16 @@ function as(typeName, value) {
     }
 }
 exports.as = as;
+const GENERIC_FUNCTIONS = [
+    "invokeAfterMsg",
+    "invokeAfterMsgs",
+    "initConnection",
+    "invokeWithLayer",
+    "invokeWithoutUpdates",
+    "invokeWithMessagesRange",
+    "invokeWithTakeout",
+];
+function isGenericFunction(value) {
+    return isOneOf(GENERIC_FUNCTIONS, value);
+}
+exports.isGenericFunction = isGenericFunction;

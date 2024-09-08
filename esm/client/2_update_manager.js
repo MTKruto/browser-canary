@@ -560,7 +560,7 @@ _a = UpdateManager, _UpdateManager_c = new WeakMap(), _UpdateManager_updateState
         ];
     }
     else if (is("updateShortSentMessage", updates_)) {
-        if (!is("messages.sendMessage", call, true)) {
+        if (!is("messages.sendMessage", call)) {
             unreachable();
         }
         updates = [{

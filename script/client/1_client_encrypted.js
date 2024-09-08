@@ -231,8 +231,12 @@ _ClientEncrypted_authKey = new WeakMap(), _ClientEncrypted_authKeyId = new WeakM
                         }
                     };
                     if ((0, _2_tl_js_1.isOfEnum)("Updates", result) || (0, _2_tl_js_1.isOfEnum)("Update", result)) {
-                        // @ts-ignore tbd
-                        (0, _1_utilities_js_1.drop)(this.handlers.updates?.(result, promise?.call ?? null, resolvePromise));
+                        // @ts-ignore: tbd
+                        let call = promise?.call ?? null;
+                        if ((0, _2_tl_js_1.isGenericFunction)(call)) {
+                            call = call.query;
+                        }
+                        (0, _1_utilities_js_1.drop)(this.handlers.updates?.(result, call, resolvePromise));
                     }
                     else {
                         (0, _1_utilities_js_1.drop)(this.handlers.result?.(result, resolvePromise));
