@@ -60,8 +60,8 @@ export const sh = (data, salt) => h(concat([salt, data, salt]));
 // PH1(password, salt1, salt2) := SH(SH(password, salt1), salt2)
 export const ph1 = async (password, salt1, salt2) => await sh(await sh(password, salt1), salt2);
 export async function pbkdf2(password, salt, iterations) {
-    const key = await globalThis.crypto.subtle.importKey("raw", password, "PBKDF2", false, ["deriveBits"]);
-    const buffer = await globalThis.crypto.subtle.deriveBits({ name: "PBKDF2", salt, iterations, hash: "SHA-512" }, key, 512);
+    const key = await crypto.subtle.importKey("raw", password, "PBKDF2", false, ["deriveBits"]);
+    const buffer = await crypto.subtle.deriveBits({ name: "PBKDF2", salt, iterations, hash: "SHA-512" }, key, 512);
     return new Uint8Array(buffer);
 }
 // PH2(password, salt1, salt2) := SH(pbkdf2(sha512, PH1(password, salt1, salt2), salt1, 100000), salt2)

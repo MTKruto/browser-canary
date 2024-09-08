@@ -66,8 +66,8 @@ exports.sh = sh;
 const ph1 = async (password, salt1, salt2) => await (0, exports.sh)(await (0, exports.sh)(password, salt1), salt2);
 exports.ph1 = ph1;
 async function pbkdf2(password, salt, iterations) {
-    const key = await globalThis.crypto.subtle.importKey("raw", password, "PBKDF2", false, ["deriveBits"]);
-    const buffer = await globalThis.crypto.subtle.deriveBits({ name: "PBKDF2", salt, iterations, hash: "SHA-512" }, key, 512);
+    const key = await crypto.subtle.importKey("raw", password, "PBKDF2", false, ["deriveBits"]);
+    const buffer = await crypto.subtle.deriveBits({ name: "PBKDF2", salt, iterations, hash: "SHA-512" }, key, 512);
     return new Uint8Array(buffer);
 }
 exports.pbkdf2 = pbkdf2;

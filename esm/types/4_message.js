@@ -28,6 +28,7 @@ import { constructInvoice } from "./0_invoice.js";
 import { constructLinkPreview } from "./0_link_preview.js";
 import { constructLocation } from "./0_location.js";
 import { constructMessageEntity } from "./0_message_entity.js";
+import { constructRefundedPayment } from "./0_refunded_payment.js";
 import { constructVoice } from "./0_voice.js";
 import { constructAnimation } from "./1_animation.js";
 import { constructAudio } from "./1_audio.js";
@@ -44,9 +45,8 @@ import { constructVideoNote } from "./1_video_note.js";
 import { constructVideo } from "./1_video.js";
 import { constructGame } from "./2_game.js";
 import { constructPoll } from "./2_poll.js";
-import { constructReplyMarkup } from "./3_reply_markup.js";
 import { constructSuccessfulPayment } from "./2_successful_payment.js";
-import { constructRefundedPayment } from "./0_refunded_payment.js";
+import { constructReplyMarkup } from "./3_reply_markup.js";
 const L = getLogger("Message");
 const keys = {
     text: ["text"],

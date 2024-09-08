@@ -26,6 +26,7 @@ import { Invoice } from "./0_invoice.js";
 import { LinkPreview } from "./0_link_preview.js";
 import { Location } from "./0_location.js";
 import { MessageEntity } from "./0_message_entity.js";
+import { RefundedPayment } from "./0_refunded_payment.js";
 import { Voice } from "./0_voice.js";
 import { Animation } from "./1_animation.js";
 import { Audio } from "./1_audio.js";
@@ -42,9 +43,8 @@ import { VideoNote } from "./1_video_note.js";
 import { Video } from "./1_video.js";
 import { Game } from "./2_game.js";
 import { Poll } from "./2_poll.js";
-import { ReplyMarkup } from "./3_reply_markup.js";
 import { SuccessfulPayment } from "./2_successful_payment.js";
-import { RefundedPayment } from "./0_refunded_payment.js";
+import { ReplyMarkup } from "./3_reply_markup.js";
 /**
  * Properties shared between all message types.
  * @unlisted
