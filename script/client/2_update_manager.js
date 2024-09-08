@@ -414,7 +414,7 @@ _a = UpdateManager, _UpdateManager_c = new WeakMap(), _UpdateManager_updateState
             await __classPrivateFieldGet(this, _UpdateManager_instances, "m", _UpdateManager_handleStoredUpdates).call(this, boxId);
         }
         else {
-            await __classPrivateFieldGet(this, _UpdateManager_instances, "m", _UpdateManager_handleUpdate).call(this, update);
+            await (await __classPrivateFieldGet(this, _UpdateManager_instances, "m", _UpdateManager_handleUpdate).call(this, update))();
         }
     });
 }, _UpdateManager_processChannelPtsUpdate = function _UpdateManager_processChannelPtsUpdate(update, checkGap) {
@@ -760,13 +760,13 @@ _a = UpdateManager, _UpdateManager_c = new WeakMap(), _UpdateManager_updateState
         await __classPrivateFieldGet(this, _UpdateManager_c, "f").storage.set(key, null);
     } while (true);
     __classPrivateFieldGet(this, _UpdateManager_handleUpdatesSet, "f").delete(boxId);
-}, _UpdateManager_handleUpdate = async function _UpdateManager_handleUpdate(update) {
+}, _UpdateManager_handleUpdate = function _UpdateManager_handleUpdate(update) {
     const handler = __classPrivateFieldGet(this, _UpdateManager_updateHandler, "f");
     if (handler) {
-        return await handler(update);
+        return handler(update);
     }
     else {
-        return () => Promise.resolve();
+        return Promise.resolve(() => Promise.resolve());
     }
 };
 Object.defineProperty(UpdateManager, "QTS_COUNT", {
