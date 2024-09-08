@@ -41,6 +41,7 @@ import { User } from "./1_user.js";
 import { Venue } from "./1_venue.js";
 import { VideoNote } from "./1_video_note.js";
 import { Video } from "./1_video.js";
+import { ForwardHeader } from "./2_forward_header.js";
 import { Game } from "./2_game.js";
 import { Poll } from "./2_poll.js";
 import { SuccessfulPayment } from "./2_successful_payment.js";
@@ -66,18 +67,8 @@ export interface _MessageBase {
     chat: ChatP;
     /** A link to the message. */
     link?: string;
-    /** The original sender of the message. */
-    forwardFrom?: User;
-    /** The original chat of the message. */
-    forwardFromChat?: ChatP;
-    /** The original identifier of the message. */
-    forwardId?: number;
-    /** The original signature of the message. */
-    forwardSignature?: string;
-    /** The name of the original sender of the message. */
-    forwardSenderName?: string;
-    /** The point in time in which the original message was sent. */
-    forwardDate?: Date;
+    /** Information on the original message. */
+    forwardFrom?: ForwardHeader;
     /** Whether the message was sent in a topic thread. */
     isTopicMessage: boolean;
     /** Whether the message is an automatic forward. */

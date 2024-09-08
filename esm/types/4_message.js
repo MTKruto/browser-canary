@@ -43,6 +43,7 @@ import { constructUser } from "./1_user.js";
 import { constructVenue } from "./1_venue.js";
 import { constructVideoNote } from "./1_video_note.js";
 import { constructVideo } from "./1_video.js";
+import { constructForwardHeader } from "./2_forward_header.js";
 import { constructGame } from "./2_game.js";
 import { constructPoll } from "./2_poll.js";
 import { constructSuccessfulPayment } from "./2_successful_payment.js";
@@ -395,28 +396,7 @@ export async function constructMessage(message_, getEntity, getMessage, getStick
     }
     if (is("messageFwdHeader", message_.fwd_from)) {
         message.isAutomaticForward = message_.fwd_from.saved_from_peer != undefined && message_.fwd_from.saved_from_msg_id != undefined;
-        message.forwardSenderName = message_.fwd_from.from_name;
-        message.forwardId = message_.fwd_from.channel_post;
-        message.forwardSignature = message_.fwd_from.post_author;
-        message.forwardDate = fromUnixTimestamp(message_.fwd_from.date);
-        if (is("peerUser", message_.fwd_from.from_id)) {
-            const entity = await getEntity(message_.fwd_from.from_id);
-            if (entity) {
-                message.forwardFrom = constructUser(entity);
-            }
-        }
-        else if (is("peerChat", message_.fwd_from.from_id)) {
-            const entity = await getEntity(message_.fwd_from.from_id);
-            if (entity) {
-                message.forwardFromChat = constructChatP(entity);
-            }
-        }
-        else if (is("peerChannel", message_.fwd_from.from_id)) {
-            const entity = await getEntity(message_.fwd_from.from_id);
-            if (entity) {
-                message.forwardFromChat = constructChatP(entity);
-            }
-        }
+        message.forwardFrom = await constructForwardHeader(message_.fwd_from, getEntity);
     }
     if (message_.grouped_id != undefined) {
         message.mediaGroupId = String(message_.grouped_id);
@@ -430,7 +410,7 @@ export async function constructMessage(message_, getEntity, getMessage, getStick
         entities: message_.entities?.map(constructMessageEntity).filter((v) => !!v) ?? [],
     };
     if (message_.message && message_.media === undefined) {
-        return messageText;
+        return cleanObject(messageText);
     }
     const messageMedia = {
         ...message,

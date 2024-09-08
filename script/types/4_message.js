@@ -46,6 +46,7 @@ const _1_user_js_1 = require("./1_user.js");
 const _1_venue_js_1 = require("./1_venue.js");
 const _1_video_note_js_1 = require("./1_video_note.js");
 const _1_video_js_1 = require("./1_video.js");
+const _2_forward_header_js_1 = require("./2_forward_header.js");
 const _2_game_js_1 = require("./2_game.js");
 const _2_poll_js_1 = require("./2_poll.js");
 const _2_successful_payment_js_1 = require("./2_successful_payment.js");
@@ -399,28 +400,7 @@ async function constructMessage(message_, getEntity, getMessage, getStickerSetNa
     }
     if ((0, _2_tl_js_1.is)("messageFwdHeader", message_.fwd_from)) {
         message.isAutomaticForward = message_.fwd_from.saved_from_peer != undefined && message_.fwd_from.saved_from_msg_id != undefined;
-        message.forwardSenderName = message_.fwd_from.from_name;
-        message.forwardId = message_.fwd_from.channel_post;
-        message.forwardSignature = message_.fwd_from.post_author;
-        message.forwardDate = (0, _1_utilities_js_1.fromUnixTimestamp)(message_.fwd_from.date);
-        if ((0, _2_tl_js_1.is)("peerUser", message_.fwd_from.from_id)) {
-            const entity = await getEntity(message_.fwd_from.from_id);
-            if (entity) {
-                message.forwardFrom = (0, _1_user_js_1.constructUser)(entity);
-            }
-        }
-        else if ((0, _2_tl_js_1.is)("peerChat", message_.fwd_from.from_id)) {
-            const entity = await getEntity(message_.fwd_from.from_id);
-            if (entity) {
-                message.forwardFromChat = (0, _1_chat_p_js_1.constructChatP)(entity);
-            }
-        }
-        else if ((0, _2_tl_js_1.is)("peerChannel", message_.fwd_from.from_id)) {
-            const entity = await getEntity(message_.fwd_from.from_id);
-            if (entity) {
-                message.forwardFromChat = (0, _1_chat_p_js_1.constructChatP)(entity);
-            }
-        }
+        message.forwardFrom = await (0, _2_forward_header_js_1.constructForwardHeader)(message_.fwd_from, getEntity);
     }
     if (message_.grouped_id != undefined) {
         message.mediaGroupId = String(message_.grouped_id);
@@ -434,7 +414,7 @@ async function constructMessage(message_, getEntity, getMessage, getStickerSetNa
         entities: message_.entities?.map(_0_message_entity_js_1.constructMessageEntity).filter((v) => !!v) ?? [],
     };
     if (message_.message && message_.media === undefined) {
-        return messageText;
+        return (0, _1_utilities_js_1.cleanObject)(messageText);
     }
     const messageMedia = {
         ...message,
