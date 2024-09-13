@@ -213,7 +213,9 @@ class UpdateManager {
     async processUsers(users) {
         for (const user of users) {
             if ((0, _2_tl_js_1.is)("user", user) && user.access_hash) {
-                await __classPrivateFieldGet(this, _UpdateManager_c, "f").messageStorage.setEntity(user);
+                if (!user.min || user.min && await __classPrivateFieldGet(this, _UpdateManager_c, "f").messageStorage.getEntity(Number(user.id)) == null) {
+                    await __classPrivateFieldGet(this, _UpdateManager_c, "f").messageStorage.setEntity(user);
+                }
                 if (user.username) {
                     await __classPrivateFieldGet(this, _UpdateManager_c, "f").messageStorage.updateUsernames((0, _2_tl_js_1.peerToChatId)(user), [user.username]);
                 }

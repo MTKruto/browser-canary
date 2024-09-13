@@ -210,7 +210,9 @@ export class UpdateManager {
     async processUsers(users) {
         for (const user of users) {
             if (is("user", user) && user.access_hash) {
-                await __classPrivateFieldGet(this, _UpdateManager_c, "f").messageStorage.setEntity(user);
+                if (!user.min || user.min && await __classPrivateFieldGet(this, _UpdateManager_c, "f").messageStorage.getEntity(Number(user.id)) == null) {
+                    await __classPrivateFieldGet(this, _UpdateManager_c, "f").messageStorage.setEntity(user);
+                }
                 if (user.username) {
                     await __classPrivateFieldGet(this, _UpdateManager_c, "f").messageStorage.updateUsernames(peerToChatId(user), [user.username]);
                 }
