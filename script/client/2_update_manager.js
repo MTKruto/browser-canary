@@ -102,7 +102,9 @@ class UpdateManager {
     async processChats(chats) {
         for (const chat of chats) {
             if ((0, _2_tl_js_1.isOneOf)(["channel", "channelForbidden"], chat)) {
-                await __classPrivateFieldGet(this, _UpdateManager_c, "f").messageStorage.setEntity(chat);
+                if (!(0, _2_tl_js_1.is)("channel", chat) || !chat.min || chat.min && await __classPrivateFieldGet(this, _UpdateManager_c, "f").messageStorage.getEntity((0, _2_tl_js_1.peerToChatId)(chat)) == null) {
+                    await __classPrivateFieldGet(this, _UpdateManager_c, "f").messageStorage.setEntity(chat);
+                }
                 if ("username" in chat && chat.username) {
                     await __classPrivateFieldGet(this, _UpdateManager_c, "f").messageStorage.updateUsernames((0, _2_tl_js_1.peerToChatId)(chat), [chat.username]);
                 }
@@ -213,7 +215,7 @@ class UpdateManager {
     async processUsers(users) {
         for (const user of users) {
             if ((0, _2_tl_js_1.is)("user", user) && user.access_hash) {
-                if (!user.min || user.min && await __classPrivateFieldGet(this, _UpdateManager_c, "f").messageStorage.getEntity(Number(user.id)) == null) {
+                if (!user.min || user.min && await __classPrivateFieldGet(this, _UpdateManager_c, "f").messageStorage.getEntity((0, _2_tl_js_1.peerToChatId)(user)) == null) {
                     await __classPrivateFieldGet(this, _UpdateManager_c, "f").messageStorage.setEntity(user);
                 }
                 if (user.username) {
