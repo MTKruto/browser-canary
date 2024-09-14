@@ -1,6 +1,6 @@
 import { unreachable } from "../0_deps.js";
 import { cleanObject, fromUnixTimestamp } from "../1_utilities.js";
-import { constructChatP } from "../3_types.js";
+import { constructChatP } from "./1_chat_p.js";
 import { constructUser } from "./1_user.js";
 export async function constructForwardHeader(fwdHeader, getEntity) {
     if (fwdHeader.channel_post && fwdHeader.from_id?._ == "peerChannel") {

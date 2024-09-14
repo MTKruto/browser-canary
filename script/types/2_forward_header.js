@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.constructForwardHeader = void 0;
 const _0_deps_js_1 = require("../0_deps.js");
 const _1_utilities_js_1 = require("../1_utilities.js");
-const _3_types_js_1 = require("../3_types.js");
+const _1_chat_p_js_1 = require("./1_chat_p.js");
 const _1_user_js_1 = require("./1_user.js");
 async function constructForwardHeader(fwdHeader, getEntity) {
     if (fwdHeader.channel_post && fwdHeader.from_id?._ == "peerChannel") {
@@ -14,7 +14,7 @@ async function constructForwardHeader(fwdHeader, getEntity) {
         return (0, _1_utilities_js_1.cleanObject)({
             type: "channel",
             date: (0, _1_utilities_js_1.fromUnixTimestamp)(fwdHeader.date),
-            chat: (0, _3_types_js_1.constructChatP)(chat),
+            chat: (0, _1_chat_p_js_1.constructChatP)(chat),
             messageId: fwdHeader.channel_post,
             authorSignature: fwdHeader.post_author,
         });
@@ -27,7 +27,7 @@ async function constructForwardHeader(fwdHeader, getEntity) {
         return (0, _1_utilities_js_1.cleanObject)({
             type: "supergroup",
             date: (0, _1_utilities_js_1.fromUnixTimestamp)(fwdHeader.date),
-            chat: (0, _3_types_js_1.constructChatP)(chat),
+            chat: (0, _1_chat_p_js_1.constructChatP)(chat),
             title: fwdHeader.post_author,
         });
     }
