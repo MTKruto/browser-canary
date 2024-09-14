@@ -44,7 +44,10 @@ class CacheMap extends Map {
     set(key, value) {
         super.set(key, value);
         if (this.size > __classPrivateFieldGet(this, _CacheMap_limit, "f")) {
-            this.delete(this.keys().next().value);
+            const k = this.keys().next().value;
+            if (k) {
+                this.delete(k);
+            }
         }
         return this;
     }
