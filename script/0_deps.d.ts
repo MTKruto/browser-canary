@@ -17,12 +17,12 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-export * from "./deps/deno.land/std@0.224.0/assert/mod.js";
-export * as path from "./deps/deno.land/std@0.224.0/path/mod.js";
-export { concat } from "./deps/deno.land/std@0.224.0/bytes/concat.js";
-export { iterateReader } from "./deps/deno.land/std@0.224.0/io/iterate_reader.js";
-export { decodeBase64, encodeBase64 } from "./deps/deno.land/std@0.224.0/encoding/base64.js";
-import { contentType as contentType_ } from "./deps/deno.land/std@0.224.0/media_types/content_type.js";
+export * from "./deps/jsr.io/@std/assert/1.0.5/mod.js";
+export * as path from "./deps/jsr.io/@std/path/1.0.6/mod.js";
+export { concat } from "./deps/jsr.io/@std/bytes/0.224.0/concat.js";
+export { iterateReader } from "./deps/jsr.io/@std/io/0.224.8/iterate_reader.js";
+export { decodeBase64, encodeBase64 } from "./deps/jsr.io/@std/encoding/1.0.5/base64.js";
+import { contentType as contentType_ } from "./deps/jsr.io/@std/media-types/1.0.3/content_type.js";
 export declare const contentType: typeof contentType_;
 export declare function extension(mimeType: string): string;
 export { createCtr256State, ctr256, type Ctr256State, destroyCtr256State, ige256Decrypt, ige256Encrypt, init as initTgCrypto } from "./deps/deno.land/x/tgcrypto@0.4.1/mod.js";
