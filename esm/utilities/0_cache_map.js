@@ -42,7 +42,7 @@ export class CacheMap extends Map {
         super.set(key, value);
         if (this.size > __classPrivateFieldGet(this, _CacheMap_limit, "f")) {
             const k = this.keys().next().value;
-            if (k) {
+            if (k !== undefined) {
                 this.delete(k);
             }
         }
