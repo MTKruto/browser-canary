@@ -105,6 +105,7 @@ __exportStar(require("./types/2_business_connection.js"), exports);
 __exportStar(require("./types/2_chat.js"), exports);
 __exportStar(require("./types/2_chat_member.js"), exports);
 __exportStar(require("./types/2_chosen_inline_result.js"), exports);
+__exportStar(require("./types/2_forward_header.js"), exports);
 __exportStar(require("./types/2_game.js"), exports);
 __exportStar(require("./types/2_inactive_chat.js"), exports);
 __exportStar(require("./types/2_inline_keyboard_button.js"), exports);

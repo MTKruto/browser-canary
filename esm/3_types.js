@@ -89,6 +89,7 @@ export * from "./types/2_business_connection.js";
 export * from "./types/2_chat.js";
 export * from "./types/2_chat_member.js";
 export * from "./types/2_chosen_inline_result.js";
+export * from "./types/2_forward_header.js";
 export * from "./types/2_game.js";
 export * from "./types/2_inactive_chat.js";
 export * from "./types/2_inline_keyboard_button.js";
