@@ -19,6 +19,7 @@
  */
 import { Queue } from "../1_utilities.js";
 import { Api, ReadObject } from "../2_tl.js";
+import { ID } from "../3_types.js";
 import { C } from "./1_types.js";
 type UpdateHandler = (update: Api.Update) => Promise<(() => Promise<unknown>)>;
 export type PtsUpdate = Api.updateNewMessage | Api.updateDeleteMessages | Api.updateReadHistoryInbox | Api.updateReadHistoryOutbox | Api.updatePinnedChannelMessages | Api.updatePinnedMessages | Api.updateFolderPeers | Api.updateChannelWebPage | Api.updateEditMessage | Api.updateReadMessagesContents | Api.updateWebPage;
@@ -40,6 +41,9 @@ export declare class UpdateManager {
     processUpdates(updates: Api.Update | Api.Updates, checkGap: boolean, call?: Api.AnyObject | null, callback?: () => void): void;
     recoverUpdateGap(source: string): Promise<void>;
     setUpdateHandler(handler: UpdateHandler): void;
+    openChat(chatId: ID): Promise<void>;
+    closeChat(chatId: ID): Promise<void>;
+    closeAllChats(): void;
 }
 export {};
 //# sourceMappingURL=2_update_manager.d.ts.map

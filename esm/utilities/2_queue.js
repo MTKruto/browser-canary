@@ -1,4 +1,3 @@
-"use strict";
 /**
  * MTKruto - Cross-runtime JavaScript library for building Telegram clients
  * Copyright (C) 2023-2024 Roj <https://roj.im/>
@@ -30,10 +29,8 @@ var __classPrivateFieldGet = (this && this.__classPrivateFieldGet) || function (
     return kind === "m" ? f : kind === "a" ? f.call(receiver) : f ? f.value : state.get(receiver);
 };
 var _Queue_instances, _Queue_logger, _Queue_busy, _Queue_check;
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.Queue = void 0;
-const _0_logger_js_1 = require("./0_logger.js");
-class Queue {
+import { getLogger } from "./1_logger.js";
+export class Queue {
     constructor(name) {
         _Queue_instances.add(this);
         _Queue_logger.set(this, void 0);
@@ -44,14 +41,13 @@ class Queue {
             value: new Array()
         });
         _Queue_busy.set(this, false);
-        __classPrivateFieldSet(this, _Queue_logger, (0, _0_logger_js_1.getLogger)(`q/${name}`), "f");
+        __classPrivateFieldSet(this, _Queue_logger, getLogger(`q/${name}`), "f");
     }
     add(fn) {
         this.functions.push(fn);
         __classPrivateFieldGet(this, _Queue_instances, "m", _Queue_check).call(this);
     }
 }
-exports.Queue = Queue;
 _Queue_logger = new WeakMap(), _Queue_busy = new WeakMap(), _Queue_instances = new WeakSet(), _Queue_check = function _Queue_check() {
     if (__classPrivateFieldGet(this, _Queue_busy, "f")) {
         return;

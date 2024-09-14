@@ -18,10 +18,15 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 // deno-lint-ignore-file no-explicit-any
-import * as dntShim from "../_dnt.shims.js";
-let verbosity = Number("LOG_VERBOSITY" in dntShim.dntGlobalThis ? dntShim.dntGlobalThis.LOG_VERBOSITY : "Deno" in dntShim.dntGlobalThis ? dntShim.dntGlobalThis.Deno.env.get("LOG_VERBOSITY") : "process" in dntShim.dntGlobalThis ? dntShim.dntGlobalThis.process.env.LOG : "") || 0;
+import { getNumber, getString } from "./0_env.js";
+let verbosity = getNumber("LOG_VERBOSITY") || 0;
 export function setLogVerbosity(verbosity_) {
     verbosity = verbosity_;
+}
+const LOG_FILTER = getString("LOG_FILTER");
+let filter = LOG_FILTER == null ? null : new RegExp(LOG_FILTER);
+export function setLogFilter(filter_) {
+    filter = filter_;
 }
 let provider = console;
 export function setLoggingProvider(provider_) {
@@ -88,6 +93,9 @@ export function getLogger(scope) {
         },
         log(verbosity_, ...args) {
             if (verbosity < verbosity_) {
+                return;
+            }
+            if (filter != null && !filter.test(scope)) {
                 return;
             }
             let fn;

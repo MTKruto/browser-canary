@@ -23,4 +23,4 @@ export declare class Queue {
     constructor(name: string);
     add(fn: () => Promise<void>): void;
 }
-//# sourceMappingURL=1_queue.d.ts.map
+//# sourceMappingURL=2_queue.d.ts.map

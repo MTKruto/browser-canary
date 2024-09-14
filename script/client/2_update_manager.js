@@ -29,10 +29,11 @@ var __classPrivateFieldGet = (this && this.__classPrivateFieldGet) || function (
     if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot read private member from an object whose class did not declare it");
     return kind === "m" ? f : kind === "a" ? f.call(receiver) : f ? f.value : state.get(receiver);
 };
-var _UpdateManager_instances, _a, _UpdateManager_c, _UpdateManager_updateState, _UpdateManager_updateHandler, _UpdateManager_LrecoverUpdateGap, _UpdateManager_LrecoverChannelUpdateGap, _UpdateManager_L$handleUpdate, _UpdateManager_L$processUpdates, _UpdateManager_LfetchState, _UpdateManager_defaultDropPendingUpdates, _UpdateManager_mustDropPendingUpdates, _UpdateManager_state, _UpdateManager_getState, _UpdateManager_setState, _UpdateManager_handleUpdateQueues, _UpdateManager_nonFirst, _UpdateManager_getChannelPtsWithDropPendingUpdatesCheck, _UpdateManager_checkGap, _UpdateManager_checkGapQts, _UpdateManager_checkChannelGap, _UpdateManager_channelUpdateQueues, _UpdateManager_processChannelPtsUpdateInner, _UpdateManager_queueUpdate, _UpdateManager_processChannelPtsUpdate, _UpdateManager_processPtsUpdateInner, _UpdateManager_ptsUpdateQueue, _UpdateManager_processPtsUpdate, _UpdateManager_processQtsUpdateInner, _UpdateManager_qtsUpdateQueue, _UpdateManager_processQtsUpdate, _UpdateManager_processUpdatesQueue, _UpdateManager_processUpdates, _UpdateManager_setUpdateStateDate, _UpdateManager_setUpdatePts, _UpdateManager_setUpdateQts, _UpdateManager_getLocalState, _UpdateManager_recoveringUpdateGap, _UpdateManager_recoverUpdateGapMutex, _UpdateManager_recoverChannelUpdateGap, _UpdateManager_handleUpdatesSet, _UpdateManager_handleStoredUpdates, _UpdateManager_handleUpdate;
+var _UpdateManager_instances, _a, _UpdateManager_c, _UpdateManager_updateState, _UpdateManager_updateHandler, _UpdateManager_LrecoverUpdateGap, _UpdateManager_LrecoverChannelUpdateGap, _UpdateManager_L$handleUpdate, _UpdateManager_L$processUpdates, _UpdateManager_LfetchState, _UpdateManager_LopenChat, _UpdateManager_defaultDropPendingUpdates, _UpdateManager_mustDropPendingUpdates, _UpdateManager_state, _UpdateManager_getState, _UpdateManager_setState, _UpdateManager_handleUpdateQueues, _UpdateManager_nonFirst, _UpdateManager_getChannelPtsWithDropPendingUpdatesCheck, _UpdateManager_checkGap, _UpdateManager_checkGapQts, _UpdateManager_checkChannelGap, _UpdateManager_channelUpdateQueues, _UpdateManager_processChannelPtsUpdateInner, _UpdateManager_queueUpdate, _UpdateManager_processChannelPtsUpdate, _UpdateManager_processPtsUpdateInner, _UpdateManager_ptsUpdateQueue, _UpdateManager_processPtsUpdate, _UpdateManager_processQtsUpdateInner, _UpdateManager_qtsUpdateQueue, _UpdateManager_processQtsUpdate, _UpdateManager_processUpdatesQueue, _UpdateManager_processUpdates, _UpdateManager_setUpdateStateDate, _UpdateManager_setUpdatePts, _UpdateManager_setUpdateQts, _UpdateManager_getLocalState, _UpdateManager_recoveringUpdateGap, _UpdateManager_recoverUpdateGapMutex, _UpdateManager_recoverChannelUpdateGap, _UpdateManager_handleUpdatesSet, _UpdateManager_handleStoredUpdates, _UpdateManager_handleUpdate, _UpdateManager_openChats;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UpdateManager = void 0;
 const _0_deps_js_1 = require("../0_deps.js");
+const _0_errors_js_1 = require("../0_errors.js");
 const _1_utilities_js_1 = require("../1_utilities.js");
 const _2_tl_js_1 = require("../2_tl.js");
 const _3_errors_js_1 = require("../3_errors.js");
@@ -48,6 +49,7 @@ class UpdateManager {
         _UpdateManager_L$handleUpdate.set(this, void 0);
         _UpdateManager_L$processUpdates.set(this, void 0);
         _UpdateManager_LfetchState.set(this, void 0);
+        _UpdateManager_LopenChat.set(this, void 0);
         _UpdateManager_defaultDropPendingUpdates.set(this, null);
         _UpdateManager_state.set(this, undefined);
         _UpdateManager_handleUpdateQueues.set(this, new Map());
@@ -59,6 +61,7 @@ class UpdateManager {
         _UpdateManager_recoveringUpdateGap.set(this, false);
         _UpdateManager_recoverUpdateGapMutex.set(this, new _1_utilities_js_1.Mutex());
         _UpdateManager_handleUpdatesSet.set(this, new Set());
+        _UpdateManager_openChats.set(this, new Map());
         __classPrivateFieldSet(this, _UpdateManager_c, c, "f");
         const L = (0, _1_utilities_js_1.getLogger)("UpdateManager").client(c.id);
         __classPrivateFieldSet(this, _UpdateManager_LrecoverUpdateGap, L.branch("recoverUpdateGap"), "f");
@@ -66,6 +69,7 @@ class UpdateManager {
         __classPrivateFieldSet(this, _UpdateManager_L$handleUpdate, L.branch("#handleUpdate"), "f");
         __classPrivateFieldSet(this, _UpdateManager_L$processUpdates, L.branch("#processUpdates"), "f");
         __classPrivateFieldSet(this, _UpdateManager_LfetchState, L.branch("fetchState"), "f");
+        __classPrivateFieldSet(this, _UpdateManager_LopenChat, L.branch("openChat"), "f");
     }
     static isPtsUpdate(v) {
         return (0, _2_tl_js_1.isOneOf)(["updateNewMessage", "updateDeleteMessages", "updateReadHistoryInbox", "updateReadHistoryOutbox", "updatePinnedChannelMessages", "updatePinnedMessages", "updateFolderPeers", "updateChannelWebPage", "updateEditMessage", "updateReadMessagesContents", "updateWebPage"], v);
@@ -331,9 +335,78 @@ class UpdateManager {
         }
         __classPrivateFieldSet(this, _UpdateManager_updateHandler, handler, "f");
     }
+    async openChat(chatId) {
+        await __classPrivateFieldGet(this, _UpdateManager_c, "f").storage.assertUser("openChat");
+        const channel = await __classPrivateFieldGet(this, _UpdateManager_c, "f").getInputChannel(chatId);
+        const channelId = channel.channel_id;
+        if (__classPrivateFieldGet(this, _UpdateManager_openChats, "f").has(channelId)) {
+            return;
+        }
+        const controller = new AbortController();
+        const promise = Promise.resolve().then(async () => {
+            const logger = __classPrivateFieldGet(this, _UpdateManager_LopenChat, "f").branch((0, _2_tl_js_1.peerToChatId)(channel) + "");
+            while (true) {
+                if (__classPrivateFieldGet(this, _UpdateManager_c, "f").disconnected()) {
+                    logger.debug("disconnected, stopping the loop");
+                    __classPrivateFieldGet(this, _UpdateManager_openChats, "f").delete(channelId);
+                    break;
+                }
+                if (!__classPrivateFieldGet(this, _UpdateManager_openChats, "f").has(channelId)) {
+                    const aborted = controller.signal.aborted;
+                    logger.debug(`closed${(aborted ? " (aborted)" : "")}, stopping the loop`);
+                    break;
+                }
+                try {
+                    const Ti = Date.now();
+                    const timeout = await __classPrivateFieldGet(this, _UpdateManager_instances, "m", _UpdateManager_recoverChannelUpdateGap).call(this, channelId, "openChat");
+                    const dT = Date.now() - Ti;
+                    const delay = Math.max(timeout * 1000 - dT, 0);
+                    logger.debug("timeout=", timeout, "delay=", delay, "dT=", dT);
+                    if (delay) {
+                        await new Promise((r) => {
+                            const resolve = () => {
+                                r();
+                                controller.signal.removeEventListener("abort", resolve);
+                                if (controller.signal.aborted) {
+                                    clearTimeout(timeout);
+                                }
+                            };
+                            controller.signal.addEventListener("abort", resolve);
+                            const timeout = setTimeout(resolve, delay);
+                        });
+                    }
+                }
+                catch (err) {
+                    if (__classPrivateFieldGet(this, _UpdateManager_c, "f").disconnected()) {
+                        continue; // breaks the loop
+                    }
+                    __classPrivateFieldGet(this, _UpdateManager_LopenChat, "f").error("An unexpected error occurred:", err);
+                }
+            }
+        });
+        __classPrivateFieldGet(this, _UpdateManager_openChats, "f").set(channelId, { controller, promise });
+    }
+    async closeChat(chatId) {
+        await __classPrivateFieldGet(this, _UpdateManager_c, "f").storage.assertUser("closeChat");
+        const { channel_id } = await __classPrivateFieldGet(this, _UpdateManager_c, "f").getInputChannel(chatId);
+        const openChat = __classPrivateFieldGet(this, _UpdateManager_openChats, "f").get(channel_id);
+        if (openChat) {
+            __classPrivateFieldGet(this, _UpdateManager_openChats, "f").delete(channel_id);
+            openChat.controller.abort();
+        }
+        else {
+            throw new _0_errors_js_1.InputError("Chat not open");
+        }
+    }
+    closeAllChats() {
+        for (const [channelId, openChat] of __classPrivateFieldGet(this, _UpdateManager_openChats, "f").entries()) {
+            __classPrivateFieldGet(this, _UpdateManager_openChats, "f").delete(channelId);
+            openChat.controller.abort();
+        }
+    }
 }
 exports.UpdateManager = UpdateManager;
-_a = UpdateManager, _UpdateManager_c = new WeakMap(), _UpdateManager_updateState = new WeakMap(), _UpdateManager_updateHandler = new WeakMap(), _UpdateManager_LrecoverUpdateGap = new WeakMap(), _UpdateManager_LrecoverChannelUpdateGap = new WeakMap(), _UpdateManager_L$handleUpdate = new WeakMap(), _UpdateManager_L$processUpdates = new WeakMap(), _UpdateManager_LfetchState = new WeakMap(), _UpdateManager_defaultDropPendingUpdates = new WeakMap(), _UpdateManager_state = new WeakMap(), _UpdateManager_handleUpdateQueues = new WeakMap(), _UpdateManager_nonFirst = new WeakMap(), _UpdateManager_channelUpdateQueues = new WeakMap(), _UpdateManager_ptsUpdateQueue = new WeakMap(), _UpdateManager_qtsUpdateQueue = new WeakMap(), _UpdateManager_processUpdatesQueue = new WeakMap(), _UpdateManager_recoveringUpdateGap = new WeakMap(), _UpdateManager_recoverUpdateGapMutex = new WeakMap(), _UpdateManager_handleUpdatesSet = new WeakMap(), _UpdateManager_instances = new WeakSet(), _UpdateManager_mustDropPendingUpdates = async function _UpdateManager_mustDropPendingUpdates() {
+_a = UpdateManager, _UpdateManager_c = new WeakMap(), _UpdateManager_updateState = new WeakMap(), _UpdateManager_updateHandler = new WeakMap(), _UpdateManager_LrecoverUpdateGap = new WeakMap(), _UpdateManager_LrecoverChannelUpdateGap = new WeakMap(), _UpdateManager_L$handleUpdate = new WeakMap(), _UpdateManager_L$processUpdates = new WeakMap(), _UpdateManager_LfetchState = new WeakMap(), _UpdateManager_LopenChat = new WeakMap(), _UpdateManager_defaultDropPendingUpdates = new WeakMap(), _UpdateManager_state = new WeakMap(), _UpdateManager_handleUpdateQueues = new WeakMap(), _UpdateManager_nonFirst = new WeakMap(), _UpdateManager_channelUpdateQueues = new WeakMap(), _UpdateManager_ptsUpdateQueue = new WeakMap(), _UpdateManager_qtsUpdateQueue = new WeakMap(), _UpdateManager_processUpdatesQueue = new WeakMap(), _UpdateManager_recoveringUpdateGap = new WeakMap(), _UpdateManager_recoverUpdateGapMutex = new WeakMap(), _UpdateManager_handleUpdatesSet = new WeakMap(), _UpdateManager_openChats = new WeakMap(), _UpdateManager_instances = new WeakSet(), _UpdateManager_mustDropPendingUpdates = async function _UpdateManager_mustDropPendingUpdates() {
     if (typeof __classPrivateFieldGet(this, _UpdateManager_c, "f").dropPendingUpdates === "boolean") {
         return __classPrivateFieldGet(this, _UpdateManager_c, "f").dropPendingUpdates;
     }
@@ -668,6 +741,7 @@ _a = UpdateManager, _UpdateManager_c = new WeakMap(), _UpdateManager_updateState
     }
     return localState;
 }, _UpdateManager_recoverChannelUpdateGap = async function _UpdateManager_recoverChannelUpdateGap(channelId, source) {
+    let lastTimeout = 1;
     __classPrivateFieldGet(this, _UpdateManager_LrecoverChannelUpdateGap, "f").debug(`recovering channel update gap [${channelId}, ${source}]`);
     const pts_ = await __classPrivateFieldGet(this, _UpdateManager_c, "f").storage.getChannelPts(channelId);
     let pts = pts_ == null ? 1 : pts_;
@@ -683,6 +757,7 @@ _a = UpdateManager, _UpdateManager_c = new WeakMap(), _UpdateManager_updateState
                 filter: { _: "channelMessagesFilterEmpty" },
                 limit: await __classPrivateFieldGet(this, _UpdateManager_c, "f").storage.getAccountType() == "user" ? _4_constants_js_1.CHANNEL_DIFFERENCE_LIMIT_USER : _4_constants_js_1.CHANNEL_DIFFERENCE_LIMIT_BOT,
             });
+            lastTimeout = difference.timeout ?? 1;
         }
         catch (err) {
             if (err instanceof _3_errors_js_1.PersistentTimestampInvalid) {
@@ -732,6 +807,7 @@ _a = UpdateManager, _UpdateManager_c = new WeakMap(), _UpdateManager_updateState
             break;
         }
     }
+    return lastTimeout;
 }, _UpdateManager_handleStoredUpdates = async function _UpdateManager_handleStoredUpdates(boxId) {
     if (__classPrivateFieldGet(this, _UpdateManager_handleUpdatesSet, "f").has(boxId)) {
         return;

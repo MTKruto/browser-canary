@@ -18,6 +18,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 export declare function setLogVerbosity(verbosity_: number): void;
+export declare function setLogFilter(filter_: RegExp | null): void;
 export interface LoggingProvider {
     error(...args: any[]): void;
     warn(...args: any[]): void;
@@ -50,4 +51,4 @@ export declare function getLogger(scope: string): {
     log(verbosity_: number, ...args: any[]): void;
 };
 export type Logger = ReturnType<typeof getLogger>;
-//# sourceMappingURL=0_logger.d.ts.map
+//# sourceMappingURL=1_logger.d.ts.map

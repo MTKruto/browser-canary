@@ -670,6 +670,7 @@ export class Client extends Composer {
             cdn: __classPrivateFieldGet(this, _Client_cdn, "f"),
             ignoreOutgoing: __classPrivateFieldGet(this, _Client_ignoreOutgoing, "f"),
             dropPendingUpdates: params?.dropPendingUpdates,
+            disconnected: () => this.disconnected,
         };
         __classPrivateFieldSet(this, _Client_updateManager, new UpdateManager(c), "f");
         __classPrivateFieldSet(this, _Client_networkStatisticsManager, new NetworkStatisticsManager(c), "f");
@@ -938,6 +939,7 @@ export class Client extends Composer {
     async disconnect() {
         __classPrivateFieldSet(this, _Client_connectionInited, false, "f");
         await __classPrivateFieldGet(this, _Client_client, "f").disconnect();
+        __classPrivateFieldGet(this, _Client_updateManager, "f").closeAllChats();
         __classPrivateFieldGet(this, _Client_pingLoopAbortController, "f")?.abort();
         __classPrivateFieldGet(this, _Client_connectionInsuranceLoopAbortController, "f")?.abort();
     }
@@ -2180,6 +2182,24 @@ export class Client extends Composer {
      */
     async addChatMembers(chatId, userIds) {
         return await __classPrivateFieldGet(this, _Client_messageManager, "f").addChatMembers(chatId, userIds);
+    }
+    /**
+     * Open a chat. User-only.
+     *
+     * @method ch
+     * @param chatId The chat to open.
+     */
+    async openChat(chatId) {
+        await __classPrivateFieldGet(this, _Client_updateManager, "f").openChat(chatId);
+    }
+    /**
+     * Close a chat previously opened by openChat. User-only.
+     *
+     * @method ch
+     * @param chatId The chat to close.
+     */
+    async closeChat(chatId) {
+        await __classPrivateFieldGet(this, _Client_updateManager, "f").closeChat(chatId);
     }
     //
     // ========================= CALLBACK QUERIES ========================= //

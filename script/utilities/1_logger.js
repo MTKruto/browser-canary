@@ -18,38 +18,21 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
-    Object.defineProperty(o, "default", { enumerable: true, value: v });
-}) : function(o, v) {
-    o["default"] = v;
-});
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
-    __setModuleDefault(result, mod);
-    return result;
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.getLogger = exports.OUT_BIN = exports.IN_BIN = exports.OUT = exports.IN = exports.TRACE = exports.DEBUG = exports.INFO = exports.WARNING = exports.ERROR = exports.setLoggingProvider = exports.setLogVerbosity = void 0;
 // deno-lint-ignore-file no-explicit-any
-const dntShim = __importStar(require("../_dnt.shims.js"));
-let verbosity = Number("LOG_VERBOSITY" in dntShim.dntGlobalThis ? dntShim.dntGlobalThis.LOG_VERBOSITY : "Deno" in dntShim.dntGlobalThis ? dntShim.dntGlobalThis.Deno.env.get("LOG_VERBOSITY") : "process" in dntShim.dntGlobalThis ? dntShim.dntGlobalThis.process.env.LOG : "") || 0;
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.getLogger = exports.OUT_BIN = exports.IN_BIN = exports.OUT = exports.IN = exports.TRACE = exports.DEBUG = exports.INFO = exports.WARNING = exports.ERROR = exports.setLoggingProvider = exports.setLogFilter = exports.setLogVerbosity = void 0;
+const _0_env_js_1 = require("./0_env.js");
+let verbosity = (0, _0_env_js_1.getNumber)("LOG_VERBOSITY") || 0;
 function setLogVerbosity(verbosity_) {
     verbosity = verbosity_;
 }
 exports.setLogVerbosity = setLogVerbosity;
+const LOG_FILTER = (0, _0_env_js_1.getString)("LOG_FILTER");
+let filter = LOG_FILTER == null ? null : new RegExp(LOG_FILTER);
+function setLogFilter(filter_) {
+    filter = filter_;
+}
+exports.setLogFilter = setLogFilter;
 let provider = console;
 function setLoggingProvider(provider_) {
     provider = provider_;
@@ -116,6 +99,9 @@ function getLogger(scope) {
         },
         log(verbosity_, ...args) {
             if (verbosity < verbosity_) {
+                return;
+            }
+            if (filter != null && !filter.test(scope)) {
                 return;
             }
             let fn;

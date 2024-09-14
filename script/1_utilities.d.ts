@@ -24,7 +24,6 @@ export * from "./utilities/0_cache_map.js";
 export * from "./utilities/0_color.js";
 export * from "./utilities/0_crypto.js";
 export * from "./utilities/0_hash.js";
-export * from "./utilities/0_logger.js";
 export * from "./utilities/0_mutex.js";
 export * from "./utilities/0_object.js";
 export * from "./utilities/0_part_stream.js";
@@ -33,7 +32,8 @@ export * from "./utilities/0_types.js";
 export * from "./utilities/0_units.js";
 export * from "./utilities/1_auth.js";
 export * from "./utilities/1_base64.js";
+export * from "./utilities/1_logger.js";
 export * from "./utilities/1_math.js";
 export * from "./utilities/1_misc.js";
-export * from "./utilities/1_queue.js";
+export * from "./utilities/2_queue.js";
 //# sourceMappingURL=1_utilities.d.ts.map

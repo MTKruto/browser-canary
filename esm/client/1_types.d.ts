@@ -58,6 +58,7 @@ export interface C {
     cdn: boolean;
     dropPendingUpdates?: boolean;
     invoke: Invoke;
+    disconnected: () => boolean;
 }
 export {};
 //# sourceMappingURL=1_types.d.ts.map
