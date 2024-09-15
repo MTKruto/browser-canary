@@ -125,7 +125,7 @@ export declare class StorageOperations {
     getAccountId(): Promise<number | null>;
     setAccountType(type: "user" | "bot"): Promise<void>;
     getAccountType(): Promise<"user" | "bot" | null>;
-    get accountType(): "bot" | "user";
+    get accountType(): "user" | "bot";
     updateStickerSetName(id: bigint, accessHash: bigint, name: string): Promise<void>;
     getStickerSetName(id: bigint, accessHash: bigint): MaybePromise<[string, Date] | null>;
     setServerSalt(serverSalt: bigint): Promise<void>;
