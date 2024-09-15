@@ -125,6 +125,7 @@ export declare class StorageOperations {
     getAccountId(): Promise<number | null>;
     setAccountType(type: "user" | "bot"): Promise<void>;
     getAccountType(): Promise<"user" | "bot" | null>;
+    get accountType(): "bot" | "user";
     updateStickerSetName(id: bigint, accessHash: bigint, name: string): Promise<void>;
     getStickerSetName(id: bigint, accessHash: bigint): MaybePromise<[string, Date] | null>;
     setServerSalt(serverSalt: bigint): Promise<void>;
@@ -163,8 +164,8 @@ export declare class StorageOperations {
     setUpdate(boxId: bigint, update: Api.Update): Promise<void>;
     deleteUpdates(): Promise<void>;
     getFirstUpdate(boxId: bigint): Promise<[readonly StorageKeyPart[], Api.Update] | null>;
-    assertUser(source: string): Promise<void>;
-    assertBot(source: string): Promise<void>;
+    assertUser(source: string): void;
+    assertBot(source: string): void;
     deleteFiles(): Promise<void>;
     deleteCustomEmojiDocuments(): Promise<void>;
     deleteBusinessConnections(): Promise<void>;

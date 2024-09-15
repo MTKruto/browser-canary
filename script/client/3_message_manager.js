@@ -177,7 +177,7 @@ class MessageManager {
         return await __classPrivateFieldGet(this, _MessageManager_instances, "m", _MessageManager_updatesToMessages).call(this, to, result);
     }
     async getHistory(chatId, params) {
-        await __classPrivateFieldGet(this, _MessageManager_c, "f").storage.assertUser("getHistory");
+        __classPrivateFieldGet(this, _MessageManager_c, "f").storage.assertUser("getHistory");
         let limit = params?.limit ?? 100;
         if (limit <= 0) {
             limit = 1;
@@ -580,7 +580,7 @@ class MessageManager {
         return message_;
     }
     async editInlineMessageMedia(inlineMessageId, media, params) {
-        await __classPrivateFieldGet(this, _MessageManager_c, "f").storage.assertBot("editInlineMessageMedia");
+        __classPrivateFieldGet(this, _MessageManager_c, "f").storage.assertBot("editInlineMessageMedia");
         const id = (0, _3_types_js_2.deserializeInlineMessageId)(inlineMessageId);
         await __classPrivateFieldGet(this, _MessageManager_c, "f").invoke({ _: "messages.editInlineBotMessage", id, media: await __classPrivateFieldGet(this, _MessageManager_instances, "m", _MessageManager_resolveInputMedia).call(this, media), reply_markup: await __classPrivateFieldGet(this, _MessageManager_instances, "m", _MessageManager_constructReplyMarkup).call(this, params) });
     }
@@ -859,11 +859,11 @@ class MessageManager {
         await __classPrivateFieldGet(this, _MessageManager_c, "f").invoke({ _: "channels.editBanned", channel, participant: member, banned_rights: (0, _3_types_js_2.chatMemberRightsToTlObject)(params?.rights, params?.untilDate) });
     }
     async enableJoinRequests(chatId) {
-        await __classPrivateFieldGet(this, _MessageManager_c, "f").storage.assertUser("enableJoinRequests");
+        __classPrivateFieldGet(this, _MessageManager_c, "f").storage.assertUser("enableJoinRequests");
         await __classPrivateFieldGet(this, _MessageManager_instances, "m", _MessageManager_toggleJoinRequests).call(this, chatId, true);
     }
     async disableJoinRequests(chatId) {
-        await __classPrivateFieldGet(this, _MessageManager_c, "f").storage.assertUser("disableJoinRequests");
+        __classPrivateFieldGet(this, _MessageManager_c, "f").storage.assertUser("disableJoinRequests");
         await __classPrivateFieldGet(this, _MessageManager_instances, "m", _MessageManager_toggleJoinRequests).call(this, chatId, false);
     }
     async approveJoinRequest(chatId, userId) {
@@ -882,7 +882,7 @@ class MessageManager {
         });
     }
     async approveJoinRequests(chatId, params) {
-        await __classPrivateFieldGet(this, _MessageManager_c, "f").storage.assertUser("approveJoinRequests");
+        __classPrivateFieldGet(this, _MessageManager_c, "f").storage.assertUser("approveJoinRequests");
         await __classPrivateFieldGet(this, _MessageManager_c, "f").invoke({
             _: "messages.hideAllChatJoinRequests",
             peer: await __classPrivateFieldGet(this, _MessageManager_c, "f").getInputPeer(chatId),
@@ -891,7 +891,7 @@ class MessageManager {
         });
     }
     async declineJoinRequests(chatId, params) {
-        await __classPrivateFieldGet(this, _MessageManager_c, "f").storage.assertUser("declineJoinRequests");
+        __classPrivateFieldGet(this, _MessageManager_c, "f").storage.assertUser("declineJoinRequests");
         await __classPrivateFieldGet(this, _MessageManager_c, "f").invoke({
             _: "messages.hideAllChatJoinRequests",
             peer: await __classPrivateFieldGet(this, _MessageManager_c, "f").getInputPeer(chatId),
@@ -922,12 +922,12 @@ class MessageManager {
         return await (0, _3_types_js_1.constructInviteLink)((0, _2_tl_js_1.as)("chatInviteExported", result), __classPrivateFieldGet(this, _MessageManager_c, "f").getEntity);
     }
     async getCreatedInviteLinks(chatId, params) {
-        await __classPrivateFieldGet(this, _MessageManager_c, "f").storage.assertUser("getCreatedInviteLinks");
+        __classPrivateFieldGet(this, _MessageManager_c, "f").storage.assertUser("getCreatedInviteLinks");
         const { invites } = await __classPrivateFieldGet(this, _MessageManager_c, "f").invoke({ _: "messages.getExportedChatInvites", peer: await __classPrivateFieldGet(this, _MessageManager_c, "f").getInputPeer(chatId), revoked: params?.revoked ? true : undefined, admin_id: params?.by ? await __classPrivateFieldGet(this, _MessageManager_c, "f").getInputUser(params.by) : { _: "inputUserEmpty" }, limit: params?.limit ?? 100, offset_date: params?.afterDate ? (0, _1_utilities_js_1.toUnixTimestamp)(params.afterDate) : undefined, offset_link: params?.afterInviteLink });
         return await Promise.all(invites.map((v) => (0, _2_tl_js_1.as)("chatInviteExported", v)).map((v) => (0, _3_types_js_1.constructInviteLink)(v, __classPrivateFieldGet(this, _MessageManager_c, "f").getEntity)));
     }
     async joinChat(chatId) {
-        await __classPrivateFieldGet(this, _MessageManager_c, "f").storage.assertUser("joinChat");
+        __classPrivateFieldGet(this, _MessageManager_c, "f").storage.assertUser("joinChat");
         const peer = await __classPrivateFieldGet(this, _MessageManager_c, "f").getInputPeer(chatId);
         if ((0, _2_tl_js_1.is)("inputPeerUser", peer)) {
             throw new _0_errors_js_1.InputError("Cannot join private chats.");
@@ -958,7 +958,7 @@ class MessageManager {
         }
     }
     async blockUser(userId) {
-        await __classPrivateFieldGet(this, _MessageManager_c, "f").storage.assertUser("blockUser");
+        __classPrivateFieldGet(this, _MessageManager_c, "f").storage.assertUser("blockUser");
         const id = await __classPrivateFieldGet(this, _MessageManager_c, "f").getInputPeer(userId);
         if (!((0, _2_tl_js_1.is)("user", id))) {
             throw new _0_errors_js_1.InputError("Only users can be blocked or unblocked.");
@@ -966,7 +966,7 @@ class MessageManager {
         await __classPrivateFieldGet(this, _MessageManager_c, "f").invoke({ _: "contacts.block", id });
     }
     async unblockUser(userId) {
-        await __classPrivateFieldGet(this, _MessageManager_c, "f").storage.assertUser("unblockUser");
+        __classPrivateFieldGet(this, _MessageManager_c, "f").storage.assertUser("unblockUser");
         const id = await __classPrivateFieldGet(this, _MessageManager_c, "f").getInputPeer(userId);
         if (!((0, _2_tl_js_1.is)("user", id))) {
             throw new _0_errors_js_1.InputError("Only users can be blocked or unblocked.");
@@ -1022,7 +1022,7 @@ class MessageManager {
         (0, _0_deps_js_1.unreachable)();
     }
     async editInlineMessageLiveLocation(inlineMessageId, latitude, longitude, params) {
-        await __classPrivateFieldGet(this, _MessageManager_c, "f").storage.assertBot("editInlineMessageLiveLocation");
+        __classPrivateFieldGet(this, _MessageManager_c, "f").storage.assertBot("editInlineMessageLiveLocation");
         const id = (0, _3_types_js_2.deserializeInlineMessageId)(inlineMessageId);
         await __classPrivateFieldGet(this, _MessageManager_c, "f").invoke({ _: "messages.editInlineBotMessage", id, media: ({ _: "inputMediaGeoLive", geo_point: ({ _: "inputGeoPoint", lat: latitude, long: longitude, accuracy_radius: params?.horizontalAccuracy }), heading: params?.heading, proximity_notification_radius: params?.proximityAlertRadius }), reply_markup: await __classPrivateFieldGet(this, _MessageManager_instances, "m", _MessageManager_constructReplyMarkup).call(this, params) });
     }
@@ -1204,13 +1204,13 @@ _MessageManager_c = new WeakMap(), _MessageManager_LresolveFileId = new WeakMap(
     return messages;
 }, _MessageManager_constructReplyMarkup = async function _MessageManager_constructReplyMarkup(params) {
     if (params?.replyMarkup) {
-        await __classPrivateFieldGet(this, _MessageManager_c, "f").storage.assertBot("replyMarkup");
-        return (0, _3_types_js_2.replyMarkupToTlObject)(params.replyMarkup, this.usernameResolver.bind(this));
+        __classPrivateFieldGet(this, _MessageManager_c, "f").storage.assertBot("replyMarkup");
+        return await (0, _3_types_js_2.replyMarkupToTlObject)(params.replyMarkup, this.usernameResolver.bind(this));
     }
 }, _MessageManager_resolveSendAs = async function _MessageManager_resolveSendAs(params) {
     const sendAs = params?.sendAs;
     if (sendAs !== undefined) {
-        await __classPrivateFieldGet(this, _MessageManager_c, "f").storage.assertUser("sendAs");
+        __classPrivateFieldGet(this, _MessageManager_c, "f").storage.assertUser("sendAs");
         return sendAs ? await __classPrivateFieldGet(this, _MessageManager_c, "f").getInputPeer(sendAs) : undefined;
     }
 }, _MessageManager_constructReplyTo = async function _MessageManager_constructReplyTo(params) {

@@ -124,7 +124,7 @@ export class ChatListManager {
         return () => Promise.resolve();
     }
     async getChats(from = "main", after, limit = 100) {
-        await __classPrivateFieldGet(this, _ChatListManager_c, "f").storage.assertUser("getChats");
+        __classPrivateFieldGet(this, _ChatListManager_c, "f").storage.assertUser("getChats");
         if (!__classPrivateFieldGet(this, _ChatListManager_chatsLoadedFromStorage, "f")) {
             await __classPrivateFieldGet(this, _ChatListManager_instances, "m", _ChatListManager_loadChatsFromStorage).call(this);
         }

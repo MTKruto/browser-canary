@@ -44,12 +44,12 @@ export class CallbackQueryManager {
         __classPrivateFieldSet(this, _CallbackQueryManager_c, c, "f");
     }
     async answerCallbackQuery(id, params) {
-        await __classPrivateFieldGet(this, _CallbackQueryManager_c, "f").storage.assertBot("answerCallbackQuery");
+        __classPrivateFieldGet(this, _CallbackQueryManager_c, "f").storage.assertBot("answerCallbackQuery");
         checkCallbackQueryId(id);
         await __classPrivateFieldGet(this, _CallbackQueryManager_c, "f").invoke({ _: "messages.setBotCallbackAnswer", query_id: BigInt(id), cache_time: params?.cacheTime ?? 0, message: params?.text, alert: params?.alert ? true : undefined });
     }
     async sendCallbackQuery(chatId, messageId, question) {
-        await __classPrivateFieldGet(this, _CallbackQueryManager_c, "f").storage.assertUser("sendCallbackQuery");
+        __classPrivateFieldGet(this, _CallbackQueryManager_c, "f").storage.assertUser("sendCallbackQuery");
         checkMessageId(messageId);
         validateCallbackQueryQuestion(question);
         const peer = await __classPrivateFieldGet(this, _CallbackQueryManager_c, "f").getInputPeer(chatId), peerId = peerToChatId(peer), questionKey = JSON.stringify(question);

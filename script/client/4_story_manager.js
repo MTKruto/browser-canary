@@ -48,7 +48,7 @@ class StoryManager {
         __classPrivateFieldSet(this, _StoryManager_c, c, "f");
     }
     async createStory(chatId, content, params) {
-        await __classPrivateFieldGet(this, _StoryManager_c, "f").storage.assertUser("createStory");
+        __classPrivateFieldGet(this, _StoryManager_c, "f").storage.assertUser("createStory");
         let media = null;
         const source = "video" in content ? content.video : "photo" in content ? content.photo : (0, _0_deps_js_1.unreachable)();
         if (typeof source === "string") {
@@ -92,7 +92,7 @@ class StoryManager {
         return await __classPrivateFieldGet(this, _StoryManager_instances, "m", _StoryManager_updatesToStory).call(this, updates);
     }
     async getStories(chatId, storyIds) {
-        await __classPrivateFieldGet(this, _StoryManager_c, "f").storage.assertUser("getStories");
+        __classPrivateFieldGet(this, _StoryManager_c, "f").storage.assertUser("getStories");
         (0, _0_utilities_js_1.checkArray)(storyIds, _0_utilities_js_1.checkStoryId);
         const peer = await __classPrivateFieldGet(this, _StoryManager_c, "f").getInputPeer(chatId);
         const stories_ = await __classPrivateFieldGet(this, _StoryManager_c, "f").invoke({ _: "stories.getStoriesByID", peer, id: storyIds });
@@ -103,32 +103,32 @@ class StoryManager {
         return stories;
     }
     async getStory(chatId, storyId) {
-        await __classPrivateFieldGet(this, _StoryManager_c, "f").storage.assertUser("getStory");
+        __classPrivateFieldGet(this, _StoryManager_c, "f").storage.assertUser("getStory");
         return (await this.getStories(chatId, [storyId]))[0] ?? null;
     }
     async deleteStories(chatId, storyIds) {
-        await __classPrivateFieldGet(this, _StoryManager_c, "f").storage.assertUser("deleteStories");
+        __classPrivateFieldGet(this, _StoryManager_c, "f").storage.assertUser("deleteStories");
         const peer = await __classPrivateFieldGet(this, _StoryManager_c, "f").getInputPeer(chatId);
         await __classPrivateFieldGet(this, _StoryManager_c, "f").invoke({ _: "stories.deleteStories", peer, id: storyIds });
     }
     async deleteStory(chatId, storyId) {
-        await __classPrivateFieldGet(this, _StoryManager_c, "f").storage.assertUser("deleteStory");
+        __classPrivateFieldGet(this, _StoryManager_c, "f").storage.assertUser("deleteStory");
         await this.deleteStories(chatId, [storyId]);
     }
     async addStoriesToHighlights(chatId, storyIds) {
-        await __classPrivateFieldGet(this, _StoryManager_c, "f").storage.assertUser("addStoriesToHighlights");
+        __classPrivateFieldGet(this, _StoryManager_c, "f").storage.assertUser("addStoriesToHighlights");
         await __classPrivateFieldGet(this, _StoryManager_instances, "m", _StoryManager_togglePinned).call(this, chatId, storyIds, true);
     }
     async addStoryToHighlights(chatId, storyId) {
-        await __classPrivateFieldGet(this, _StoryManager_c, "f").storage.assertUser("addStoryToHighlights");
+        __classPrivateFieldGet(this, _StoryManager_c, "f").storage.assertUser("addStoryToHighlights");
         await this.addStoriesToHighlights(chatId, [storyId]);
     }
     async removeStoriesFromHighlights(chatId, storyIds) {
-        await __classPrivateFieldGet(this, _StoryManager_c, "f").storage.assertUser("removeStoriesFromHighlights");
+        __classPrivateFieldGet(this, _StoryManager_c, "f").storage.assertUser("removeStoriesFromHighlights");
         await __classPrivateFieldGet(this, _StoryManager_instances, "m", _StoryManager_togglePinned).call(this, chatId, storyIds, false);
     }
     async removeStoryFromHighlights(chatId, storyId) {
-        await __classPrivateFieldGet(this, _StoryManager_c, "f").storage.assertUser("removeStoryFromHighlights");
+        __classPrivateFieldGet(this, _StoryManager_c, "f").storage.assertUser("removeStoryFromHighlights");
         await this.removeStoriesFromHighlights(chatId, [storyId]);
     }
     static canHandleUpdate(update) {

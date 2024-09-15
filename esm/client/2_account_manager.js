@@ -39,15 +39,15 @@ export class AccountManager {
         __classPrivateFieldSet(this, _AccountManager_c, c, "f");
     }
     async showUsername(id, username) {
-        await __classPrivateFieldGet(this, _AccountManager_c, "f").storage.assertUser("showUsername");
+        __classPrivateFieldGet(this, _AccountManager_c, "f").storage.assertUser("showUsername");
         await __classPrivateFieldGet(this, _AccountManager_instances, "m", _AccountManager_toggleUsername).call(this, id, username, true);
     }
     async hideUsername(id, username) {
-        await __classPrivateFieldGet(this, _AccountManager_c, "f").storage.assertUser("hideUsername");
+        __classPrivateFieldGet(this, _AccountManager_c, "f").storage.assertUser("hideUsername");
         await __classPrivateFieldGet(this, _AccountManager_instances, "m", _AccountManager_toggleUsername).call(this, id, username, false);
     }
     async reorderUsernames(id, order) {
-        await __classPrivateFieldGet(this, _AccountManager_c, "f").storage.assertUser("reorderUsernames");
+        __classPrivateFieldGet(this, _AccountManager_c, "f").storage.assertUser("reorderUsernames");
         const peer = await __classPrivateFieldGet(this, _AccountManager_c, "f").getInputPeer(id);
         if (is("inputPeerSelf", peer)) {
             return await __classPrivateFieldGet(this, _AccountManager_c, "f").invoke({ _: "account.reorderUsernames", order });
@@ -63,7 +63,7 @@ export class AccountManager {
         }
     }
     async hideUsernames(id) {
-        await __classPrivateFieldGet(this, _AccountManager_c, "f").storage.assertUser("hideUsernames");
+        __classPrivateFieldGet(this, _AccountManager_c, "f").storage.assertUser("hideUsernames");
         const peer = await __classPrivateFieldGet(this, _AccountManager_c, "f").getInputPeer(id);
         if (is("inputPeerChannel", peer)) {
             return await __classPrivateFieldGet(this, _AccountManager_c, "f").invoke({ _: "channels.deactivateAllUsernames", channel: { ...peer, _: "inputChannel" } });
@@ -73,7 +73,7 @@ export class AccountManager {
         }
     }
     async getInactiveChats() {
-        await __classPrivateFieldGet(this, _AccountManager_c, "f").storage.assertUser("getInactiveChats");
+        __classPrivateFieldGet(this, _AccountManager_c, "f").storage.assertUser("getInactiveChats");
         const { chats, dates } = await __classPrivateFieldGet(this, _AccountManager_c, "f").invoke({ _: "channels.getInactiveChannels" });
         return chats.map((v, i) => constructInactiveChat(v, dates[i]));
     }

@@ -121,6 +121,7 @@ export class StorageOperations {
     }
     async initialize() {
         await __classPrivateFieldGet(this, _StorageOperations_storage, "f").initialize();
+        await this.getAccountType();
     }
     set(...args) {
         return __classPrivateFieldGet(this, _StorageOperations_storage, "f").set(...args);
@@ -323,6 +324,12 @@ export class StorageOperations {
             return __classPrivateFieldSet(this, _StorageOperations_accountType, await __classPrivateFieldGet(this, _StorageOperations_storage, "f").get(K.auth.accountType()), "f");
         }
     }
+    get accountType() {
+        if (__classPrivateFieldGet(this, _StorageOperations_accountType, "f") == null) {
+            unreachable();
+        }
+        return __classPrivateFieldGet(this, _StorageOperations_accountType, "f");
+    }
     async updateStickerSetName(id, accessHash, name) {
         await __classPrivateFieldGet(this, _StorageOperations_storage, "f").set(K.cache.stickerSetName(id, accessHash), [name, new Date()]);
     }
@@ -497,13 +504,13 @@ export class StorageOperations {
         }
         return null;
     }
-    async assertUser(source) {
-        if (await this.getAccountType() != "user") {
+    assertUser(source) {
+        if (this.accountType != "user") {
             throw new InputError(`${source}: not user a client`);
         }
     }
-    async assertBot(source) {
-        if (await this.getAccountType() != "bot") {
+    assertBot(source) {
+        if (this.accountType != "bot") {
             throw new InputError(`${source}: not a bot client`);
         }
     }

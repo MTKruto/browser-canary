@@ -54,7 +54,7 @@ class PaymentManager {
         return null;
     }
     async answerPreCheckoutQuery(preCheckoutQueryId, ok, params) {
-        await __classPrivateFieldGet(this, _PaymentManager_c, "f").storage.assertBot("answerPreCheckoutQuery");
+        __classPrivateFieldGet(this, _PaymentManager_c, "f").storage.assertBot("answerPreCheckoutQuery");
         if (!ok && !params?.error) {
             throw new _0_errors_js_1.InputError("error is required when ok is false");
         }
