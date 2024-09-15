@@ -1636,7 +1636,7 @@ export class Client extends Composer {
         return await __classPrivateFieldGet(this, _Client_messageManager, "f").sendPoll(chatId, question, options, params);
     }
     /**
-     * Send an invoice.
+     * Send an invoice. Bot-only.
      *
      * @method ms
      * @param chatId The chat to send the invoice to.
@@ -1815,7 +1815,7 @@ export class Client extends Composer {
      * @param messageId The identifier of the scheduled message to delete.
      */
     async deleteScheduledMessage(chatId, messageId) {
-        await __classPrivateFieldGet(this, _Client_messageManager, "f").deleteScheduledMessages(chatId, [messageId]);
+        await __classPrivateFieldGet(this, _Client_messageManager, "f").deleteScheduledMessage(chatId, messageId);
     }
     /**
      * Send multiple scheduled messages before their schedule.
@@ -1835,7 +1835,7 @@ export class Client extends Composer {
      * @param messageId The identifier of the scheduled message to send.
      */
     async sendScheduledMessage(chatId, messageId) {
-        return (await __classPrivateFieldGet(this, _Client_messageManager, "f").sendScheduledMessages(chatId, [messageId]))[0];
+        return await __classPrivateFieldGet(this, _Client_messageManager, "f").sendScheduledMessage(chatId, messageId);
     }
     /**
      * Pin a message in a chat.

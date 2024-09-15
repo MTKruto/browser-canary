@@ -73,7 +73,9 @@ export declare class MessageManager {
     editInlineMessageMedia(inlineMessageId: string, media: InputMedia, params?: EditMessageMediaParams): Promise<void>;
     deleteMessages(chatId: ID, messageIds: number[], params?: DeleteMessagesParams): Promise<void>;
     deleteScheduledMessages(chatId: ID, messageIds: number[]): Promise<void>;
+    deleteScheduledMessage(chatId: ID, messageId: number): Promise<void>;
     sendScheduledMessages(chatId: ID, messageIds: number[]): Promise<Message[]>;
+    sendScheduledMessage(chatId: ID, messageId: number): Promise<Message>;
     deleteChatMemberMessages(chatId: ID, memberId: ID): Promise<void>;
     pinMessage(chatId: ID, messageId: number, params?: PinMessageParams): Promise<void>;
     unpinMessage(chatId: ID, messageId: number, params?: UnpinMessageParams): Promise<void>;

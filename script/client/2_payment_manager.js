@@ -65,6 +65,7 @@ class PaymentManager {
         await __classPrivateFieldGet(this, _PaymentManager_c, "f").invoke({ _: "messages.setBotPrecheckoutResults", query_id: queryId, error: params?.error, success: ok ? true : undefined });
     }
     async refundStarPayment(userId, telegramPaymentChargeId) {
+        __classPrivateFieldGet(this, _PaymentManager_c, "f").storage.assertBot("refundStarPayment");
         await __classPrivateFieldGet(this, _PaymentManager_c, "f").invoke({ _: "payments.refundStarsCharge", user_id: await __classPrivateFieldGet(this, _PaymentManager_c, "f").getInputUser(userId), charge_id: telegramPaymentChargeId });
     }
 }

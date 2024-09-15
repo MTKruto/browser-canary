@@ -516,7 +516,7 @@ export declare class Client<C extends Context = Context> extends Composer<C> {
      */
     sendPoll(chatId: ID, question: string, options: [string, string, ...string[]], params?: SendPollParams): Promise<MessagePoll>;
     /**
-     * Send an invoice.
+     * Send an invoice. Bot-only.
      *
      * @method ms
      * @param chatId The chat to send the invoice to.

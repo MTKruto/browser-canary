@@ -29,7 +29,7 @@ var __classPrivateFieldGet = (this && this.__classPrivateFieldGet) || function (
     if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot read private member from an object whose class did not declare it");
     return kind === "m" ? f : kind === "a" ? f.call(receiver) : f ? f.value : state.get(receiver);
 };
-var _MessageManager_instances, _MessageManager_c, _MessageManager_LresolveFileId, _MessageManager_updatesToMessages, _MessageManager_constructReplyMarkup, _MessageManager_resolveSendAs, _MessageManager_constructReplyTo, _MessageManager_sendDocumentInner, _MessageManager_sendMedia, _MessageManager_resolveInputMediaInner, _MessageManager_resolveInputMedia, _MessageManager_sendReaction, _MessageManager_toggleJoinRequests;
+var _MessageManager_instances, _MessageManager_c, _MessageManager_LresolveFileId, _MessageManager_checkParams, _MessageManager_updatesToMessages, _MessageManager_constructReplyMarkup, _MessageManager_resolveSendAs, _MessageManager_constructReplyTo, _MessageManager_sendDocumentInner, _MessageManager_sendMedia, _MessageManager_resolveInputMediaInner, _MessageManager_resolveInputMedia, _MessageManager_sendReaction, _MessageManager_toggleJoinRequests;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.MessageManager = void 0;
 const _0_deps_js_1 = require("../0_deps.js");
@@ -205,6 +205,7 @@ class MessageManager {
         return messages;
     }
     async sendMessage(chatId, text, params) {
+        __classPrivateFieldGet(this, _MessageManager_instances, "m", _MessageManager_checkParams).call(this, params);
         const [message, entities] = await this.parseText(text, params);
         const replyMarkup = await __classPrivateFieldGet(this, _MessageManager_instances, "m", _MessageManager_constructReplyMarkup).call(this, params);
         const peer = await __classPrivateFieldGet(this, _MessageManager_c, "f").getInputPeer(chatId);
@@ -263,6 +264,7 @@ class MessageManager {
         return (0, _3_types_js_2.assertMessageType)(message_, "text");
     }
     async sendVenue(chatId, latitude, longitude, title, address, params) {
+        __classPrivateFieldGet(this, _MessageManager_instances, "m", _MessageManager_checkParams).call(this, params);
         const peer = await __classPrivateFieldGet(this, _MessageManager_c, "f").getInputPeer(chatId);
         const randomId = (0, _1_utilities_js_1.getRandomId)();
         const silent = params?.disableNotification ? true : undefined;
@@ -299,6 +301,7 @@ class MessageManager {
         return (0, _3_types_js_2.assertMessageType)(message, "venue");
     }
     async sendContact(chatId, firstName, number, params) {
+        __classPrivateFieldGet(this, _MessageManager_instances, "m", _MessageManager_checkParams).call(this, params);
         const peer = await __classPrivateFieldGet(this, _MessageManager_c, "f").getInputPeer(chatId);
         const randomId = (0, _1_utilities_js_1.getRandomId)();
         const silent = params?.disableNotification ? true : undefined;
@@ -329,6 +332,7 @@ class MessageManager {
         return (0, _3_types_js_2.assertMessageType)(message, "contact");
     }
     async sendDice(chatId, params) {
+        __classPrivateFieldGet(this, _MessageManager_instances, "m", _MessageManager_checkParams).call(this, params);
         const peer = await __classPrivateFieldGet(this, _MessageManager_c, "f").getInputPeer(chatId);
         const randomId = (0, _1_utilities_js_1.getRandomId)();
         const silent = params?.disableNotification ? true : undefined;
@@ -356,6 +360,7 @@ class MessageManager {
         return (0, _3_types_js_2.assertMessageType)(message, "dice");
     }
     async sendLocation(chatId, latitude, longitude, params) {
+        __classPrivateFieldGet(this, _MessageManager_instances, "m", _MessageManager_checkParams).call(this, params);
         const peer = await __classPrivateFieldGet(this, _MessageManager_c, "f").getInputPeer(chatId);
         const randomId = (0, _1_utilities_js_1.getRandomId)();
         const silent = params?.disableNotification ? true : undefined;
@@ -401,24 +406,28 @@ class MessageManager {
         return (0, _3_types_js_2.assertMessageType)(message, "location");
     }
     async sendVideoNote(chatId, audio, params) {
+        __classPrivateFieldGet(this, _MessageManager_instances, "m", _MessageManager_checkParams).call(this, params);
         const message = await __classPrivateFieldGet(this, _MessageManager_instances, "m", _MessageManager_sendDocumentInner).call(this, chatId, audio, params, _3_types_js_2.FileType.VideoNote, [
             { _: "documentAttributeVideo", round_message: true, w: params?.length ?? 0, h: params?.length ?? 0, duration: params?.duration ?? 0 },
         ], false);
         return (0, _3_types_js_2.assertMessageType)(message, "videoNote");
     }
     async sendAudio(chatId, audio, params) {
+        __classPrivateFieldGet(this, _MessageManager_instances, "m", _MessageManager_checkParams).call(this, params);
         const message = await __classPrivateFieldGet(this, _MessageManager_instances, "m", _MessageManager_sendDocumentInner).call(this, chatId, audio, params, _3_types_js_2.FileType.Audio, [
             { _: "documentAttributeAudio", duration: params?.duration ?? 0, performer: params?.performer, title: params?.title },
         ]);
         return (0, _3_types_js_2.assertMessageType)(message, "audio");
     }
     async sendVoice(chatId, voice, params) {
+        __classPrivateFieldGet(this, _MessageManager_instances, "m", _MessageManager_checkParams).call(this, params);
         const message = await __classPrivateFieldGet(this, _MessageManager_instances, "m", _MessageManager_sendDocumentInner).call(this, chatId, voice, params, _3_types_js_2.FileType.VoiceNote, [
             { _: "documentAttributeAudio", voice: true, duration: params?.duration ?? 0 },
         ]);
         return (0, _3_types_js_2.assertMessageType)(message, "voice");
     }
     async sendAnimation(chatId, animation, params) {
+        __classPrivateFieldGet(this, _MessageManager_instances, "m", _MessageManager_checkParams).call(this, params);
         const message = await __classPrivateFieldGet(this, _MessageManager_instances, "m", _MessageManager_sendDocumentInner).call(this, chatId, animation, params, _3_types_js_2.FileType.Animation, [
             { _: "documentAttributeAnimated" },
             { _: "documentAttributeVideo", supports_streaming: true, w: params?.width ?? 0, h: params?.height ?? 0, duration: params?.duration ?? 0 },
@@ -426,20 +435,24 @@ class MessageManager {
         return (0, _3_types_js_2.assertMessageType)(message, "animation");
     }
     async sendVideo(chatId, video, params) {
+        __classPrivateFieldGet(this, _MessageManager_instances, "m", _MessageManager_checkParams).call(this, params);
         const message = await __classPrivateFieldGet(this, _MessageManager_instances, "m", _MessageManager_sendDocumentInner).call(this, chatId, video, params, _3_types_js_2.FileType.Video, [
             { _: "documentAttributeVideo", supports_streaming: params?.supportsStreaming ? true : undefined, w: params?.width ?? 0, h: params?.height ?? 0, duration: params?.duration ?? 0 },
         ]);
         return (0, _3_types_js_2.assertMessageType)(message, "video");
     }
     async sendDocument(chatId, document, params) {
+        __classPrivateFieldGet(this, _MessageManager_instances, "m", _MessageManager_checkParams).call(this, params);
         const message = await __classPrivateFieldGet(this, _MessageManager_instances, "m", _MessageManager_sendDocumentInner).call(this, chatId, document, params, _3_types_js_2.FileType.Document, []);
         return (0, _3_types_js_2.assertMessageType)(message, "document");
     }
     async sendSticker(chatId, sticker, params) {
+        __classPrivateFieldGet(this, _MessageManager_instances, "m", _MessageManager_checkParams).call(this, params);
         const message = await __classPrivateFieldGet(this, _MessageManager_instances, "m", _MessageManager_sendDocumentInner).call(this, chatId, sticker, params, _3_types_js_2.FileType.Sticker, [{ _: "documentAttributeSticker", alt: params?.emoji || "", stickerset: { _: "inputStickerSetEmpty" } }], undefined, STICKER_MIME_TYPES);
         return (0, _3_types_js_2.assertMessageType)(message, "sticker");
     }
     async sendPhoto(chatId, photo, params) {
+        __classPrivateFieldGet(this, _MessageManager_instances, "m", _MessageManager_checkParams).call(this, params);
         let media = null;
         const spoiler = params?.hasSpoiler ? true : undefined;
         const ttl_seconds = params && "selfDestruct" in params && params.selfDestruct !== undefined ? (0, _3_types_js_1.selfDestructOptionToInt)(params.selfDestruct) : undefined;
@@ -483,6 +496,7 @@ class MessageManager {
         return null;
     }
     async sendPoll(chatId, question, options, params) {
+        __classPrivateFieldGet(this, _MessageManager_instances, "m", _MessageManager_checkParams).call(this, params);
         question = question?.trim();
         if (!question) {
             throw new Error("Question must not be empty.");
@@ -527,6 +541,7 @@ class MessageManager {
         return (0, _3_types_js_2.assertMessageType)(message, "poll");
     }
     async editMessageReplyMarkup(chatId, messageId, params) {
+        __classPrivateFieldGet(this, _MessageManager_instances, "m", _MessageManager_checkParams).call(this, params);
         const result = await __classPrivateFieldGet(this, _MessageManager_c, "f").invoke({ _: "messages.editMessage", id: (0, _0_utilities_js_1.checkMessageId)(messageId), peer: await __classPrivateFieldGet(this, _MessageManager_c, "f").getInputPeer(chatId), reply_markup: await __classPrivateFieldGet(this, _MessageManager_instances, "m", _MessageManager_constructReplyMarkup).call(this, params) });
         const message_ = (await __classPrivateFieldGet(this, _MessageManager_instances, "m", _MessageManager_updatesToMessages).call(this, chatId, result))[0];
         return message_;
@@ -536,6 +551,7 @@ class MessageManager {
         await __classPrivateFieldGet(this, _MessageManager_c, "f").invoke({ _: "messages.editInlineBotMessage", id, reply_markup: await __classPrivateFieldGet(this, _MessageManager_instances, "m", _MessageManager_constructReplyMarkup).call(this, params) });
     }
     async editMessageText(chatId, messageId, text, params) {
+        __classPrivateFieldGet(this, _MessageManager_instances, "m", _MessageManager_checkParams).call(this, params);
         const [message, entities] = await this.parseText(text, params);
         const noWebpage = params?.linkPreview?.disable ? true : undefined;
         const invertMedia = params?.linkPreview?.aboveText ? true : undefined;
@@ -548,6 +564,7 @@ class MessageManager {
         return (0, _3_types_js_2.assertMessageType)(message_, "text");
     }
     async editInlineMessageText(inlineMessageId, text, params) {
+        __classPrivateFieldGet(this, _MessageManager_instances, "m", _MessageManager_checkParams).call(this, params);
         const [message, entities] = await this.parseText(text, params);
         const id = (0, _3_types_js_2.deserializeInlineMessageId)(inlineMessageId);
         const noWebpage = params?.linkPreview?.disable ? true : undefined;
@@ -559,6 +576,7 @@ class MessageManager {
         await __classPrivateFieldGet(this, _MessageManager_c, "f").invoke({ _: "messages.editInlineBotMessage", id, entities, message, media, no_webpage: noWebpage, invert_media: invertMedia, reply_markup: await __classPrivateFieldGet(this, _MessageManager_instances, "m", _MessageManager_constructReplyMarkup).call(this, params) });
     }
     async editMessageMedia(chatId, messageId, media, params) {
+        __classPrivateFieldGet(this, _MessageManager_instances, "m", _MessageManager_checkParams).call(this, params);
         const message = await this.getMessage(chatId, messageId);
         if (!message) {
             throw new _0_errors_js_1.InputError("Message not found.");
@@ -580,6 +598,7 @@ class MessageManager {
         return message_;
     }
     async editInlineMessageMedia(inlineMessageId, media, params) {
+        __classPrivateFieldGet(this, _MessageManager_instances, "m", _MessageManager_checkParams).call(this, params);
         __classPrivateFieldGet(this, _MessageManager_c, "f").storage.assertBot("editInlineMessageMedia");
         const id = (0, _3_types_js_2.deserializeInlineMessageId)(inlineMessageId);
         await __classPrivateFieldGet(this, _MessageManager_c, "f").invoke({ _: "messages.editInlineBotMessage", id, media: await __classPrivateFieldGet(this, _MessageManager_instances, "m", _MessageManager_resolveInputMedia).call(this, media), reply_markup: await __classPrivateFieldGet(this, _MessageManager_instances, "m", _MessageManager_constructReplyMarkup).call(this, params) });
@@ -595,25 +614,38 @@ class MessageManager {
         }
     }
     async deleteScheduledMessages(chatId, messageIds) {
+        __classPrivateFieldGet(this, _MessageManager_c, "f").storage.assertUser("sendScheduledMessage");
         (0, _0_utilities_js_2.checkArray)(messageIds, _0_utilities_js_1.checkMessageId);
         const peer = await __classPrivateFieldGet(this, _MessageManager_c, "f").getInputPeer(chatId);
         await __classPrivateFieldGet(this, _MessageManager_c, "f").invoke({ _: "messages.deleteScheduledMessages", peer, id: messageIds });
     }
+    async deleteScheduledMessage(chatId, messageId) {
+        __classPrivateFieldGet(this, _MessageManager_c, "f").storage.assertUser("deleteScheduledMessage");
+        return await this.deleteScheduledMessages(chatId, [messageId]);
+    }
     async sendScheduledMessages(chatId, messageIds) {
+        __classPrivateFieldGet(this, _MessageManager_c, "f").storage.assertUser("sendScheduledMessages");
         (0, _0_utilities_js_2.checkArray)(messageIds, _0_utilities_js_1.checkMessageId);
         const peer = await __classPrivateFieldGet(this, _MessageManager_c, "f").getInputPeer(chatId);
         const result = await __classPrivateFieldGet(this, _MessageManager_c, "f").invoke({ _: "messages.sendScheduledMessages", peer, id: messageIds });
         return await __classPrivateFieldGet(this, _MessageManager_instances, "m", _MessageManager_updatesToMessages).call(this, chatId, result);
     }
+    async sendScheduledMessage(chatId, messageId) {
+        __classPrivateFieldGet(this, _MessageManager_c, "f").storage.assertUser("sendScheduledMessage");
+        return (await this.sendScheduledMessages(chatId, [messageId]))[0];
+    }
     async deleteChatMemberMessages(chatId, memberId) {
+        __classPrivateFieldGet(this, _MessageManager_c, "f").storage.assertUser("deleteChatMemberMessages");
         const channel = await __classPrivateFieldGet(this, _MessageManager_c, "f").getInputChannel(chatId);
         const participant = await __classPrivateFieldGet(this, _MessageManager_c, "f").getInputPeer(memberId);
         await __classPrivateFieldGet(this, _MessageManager_c, "f").invoke({ _: "channels.deleteParticipantHistory", channel, participant });
     }
     async pinMessage(chatId, messageId, params) {
+        __classPrivateFieldGet(this, _MessageManager_instances, "m", _MessageManager_checkParams).call(this, params);
         await __classPrivateFieldGet(this, _MessageManager_c, "f").invoke({ _: "messages.updatePinnedMessage", peer: await __classPrivateFieldGet(this, _MessageManager_c, "f").getInputPeer(chatId), id: (0, _0_utilities_js_1.checkMessageId)(messageId), silent: params?.disableNotification ? true : undefined, pm_oneside: params?.bothSides ? undefined : true });
     }
     async unpinMessage(chatId, messageId, params) {
+        __classPrivateFieldGet(this, _MessageManager_instances, "m", _MessageManager_checkParams).call(this, params);
         await __classPrivateFieldGet(this, _MessageManager_c, "f").invoke({ _: "messages.updatePinnedMessage", peer: await __classPrivateFieldGet(this, _MessageManager_c, "f").getInputPeer(chatId), id: (0, _0_utilities_js_1.checkMessageId)(messageId), unpin: true }, params?.businessConnectionId);
     }
     async unpinMessages(chatId) {
@@ -742,6 +774,7 @@ class MessageManager {
         return null;
     }
     async sendChatAction(chatId, action, params) {
+        __classPrivateFieldGet(this, _MessageManager_instances, "m", _MessageManager_checkParams).call(this, params);
         let action_;
         switch (action) {
             case "type":
@@ -899,6 +932,7 @@ class MessageManager {
         });
     }
     async searchMessages(chatId, query, params) {
+        __classPrivateFieldGet(this, _MessageManager_c, "f").storage.assertUser("searchMessages");
         const result = await __classPrivateFieldGet(this, _MessageManager_c, "f").invoke({ _: "messages.search", peer: await __classPrivateFieldGet(this, _MessageManager_c, "f").getInputPeer(chatId), q: query, add_offset: 0, filter: (0, _0_message_search_filter_js_1.messageSearchFilterToTlObject)(params?.filter ?? "empty"), hash: 0n, limit: params?.limit ?? 100, max_date: 0, max_id: 0, min_date: 0, min_id: 0, offset_id: params?.after ? params.after : 0, from_id: params?.from ? await __classPrivateFieldGet(this, _MessageManager_c, "f").getInputPeer(params.from) : undefined });
         if (!("messages" in result)) {
             (0, _0_deps_js_1.unreachable)();
@@ -911,6 +945,7 @@ class MessageManager {
         return messages;
     }
     async setBoostsRequiredToCircumventRestrictions(chatId, boosts) {
+        await __classPrivateFieldGet(this, _MessageManager_c, "f").storage.assertUser("setBoostsRequiredToCircumventRestrictions");
         const channel = await __classPrivateFieldGet(this, _MessageManager_c, "f").getInputChannel(chatId);
         await __classPrivateFieldGet(this, _MessageManager_c, "f").invoke({ _: "channels.setBoostsToUnblockRestrictions", channel, boosts });
     }
@@ -998,6 +1033,7 @@ class MessageManager {
         await __classPrivateFieldGet(this, _MessageManager_c, "f").invoke({ _: "channels.setStickers", channel, stickerset: { _: "inputStickerSetEmpty" } });
     }
     async stopPoll(chatId, messageId, params) {
+        __classPrivateFieldGet(this, _MessageManager_instances, "m", _MessageManager_checkParams).call(this, params);
         const message = await this.getMessage(chatId, messageId);
         if (!message) {
             throw new _0_errors_js_1.InputError("Message not found.");
@@ -1013,6 +1049,7 @@ class MessageManager {
         return (0, _3_types_js_2.assertMessageType)(message_, "poll").poll;
     }
     async editMessageLiveLocation(chatId, messageId, latitude, longitude, params) {
+        __classPrivateFieldGet(this, _MessageManager_instances, "m", _MessageManager_checkParams).call(this, params);
         const message = await this.getMessage(chatId, messageId);
         if (message && "location" in message && message.location.livePeriod) {
             const result = await __classPrivateFieldGet(this, _MessageManager_c, "f").invoke({ _: "messages.editMessage", peer: await __classPrivateFieldGet(this, _MessageManager_c, "f").getInputPeer(chatId), id: messageId, media: ({ _: "inputMediaGeoLive", geo_point: ({ _: "inputGeoPoint", lat: latitude, long: longitude, accuracy_radius: params?.horizontalAccuracy }), heading: params?.heading, proximity_notification_radius: params?.proximityAlertRadius }), reply_markup: await __classPrivateFieldGet(this, _MessageManager_instances, "m", _MessageManager_constructReplyMarkup).call(this, params) });
@@ -1022,11 +1059,14 @@ class MessageManager {
         (0, _0_deps_js_1.unreachable)();
     }
     async editInlineMessageLiveLocation(inlineMessageId, latitude, longitude, params) {
+        __classPrivateFieldGet(this, _MessageManager_instances, "m", _MessageManager_checkParams).call(this, params);
         __classPrivateFieldGet(this, _MessageManager_c, "f").storage.assertBot("editInlineMessageLiveLocation");
         const id = (0, _3_types_js_2.deserializeInlineMessageId)(inlineMessageId);
         await __classPrivateFieldGet(this, _MessageManager_c, "f").invoke({ _: "messages.editInlineBotMessage", id, media: ({ _: "inputMediaGeoLive", geo_point: ({ _: "inputGeoPoint", lat: latitude, long: longitude, accuracy_radius: params?.horizontalAccuracy }), heading: params?.heading, proximity_notification_radius: params?.proximityAlertRadius }), reply_markup: await __classPrivateFieldGet(this, _MessageManager_instances, "m", _MessageManager_constructReplyMarkup).call(this, params) });
     }
     async sendInvoice(chatId, title, description, payload, currency, prices, params) {
+        __classPrivateFieldGet(this, _MessageManager_c, "f").storage.assertBot("sendInvoice");
+        __classPrivateFieldGet(this, _MessageManager_instances, "m", _MessageManager_checkParams).call(this, params);
         if (title.length < 1) {
             throw new _0_errors_js_1.InputError("Invoice title cannot be empty.");
         }
@@ -1079,6 +1119,7 @@ class MessageManager {
         return (0, _3_types_js_2.assertMessageType)(message, "invoice");
     }
     async addChatMember(chatId, userId, params) {
+        __classPrivateFieldGet(this, _MessageManager_c, "f").storage.assertUser("addChatMember");
         const chat = await __classPrivateFieldGet(this, _MessageManager_c, "f").getInputPeer(chatId);
         if ((0, _2_tl_js_1.isOneOf)(["inputPeerEmpty", "inputPeerSelf", "inputPeerUser", "inputPeerUserFromMessage"], chat)) {
             throw new _0_errors_js_1.InputError("Cannot add members to private chats");
@@ -1095,6 +1136,7 @@ class MessageManager {
         (0, _0_deps_js_1.unreachable)();
     }
     async addChatMembers(chatId, userIds) {
+        __classPrivateFieldGet(this, _MessageManager_c, "f").storage.assertUser("addChatMembers");
         const chat = await __classPrivateFieldGet(this, _MessageManager_c, "f").getInputPeer(chatId);
         if ((0, _2_tl_js_1.isOneOf)(["inputPeerEmpty", "inputPeerSelf", "inputPeerUser", "inputPeerUserFromMessage"], chat)) {
             throw new _0_errors_js_1.InputError("Cannot add members to private chats");
@@ -1113,6 +1155,7 @@ class MessageManager {
         (0, _0_deps_js_1.unreachable)();
     }
     async sendMediaGroup(chatId, media, params) {
+        __classPrivateFieldGet(this, _MessageManager_instances, "m", _MessageManager_checkParams).call(this, params);
         {
             if (!Array.isArray(media) || !media.length) {
                 throw new _0_errors_js_1.InputError("Media group must not be empty.");
@@ -1170,7 +1213,20 @@ class MessageManager {
     }
 }
 exports.MessageManager = MessageManager;
-_MessageManager_c = new WeakMap(), _MessageManager_LresolveFileId = new WeakMap(), _MessageManager_instances = new WeakSet(), _MessageManager_updatesToMessages = async function _MessageManager_updatesToMessages(chatId, updates, businessConnectionId) {
+_MessageManager_c = new WeakMap(), _MessageManager_LresolveFileId = new WeakMap(), _MessageManager_instances = new WeakSet(), _MessageManager_checkParams = function _MessageManager_checkParams(params) {
+    if (params && "replyMarkup" in params && params.replyMarkup !== undefined) {
+        __classPrivateFieldGet(this, _MessageManager_c, "f").storage.assertBot("replyMarkup");
+    }
+    if (params && "businessConnectionId" in params && params.businessConnectionId !== undefined) {
+        __classPrivateFieldGet(this, _MessageManager_c, "f").storage.assertBot("businessConnectionId");
+    }
+    if (params && "sendAs" in params && params.sendAs !== undefined) {
+        __classPrivateFieldGet(this, _MessageManager_c, "f").storage.assertUser("sendAs");
+    }
+    if (params && "sendAt" in params && params.sendAt !== undefined) {
+        __classPrivateFieldGet(this, _MessageManager_c, "f").storage.assertUser("businessConsendAtnectionId");
+    }
+}, _MessageManager_updatesToMessages = async function _MessageManager_updatesToMessages(chatId, updates, businessConnectionId) {
     const messages = new Array();
     if ((0, _2_tl_js_1.is)("updates", updates)) {
         for (const update of updates.updates) {
