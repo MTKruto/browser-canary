@@ -47,12 +47,14 @@ const messageManagerUpdates = [
     "updateNewMessage",
     "updateNewChannelMessage",
     "updateEditMessage",
+    "updateNewScheduledMessage",
     "updateEditChannelMessage",
     "updateBotNewBusinessMessage",
     "updateBotEditBusinessMessage",
     "updateBotDeleteBusinessMessage",
     "updateDeleteMessages",
     "updateDeleteChannelMessages",
+    "updateDeleteScheduledMessages",
     "updateChannelParticipant",
     "updateChatParticipant",
     "updateBotChatInviteRequester",
@@ -210,6 +212,7 @@ export class MessageManager {
         const noforwards = params?.protectContent ? true : undefined;
         const sendAs = await __classPrivateFieldGet(this, _MessageManager_instances, "m", _MessageManager_resolveSendAs).call(this, params);
         const effect = params?.effectId ? BigInt(params.effectId) : undefined;
+        const schedule_date = params?.sendAt ? toUnixTimestamp(params.sendAt) : undefined;
         let result;
         if (!noWebpage && params?.linkPreview?.url) {
             result = await __classPrivateFieldGet(this, _MessageManager_c, "f").invoke({
@@ -232,6 +235,7 @@ export class MessageManager {
                 entities,
                 reply_markup: replyMarkup,
                 effect,
+                schedule_date,
             }, params?.businessConnectionId);
         }
         else {
@@ -249,6 +253,7 @@ export class MessageManager {
                 entities,
                 reply_markup: replyMarkup,
                 effect,
+                schedule_date,
             }, params?.businessConnectionId);
         }
         const message_ = (await __classPrivateFieldGet(this, _MessageManager_instances, "m", _MessageManager_updatesToMessages).call(this, chatId, result, params?.businessConnectionId))[0];
@@ -285,6 +290,7 @@ export class MessageManager {
             }),
             message: "",
             effect: params?.effectId ? BigInt(params.effectId) : undefined,
+            schedule_date: params?.sendAt ? toUnixTimestamp(params.sendAt) : undefined,
         }, params?.businessConnectionId);
         const message = (await __classPrivateFieldGet(this, _MessageManager_instances, "m", _MessageManager_updatesToMessages).call(this, chatId, result, params?.businessConnectionId))[0];
         return assertMessageType(message, "venue");
@@ -314,6 +320,7 @@ export class MessageManager {
             }),
             message: "",
             effect: params?.effectId ? BigInt(params.effectId) : undefined,
+            schedule_date: params?.sendAt ? toUnixTimestamp(params.sendAt) : undefined,
         }, params?.businessConnectionId);
         const message = (await __classPrivateFieldGet(this, _MessageManager_instances, "m", _MessageManager_updatesToMessages).call(this, chatId, result, params?.businessConnectionId))[0];
         return assertMessageType(message, "contact");
@@ -340,6 +347,7 @@ export class MessageManager {
             }),
             message: "",
             effect: params?.effectId ? BigInt(params.effectId) : undefined,
+            schedule_date: params?.sendAt ? toUnixTimestamp(params.sendAt) : undefined,
         }, params?.businessConnectionId);
         const message = (await __classPrivateFieldGet(this, _MessageManager_instances, "m", _MessageManager_updatesToMessages).call(this, chatId, result, params?.businessConnectionId))[0];
         return assertMessageType(message, "dice");
@@ -384,6 +392,7 @@ export class MessageManager {
                 }),
             message: "",
             effect: params?.effectId ? BigInt(params.effectId) : undefined,
+            schedule_date: params?.sendAt ? toUnixTimestamp(params.sendAt) : undefined,
         }, params?.businessConnectionId);
         const message = (await __classPrivateFieldGet(this, _MessageManager_instances, "m", _MessageManager_updatesToMessages).call(this, chatId, result, params?.businessConnectionId))[0];
         return assertMessageType(message, "location");
@@ -509,6 +518,7 @@ export class MessageManager {
             media,
             message: "",
             effect: params?.effectId ? BigInt(params.effectId) : undefined,
+            schedule_date: params?.sendAt ? toUnixTimestamp(params.sendAt) : undefined,
         }, params?.businessConnectionId);
         const message = (await __classPrivateFieldGet(this, _MessageManager_instances, "m", _MessageManager_updatesToMessages).call(this, chatId, result, params?.businessConnectionId))[0];
         return assertMessageType(message, "poll");
@@ -581,6 +591,17 @@ export class MessageManager {
             await __classPrivateFieldGet(this, _MessageManager_c, "f").invoke({ _: "messages.deleteMessages", id: messageIds, revoke: params?.onlyForMe ? undefined : true });
         }
     }
+    async deleteScheduledMessages(chatId, messageIds) {
+        checkArray(messageIds, checkMessageId);
+        const peer = await __classPrivateFieldGet(this, _MessageManager_c, "f").getInputPeer(chatId);
+        await __classPrivateFieldGet(this, _MessageManager_c, "f").invoke({ _: "messages.deleteScheduledMessages", peer, id: messageIds });
+    }
+    async sendScheduledMessages(chatId, messageIds) {
+        checkArray(messageIds, checkMessageId);
+        const peer = await __classPrivateFieldGet(this, _MessageManager_c, "f").getInputPeer(chatId);
+        const result = await __classPrivateFieldGet(this, _MessageManager_c, "f").invoke({ _: "messages.sendScheduledMessages", peer, id: messageIds });
+        return await __classPrivateFieldGet(this, _MessageManager_instances, "m", _MessageManager_updatesToMessages).call(this, chatId, result);
+    }
     async deleteChatMemberMessages(chatId, memberId) {
         const channel = await __classPrivateFieldGet(this, _MessageManager_c, "f").getInputChannel(chatId);
         const participant = await __classPrivateFieldGet(this, _MessageManager_c, "f").getInputPeer(memberId);
@@ -644,7 +665,8 @@ export class MessageManager {
             is("updateEditMessage", update) ||
             is("updateEditChannelMessage", update) ||
             is("updateBotNewBusinessMessage", update) ||
-            is("updateBotEditBusinessMessage", update)) {
+            is("updateBotEditBusinessMessage", update) ||
+            is("updateNewScheduledMessage", update)) {
             if (!(is("messageEmpty", update.message))) {
                 const isOutgoing = update.message.out;
                 let shouldIgnore = isOutgoing ? (await __classPrivateFieldGet(this, _MessageManager_c, "f").storage.getAccountType()) == "user" ? false : true : false;
@@ -656,6 +678,10 @@ export class MessageManager {
                     const message = await this.constructMessage(update.message, undefined, business);
                     if (is("updateNewMessage", update) || is("updateNewChannelMessage", update) || is("updateBotNewBusinessMessage", update)) {
                         return { message };
+                    }
+                    else if (is("updateNewScheduledMessage", update)) {
+                        message.scheduled = true;
+                        return { scheduledMessage: message };
                     }
                     else {
                         return { editedMessage: message };
@@ -685,6 +711,11 @@ export class MessageManager {
                 }
             }
             return { deletedMessages };
+        }
+        else if (is("updateDeleteScheduledMessages", update)) {
+            const chatId = peerToChatId(update.peer);
+            const deletedMessages = update.messages.map((v) => ({ chatId, messageId: v }));
+            return { deletedMessages, scheduled: true };
         }
         else if (is("updateBotDeleteBusinessMessage", update)) {
             const chatId = peerToChatId(update.peer);
@@ -1142,8 +1173,12 @@ _MessageManager_c = new WeakMap(), _MessageManager_LresolveFileId = new WeakMap(
             if ("message" in update && is("messageEmpty", update.message)) {
                 continue;
             }
-            if (is("updateNewMessage", update) || is("updateEditMessage", update)) {
-                messages.push(await this.constructMessage(update.message));
+            if (is("updateNewMessage", update) || is("updateEditMessage", update) || is("updateNewScheduledMessage", update)) {
+                const message = await this.constructMessage(update.message);
+                if (is("updateNewScheduledMessage", update)) {
+                    message.scheduled = true;
+                }
+                messages.push(message);
             }
             else if (is("updateNewChannelMessage", update) || is("updateEditChannelMessage", update)) {
                 messages.push(await this.constructMessage(update.message));
@@ -1255,6 +1290,7 @@ _MessageManager_c = new WeakMap(), _MessageManager_LresolveFileId = new WeakMap(
         message: caption ?? "",
         entities: captionEntities,
         effect: params?.effectId ? BigInt(params.effectId) : undefined,
+        schedule_date: params?.sendAt ? toUnixTimestamp(params.sendAt) : undefined,
     }, params?.businessConnectionId);
     return (await __classPrivateFieldGet(this, _MessageManager_instances, "m", _MessageManager_updatesToMessages).call(this, chatId, result, params?.businessConnectionId))[0];
 }, _MessageManager_resolveInputMediaInner = async function _MessageManager_resolveInputMediaInner(document, media, fileType, otherAttribs) {

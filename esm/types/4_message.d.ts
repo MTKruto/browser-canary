@@ -105,6 +105,8 @@ export interface _MessageBase {
     viaBusinessBot?: User;
     /** The identifier of the message effect that has been attached to the message. */
     effectId?: string;
+    /** Whether the message is scheduled. */
+    scheduled?: boolean;
 }
 /**
  * Properties shared between media message types.

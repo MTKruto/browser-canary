@@ -161,7 +161,7 @@ export class Client extends Composer {
         _Client_L$initConncetion.set(this, void 0);
         _Client_reconnecting.set(this, false);
         _Client_constructContext.set(this, async (update) => {
-            const msg = "message" in update ? update.message : "editedMessage" in update ? update.editedMessage : "callbackQuery" in update ? update.callbackQuery.message : undefined;
+            const msg = "message" in update ? update.message : "editedMessage" in update ? update.editedMessage : "scheduledMessage" in update ? update.scheduledMessage : "callbackQuery" in update ? update.callbackQuery.message : undefined;
             const reactions = "messageInteractions" in update ? update.messageInteractions : undefined;
             const mustGetMsg = () => {
                 if (msg !== undefined) {
@@ -203,7 +203,7 @@ export class Client extends Composer {
             };
             const chat_ = "messageReactions" in update ? update.messageReactions.chat : "messageReactionCount" in update ? update.messageReactionCount.chat : "chatMember" in update ? update.chatMember.chat : "joinRequest" in update ? update.joinRequest.chat : "story" in update ? update.story.chat : undefined;
             const chat = chat_ ?? msg?.chat;
-            const from = "callbackQuery" in update ? update.callbackQuery.from : "inlineQuery" in update ? update.inlineQuery.from : "message" in update ? update.message.from : "editedMessage" in update ? update.editedMessage?.from : "chatMember" in update ? update.chatMember.from : "messageReactions" in update ? update.messageReactions.user : "preCheckoutQuery" in update ? update.preCheckoutQuery.from : "joinRequest" in update ? update.joinRequest.user : "businessConnection" in update ? update.businessConnection.user : undefined;
+            const from = msg?.from ? msg.from : "callbackQuery" in update ? update.callbackQuery.from : "inlineQuery" in update ? update.inlineQuery.from : "chatMember" in update ? update.chatMember.from : "messageReactions" in update ? update.messageReactions.user : "preCheckoutQuery" in update ? update.preCheckoutQuery.from : "joinRequest" in update ? update.joinRequest.user : "businessConnection" in update ? update.businessConnection.user : undefined;
             const senderChat = msg?.senderChat;
             const getReplyTo = (quote, chatId, messageId) => {
                 if ("story" in update) {
@@ -1796,6 +1796,46 @@ export class Client extends Composer {
      */
     async deleteChatMemberMessages(chatId, memberId) {
         await __classPrivateFieldGet(this, _Client_messageManager, "f").deleteChatMemberMessages(chatId, memberId);
+    }
+    /**
+     * Delete multiple scheduled messages.
+     *
+     * @method ms
+     * @param chatId The identifier of the chat that contains the scheduled messages.
+     * @param messageIds The identifiers of the scheduled messages to delete.
+     */
+    async deleteScheduledMessages(chatId, messageIds) {
+        await __classPrivateFieldGet(this, _Client_messageManager, "f").deleteScheduledMessages(chatId, messageIds);
+    }
+    /**
+     * Delete a scheduled message.
+     *
+     * @method ms
+     * @param chatId The identifier of the chat that contains the scheduled message.
+     * @param messageId The identifier of the scheduled message to delete.
+     */
+    async deleteScheduledMessage(chatId, messageId) {
+        await __classPrivateFieldGet(this, _Client_messageManager, "f").deleteScheduledMessages(chatId, [messageId]);
+    }
+    /**
+     * Send multiple scheduled messages before their schedule.
+     *
+     * @method ms
+     * @param chatId The identifier of the chat that contains the scheduled messages.
+     * @param messageIds The identifiers of the scheduled messages to send.
+     */
+    async sendScheduledMessages(chatId, messageIds) {
+        return await __classPrivateFieldGet(this, _Client_messageManager, "f").sendScheduledMessages(chatId, messageIds);
+    }
+    /**
+     * Send a scheduled message before its schedule.
+     *
+     * @method ms
+     * @param chatId The identifier of the chat that contains the scheduled message.
+     * @param messageId The identifier of the scheduled message to send.
+     */
+    async sendScheduledMessage(chatId, messageId) {
+        return (await __classPrivateFieldGet(this, _Client_messageManager, "f").sendScheduledMessages(chatId, [messageId]))[0];
     }
     /**
      * Pin a message in a chat.

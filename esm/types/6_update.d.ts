@@ -113,11 +113,30 @@ export interface UpdateNewMessage {
  * ```
  * @unlisted
  */
-export interface UpdateEditedMessage {
-    /** The edited message
+export interface UpdateMessageEdited {
+    /**
+     * The edited message.
      * @discriminator
      */
     editedMessage: Message;
+}
+/**
+ * A message was scheduled. User-only.
+ *
+ * ```
+ * client.on("scheduledMessage", (ctx) => {
+ *   console.log("A message was just schedueld.");
+ *   // ctx.scheduledMessage
+ * });
+ * ```
+ * @unlisted
+ */
+export interface UpdateMessageScheduled {
+    /**
+     * The scheduled message.
+     * @discriminator
+     */
+    scheduledMessage: Message;
 }
 /**
  * One or more messages were deleted.
@@ -131,12 +150,13 @@ export interface UpdateEditedMessage {
  * ```
  * @unlisted
  */
-export interface UpdateDeletedMessages {
+export interface UpdateMessagesDeleted {
     /**
      * The deleted messages
      * @discriminator
      */
     deletedMessages: MessageReference[];
+    scheduled?: boolean;
     businessConnectionId?: string;
 }
 /**
@@ -338,10 +358,11 @@ export interface UpdateJoinRequest {
 /** @unlisted */
 export interface UpdateMap {
     message: UpdateNewMessage;
-    editedMessage: UpdateEditedMessage;
+    editedMessage: UpdateMessageEdited;
+    scheduledMessage: UpdateMessageScheduled;
     connectionState: UpdateConnectionState;
     authorizationState: UpdateAuthorizationState;
-    deletedMessages: UpdateDeletedMessages;
+    deletedMessages: UpdateMessagesDeleted;
     callbackQuery: UpdateCallbackQuery;
     inlineQuery: UpdateInlineQuery;
     chosenInlineResult: UpdateChosenInlineResult;
@@ -361,7 +382,7 @@ export interface UpdateMap {
     joinRequest: UpdateJoinRequest;
 }
 /** @unlisted */
-export type UpdateIntersection = Partial<UpdateConnectionState & UpdateAuthorizationState & UpdateNewMessage & UpdateEditedMessage & UpdateDeletedMessages & UpdateCallbackQuery & UpdateInlineQuery & UpdateChosenInlineResult & UpdateNewChat & UpdateEditedChat & UpdateDeletedChat & UpdateMessageInteractions & UpdateMessageReactionCount & UpdateMessageReactions & UpdateChatMember & UpdateMyChatMember & UpdateDeletedStory & UpdateNewStory & UpdateBusinessConnection & UpdateVideoChat & UpdatePreCheckoutQuery & UpdateJoinRequest>;
+export type UpdateIntersection = Partial<UpdateConnectionState & UpdateAuthorizationState & UpdateNewMessage & UpdateMessageEdited & UpdateMessageScheduled & UpdateMessagesDeleted & UpdateCallbackQuery & UpdateInlineQuery & UpdateChosenInlineResult & UpdateNewChat & UpdateEditedChat & UpdateDeletedChat & UpdateMessageInteractions & UpdateMessageReactionCount & UpdateMessageReactions & UpdateChatMember & UpdateMyChatMember & UpdateDeletedStory & UpdateNewStory & UpdateBusinessConnection & UpdateVideoChat & UpdatePreCheckoutQuery & UpdateJoinRequest>;
 /** An incoming update. */
-export type Update = UpdateConnectionState | UpdateAuthorizationState | UpdateNewMessage | UpdateEditedMessage | UpdateDeletedMessages | UpdateCallbackQuery | UpdateInlineQuery | UpdateChosenInlineResult | UpdateNewChat | UpdateEditedChat | UpdateDeletedChat | UpdateMessageInteractions | UpdateMessageReactionCount | UpdateMessageReactions | UpdateChatMember | UpdateMyChatMember | UpdateDeletedStory | UpdateNewStory | UpdateBusinessConnection | UpdateVideoChat | UpdatePreCheckoutQuery | UpdateJoinRequest;
+export type Update = UpdateConnectionState | UpdateAuthorizationState | UpdateNewMessage | UpdateMessageEdited | UpdateMessageScheduled | UpdateMessagesDeleted | UpdateCallbackQuery | UpdateInlineQuery | UpdateChosenInlineResult | UpdateNewChat | UpdateEditedChat | UpdateDeletedChat | UpdateMessageInteractions | UpdateMessageReactionCount | UpdateMessageReactions | UpdateChatMember | UpdateMyChatMember | UpdateDeletedStory | UpdateNewStory | UpdateBusinessConnection | UpdateVideoChat | UpdatePreCheckoutQuery | UpdateJoinRequest;
 //# sourceMappingURL=6_update.d.ts.map

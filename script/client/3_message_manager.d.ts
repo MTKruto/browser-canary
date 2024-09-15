@@ -26,7 +26,7 @@ import { FileManager } from "./2_file_manager.js";
 interface C extends C_ {
     fileManager: FileManager;
 }
-declare const messageManagerUpdates: readonly ["updateNewMessage", "updateNewChannelMessage", "updateEditMessage", "updateEditChannelMessage", "updateBotNewBusinessMessage", "updateBotEditBusinessMessage", "updateBotDeleteBusinessMessage", "updateDeleteMessages", "updateDeleteChannelMessages", "updateChannelParticipant", "updateChatParticipant", "updateBotChatInviteRequester"];
+declare const messageManagerUpdates: readonly ["updateNewMessage", "updateNewChannelMessage", "updateEditMessage", "updateNewScheduledMessage", "updateEditChannelMessage", "updateBotNewBusinessMessage", "updateBotEditBusinessMessage", "updateBotDeleteBusinessMessage", "updateDeleteMessages", "updateDeleteChannelMessages", "updateDeleteScheduledMessages", "updateChannelParticipant", "updateChatParticipant", "updateBotChatInviteRequester"];
 type MessageManagerUpdate = Api.Types[(typeof messageManagerUpdates)[number]];
 export declare class MessageManager {
     #private;
@@ -72,6 +72,8 @@ export declare class MessageManager {
     editMessageMedia(chatId: ID, messageId: number, media: InputMedia, params?: EditMessageMediaParams): Promise<Message>;
     editInlineMessageMedia(inlineMessageId: string, media: InputMedia, params?: EditMessageMediaParams): Promise<void>;
     deleteMessages(chatId: ID, messageIds: number[], params?: DeleteMessagesParams): Promise<void>;
+    deleteScheduledMessages(chatId: ID, messageIds: number[]): Promise<void>;
+    sendScheduledMessages(chatId: ID, messageIds: number[]): Promise<Message[]>;
     deleteChatMemberMessages(chatId: ID, memberId: ID): Promise<void>;
     pinMessage(chatId: ID, messageId: number, params?: PinMessageParams): Promise<void>;
     unpinMessage(chatId: ID, messageId: number, params?: UnpinMessageParams): Promise<void>;

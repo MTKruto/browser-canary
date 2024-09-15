@@ -650,6 +650,38 @@ export declare class Client<C extends Context = Context> extends Composer<C> {
      */
     deleteChatMemberMessages(chatId: ID, memberId: ID): Promise<void>;
     /**
+     * Delete multiple scheduled messages.
+     *
+     * @method ms
+     * @param chatId The identifier of the chat that contains the scheduled messages.
+     * @param messageIds The identifiers of the scheduled messages to delete.
+     */
+    deleteScheduledMessages(chatId: ID, messageIds: number[]): Promise<void>;
+    /**
+     * Delete a scheduled message.
+     *
+     * @method ms
+     * @param chatId The identifier of the chat that contains the scheduled message.
+     * @param messageId The identifier of the scheduled message to delete.
+     */
+    deleteScheduledMessage(chatId: ID, messageId: number): Promise<void>;
+    /**
+     * Send multiple scheduled messages before their schedule.
+     *
+     * @method ms
+     * @param chatId The identifier of the chat that contains the scheduled messages.
+     * @param messageIds The identifiers of the scheduled messages to send.
+     */
+    sendScheduledMessages(chatId: ID, messageIds: number[]): Promise<Message[]>;
+    /**
+     * Send a scheduled message before its schedule.
+     *
+     * @method ms
+     * @param chatId The identifier of the chat that contains the scheduled message.
+     * @param messageId The identifier of the scheduled message to send.
+     */
+    sendScheduledMessage(chatId: ID, messageId: number): Promise<Message>;
+    /**
      * Pin a message in a chat.
      *
      * @method ms

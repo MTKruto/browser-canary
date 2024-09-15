@@ -348,6 +348,7 @@ export async function constructMessage(message_, getEntity, getMessage, getStick
         hasProtectedContent: message_.noforwards || false,
         senderBoostCount: message_.from_boosts_applied,
         effectId: message_.effect ? String(message_.effect) : undefined,
+        scheduled: message_.from_scheduled ? true : undefined,
     };
     if (message_.reactions) {
         const recentReactions = message_.reactions.recent_reactions ?? [];

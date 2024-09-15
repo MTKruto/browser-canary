@@ -32,6 +32,9 @@ export function match(filter, value) {
         else if ("editedMessage" in value) {
             type = "editedMessage";
         }
+        else if ("scheduledMessage" in value) {
+            type = "scheduledMessage";
+        }
         else {
             return false;
         }
