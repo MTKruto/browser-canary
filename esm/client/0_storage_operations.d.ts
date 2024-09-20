@@ -144,7 +144,7 @@ export declare class StorageOperations {
     getPinnedChats(listId: number): Promise<number[] | null>;
     getHistory(chatId: number, offsetId: number, limit: number): Promise<Api.Message[]>;
     getFile(id: bigint): Promise<[number, number] | null>;
-    iterFileParts(id: bigint, partCount: number, offset: number): AsyncGenerator<Uint8Array>;
+    iterFileParts(id: bigint, partCount: number, offset: number, signal: AbortSignal | undefined): AsyncGenerator<Uint8Array>;
     saveFilePart(id: bigint, index: number, bytes: Uint8Array): Promise<void>;
     setFilePartCount(id: bigint, partCount: number, chunkSize: number): Promise<void>;
     setCustomEmojiDocument(id: bigint, document: Api.document): Promise<void>;

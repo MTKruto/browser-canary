@@ -399,11 +399,12 @@ class StorageOperations {
         }
         return await __classPrivateFieldGet(this, _StorageOperations_storage, "f").get(exports.K.cache.file(id));
     }
-    async *iterFileParts(id, partCount, offset) {
+    async *iterFileParts(id, partCount, offset, signal) {
         if (!__classPrivateFieldGet(this, _StorageOperations_supportsFiles, "f")) {
             return;
         }
         for (let i = offset; i < partCount; i++) {
+            signal?.throwIfAborted();
             const part = await __classPrivateFieldGet(this, _StorageOperations_storage, "f").get(exports.K.cache.filePart(id, i));
             if (part == null) {
                 continue;

@@ -110,12 +110,14 @@ class FileManager {
         }
     }
     async *downloadInner(location, dcId, params) {
+        const signal = params?.signal;
+        signal?.throwIfAborted();
         const id = "id" in location ? location.id : "photo_id" in location ? location.photo_id : null;
         if (id != null && __classPrivateFieldGet(this, _FileManager_c, "f").storage.supportsFiles) {
             const file = await __classPrivateFieldGet(this, _FileManager_c, "f").storage.getFile(id);
             const partOffset = file == null ? 0 : params?.offset ? Math.ceil(10 / file[1]) - 1 : 0;
             if (file != null && file[0] > 0) {
-                yield* __classPrivateFieldGet(this, _FileManager_c, "f").storage.iterFileParts(id, file[0], partOffset);
+                yield* __classPrivateFieldGet(this, _FileManager_c, "f").storage.iterFileParts(id, file[0], partOffset, signal);
                 return;
             }
         }
@@ -126,24 +128,29 @@ class FileManager {
         }
         const connection = __classPrivateFieldGet(this, _FileManager_c, "f").getCdnConnection(dcId);
         await connection.connect();
+        signal?.throwIfAborted();
         const limit = chunkSize;
         let offset = params?.offset ? BigInt(params.offset) : 0n;
         let part = 0;
         try {
             while (true) {
+                signal?.throwIfAborted();
                 let retryIn = 1;
                 let errorCount = 0;
                 try {
                     const file = await connection.invoke({ _: "upload.getFile", location, offset, limit });
+                    signal?.throwIfAborted();
                     if ((0, _2_tl_js_1.is)("upload.file", file)) {
                         yield file.bytes;
                         if (id != null) {
                             await __classPrivateFieldGet(this, _FileManager_c, "f").storage.saveFilePart(id, part, file.bytes);
+                            signal?.throwIfAborted();
                         }
                         ++part;
                         if (file.bytes.length < limit) {
                             if (id != null) {
                                 await __classPrivateFieldGet(this, _FileManager_c, "f").storage.setFilePartCount(id, part + 1, chunkSize);
+                                signal?.throwIfAborted();
                             }
                             break;
                         }
@@ -164,6 +171,7 @@ class FileManager {
                         retryIn = 0;
                     }
                     await __classPrivateFieldGet(this, _FileManager_instances, "m", _FileManager_handleError).call(this, err, retryIn, `[${id}-${part + 1}]`);
+                    signal?.throwIfAborted();
                     retryIn += 2;
                     if (retryIn > 11) {
                         retryIn = 11;

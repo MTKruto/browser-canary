@@ -147,26 +147,20 @@ export interface DownloadParams {
     chunkSize?: number;
     /** Download offset in bytes. */
     offset?: number;
+    /** Download abort signal. */
+    signal?: AbortSignal;
 }
 export interface _UploadCommon {
     /** The file name to assign if applicable. */
     fileName?: string;
+    /** The file's size. */
+    fileSize?: number;
     /** The mime type to assign if applicable. */
     mimeType?: string;
     /** Size of each upload chunk in bytes. */
     chunkSize?: number;
     /** Upload abort signal. */
-    signal?: AbortSignal | null;
-}
-export interface UploadParams {
-    /** The file name to assign. */
-    fileName?: string;
-    /** The file's size. */
-    fileSize?: number;
-    /** Size of each upload chunk in bytes. */
-    chunkSize?: number;
-    /** Upload abort signal. */
-    signal?: AbortSignal | null;
+    signal?: AbortSignal;
 }
 export interface AnswerInlineQueryParams {
     /** TTL of the caches of the results in seconds. Defaults to 300. */
