@@ -23,7 +23,7 @@ import { Api } from "../2_tl.js";
 import { DC } from "../3_transport.js";
 import { BotCommand, BusinessConnection, CallbackQueryAnswer, CallbackQueryQuestion, Chat, ChatAction, ChatListItem, ChatMember, ChatP, FailedInvitation, FileSource, ID, InactiveChat, InlineQueryAnswer, InlineQueryResult, InputMedia, InputStoryContent, InviteLink, LiveStreamChannel, Message, MessageAnimation, MessageAudio, MessageContact, MessageDice, MessageDocument, MessageInvoice, MessageLocation, MessagePhoto, MessagePoll, MessageSticker, MessageText, MessageVenue, MessageVideo, MessageVideoNote, MessageVoice, NetworkStatistics, ParseMode, Poll, PriceTag, Reaction, Sticker, Story, Update, User, VideoChat, VideoChatActive, VideoChatScheduled } from "../3_types.js";
 import { Migrate } from "../4_errors.js";
-import { AddChatMemberParams, AddReactionParams, AnswerCallbackQueryParams, AnswerInlineQueryParams, AnswerPreCheckoutQueryParams, ApproveJoinRequestsParams, BanChatMemberParams, CreateInviteLinkParams, CreateStoryParams, DeclineJoinRequestsParams, DeleteMessageParams, DeleteMessagesParams, DownloadLiveStreamChunkParams, DownloadParams, EditMessageLiveLocationParams, EditMessageMediaParams, EditMessageParams, EditMessageReplyMarkupParams, ForwardMessagesParams, GetChatsParams, GetCreatedInviteLinksParams, GetHistoryParams, GetMyCommandsParams, JoinVideoChatParams, PinMessageParams, ReplyParams, ScheduleVideoChatParams, SearchMessagesParams, SendAnimationParams, SendAudioParams, SendContactParams, SendDiceParams, SendDocumentParams, SendInlineQueryParams, SendInvoiceParams, SendLocationParams, SendMediaGroupParams, SendMessageParams, SendPhotoParams, SendPollParams, SendStickerParams, SendVenueParams, SendVideoNoteParams, SendVideoParams, SendVoiceParams, SetChatMemberRightsParams, SetChatPhotoParams, SetMyCommandsParams, SetReactionsParams, SignInParams, StartVideoChatParams, StopPollParams, UnpinMessageParams } from "./0_params.js";
+import { AddChatMemberParams, AddReactionParams, AnswerCallbackQueryParams, AnswerInlineQueryParams, AnswerPreCheckoutQueryParams, ApproveJoinRequestsParams, BanChatMemberParams, CreateInviteLinkParams, CreateStoryParams, DeclineJoinRequestsParams, DeleteMessageParams, DeleteMessagesParams, DownloadLiveStreamChunkParams, DownloadParams, EditMessageLiveLocationParams, EditMessageMediaParams, EditMessageParams, EditMessageReplyMarkupParams, ForwardMessagesParams, GetChatMembersParams, GetChatsParams, GetCreatedInviteLinksParams, GetHistoryParams, GetMyCommandsParams, JoinVideoChatParams, PinMessageParams, ReplyParams, ScheduleVideoChatParams, SearchMessagesParams, SendAnimationParams, SendAudioParams, SendContactParams, SendDiceParams, SendDocumentParams, SendInlineQueryParams, SendInvoiceParams, SendLocationParams, SendMediaGroupParams, SendMessageParams, SendPhotoParams, SendPollParams, SendStickerParams, SendVenueParams, SendVideoNoteParams, SendVideoParams, SendVoiceParams, SetChatMemberRightsParams, SetChatPhotoParams, SetMyCommandsParams, SetReactionsParams, SignInParams, StartVideoChatParams, StopPollParams, UnpinMessageParams } from "./0_params.js";
 import { StorageOperations } from "./0_storage_operations.js";
 import { ClientPlainParams } from "./1_client_plain.js";
 import { Composer as Composer_, NextFunction } from "./1_composer.js";
@@ -167,6 +167,8 @@ export interface Context {
     unblock: () => Promise<void>;
     /** Context-aware alias for `client.getChatMember()`. */
     getChatMember: (userId: ID) => Promise<ChatMember>;
+    /** Context-aware alias for `client.getChatMember()`. */
+    getChatMembers: (params?: GetChatMembersParams) => Promise<ChatMember[]>;
     /** Context-aware alias for `client.setChatStickerSet()`. */
     setChatStickerSet: (setName: string) => Promise<void>;
     /** Context-aware alias for `client.deleteChatStickerSet()`. */
@@ -906,6 +908,13 @@ export declare class Client<C extends Context = Context> extends Composer<C> {
      * @param userId The identifier of the user.
      */
     getChatMember(chatId: ID, userId: ID): Promise<ChatMember>;
+    /**
+     * Get the members of a chat.
+     *
+     * @method ch
+     * @param chatId The chat to get its members.
+     */
+    getChatMembers(chatId: ID, params?: GetChatMembersParams): Promise<ChatMember[]>;
     /**
      * Set a chat's sticker set.
      *

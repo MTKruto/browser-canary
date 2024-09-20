@@ -34,7 +34,7 @@ import { InputError } from "../0_errors.js";
 import { getLogger, getRandomId, toUnixTimestamp } from "../1_utilities.js";
 import { as, getChannelChatId, is, isOneOf, peerToChatId } from "../2_tl.js";
 import { constructChatMemberUpdated, constructFailedInvitation, constructInviteLink, constructJoinRequest, deserializeFileId, selfDestructOptionToInt } from "../3_types.js";
-import { assertMessageType, chatMemberRightsToTlObject, constructChatMember, constructMessage as constructMessage_, deserializeInlineMessageId, FileType, messageEntityToTlObject, reactionEqual, reactionToTlObject, replyMarkupToTlObject } from "../3_types.js";
+import { assertMessageType, chatMemberRightsToTlObject, constructMessage as constructMessage_, deserializeInlineMessageId, FileType, messageEntityToTlObject, reactionEqual, reactionToTlObject, replyMarkupToTlObject } from "../3_types.js";
 import { messageSearchFilterToTlObject } from "../types/0_message_search_filter.js";
 import { parseHtml } from "./0_html.js";
 import { parseMarkdown } from "./0_markdown.js";
@@ -1004,22 +1004,6 @@ export class MessageManager {
             throw new InputError("Only users can be blocked or unblocked.");
         }
         await __classPrivateFieldGet(this, _MessageManager_c, "f").invoke({ _: "contacts.unblock", id });
-    }
-    async getChatMember(chatId, userId) {
-        const peer = await __classPrivateFieldGet(this, _MessageManager_c, "f").getInputPeer(chatId);
-        if (is("inputPeerChannel", peer)) {
-            const { participant } = await __classPrivateFieldGet(this, _MessageManager_c, "f").invoke({ _: "channels.getParticipant", channel: { ...peer, _: "inputChannel" }, participant: await __classPrivateFieldGet(this, _MessageManager_c, "f").getInputPeer(userId) });
-            return await constructChatMember(participant, __classPrivateFieldGet(this, _MessageManager_c, "f").getEntity);
-        }
-        else if (is("inputPeerChat", peer)) {
-            const user = await __classPrivateFieldGet(this, _MessageManager_c, "f").getInputUser(userId);
-            const fullChat = await __classPrivateFieldGet(this, _MessageManager_c, "f").invoke({ ...peer, _: "messages.getFullChat" }).then((v) => as("chatFull", v.full_chat));
-            const participant = as("chatParticipants", fullChat.participants).participants.find((v) => v.user_id == user.user_id);
-            return await constructChatMember(participant, __classPrivateFieldGet(this, _MessageManager_c, "f").getEntity);
-        }
-        else {
-            throw new InputError("Expected a channel, supergroup, or group ID. Got a user ID instead.");
-        }
     }
     async setChatStickerSet(chatId, setName) {
         const channel = await __classPrivateFieldGet(this, _MessageManager_c, "f").getInputChannel(chatId);

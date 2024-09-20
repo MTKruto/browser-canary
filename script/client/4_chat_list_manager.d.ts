@@ -19,6 +19,7 @@
  */
 import { Api } from "../2_tl.js";
 import { ChatListItem, ChatMember, ID } from "../3_types.js";
+import { GetChatMembersParams } from "./0_params.js";
 import { C as C_ } from "./1_types.js";
 import { FileManager } from "./2_file_manager.js";
 import { MessageManager } from "./3_message_manager.js";
@@ -37,6 +38,8 @@ export declare class ChatListManager {
     handleUpdate(update: ChatListManagerUpdate): Promise<void>;
     getChat(chatId: ID): Promise<import("../3_types.js").Chat>;
     getChatAdministrators(chatId: ID): Promise<ChatMember[]>;
+    getChatMember(chatId: ID, userId: ID): Promise<ChatMember>;
+    getChatMembers(chatId: ID, params?: GetChatMembersParams): Promise<ChatMember[]>;
 }
 export {};
 //# sourceMappingURL=4_chat_list_manager.d.ts.map

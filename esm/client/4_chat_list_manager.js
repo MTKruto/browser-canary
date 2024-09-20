@@ -32,7 +32,7 @@ var _ChatListManager_instances, _ChatListManager_c, _ChatListManager_LgetChats, 
 import { unreachable } from "../0_deps.js";
 import { InputError } from "../0_errors.js";
 import { getLogger, toUnixTimestamp } from "../1_utilities.js";
-import { is, isOneOf, peerToChatId } from "../2_tl.js";
+import { as, is, isOneOf, peerToChatId } from "../2_tl.js";
 import { constructChat, constructChatListItem, constructChatListItem3, constructChatListItem4, constructChatMember, getChatListItemOrder } from "../3_types.js";
 import { getChatListId } from "./0_utilities.js";
 const chatListManagerUpdates = [
@@ -191,6 +191,51 @@ export class ChatListManager {
         if (is("inputPeerChannel", peer)) {
             const channel = { ...peer, _: "inputChannel" };
             const participants = await __classPrivateFieldGet(this, _ChatListManager_c, "f").invoke({ _: "channels.getParticipants", channel, filter: { _: "channelParticipantsAdmins" }, offset: 0, limit: 100, hash: 0n });
+            if (is("channels.channelParticipantsNotModified", participants)) {
+                unreachable();
+            }
+            const chatMembers = new Array();
+            for (const p of participants.participants) {
+                chatMembers.push(await constructChatMember(p, __classPrivateFieldGet(this, _ChatListManager_c, "f").getEntity));
+            }
+            return chatMembers;
+        }
+        else if (is("inputPeerChat", peer)) {
+            const fullChat = await __classPrivateFieldGet(this, _ChatListManager_instances, "m", _ChatListManager_getFullChat).call(this, chatId);
+            if (!fullChat || !("participants" in fullChat) || !is("chatParticipants", fullChat.participants)) {
+                unreachable();
+            }
+            const chatMembers = new Array();
+            for (const p of fullChat.participants.participants) {
+                chatMembers.push(await constructChatMember(p, __classPrivateFieldGet(this, _ChatListManager_c, "f").getEntity));
+            }
+            return chatMembers;
+        }
+        else {
+            unreachable();
+        }
+    }
+    async getChatMember(chatId, userId) {
+        const peer = await __classPrivateFieldGet(this, _ChatListManager_c, "f").getInputPeer(chatId);
+        if (is("inputPeerChannel", peer)) {
+            const { participant } = await __classPrivateFieldGet(this, _ChatListManager_c, "f").invoke({ _: "channels.getParticipant", channel: { ...peer, _: "inputChannel" }, participant: await __classPrivateFieldGet(this, _ChatListManager_c, "f").getInputPeer(userId) });
+            return await constructChatMember(participant, __classPrivateFieldGet(this, _ChatListManager_c, "f").getEntity);
+        }
+        else if (is("inputPeerChat", peer)) {
+            const user = await __classPrivateFieldGet(this, _ChatListManager_c, "f").getInputUser(userId);
+            const fullChat = await __classPrivateFieldGet(this, _ChatListManager_c, "f").invoke({ ...peer, _: "messages.getFullChat" }).then((v) => as("chatFull", v.full_chat));
+            const participant = as("chatParticipants", fullChat.participants).participants.find((v) => v.user_id == user.user_id);
+            return await constructChatMember(participant, __classPrivateFieldGet(this, _ChatListManager_c, "f").getEntity);
+        }
+        else {
+            throw new InputError("Expected a channel, supergroup, or group ID. Got a user ID instead.");
+        }
+    }
+    async getChatMembers(chatId, params) {
+        const peer = await __classPrivateFieldGet(this, _ChatListManager_c, "f").getInputPeer(chatId);
+        if (is("inputPeerChannel", peer)) {
+            const channel = { ...peer, _: "inputChannel" };
+            const participants = await __classPrivateFieldGet(this, _ChatListManager_c, "f").invoke({ _: "channels.getParticipants", channel, filter: { _: "channelParticipantsRecent" }, offset: params?.offset ?? 0, limit: params?.limit ?? 100, hash: 0n });
             if (is("channels.channelParticipantsNotModified", participants)) {
                 unreachable();
             }

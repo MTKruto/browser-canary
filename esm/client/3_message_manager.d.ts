@@ -106,7 +106,6 @@ export declare class MessageManager {
     leaveChat(chatId: ID): Promise<void>;
     blockUser(userId: ID): Promise<void>;
     unblockUser(userId: ID): Promise<void>;
-    getChatMember(chatId: ID, userId: ID): Promise<import("../3_types.js").ChatMember>;
     setChatStickerSet(chatId: ID, setName: string): Promise<void>;
     deleteChatStickerSet(chatId: ID): Promise<void>;
     stopPoll(chatId: ID, messageId: number, params?: StopPollParams): Promise<import("../3_types.js").Poll>;

@@ -1008,22 +1008,6 @@ class MessageManager {
         }
         await __classPrivateFieldGet(this, _MessageManager_c, "f").invoke({ _: "contacts.unblock", id });
     }
-    async getChatMember(chatId, userId) {
-        const peer = await __classPrivateFieldGet(this, _MessageManager_c, "f").getInputPeer(chatId);
-        if ((0, _2_tl_js_1.is)("inputPeerChannel", peer)) {
-            const { participant } = await __classPrivateFieldGet(this, _MessageManager_c, "f").invoke({ _: "channels.getParticipant", channel: { ...peer, _: "inputChannel" }, participant: await __classPrivateFieldGet(this, _MessageManager_c, "f").getInputPeer(userId) });
-            return await (0, _3_types_js_2.constructChatMember)(participant, __classPrivateFieldGet(this, _MessageManager_c, "f").getEntity);
-        }
-        else if ((0, _2_tl_js_1.is)("inputPeerChat", peer)) {
-            const user = await __classPrivateFieldGet(this, _MessageManager_c, "f").getInputUser(userId);
-            const fullChat = await __classPrivateFieldGet(this, _MessageManager_c, "f").invoke({ ...peer, _: "messages.getFullChat" }).then((v) => (0, _2_tl_js_1.as)("chatFull", v.full_chat));
-            const participant = (0, _2_tl_js_1.as)("chatParticipants", fullChat.participants).participants.find((v) => v.user_id == user.user_id);
-            return await (0, _3_types_js_2.constructChatMember)(participant, __classPrivateFieldGet(this, _MessageManager_c, "f").getEntity);
-        }
-        else {
-            throw new _0_errors_js_1.InputError("Expected a channel, supergroup, or group ID. Got a user ID instead.");
-        }
-    }
     async setChatStickerSet(chatId, setName) {
         const channel = await __classPrivateFieldGet(this, _MessageManager_c, "f").getInputChannel(chatId);
         await __classPrivateFieldGet(this, _MessageManager_c, "f").invoke({ _: "channels.setStickers", channel, stickerset: { _: "inputStickerSetShortName", short_name: setName } });

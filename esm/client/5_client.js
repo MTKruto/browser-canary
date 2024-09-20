@@ -500,6 +500,10 @@ export class Client extends Composer {
                     const { chatId } = mustGetMsg();
                     return this.getChatMember(chatId, userId);
                 },
+                getChatMembers: (params) => {
+                    const { chatId } = mustGetMsg();
+                    return this.getChatMembers(chatId, params);
+                },
                 setChatStickerSet: (setName) => {
                     const { chatId } = mustGetMsg();
                     return this.setChatStickerSet(chatId, setName);
@@ -2123,7 +2127,16 @@ export class Client extends Composer {
      * @param userId The identifier of the user.
      */
     async getChatMember(chatId, userId) {
-        return await __classPrivateFieldGet(this, _Client_messageManager, "f").getChatMember(chatId, userId);
+        return await __classPrivateFieldGet(this, _Client_chatListManager, "f").getChatMember(chatId, userId);
+    }
+    /**
+     * Get the members of a chat.
+     *
+     * @method ch
+     * @param chatId The chat to get its members.
+     */
+    async getChatMembers(chatId, params) {
+        return await __classPrivateFieldGet(this, _Client_chatListManager, "f").getChatMembers(chatId, params);
     }
     /**
      * Set a chat's sticker set.
