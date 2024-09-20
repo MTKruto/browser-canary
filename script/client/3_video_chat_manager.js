@@ -158,7 +158,7 @@ class VideoChatManager {
                 throw new _0_errors_js_1.InputError("Got invalid quality.");
             })(),
         };
-        yield* __classPrivateFieldGet(this, _VideoChatManager_c, "f").fileManager.downloadInner(location, call.stream_dc_id ?? (0, _0_deps_js_1.unreachable)());
+        yield* __classPrivateFieldGet(this, _VideoChatManager_c, "f").fileManager.downloadInner(location, call.stream_dc_id ?? (0, _0_deps_js_1.unreachable)(), params);
     }
 }
 exports.VideoChatManager = VideoChatManager;

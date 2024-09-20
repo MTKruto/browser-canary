@@ -155,7 +155,7 @@ export class VideoChatManager {
                 throw new InputError("Got invalid quality.");
             })(),
         };
-        yield* __classPrivateFieldGet(this, _VideoChatManager_c, "f").fileManager.downloadInner(location, call.stream_dc_id ?? unreachable());
+        yield* __classPrivateFieldGet(this, _VideoChatManager_c, "f").fileManager.downloadInner(location, call.stream_dc_id ?? unreachable(), params);
     }
 }
 _VideoChatManager_c = new WeakMap(), _VideoChatManager_instances = new WeakSet(), _VideoChatManager_createGroupCall = async function _VideoChatManager_createGroupCall(chatId, title, liveStream, scheduleDate) {

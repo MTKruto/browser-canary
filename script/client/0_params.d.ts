@@ -413,6 +413,8 @@ export interface JoinVideoChatParams {
 export interface DownloadLiveStreamChunkParams {
     /** Video quality. */
     quality?: "low" | "medium" | "high";
+    /** Download abort signal. */
+    signal?: AbortSignal;
 }
 export interface AnswerPreCheckoutQueryParams {
     error?: string;
