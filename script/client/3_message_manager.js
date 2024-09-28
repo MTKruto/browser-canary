@@ -719,9 +719,19 @@ class MessageManager {
             (0, _2_tl_js_1.is)("updateNewScheduledMessage", update)) {
             if (!((0, _2_tl_js_1.is)("messageEmpty", update.message))) {
                 const isOutgoing = update.message.out;
-                let shouldIgnore = isOutgoing ? (await __classPrivateFieldGet(this, _MessageManager_c, "f").storage.getAccountType()) == "user" ? false : true : false;
-                if (__classPrivateFieldGet(this, _MessageManager_c, "f").ignoreOutgoing != null && isOutgoing) {
-                    shouldIgnore = __classPrivateFieldGet(this, _MessageManager_c, "f").ignoreOutgoing;
+                let shouldIgnore = false;
+                if (isOutgoing) {
+                    if (__classPrivateFieldGet(this, _MessageManager_c, "f").outgoingMessages == null) {
+                        __classPrivateFieldGet(this, _MessageManager_c, "f").outgoingMessages = __classPrivateFieldGet(this, _MessageManager_c, "f").storage.accountType == "user" ? "all" : "business";
+                    }
+                    if (__classPrivateFieldGet(this, _MessageManager_c, "f").outgoingMessages == "none") {
+                        shouldIgnore = true;
+                    }
+                    else if (__classPrivateFieldGet(this, _MessageManager_c, "f").outgoingMessages == "business") {
+                        if (!(0, _2_tl_js_1.is)("updateBotNewBusinessMessage", update) && !(0, _2_tl_js_1.is)("updateBotEditBusinessMessage", update)) {
+                            shouldIgnore = true;
+                        }
+                    }
                 }
                 if (!shouldIgnore) {
                     const business = "connection_id" in update ? { connectionId: update.connection_id, replyToMessage: update.reply_to_message } : undefined;

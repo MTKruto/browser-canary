@@ -218,8 +218,8 @@ export interface ClientParams extends ClientPlainParams {
     systemVersion?: string;
     /** Whether to use default handlers. Defaults to `true`. */
     defaultHandlers?: boolean;
-    /** Whether to ignore outgoing messages. Defaults to `true` for bots, and `false` for users. */
-    ignoreOutgoing?: boolean;
+    /** What types of outgoing messages should be received. `business` is only valid for bots. Defaults to `business` for bots, and `all` for users. */
+    outgoingMessages?: "none" | "business" | "all";
     /** Default command prefixes. Defaults to `"/"` for bots and `"\"` for users. This option must be set separately for nested composers. */
     prefixes?: string | string[];
     /** Whether to guarantee that order-sensitive updates are delivered at least once before delivering next ones. Useful mainly for clients providing a user interface à la Telegram Desktop. Defaults to `false`. */
