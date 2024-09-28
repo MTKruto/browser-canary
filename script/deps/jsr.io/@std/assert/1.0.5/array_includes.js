@@ -4,7 +4,7 @@ exports.assertArrayIncludes = void 0;
 // Copyright 2018-2024 the Deno authors. All rights reserved. MIT license.
 // This module is browser compatible.
 const equal_js_1 = require("./equal.js");
-const format_js_1 = require("../../internal/1.0.3/format.js");
+const format_js_1 = require("../../internal/1.0.4/format.js");
 const assertion_error_js_1 = require("./assertion_error.js");
 /**
  * Make an assertion that `actual` includes the `expected` values. If not then

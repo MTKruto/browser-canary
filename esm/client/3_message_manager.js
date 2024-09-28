@@ -539,7 +539,12 @@ export class MessageManager {
     }
     async editMessageReplyMarkup(chatId, messageId, params) {
         __classPrivateFieldGet(this, _MessageManager_instances, "m", _MessageManager_checkParams).call(this, params);
-        const result = await __classPrivateFieldGet(this, _MessageManager_c, "f").invoke({ _: "messages.editMessage", id: checkMessageId(messageId), peer: await __classPrivateFieldGet(this, _MessageManager_c, "f").getInputPeer(chatId), reply_markup: await __classPrivateFieldGet(this, _MessageManager_instances, "m", _MessageManager_constructReplyMarkup).call(this, params) });
+        const result = await __classPrivateFieldGet(this, _MessageManager_c, "f").invoke({
+            _: "messages.editMessage",
+            id: checkMessageId(messageId),
+            peer: await __classPrivateFieldGet(this, _MessageManager_c, "f").getInputPeer(chatId),
+            reply_markup: await __classPrivateFieldGet(this, _MessageManager_instances, "m", _MessageManager_constructReplyMarkup).call(this, params),
+        }, params?.businessConnectionId);
         const message_ = (await __classPrivateFieldGet(this, _MessageManager_instances, "m", _MessageManager_updatesToMessages).call(this, chatId, result))[0];
         return message_;
     }
@@ -556,7 +561,17 @@ export class MessageManager {
         if (!noWebpage && params?.linkPreview?.url) {
             media = { _: "inputMediaWebPage", url: params.linkPreview.url, force_large_media: params.linkPreview.largeMedia ? true : undefined, force_small_media: params.linkPreview.smallMedia ? true : undefined, optional: message.length ? undefined : true };
         }
-        const result = await __classPrivateFieldGet(this, _MessageManager_c, "f").invoke({ _: "messages.editMessage", id: checkMessageId(messageId), peer: await __classPrivateFieldGet(this, _MessageManager_c, "f").getInputPeer(chatId), entities, message, media, no_webpage: noWebpage, invert_media: invertMedia, reply_markup: await __classPrivateFieldGet(this, _MessageManager_instances, "m", _MessageManager_constructReplyMarkup).call(this, params) });
+        const result = await __classPrivateFieldGet(this, _MessageManager_c, "f").invoke({
+            _: "messages.editMessage",
+            id: checkMessageId(messageId),
+            peer: await __classPrivateFieldGet(this, _MessageManager_c, "f").getInputPeer(chatId),
+            entities,
+            message,
+            media,
+            no_webpage: noWebpage,
+            invert_media: invertMedia,
+            reply_markup: await __classPrivateFieldGet(this, _MessageManager_instances, "m", _MessageManager_constructReplyMarkup).call(this, params),
+        }, params?.businessConnectionId);
         const message_ = (await __classPrivateFieldGet(this, _MessageManager_instances, "m", _MessageManager_updatesToMessages).call(this, chatId, result))[0];
         return assertMessageType(message_, "text");
     }
@@ -590,7 +605,7 @@ export class MessageManager {
             reply_markup: await __classPrivateFieldGet(this, _MessageManager_instances, "m", _MessageManager_constructReplyMarkup).call(this, params),
             message: text,
             entities,
-        });
+        }, params?.businessConnectionId);
         const message_ = (await __classPrivateFieldGet(this, _MessageManager_instances, "m", _MessageManager_updatesToMessages).call(this, chatId, result))[0];
         return message_;
     }
@@ -1025,7 +1040,13 @@ export class MessageManager {
         if (message.poll.isClosed) {
             throw new InputError("Poll is already stopped.");
         }
-        const result = await __classPrivateFieldGet(this, _MessageManager_c, "f").invoke({ _: "messages.editMessage", peer: await __classPrivateFieldGet(this, _MessageManager_c, "f").getInputPeer(chatId), id: messageId, media: ({ _: "inputMediaPoll", poll: ({ _: "poll", id: BigInt(message.poll.id), closed: true, question: { _: "textWithEntities", text: "", entities: [] }, answers: [] }) }), reply_markup: await __classPrivateFieldGet(this, _MessageManager_instances, "m", _MessageManager_constructReplyMarkup).call(this, params) });
+        const result = await __classPrivateFieldGet(this, _MessageManager_c, "f").invoke({
+            _: "messages.editMessage",
+            peer: await __classPrivateFieldGet(this, _MessageManager_c, "f").getInputPeer(chatId),
+            id: messageId,
+            media: ({ _: "inputMediaPoll", poll: ({ _: "poll", id: BigInt(message.poll.id), closed: true, question: { _: "textWithEntities", text: "", entities: [] }, answers: [] }) }),
+            reply_markup: await __classPrivateFieldGet(this, _MessageManager_instances, "m", _MessageManager_constructReplyMarkup).call(this, params),
+        }, params?.businessConnectionId);
         const message_ = (await __classPrivateFieldGet(this, _MessageManager_instances, "m", _MessageManager_updatesToMessages).call(this, chatId, result))[0];
         return assertMessageType(message_, "poll").poll;
     }
@@ -1033,7 +1054,13 @@ export class MessageManager {
         __classPrivateFieldGet(this, _MessageManager_instances, "m", _MessageManager_checkParams).call(this, params);
         const message = await this.getMessage(chatId, messageId);
         if (message && "location" in message && message.location.livePeriod) {
-            const result = await __classPrivateFieldGet(this, _MessageManager_c, "f").invoke({ _: "messages.editMessage", peer: await __classPrivateFieldGet(this, _MessageManager_c, "f").getInputPeer(chatId), id: messageId, media: ({ _: "inputMediaGeoLive", geo_point: ({ _: "inputGeoPoint", lat: latitude, long: longitude, accuracy_radius: params?.horizontalAccuracy }), heading: params?.heading, proximity_notification_radius: params?.proximityAlertRadius }), reply_markup: await __classPrivateFieldGet(this, _MessageManager_instances, "m", _MessageManager_constructReplyMarkup).call(this, params) });
+            const result = await __classPrivateFieldGet(this, _MessageManager_c, "f").invoke({
+                _: "messages.editMessage",
+                peer: await __classPrivateFieldGet(this, _MessageManager_c, "f").getInputPeer(chatId),
+                id: messageId,
+                media: ({ _: "inputMediaGeoLive", geo_point: ({ _: "inputGeoPoint", lat: latitude, long: longitude, accuracy_radius: params?.horizontalAccuracy }), heading: params?.heading, proximity_notification_radius: params?.proximityAlertRadius }),
+                reply_markup: await __classPrivateFieldGet(this, _MessageManager_instances, "m", _MessageManager_constructReplyMarkup).call(this, params),
+            }, params?.businessConnectionId);
             const message = (await __classPrivateFieldGet(this, _MessageManager_instances, "m", _MessageManager_updatesToMessages).call(this, chatId, result))[0];
             return assertMessageType(message, "location");
         }

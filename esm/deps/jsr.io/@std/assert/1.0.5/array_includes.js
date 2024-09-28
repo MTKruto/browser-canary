@@ -1,7 +1,7 @@
 // Copyright 2018-2024 the Deno authors. All rights reserved. MIT license.
 // This module is browser compatible.
 import { equal } from "./equal.js";
-import { format } from "../../internal/1.0.3/format.js";
+import { format } from "../../internal/1.0.4/format.js";
 import { AssertionError } from "./assertion_error.js";
 /**
  * Make an assertion that `actual` includes the `expected` values. If not then

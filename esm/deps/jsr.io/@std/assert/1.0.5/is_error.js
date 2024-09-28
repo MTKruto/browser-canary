@@ -1,7 +1,7 @@
 // Copyright 2018-2024 the Deno authors. All rights reserved. MIT license.
 // This module is browser compatible.
 import { AssertionError } from "./assertion_error.js";
-import { stripAnsiCode } from "../../internal/1.0.3/styles.js";
+import { stripAnsiCode } from "../../internal/1.0.4/styles.js";
 /**
  * Make an assertion that `error` is an `Error`.
  * If not then an error will be thrown.
