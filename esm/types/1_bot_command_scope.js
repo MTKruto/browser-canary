@@ -35,7 +35,7 @@ export async function botCommandScopeToTlObject(scope, getInputPeer) {
             return { _: "botCommandScopePeerAdmins", peer: await getInputPeer(scope.chatId) };
         case "chatMember": {
             const user = await getInputPeer(scope.userId);
-            if (!(is("inputPeerUser", user))) {
+            if (!is("inputPeerUser", user)) {
                 unreachable();
             }
             return { _: "botCommandScopePeerUser", peer: await getInputPeer(scope.chatId), user_id: ({ _: "inputUser", user_id: user.user_id, access_hash: user.access_hash }) };

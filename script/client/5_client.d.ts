@@ -321,13 +321,13 @@ export declare class Client<C extends Context = Context> extends Composer<C> {
      *
      * @param id The identifier of the channel or the supergroup.
      */
-    getInputChannel(id: ID): Promise<Api.inputChannel>;
+    getInputChannel(id: ID): Promise<Api.inputChannel | Api.inputChannelFromMessage>;
     /**
      * Get a user's inputUser. Useful when calling API functions directly.
      *
      * @param id The identifier of the user.
      */
-    getInputUser(id: ID): Promise<Api.inputUser>;
+    getInputUser(id: ID): Promise<Api.inputUser | Api.inputUserFromMessage>;
     private [getEntity];
     private [getEntity];
     private [getEntity];

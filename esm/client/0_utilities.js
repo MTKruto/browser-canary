@@ -19,7 +19,7 @@
  */
 import { unreachable } from "../0_deps.js";
 import { InputError } from "../0_errors.js";
-import { isOneOf } from "../2_tl.js";
+import { is, isOneOf } from "../2_tl.js";
 export const resolve = () => Promise.resolve();
 export function isHttpUrl(string) {
     try {
@@ -160,4 +160,36 @@ const CDN_FUNCTIONS = [
 ];
 export function isCdnFunction(value) {
     return isOneOf(CDN_FUNCTIONS, value);
+}
+export function canBeInputUser(inputPeer) {
+    return isOneOf(["inputUser", "inputUserFromMessage"], inputPeer);
+}
+export function toInputUser(inputPeer) {
+    let id;
+    if (is("inputPeerUser", inputPeer)) {
+        id = { ...inputPeer, _: "inputUser" };
+    }
+    else if (is("inputPeerUserFromMessage", inputPeer)) {
+        id = { ...inputPeer, _: "inputUserFromMessage" };
+    }
+    else {
+        unreachable();
+    }
+    return id;
+}
+export function canBeInputChannel(inputPeer) {
+    return isOneOf(["inputChannel", "inputChannelFromMessage"], inputPeer);
+}
+export function toInputChannel(inputPeer) {
+    let id;
+    if (is("inputPeerChannel", inputPeer)) {
+        id = { ...inputPeer, _: "inputChannel" };
+    }
+    else if (is("inputPeerChannelFromMessage", inputPeer)) {
+        id = { ...inputPeer, _: "inputChannelFromMessage" };
+    }
+    else {
+        unreachable();
+    }
+    return id;
 }

@@ -38,9 +38,7 @@ import { assertMessageType, chatMemberRightsToTlObject, constructMessage as cons
 import { messageSearchFilterToTlObject } from "../types/0_message_search_filter.js";
 import { parseHtml } from "./0_html.js";
 import { parseMarkdown } from "./0_markdown.js";
-import { checkMessageId } from "./0_utilities.js";
-import { checkArray } from "./0_utilities.js";
-import { isHttpUrl } from "./0_utilities.js";
+import { canBeInputChannel, canBeInputUser, checkArray, checkMessageId, isHttpUrl, toInputChannel, toInputUser } from "./0_utilities.js";
 const FALLBACK_MIME_TYPE = "application/octet-stream";
 const STICKER_MIME_TYPES = ["image/webp", "video/webm", "application/x-tgsticker"];
 const messageManagerUpdates = [
@@ -95,8 +93,8 @@ export class MessageManager {
             }
         }
         if (shouldFetch) {
-            if (is("inputPeerChannel", peer)) {
-                messages_ = await __classPrivateFieldGet(this, _MessageManager_c, "f").invoke({ _: "channels.getMessages", channel: ({ ...peer, _: "inputChannel" }), id: messageIds.map((v) => ({ _: "inputMessageID", id: v })) }).then((v) => as("messages.channelMessages", v).messages);
+            if (canBeInputChannel(peer)) {
+                messages_ = await __classPrivateFieldGet(this, _MessageManager_c, "f").invoke({ _: "channels.getMessages", channel: toInputChannel(peer), id: messageIds.map((v) => ({ _: "inputMessageID", id: v })) }).then((v) => as("messages.channelMessages", v).messages);
             }
             else {
                 messages_ = await __classPrivateFieldGet(this, _MessageManager_c, "f").invoke({
@@ -618,8 +616,8 @@ export class MessageManager {
     async deleteMessages(chatId, messageIds, params) {
         checkArray(messageIds, checkMessageId);
         const peer = await __classPrivateFieldGet(this, _MessageManager_c, "f").getInputPeer(chatId);
-        if (is("inputPeerChannel", peer)) {
-            await __classPrivateFieldGet(this, _MessageManager_c, "f").invoke({ _: "channels.deleteMessages", channel: { ...peer, _: "inputChannel" }, id: messageIds });
+        if (canBeInputChannel(peer)) {
+            await __classPrivateFieldGet(this, _MessageManager_c, "f").invoke({ _: "channels.deleteMessages", channel: toInputChannel(peer), id: messageIds });
         }
         else {
             await __classPrivateFieldGet(this, _MessageManager_c, "f").invoke({ _: "messages.deleteMessages", id: messageIds, revoke: params?.onlyForMe ? undefined : true });
@@ -839,11 +837,11 @@ export class MessageManager {
     }
     async deleteChatPhoto(chatId) {
         const peer = await __classPrivateFieldGet(this, _MessageManager_c, "f").getInputPeer(chatId);
-        if (!(is("inputPeerChannel", peer)) && !(is("inputPeerChat", peer))) {
+        if (!(canBeInputChannel(peer)) && !(is("inputPeerChat", peer))) {
             unreachable();
         }
-        if (is("inputPeerChannel", peer)) {
-            await __classPrivateFieldGet(this, _MessageManager_c, "f").invoke({ _: "channels.editPhoto", channel: { ...peer, _: "inputChannel" }, photo: { _: "inputChatPhotoEmpty" } });
+        if (canBeInputChannel(peer)) {
+            await __classPrivateFieldGet(this, _MessageManager_c, "f").invoke({ _: "channels.editPhoto", channel: toInputChannel(peer), photo: { _: "inputChatPhotoEmpty" } });
         }
         else if (is("inputPeerChat", peer)) {
             await __classPrivateFieldGet(this, _MessageManager_c, "f").invoke({ _: "messages.editChatPhoto", chat_id: peer.chat_id, photo: { _: "inputChatPhotoEmpty" } });
@@ -851,13 +849,13 @@ export class MessageManager {
     }
     async setChatPhoto(chatId, photo, params) {
         const peer = await __classPrivateFieldGet(this, _MessageManager_c, "f").getInputPeer(chatId);
-        if (!(is("inputPeerChannel", peer)) && !(is("inputPeerChat", peer))) {
+        if (!(canBeInputChannel(peer)) && !(is("inputPeerChat", peer))) {
             unreachable();
         }
         const file = await __classPrivateFieldGet(this, _MessageManager_c, "f").fileManager.upload(photo, params);
         const photo_ = { _: "inputChatUploadedPhoto", file };
-        if (is("inputPeerChannel", peer)) {
-            await __classPrivateFieldGet(this, _MessageManager_c, "f").invoke({ _: "channels.editPhoto", channel: { ...peer, _: "inputChannel" }, photo: photo_ });
+        if (canBeInputChannel(peer)) {
+            await __classPrivateFieldGet(this, _MessageManager_c, "f").invoke({ _: "channels.editPhoto", channel: toInputChannel(peer), photo: photo_ });
         }
         else if (is("inputPeerChat", peer)) {
             await __classPrivateFieldGet(this, _MessageManager_c, "f").invoke({ _: "messages.editChatPhoto", chat_id: peer.chat_id, photo: photo_ });
@@ -897,10 +895,10 @@ export class MessageManager {
             });
         }
         else if (is("inputPeerChat", chat)) {
-            if (!(is("inputPeerUser", member))) {
+            if (!canBeInputUser(member)) {
                 throw new InputError(`Invalid user ID: ${memberId}`);
             }
-            await __classPrivateFieldGet(this, _MessageManager_c, "f").invoke({ _: "messages.deleteChatUser", chat_id: chat.chat_id, user_id: { ...member, _: "inputUser" }, revoke_history: params?.deleteMessages ? true : undefined });
+            await __classPrivateFieldGet(this, _MessageManager_c, "f").invoke({ _: "messages.deleteChatUser", chat_id: chat.chat_id, user_id: toInputUser(member), revoke_history: params?.deleteMessages ? true : undefined });
         }
     }
     async unbanChatMember(chatId, memberId) {
@@ -986,11 +984,11 @@ export class MessageManager {
     async joinChat(chatId) {
         __classPrivateFieldGet(this, _MessageManager_c, "f").storage.assertUser("joinChat");
         const peer = await __classPrivateFieldGet(this, _MessageManager_c, "f").getInputPeer(chatId);
-        if (is("inputPeerUser", peer)) {
+        if (canBeInputUser(peer)) {
             throw new InputError("Cannot join private chats.");
         }
-        else if (is("inputPeerChannel", peer)) {
-            await __classPrivateFieldGet(this, _MessageManager_c, "f").invoke({ _: "channels.joinChannel", channel: { ...peer, _: "inputChannel" } });
+        else if (canBeInputChannel(peer)) {
+            await __classPrivateFieldGet(this, _MessageManager_c, "f").invoke({ _: "channels.joinChannel", channel: toInputChannel(peer) });
         }
         else if (is("inputPeerChat", peer)) {
             await __classPrivateFieldGet(this, _MessageManager_c, "f").invoke({ _: "messages.addChatUser", chat_id: peer.chat_id, user_id: { _: "inputUserSelf" }, fwd_limit: 0 }); // TODO: use potential high-level method for adding participants to chats
@@ -1001,11 +999,11 @@ export class MessageManager {
     }
     async leaveChat(chatId) {
         const peer = await __classPrivateFieldGet(this, _MessageManager_c, "f").getInputPeer(chatId);
-        if (is("inputPeerUser", peer)) {
+        if (canBeInputUser(peer)) {
             throw new InputError("Cannot leave private chats.");
         }
-        else if (is("inputPeerChannel", peer)) {
-            await __classPrivateFieldGet(this, _MessageManager_c, "f").invoke({ _: "channels.leaveChannel", channel: { ...peer, _: "inputChannel" } });
+        else if (canBeInputChannel(peer)) {
+            await __classPrivateFieldGet(this, _MessageManager_c, "f").invoke({ _: "channels.leaveChannel", channel: toInputChannel(peer) });
         }
         else if (is("inputPeerChat", peer)) {
             await __classPrivateFieldGet(this, _MessageManager_c, "f").invoke({ _: "messages.deleteChatUser", chat_id: peer.chat_id, user_id: { _: "inputUserSelf" } }); // TODO: use potential high-level method for adding participants to chats
@@ -1166,8 +1164,8 @@ export class MessageManager {
         if (is("inputPeerChat", chat)) {
             throw new InputError("addChatMembers cannot be used with basic groups");
         }
-        else if (is("inputPeerChannel", chat)) {
-            const result = await __classPrivateFieldGet(this, _MessageManager_c, "f").invoke({ _: "channels.inviteToChannel", channel: { ...chat, _: "inputChannel" }, users });
+        else if (canBeInputChannel(chat)) {
+            const result = await __classPrivateFieldGet(this, _MessageManager_c, "f").invoke({ _: "channels.inviteToChannel", channel: toInputChannel(chat), users });
             return result.missing_invitees.map(constructFailedInvitation);
         }
         unreachable();

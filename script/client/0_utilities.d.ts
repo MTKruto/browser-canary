@@ -17,6 +17,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
+import { Api } from "../2_tl.js";
 export declare const resolve: () => Promise<void>;
 export declare function isHttpUrl(string: string): boolean;
 export declare function getUsername(string: string): string;
@@ -29,4 +30,8 @@ export declare function checkCallbackQueryId(id: string): void;
 export declare function checkInlineQueryId(id: string): void;
 export declare function isMtprotoFunction(value: unknown): boolean;
 export declare function isCdnFunction(value: unknown): boolean;
+export declare function canBeInputUser(inputPeer: Api.InputPeer): boolean;
+export declare function toInputUser(inputPeer: Api.InputPeer): Api.inputUser | Api.inputUserFromMessage;
+export declare function canBeInputChannel(inputPeer: Api.InputPeer): boolean;
+export declare function toInputChannel(inputPeer: Api.InputPeer): Api.inputChannel | Api.inputChannelFromMessage;
 //# sourceMappingURL=0_utilities.d.ts.map

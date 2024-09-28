@@ -29,7 +29,7 @@ var __classPrivateFieldGet = (this && this.__classPrivateFieldGet) || function (
     return kind === "m" ? f : kind === "a" ? f.call(receiver) : f ? f.value : state.get(receiver);
 };
 var _StorageOperations_instances, _StorageOperations_storage, _StorageOperations_supportsFiles, _StorageOperations_mustSerialize, _StorageOperations_authKeyId, _StorageOperations_resetAuthKeyId, _StorageOperations_accountId, _StorageOperations_accountType, _StorageOperations_getUpdateId;
-import { AssertionError, unreachable } from "../0_deps.js";
+import { unreachable } from "../0_deps.js";
 import { InputError } from "../0_errors.js";
 import { base64DecodeUrlSafe, base64EncodeUrlSafe, bigIntFromBuffer, rleDecode, rleEncode, sha1, ZERO_CHANNEL_ID } from "../1_utilities.js";
 import { as, is, isValidType, peerToChatId, serialize, TLReader, TLWriter } from "../2_tl.js";
@@ -84,6 +84,9 @@ export const K = {
         groupCall: (id) => [...K.cache.groupCalls(), id],
         groupCallAccessHashes: () => [K.cache.P("groupCallAccessHashes")],
         groupCallAccessHash: (id) => [...K.cache.groupCallAccessHashes(), id],
+        minPeerReferences: () => ["minPeerReferences"],
+        minPeerReference: (senderId, chatId) => [...K.cache.minPeerReferences(), senderId, chatId],
+        minPeerReferenceSender: (senderId) => [...K.cache.minPeerReferences(), senderId],
     },
     messages: {
         P: (string) => `messages.${string}`,
@@ -190,6 +193,9 @@ export class StorageOperations {
             if (!(is("channel", channel)) && !is("channelForbidden", channel)) {
                 unreachable();
             }
+            if (is("channel", channel) && channel.min) {
+                return null;
+            }
             return typeof channel.access_hash === "bigint" ? channel.access_hash : null;
         }
         else {
@@ -201,6 +207,9 @@ export class StorageOperations {
         if (user) {
             if (!is("user", user)) {
                 unreachable();
+            }
+            if (user.min) {
+                return null;
             }
             return typeof user.access_hash === "bigint" ? user.access_hash : null;
         }
@@ -303,18 +312,8 @@ export class StorageOperations {
         }
     }
     async setAccountType(type) {
-        try {
-            await this.getAccountType();
-            unreachable();
-        }
-        catch (err) {
-            if (!(err instanceof AssertionError)) {
-                throw err;
-            }
-            else {
-                await __classPrivateFieldGet(this, _StorageOperations_storage, "f").set(K.auth.accountType(), type);
-            }
-        }
+        await __classPrivateFieldGet(this, _StorageOperations_storage, "f").set(K.auth.accountType(), type);
+        await this.getAccountType();
     }
     async getAccountType() {
         if (__classPrivateFieldGet(this, _StorageOperations_accountType, "f") != null) {
@@ -599,6 +598,16 @@ export class StorageOperations {
         for await (const [key] of await __classPrivateFieldGet(this, _StorageOperations_storage, "f").getMany({ prefix: [] })) {
             await __classPrivateFieldGet(this, _StorageOperations_storage, "f").set(key, null);
         }
+    }
+    async setMinPeerReference(chatId, senderId, messageId) {
+        await __classPrivateFieldGet(this, _StorageOperations_storage, "f").set(K.cache.minPeerReference(senderId, chatId), [{ chatId, messageId }, new Date()]);
+    }
+    async getLastMinPeerReference(senderId) {
+        const references = new Array();
+        for await (const [, reference] of await __classPrivateFieldGet(this, _StorageOperations_storage, "f").getMany({ prefix: K.cache.minPeerReferenceSender(senderId) })) {
+            references.push(reference);
+        }
+        return references.sort((a, b) => b[1].getTime() - a[1].getTime())[0]?.[0] ?? null;
     }
 }
 _StorageOperations_storage = new WeakMap(), _StorageOperations_supportsFiles = new WeakMap(), _StorageOperations_mustSerialize = new WeakMap(), _StorageOperations_authKeyId = new WeakMap(), _StorageOperations_accountId = new WeakMap(), _StorageOperations_accountType = new WeakMap(), _StorageOperations_instances = new WeakSet(), _StorageOperations_resetAuthKeyId = async function _StorageOperations_resetAuthKeyId(authKey) {

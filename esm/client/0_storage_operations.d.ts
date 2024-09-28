@@ -71,6 +71,9 @@ export declare const K: {
         groupCall: (id: bigint) => StorageKeyPart[];
         groupCallAccessHashes: () => StorageKeyPart[];
         groupCallAccessHash: (id: bigint) => StorageKeyPart[];
+        minPeerReferences: () => StorageKeyPart[];
+        minPeerReference: (senderId: number, chatId: number) => StorageKeyPart[];
+        minPeerReferenceSender: (senderId: number) => StorageKeyPart[];
     };
     messages: {
         P: (string: string) => string;
@@ -180,5 +183,10 @@ export declare class StorageOperations {
     setApiId(apiId: number): Promise<void>;
     getApiId(): Promise<number | null>;
     reset(): Promise<void>;
+    setMinPeerReference(chatId: number, senderId: number, messageId: number): Promise<void>;
+    getLastMinPeerReference(senderId: number): Promise<{
+        chatId: number;
+        messageId: number;
+    } | null>;
 }
 //# sourceMappingURL=0_storage_operations.d.ts.map

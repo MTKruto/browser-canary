@@ -87,6 +87,9 @@ exports.K = {
         groupCall: (id) => [...exports.K.cache.groupCalls(), id],
         groupCallAccessHashes: () => [exports.K.cache.P("groupCallAccessHashes")],
         groupCallAccessHash: (id) => [...exports.K.cache.groupCallAccessHashes(), id],
+        minPeerReferences: () => ["minPeerReferences"],
+        minPeerReference: (senderId, chatId) => [...exports.K.cache.minPeerReferences(), senderId, chatId],
+        minPeerReferenceSender: (senderId) => [...exports.K.cache.minPeerReferences(), senderId],
     },
     messages: {
         P: (string) => `messages.${string}`,
@@ -193,6 +196,9 @@ class StorageOperations {
             if (!((0, _2_tl_js_1.is)("channel", channel)) && !(0, _2_tl_js_1.is)("channelForbidden", channel)) {
                 (0, _0_deps_js_1.unreachable)();
             }
+            if ((0, _2_tl_js_1.is)("channel", channel) && channel.min) {
+                return null;
+            }
             return typeof channel.access_hash === "bigint" ? channel.access_hash : null;
         }
         else {
@@ -204,6 +210,9 @@ class StorageOperations {
         if (user) {
             if (!(0, _2_tl_js_1.is)("user", user)) {
                 (0, _0_deps_js_1.unreachable)();
+            }
+            if (user.min) {
+                return null;
             }
             return typeof user.access_hash === "bigint" ? user.access_hash : null;
         }
@@ -306,18 +315,8 @@ class StorageOperations {
         }
     }
     async setAccountType(type) {
-        try {
-            await this.getAccountType();
-            (0, _0_deps_js_1.unreachable)();
-        }
-        catch (err) {
-            if (!(err instanceof _0_deps_js_1.AssertionError)) {
-                throw err;
-            }
-            else {
-                await __classPrivateFieldGet(this, _StorageOperations_storage, "f").set(exports.K.auth.accountType(), type);
-            }
-        }
+        await __classPrivateFieldGet(this, _StorageOperations_storage, "f").set(exports.K.auth.accountType(), type);
+        await this.getAccountType();
     }
     async getAccountType() {
         if (__classPrivateFieldGet(this, _StorageOperations_accountType, "f") != null) {
@@ -602,6 +601,16 @@ class StorageOperations {
         for await (const [key] of await __classPrivateFieldGet(this, _StorageOperations_storage, "f").getMany({ prefix: [] })) {
             await __classPrivateFieldGet(this, _StorageOperations_storage, "f").set(key, null);
         }
+    }
+    async setMinPeerReference(chatId, senderId, messageId) {
+        await __classPrivateFieldGet(this, _StorageOperations_storage, "f").set(exports.K.cache.minPeerReference(senderId, chatId), [{ chatId, messageId }, new Date()]);
+    }
+    async getLastMinPeerReference(senderId) {
+        const references = new Array();
+        for await (const [, reference] of await __classPrivateFieldGet(this, _StorageOperations_storage, "f").getMany({ prefix: exports.K.cache.minPeerReferenceSender(senderId) })) {
+            references.push(reference);
+        }
+        return references.sort((a, b) => b[1].getTime() - a[1].getTime())[0]?.[0] ?? null;
     }
 }
 exports.StorageOperations = StorageOperations;

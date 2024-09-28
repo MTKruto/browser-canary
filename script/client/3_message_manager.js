@@ -42,8 +42,6 @@ const _0_message_search_filter_js_1 = require("../types/0_message_search_filter.
 const _0_html_js_1 = require("./0_html.js");
 const _0_markdown_js_1 = require("./0_markdown.js");
 const _0_utilities_js_1 = require("./0_utilities.js");
-const _0_utilities_js_2 = require("./0_utilities.js");
-const _0_utilities_js_3 = require("./0_utilities.js");
 const FALLBACK_MIME_TYPE = "application/octet-stream";
 const STICKER_MIME_TYPES = ["image/webp", "video/webm", "application/x-tgsticker"];
 const messageManagerUpdates = [
@@ -81,7 +79,7 @@ class MessageManager {
         __classPrivateFieldSet(this, _MessageManager_LresolveFileId, L.branch("resolveFileId"), "f");
     }
     async getMessages(chatId, messageIds) {
-        (0, _0_utilities_js_2.checkArray)(messageIds, _0_utilities_js_1.checkMessageId);
+        (0, _0_utilities_js_1.checkArray)(messageIds, _0_utilities_js_1.checkMessageId);
         const peer = await __classPrivateFieldGet(this, _MessageManager_c, "f").getInputPeer(chatId);
         let messages_ = new Array();
         const chatId_ = (0, _2_tl_js_1.peerToChatId)(peer);
@@ -98,8 +96,8 @@ class MessageManager {
             }
         }
         if (shouldFetch) {
-            if ((0, _2_tl_js_1.is)("inputPeerChannel", peer)) {
-                messages_ = await __classPrivateFieldGet(this, _MessageManager_c, "f").invoke({ _: "channels.getMessages", channel: ({ ...peer, _: "inputChannel" }), id: messageIds.map((v) => ({ _: "inputMessageID", id: v })) }).then((v) => (0, _2_tl_js_1.as)("messages.channelMessages", v).messages);
+            if ((0, _0_utilities_js_1.canBeInputChannel)(peer)) {
+                messages_ = await __classPrivateFieldGet(this, _MessageManager_c, "f").invoke({ _: "channels.getMessages", channel: (0, _0_utilities_js_1.toInputChannel)(peer), id: messageIds.map((v) => ({ _: "inputMessageID", id: v })) }).then((v) => (0, _2_tl_js_1.as)("messages.channelMessages", v).messages);
             }
             else {
                 messages_ = await __classPrivateFieldGet(this, _MessageManager_c, "f").invoke({
@@ -172,7 +170,7 @@ class MessageManager {
         return await (0, _3_types_js_2.constructMessage)(message_, __classPrivateFieldGet(this, _MessageManager_c, "f").getEntity, this.getMessage.bind(this), __classPrivateFieldGet(this, _MessageManager_c, "f").fileManager.getStickerSetName.bind(__classPrivateFieldGet(this, _MessageManager_c, "f").fileManager), r, business);
     }
     async forwardMessages(from, to, messageIds, params) {
-        (0, _0_utilities_js_2.checkArray)(messageIds, _0_utilities_js_1.checkMessageId);
+        (0, _0_utilities_js_1.checkArray)(messageIds, _0_utilities_js_1.checkMessageId);
         const result = await __classPrivateFieldGet(this, _MessageManager_c, "f").invoke({ _: "messages.forwardMessages", from_peer: await __classPrivateFieldGet(this, _MessageManager_c, "f").getInputPeer(from), to_peer: await __classPrivateFieldGet(this, _MessageManager_c, "f").getInputPeer(to), id: messageIds, random_id: messageIds.map(() => (0, _1_utilities_js_1.getRandomId)()), silent: params?.disableNotification || undefined, top_msg_id: params?.messageThreadId, noforwards: params?.disableNotification || undefined, send_as: params?.sendAs ? await __classPrivateFieldGet(this, _MessageManager_c, "f").getInputPeer(params.sendAs) : undefined, drop_author: params?.dropSenderName || undefined, drop_media_captions: params?.dropCaption || undefined });
         return await __classPrivateFieldGet(this, _MessageManager_instances, "m", _MessageManager_updatesToMessages).call(this, to, result);
     }
@@ -463,7 +461,7 @@ class MessageManager {
             }
         }
         if (media == null) {
-            if (typeof photo === "string" && (0, _0_utilities_js_3.isHttpUrl)(photo)) {
+            if (typeof photo === "string" && (0, _0_utilities_js_1.isHttpUrl)(photo)) {
                 media = { _: "inputMediaPhotoExternal", url: photo, spoiler, ttl_seconds: (params && "selfDestruct" in params && params.selfDestruct !== undefined) ? (0, _3_types_js_1.selfDestructOptionToInt)(params.selfDestruct) : undefined };
             }
             else {
@@ -619,10 +617,10 @@ class MessageManager {
         await __classPrivateFieldGet(this, _MessageManager_c, "f").invoke({ _: "messages.editInlineBotMessage", id, media: await __classPrivateFieldGet(this, _MessageManager_instances, "m", _MessageManager_resolveInputMedia).call(this, media), reply_markup: await __classPrivateFieldGet(this, _MessageManager_instances, "m", _MessageManager_constructReplyMarkup).call(this, params) });
     }
     async deleteMessages(chatId, messageIds, params) {
-        (0, _0_utilities_js_2.checkArray)(messageIds, _0_utilities_js_1.checkMessageId);
+        (0, _0_utilities_js_1.checkArray)(messageIds, _0_utilities_js_1.checkMessageId);
         const peer = await __classPrivateFieldGet(this, _MessageManager_c, "f").getInputPeer(chatId);
-        if ((0, _2_tl_js_1.is)("inputPeerChannel", peer)) {
-            await __classPrivateFieldGet(this, _MessageManager_c, "f").invoke({ _: "channels.deleteMessages", channel: { ...peer, _: "inputChannel" }, id: messageIds });
+        if ((0, _0_utilities_js_1.canBeInputChannel)(peer)) {
+            await __classPrivateFieldGet(this, _MessageManager_c, "f").invoke({ _: "channels.deleteMessages", channel: (0, _0_utilities_js_1.toInputChannel)(peer), id: messageIds });
         }
         else {
             await __classPrivateFieldGet(this, _MessageManager_c, "f").invoke({ _: "messages.deleteMessages", id: messageIds, revoke: params?.onlyForMe ? undefined : true });
@@ -630,7 +628,7 @@ class MessageManager {
     }
     async deleteScheduledMessages(chatId, messageIds) {
         __classPrivateFieldGet(this, _MessageManager_c, "f").storage.assertUser("sendScheduledMessage");
-        (0, _0_utilities_js_2.checkArray)(messageIds, _0_utilities_js_1.checkMessageId);
+        (0, _0_utilities_js_1.checkArray)(messageIds, _0_utilities_js_1.checkMessageId);
         const peer = await __classPrivateFieldGet(this, _MessageManager_c, "f").getInputPeer(chatId);
         await __classPrivateFieldGet(this, _MessageManager_c, "f").invoke({ _: "messages.deleteScheduledMessages", peer, id: messageIds });
     }
@@ -640,7 +638,7 @@ class MessageManager {
     }
     async sendScheduledMessages(chatId, messageIds) {
         __classPrivateFieldGet(this, _MessageManager_c, "f").storage.assertUser("sendScheduledMessages");
-        (0, _0_utilities_js_2.checkArray)(messageIds, _0_utilities_js_1.checkMessageId);
+        (0, _0_utilities_js_1.checkArray)(messageIds, _0_utilities_js_1.checkMessageId);
         const peer = await __classPrivateFieldGet(this, _MessageManager_c, "f").getInputPeer(chatId);
         const result = await __classPrivateFieldGet(this, _MessageManager_c, "f").invoke({ _: "messages.sendScheduledMessages", peer, id: messageIds });
         return await __classPrivateFieldGet(this, _MessageManager_instances, "m", _MessageManager_updatesToMessages).call(this, chatId, result);
@@ -842,11 +840,11 @@ class MessageManager {
     }
     async deleteChatPhoto(chatId) {
         const peer = await __classPrivateFieldGet(this, _MessageManager_c, "f").getInputPeer(chatId);
-        if (!((0, _2_tl_js_1.is)("inputPeerChannel", peer)) && !((0, _2_tl_js_1.is)("inputPeerChat", peer))) {
+        if (!((0, _0_utilities_js_1.canBeInputChannel)(peer)) && !((0, _2_tl_js_1.is)("inputPeerChat", peer))) {
             (0, _0_deps_js_1.unreachable)();
         }
-        if ((0, _2_tl_js_1.is)("inputPeerChannel", peer)) {
-            await __classPrivateFieldGet(this, _MessageManager_c, "f").invoke({ _: "channels.editPhoto", channel: { ...peer, _: "inputChannel" }, photo: { _: "inputChatPhotoEmpty" } });
+        if ((0, _0_utilities_js_1.canBeInputChannel)(peer)) {
+            await __classPrivateFieldGet(this, _MessageManager_c, "f").invoke({ _: "channels.editPhoto", channel: (0, _0_utilities_js_1.toInputChannel)(peer), photo: { _: "inputChatPhotoEmpty" } });
         }
         else if ((0, _2_tl_js_1.is)("inputPeerChat", peer)) {
             await __classPrivateFieldGet(this, _MessageManager_c, "f").invoke({ _: "messages.editChatPhoto", chat_id: peer.chat_id, photo: { _: "inputChatPhotoEmpty" } });
@@ -854,13 +852,13 @@ class MessageManager {
     }
     async setChatPhoto(chatId, photo, params) {
         const peer = await __classPrivateFieldGet(this, _MessageManager_c, "f").getInputPeer(chatId);
-        if (!((0, _2_tl_js_1.is)("inputPeerChannel", peer)) && !((0, _2_tl_js_1.is)("inputPeerChat", peer))) {
+        if (!((0, _0_utilities_js_1.canBeInputChannel)(peer)) && !((0, _2_tl_js_1.is)("inputPeerChat", peer))) {
             (0, _0_deps_js_1.unreachable)();
         }
         const file = await __classPrivateFieldGet(this, _MessageManager_c, "f").fileManager.upload(photo, params);
         const photo_ = { _: "inputChatUploadedPhoto", file };
-        if ((0, _2_tl_js_1.is)("inputPeerChannel", peer)) {
-            await __classPrivateFieldGet(this, _MessageManager_c, "f").invoke({ _: "channels.editPhoto", channel: { ...peer, _: "inputChannel" }, photo: photo_ });
+        if ((0, _0_utilities_js_1.canBeInputChannel)(peer)) {
+            await __classPrivateFieldGet(this, _MessageManager_c, "f").invoke({ _: "channels.editPhoto", channel: (0, _0_utilities_js_1.toInputChannel)(peer), photo: photo_ });
         }
         else if ((0, _2_tl_js_1.is)("inputPeerChat", peer)) {
             await __classPrivateFieldGet(this, _MessageManager_c, "f").invoke({ _: "messages.editChatPhoto", chat_id: peer.chat_id, photo: photo_ });
@@ -900,10 +898,10 @@ class MessageManager {
             });
         }
         else if ((0, _2_tl_js_1.is)("inputPeerChat", chat)) {
-            if (!((0, _2_tl_js_1.is)("inputPeerUser", member))) {
+            if (!(0, _0_utilities_js_1.canBeInputUser)(member)) {
                 throw new _0_errors_js_1.InputError(`Invalid user ID: ${memberId}`);
             }
-            await __classPrivateFieldGet(this, _MessageManager_c, "f").invoke({ _: "messages.deleteChatUser", chat_id: chat.chat_id, user_id: { ...member, _: "inputUser" }, revoke_history: params?.deleteMessages ? true : undefined });
+            await __classPrivateFieldGet(this, _MessageManager_c, "f").invoke({ _: "messages.deleteChatUser", chat_id: chat.chat_id, user_id: (0, _0_utilities_js_1.toInputUser)(member), revoke_history: params?.deleteMessages ? true : undefined });
         }
     }
     async unbanChatMember(chatId, memberId) {
@@ -989,11 +987,11 @@ class MessageManager {
     async joinChat(chatId) {
         __classPrivateFieldGet(this, _MessageManager_c, "f").storage.assertUser("joinChat");
         const peer = await __classPrivateFieldGet(this, _MessageManager_c, "f").getInputPeer(chatId);
-        if ((0, _2_tl_js_1.is)("inputPeerUser", peer)) {
+        if ((0, _0_utilities_js_1.canBeInputUser)(peer)) {
             throw new _0_errors_js_1.InputError("Cannot join private chats.");
         }
-        else if ((0, _2_tl_js_1.is)("inputPeerChannel", peer)) {
-            await __classPrivateFieldGet(this, _MessageManager_c, "f").invoke({ _: "channels.joinChannel", channel: { ...peer, _: "inputChannel" } });
+        else if ((0, _0_utilities_js_1.canBeInputChannel)(peer)) {
+            await __classPrivateFieldGet(this, _MessageManager_c, "f").invoke({ _: "channels.joinChannel", channel: (0, _0_utilities_js_1.toInputChannel)(peer) });
         }
         else if ((0, _2_tl_js_1.is)("inputPeerChat", peer)) {
             await __classPrivateFieldGet(this, _MessageManager_c, "f").invoke({ _: "messages.addChatUser", chat_id: peer.chat_id, user_id: { _: "inputUserSelf" }, fwd_limit: 0 }); // TODO: use potential high-level method for adding participants to chats
@@ -1004,11 +1002,11 @@ class MessageManager {
     }
     async leaveChat(chatId) {
         const peer = await __classPrivateFieldGet(this, _MessageManager_c, "f").getInputPeer(chatId);
-        if ((0, _2_tl_js_1.is)("inputPeerUser", peer)) {
+        if ((0, _0_utilities_js_1.canBeInputUser)(peer)) {
             throw new _0_errors_js_1.InputError("Cannot leave private chats.");
         }
-        else if ((0, _2_tl_js_1.is)("inputPeerChannel", peer)) {
-            await __classPrivateFieldGet(this, _MessageManager_c, "f").invoke({ _: "channels.leaveChannel", channel: { ...peer, _: "inputChannel" } });
+        else if ((0, _0_utilities_js_1.canBeInputChannel)(peer)) {
+            await __classPrivateFieldGet(this, _MessageManager_c, "f").invoke({ _: "channels.leaveChannel", channel: (0, _0_utilities_js_1.toInputChannel)(peer) });
         }
         else if ((0, _2_tl_js_1.is)("inputPeerChat", peer)) {
             await __classPrivateFieldGet(this, _MessageManager_c, "f").invoke({ _: "messages.deleteChatUser", chat_id: peer.chat_id, user_id: { _: "inputUserSelf" } }); // TODO: use potential high-level method for adding participants to chats
@@ -1169,8 +1167,8 @@ class MessageManager {
         if ((0, _2_tl_js_1.is)("inputPeerChat", chat)) {
             throw new _0_errors_js_1.InputError("addChatMembers cannot be used with basic groups");
         }
-        else if ((0, _2_tl_js_1.is)("inputPeerChannel", chat)) {
-            const result = await __classPrivateFieldGet(this, _MessageManager_c, "f").invoke({ _: "channels.inviteToChannel", channel: { ...chat, _: "inputChannel" }, users });
+        else if ((0, _0_utilities_js_1.canBeInputChannel)(chat)) {
+            const result = await __classPrivateFieldGet(this, _MessageManager_c, "f").invoke({ _: "channels.inviteToChannel", channel: (0, _0_utilities_js_1.toInputChannel)(chat), users });
             return result.missing_invitees.map(_3_types_js_1.constructFailedInvitation);
         }
         (0, _0_deps_js_1.unreachable)();
@@ -1317,7 +1315,7 @@ _MessageManager_c = new WeakMap(), _MessageManager_LresolveFileId = new WeakMap(
         }
     }
     if (media == null) {
-        if (typeof document === "string" && (0, _0_utilities_js_3.isHttpUrl)(document)) {
+        if (typeof document === "string" && (0, _0_utilities_js_1.isHttpUrl)(document)) {
             if (!urlSupported) {
                 throw new _0_errors_js_1.InputError("URL not supported.");
             }
@@ -1384,7 +1382,7 @@ _MessageManager_c = new WeakMap(), _MessageManager_LresolveFileId = new WeakMap(
         }
     }
     if (media_ == null) {
-        if (typeof document === "string" && (0, _0_utilities_js_3.isHttpUrl)(document)) {
+        if (typeof document === "string" && (0, _0_utilities_js_1.isHttpUrl)(document)) {
             media_ = { _: "inputMediaDocumentExternal", url: document, spoiler };
         }
         else {
@@ -1433,7 +1431,7 @@ _MessageManager_c = new WeakMap(), _MessageManager_LresolveFileId = new WeakMap(
             }
         }
         if (media_ == null) {
-            if (typeof media.photo === "string" && (0, _0_utilities_js_3.isHttpUrl)(media.photo)) {
+            if (typeof media.photo === "string" && (0, _0_utilities_js_1.isHttpUrl)(media.photo)) {
                 media_ = { _: "inputMediaPhotoExternal", url: media.photo, spoiler };
             }
             else {

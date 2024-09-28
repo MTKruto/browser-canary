@@ -32,6 +32,7 @@ var _AccountManager_instances, _AccountManager_c, _AccountManager_toggleUsername
 import { unreachable } from "../0_deps.js";
 import { is } from "../2_tl.js";
 import { constructInactiveChat } from "../3_types.js";
+import { canBeInputChannel, canBeInputUser, toInputChannel, toInputUser } from "./0_utilities.js";
 export class AccountManager {
     constructor(c) {
         _AccountManager_instances.add(this);
@@ -52,11 +53,11 @@ export class AccountManager {
         if (is("inputPeerSelf", peer)) {
             return await __classPrivateFieldGet(this, _AccountManager_c, "f").invoke({ _: "account.reorderUsernames", order });
         }
-        else if (is("inputPeerUser", peer)) {
-            return await __classPrivateFieldGet(this, _AccountManager_c, "f").invoke({ _: "bots.reorderUsernames", bot: { ...peer, _: "inputUser" }, order });
+        else if (canBeInputUser(peer)) {
+            return await __classPrivateFieldGet(this, _AccountManager_c, "f").invoke({ _: "bots.reorderUsernames", bot: toInputUser(peer), order });
         }
-        else if (is("inputPeerChannel", peer)) {
-            return await __classPrivateFieldGet(this, _AccountManager_c, "f").invoke({ _: "channels.reorderUsernames", channel: { ...peer, _: "inputChannel" }, order });
+        else if (canBeInputChannel(peer)) {
+            return await __classPrivateFieldGet(this, _AccountManager_c, "f").invoke({ _: "channels.reorderUsernames", channel: toInputChannel(peer), order });
         }
         else {
             unreachable();
@@ -65,8 +66,8 @@ export class AccountManager {
     async hideUsernames(id) {
         __classPrivateFieldGet(this, _AccountManager_c, "f").storage.assertUser("hideUsernames");
         const peer = await __classPrivateFieldGet(this, _AccountManager_c, "f").getInputPeer(id);
-        if (is("inputPeerChannel", peer)) {
-            return await __classPrivateFieldGet(this, _AccountManager_c, "f").invoke({ _: "channels.deactivateAllUsernames", channel: { ...peer, _: "inputChannel" } });
+        if (canBeInputChannel(peer)) {
+            return await __classPrivateFieldGet(this, _AccountManager_c, "f").invoke({ _: "channels.deactivateAllUsernames", channel: toInputChannel(peer) });
         }
         else {
             unreachable();
@@ -83,11 +84,11 @@ _AccountManager_c = new WeakMap(), _AccountManager_instances = new WeakSet(), _A
     if (is("inputPeerSelf", peer)) {
         await __classPrivateFieldGet(this, _AccountManager_c, "f").invoke({ _: "account.toggleUsername", username, active });
     }
-    else if (is("inputPeerUser", peer)) {
-        await __classPrivateFieldGet(this, _AccountManager_c, "f").invoke({ _: "bots.toggleUsername", bot: { ...peer, _: "inputUser" }, username, active });
+    else if (canBeInputUser(peer)) {
+        await __classPrivateFieldGet(this, _AccountManager_c, "f").invoke({ _: "bots.toggleUsername", bot: toInputUser(peer), username, active });
     }
-    else if (is("inputPeerChannel", peer)) {
-        await __classPrivateFieldGet(this, _AccountManager_c, "f").invoke({ _: "channels.toggleUsername", channel: { ...peer, _: "inputChannel" }, username, active });
+    else if (canBeInputChannel(peer)) {
+        await __classPrivateFieldGet(this, _AccountManager_c, "f").invoke({ _: "channels.toggleUsername", channel: toInputChannel(peer), username, active });
     }
     else {
         unreachable();

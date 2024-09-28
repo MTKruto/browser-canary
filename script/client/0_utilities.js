@@ -19,7 +19,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.isCdnFunction = exports.isMtprotoFunction = exports.checkInlineQueryId = exports.checkCallbackQueryId = exports.checkArray = exports.checkPollOption = exports.checkStoryId = exports.checkMessageId = exports.getChatListId = exports.getUsername = exports.isHttpUrl = exports.resolve = void 0;
+exports.toInputChannel = exports.canBeInputChannel = exports.toInputUser = exports.canBeInputUser = exports.isCdnFunction = exports.isMtprotoFunction = exports.checkInlineQueryId = exports.checkCallbackQueryId = exports.checkArray = exports.checkPollOption = exports.checkStoryId = exports.checkMessageId = exports.getChatListId = exports.getUsername = exports.isHttpUrl = exports.resolve = void 0;
 const _0_deps_js_1 = require("../0_deps.js");
 const _0_errors_js_1 = require("../0_errors.js");
 const _2_tl_js_1 = require("../2_tl.js");
@@ -176,3 +176,39 @@ function isCdnFunction(value) {
     return (0, _2_tl_js_1.isOneOf)(CDN_FUNCTIONS, value);
 }
 exports.isCdnFunction = isCdnFunction;
+function canBeInputUser(inputPeer) {
+    return (0, _2_tl_js_1.isOneOf)(["inputUser", "inputUserFromMessage"], inputPeer);
+}
+exports.canBeInputUser = canBeInputUser;
+function toInputUser(inputPeer) {
+    let id;
+    if ((0, _2_tl_js_1.is)("inputPeerUser", inputPeer)) {
+        id = { ...inputPeer, _: "inputUser" };
+    }
+    else if ((0, _2_tl_js_1.is)("inputPeerUserFromMessage", inputPeer)) {
+        id = { ...inputPeer, _: "inputUserFromMessage" };
+    }
+    else {
+        (0, _0_deps_js_1.unreachable)();
+    }
+    return id;
+}
+exports.toInputUser = toInputUser;
+function canBeInputChannel(inputPeer) {
+    return (0, _2_tl_js_1.isOneOf)(["inputChannel", "inputChannelFromMessage"], inputPeer);
+}
+exports.canBeInputChannel = canBeInputChannel;
+function toInputChannel(inputPeer) {
+    let id;
+    if ((0, _2_tl_js_1.is)("inputPeerChannel", inputPeer)) {
+        id = { ...inputPeer, _: "inputChannel" };
+    }
+    else if ((0, _2_tl_js_1.is)("inputPeerChannelFromMessage", inputPeer)) {
+        id = { ...inputPeer, _: "inputChannelFromMessage" };
+    }
+    else {
+        (0, _0_deps_js_1.unreachable)();
+    }
+    return id;
+}
+exports.toInputChannel = toInputChannel;

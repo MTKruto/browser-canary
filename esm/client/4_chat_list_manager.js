@@ -34,7 +34,7 @@ import { InputError } from "../0_errors.js";
 import { getLogger, toUnixTimestamp } from "../1_utilities.js";
 import { as, is, isOneOf, peerToChatId } from "../2_tl.js";
 import { constructChat, constructChatListItem, constructChatListItem3, constructChatListItem4, constructChatMember, getChatListItemOrder } from "../3_types.js";
-import { getChatListId } from "./0_utilities.js";
+import { canBeInputChannel, canBeInputUser, getChatListId, toInputChannel, toInputUser } from "./0_utilities.js";
 const chatListManagerUpdates = [
     "updateNewMessage",
     "updateNewChannelMessage",
@@ -188,8 +188,8 @@ export class ChatListManager {
     }
     async getChatAdministrators(chatId) {
         const peer = await __classPrivateFieldGet(this, _ChatListManager_c, "f").getInputPeer(chatId);
-        if (is("inputPeerChannel", peer)) {
-            const channel = { ...peer, _: "inputChannel" };
+        if (canBeInputChannel(peer)) {
+            const channel = toInputChannel(peer);
             const participants = await __classPrivateFieldGet(this, _ChatListManager_c, "f").invoke({ _: "channels.getParticipants", channel, filter: { _: "channelParticipantsAdmins" }, offset: 0, limit: 100, hash: 0n });
             if (is("channels.channelParticipantsNotModified", participants)) {
                 unreachable();
@@ -217,8 +217,8 @@ export class ChatListManager {
     }
     async getChatMember(chatId, userId) {
         const peer = await __classPrivateFieldGet(this, _ChatListManager_c, "f").getInputPeer(chatId);
-        if (is("inputPeerChannel", peer)) {
-            const { participant } = await __classPrivateFieldGet(this, _ChatListManager_c, "f").invoke({ _: "channels.getParticipant", channel: { ...peer, _: "inputChannel" }, participant: await __classPrivateFieldGet(this, _ChatListManager_c, "f").getInputPeer(userId) });
+        if (canBeInputChannel(peer)) {
+            const { participant } = await __classPrivateFieldGet(this, _ChatListManager_c, "f").invoke({ _: "channels.getParticipant", channel: toInputChannel(peer), participant: await __classPrivateFieldGet(this, _ChatListManager_c, "f").getInputPeer(userId) });
             return await constructChatMember(participant, __classPrivateFieldGet(this, _ChatListManager_c, "f").getEntity);
         }
         else if (is("inputPeerChat", peer)) {
@@ -233,8 +233,8 @@ export class ChatListManager {
     }
     async getChatMembers(chatId, params) {
         const peer = await __classPrivateFieldGet(this, _ChatListManager_c, "f").getInputPeer(chatId);
-        if (is("inputPeerChannel", peer)) {
-            const channel = { ...peer, _: "inputChannel" };
+        if (canBeInputChannel(peer)) {
+            const channel = toInputChannel(peer);
             const participants = await __classPrivateFieldGet(this, _ChatListManager_c, "f").invoke({ _: "channels.getParticipants", channel, filter: { _: "channelParticipantsRecent" }, offset: params?.offset ?? 0, limit: params?.limit ?? 100, hash: 0n });
             if (is("channels.channelParticipantsNotModified", participants)) {
                 unreachable();
@@ -499,14 +499,14 @@ _ChatListManager_c = new WeakMap(), _ChatListManager_LgetChats = new WeakMap(), 
     if (fullChat != null) {
         return fullChat;
     }
-    if (is("inputPeerUser", inputPeer)) {
-        fullChat = (await __classPrivateFieldGet(this, _ChatListManager_c, "f").invoke({ _: "users.getFullUser", id: { ...inputPeer, _: "inputUser" } })).full_user;
+    if (canBeInputUser(inputPeer)) {
+        fullChat = (await __classPrivateFieldGet(this, _ChatListManager_c, "f").invoke({ _: "users.getFullUser", id: toInputUser(inputPeer) })).full_user;
     }
     else if (is("inputPeerChat", inputPeer)) {
         fullChat = (await __classPrivateFieldGet(this, _ChatListManager_c, "f").invoke({ ...inputPeer, _: "messages.getFullChat" })).full_chat;
     }
-    else if (is("inputPeerChannel", inputPeer)) {
-        fullChat = (await __classPrivateFieldGet(this, _ChatListManager_c, "f").invoke({ _: "channels.getFullChannel", channel: { ...inputPeer, _: "inputChannel" } })).full_chat;
+    else if (canBeInputChannel(inputPeer)) {
+        fullChat = (await __classPrivateFieldGet(this, _ChatListManager_c, "f").invoke({ _: "channels.getFullChannel", channel: toInputChannel(inputPeer) })).full_chat;
     }
     await __classPrivateFieldGet(this, _ChatListManager_c, "f").storage.setFullChat(chatId_, fullChat);
     if (fullChat != null && "call" in fullChat && fullChat.call) {

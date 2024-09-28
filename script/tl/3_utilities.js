@@ -27,13 +27,13 @@ function getChannelChatId(channelId) {
 }
 exports.getChannelChatId = getChannelChatId;
 function peerToChatId(peer) {
-    if (("_" in peer && (peer._ == "peerUser" || peer._ == "inputPeerUser" || peer._ == "user" || peer._ == "userFull")) || "user_id" in peer) {
+    if (("_" in peer && (peer._ == "peerUser" || peer._ == "inputPeerUser" || peer._ == "inputPeerUserFromMessage" || peer._ == "user" || peer._ == "userFull")) || "user_id" in peer) {
         return Number("user_id" in peer ? peer.user_id : peer.id);
     }
     else if (("_" in peer && (peer._ == "peerChat" || peer._ == "inputPeerChat" || peer._ == "chat" || peer._ == "chatForbidden" || peer._ == "chatFull")) || "chat_id" in peer) {
         return -Number("chat_id" in peer ? peer.chat_id : peer.id);
     }
-    else if (("_" in peer && (peer._ == "peerChannel" || peer._ == "inputPeerChannel" || peer._ == "channel" || peer._ == "channelForbidden" || peer._ == "channelFull")) || "channel_id" in peer) {
+    else if (("_" in peer && (peer._ == "peerChannel" || peer._ == "inputPeerChannel" || peer._ == "inputPeerChannelFromMessage" || peer._ == "channel" || peer._ == "channelForbidden" || peer._ == "channelFull")) || "channel_id" in peer) {
         return getChannelChatId("channel_id" in peer ? peer.channel_id : peer.id);
     }
     else {

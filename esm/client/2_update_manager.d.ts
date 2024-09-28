@@ -34,9 +34,9 @@ export declare class UpdateManager {
     static isQtsUpdate(v: Api.Update): v is QtsUpdate;
     static isChannelPtsUpdate(v: Api.Update | Api.Updates): v is ChannelPtsUpdate;
     fetchState(source: string): Promise<void>;
-    processChats(chats: Api.Chat[]): Promise<void>;
+    processChats(chats: Api.Chat[], context: ReadObject): Promise<void>;
     processResult(result: ReadObject): Promise<void>;
-    processUsers(users: Api.User[]): Promise<void>;
+    processUsers(users: Api.User[], context: ReadObject): Promise<void>;
     getHandleUpdateQueue(boxId: bigint): Queue;
     processUpdates(updates: Api.Update | Api.Updates, checkGap: boolean, call?: Api.AnyObject | null, callback?: () => void): void;
     recoverUpdateGap(source: string): Promise<void>;

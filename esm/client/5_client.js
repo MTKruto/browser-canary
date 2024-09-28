@@ -28,12 +28,12 @@ var __classPrivateFieldGet = (this && this.__classPrivateFieldGet) || function (
     if (typeof state === "function" ? receiver !== state || !f : !state.has(receiver)) throw new TypeError("Cannot read private member from an object whose class did not declare it");
     return kind === "m" ? f : kind === "a" ? f.call(receiver) : f ? f.value : state.get(receiver);
 };
-var _Client_instances, _a, _Client_client, _Client_guaranteeUpdateDelivery, _Client_updateManager, _Client_networkStatisticsManager, _Client_botInfoManager, _Client_fileManager, _Client_reactionManager, _Client_videoChatManager, _Client_businessConnectionManager, _Client_messageManager, _Client_storyManager, _Client_callbackQueryManager, _Client_inlineQueryManager, _Client_chatListManager, _Client_accountManager, _Client_paymentManager, _Client_storage_, _Client_messageStorage_, _Client_parseMode, _Client_apiId, _Client_apiHash, _Client_publicKeys, _Client_outgoingMessages, _Client_persistCache, _Client_disableUpdates, _Client_authString, _Client_cdn, _Client_L, _Client_LsignIn, _Client_LpingLoop, _Client_LhandleMigrationError, _Client_L$initConncetion, _Client_reconnecting, _Client_reconnect, _Client_getApiId, _Client_getCdnConnectionPool, _Client_getCdnConnection, _Client_constructContext, _Client_propagateConnectionState, _Client_lastPropagatedConnectionState, _Client_stateChangeHandler, _Client_storageInited, _Client_initStorage, _Client_connectMutex, _Client_lastConnect, _Client_connectionInited, _Client_lastPropagatedAuthorizationState, _Client_propagateAuthorizationState, _Client_getSelfId, _Client_connectionInsuranceLoopStarted, _Client_connectionInsuranceLoopAbortController, _Client_startConnectionInsuranceLoop, _Client_connectionInsuranceLoop, _Client_pingLoopAbortController, _Client_pingInterval, _Client_lastUpdates, _Client_startPingLoop, _Client_pingLoop, _Client_invoke, _Client_handleInvokeError, _Client_authStringImported, _Client_getUserAccessHash, _Client_getChannelAccessHash, _Client_getInputPeerInner, _Client_handleCtxUpdate, _Client_queueHandleCtxUpdate, _Client_handleUpdate, _Client_lastGetMe, _Client_getMe;
+var _Client_instances, _a, _Client_client, _Client_guaranteeUpdateDelivery, _Client_updateManager, _Client_networkStatisticsManager, _Client_botInfoManager, _Client_fileManager, _Client_reactionManager, _Client_videoChatManager, _Client_businessConnectionManager, _Client_messageManager, _Client_storyManager, _Client_callbackQueryManager, _Client_inlineQueryManager, _Client_chatListManager, _Client_accountManager, _Client_paymentManager, _Client_storage_, _Client_messageStorage_, _Client_parseMode, _Client_apiId, _Client_apiHash, _Client_publicKeys, _Client_outgoingMessages, _Client_persistCache, _Client_disableUpdates, _Client_authString, _Client_cdn, _Client_L, _Client_LsignIn, _Client_LpingLoop, _Client_LhandleMigrationError, _Client_L$initConncetion, _Client_Lmin, _Client_reconnecting, _Client_reconnect, _Client_getApiId, _Client_getCdnConnectionPool, _Client_getCdnConnection, _Client_constructContext, _Client_propagateConnectionState, _Client_lastPropagatedConnectionState, _Client_stateChangeHandler, _Client_storageInited, _Client_initStorage, _Client_connectMutex, _Client_lastConnect, _Client_connectionInited, _Client_lastPropagatedAuthorizationState, _Client_propagateAuthorizationState, _Client_getSelfId, _Client_connectionInsuranceLoopStarted, _Client_connectionInsuranceLoopAbortController, _Client_startConnectionInsuranceLoop, _Client_connectionInsuranceLoop, _Client_pingLoopAbortController, _Client_pingInterval, _Client_lastUpdates, _Client_startPingLoop, _Client_pingLoop, _Client_invoke, _Client_handleInvokeError, _Client_authStringImported, _Client_getUserAccessHash, _Client_getChannelAccessHash, _Client_getInputPeerInner, _Client_getMinInputPeer, _Client_handleCtxUpdate, _Client_queueHandleCtxUpdate, _Client_handleUpdate, _Client_lastGetMe, _Client_getMe;
 import { unreachable } from "../0_deps.js";
 import { AccessError, ConnectionError, InputError } from "../0_errors.js";
 import { cleanObject, drop, getLogger, getRandomId, minute, mustPrompt, mustPromptOneOf, Mutex, second, ZERO_CHANNEL_ID } from "../1_utilities.js";
 import { StorageMemory } from "../2_storage.js";
-import { as, chatIdToPeerId, getChatIdPeerType, is, peerToChatId } from "../2_tl.js";
+import { as, chatIdToPeerId, getChatIdPeerType, is, isOneOf, peerToChatId } from "../2_tl.js";
 import { getDc } from "../3_transport.js";
 import { constructUser } from "../3_types.js";
 import { APP_VERSION, DEVICE_MODEL, LANG_CODE, LANG_PACK, LAYER, MAX_CHANNEL_ID, MAX_CHAT_ID, SYSTEM_LANG_CODE, SYSTEM_VERSION, USERNAME_TTL } from "../4_constants.js";
@@ -41,7 +41,7 @@ import { AuthKeyUnregistered, ConnectionNotInited, FloodWait, Migrate, PasswordH
 import { PhoneCodeInvalid } from "../4_errors.js";
 import { checkPassword } from "./0_password.js";
 import { StorageOperations } from "./0_storage_operations.js";
-import { getUsername, isCdnFunction, isMtprotoFunction, resolve } from "./0_utilities.js";
+import { canBeInputChannel, canBeInputUser, getUsername, isCdnFunction, isMtprotoFunction, resolve, toInputChannel, toInputUser } from "./0_utilities.js";
 import { ClientEncrypted } from "./1_client_encrypted.js";
 import { ClientPlain } from "./1_client_plain.js";
 import { Composer as Composer_ } from "./1_composer.js";
@@ -159,6 +159,7 @@ export class Client extends Composer {
         _Client_LpingLoop.set(this, void 0);
         _Client_LhandleMigrationError.set(this, void 0);
         _Client_L$initConncetion.set(this, void 0);
+        _Client_Lmin.set(this, void 0);
         _Client_reconnecting.set(this, false);
         _Client_constructContext.set(this, async (update) => {
             const msg = "message" in update ? update.message : "editedMessage" in update ? update.editedMessage : "scheduledMessage" in update ? update.scheduledMessage : "callbackQuery" in update ? update.callbackQuery.message : undefined;
@@ -646,6 +647,7 @@ export class Client extends Composer {
         __classPrivateFieldSet(this, _Client_LpingLoop, L.branch("pingLoop"), "f");
         __classPrivateFieldSet(this, _Client_LhandleMigrationError, L.branch("[handleMigrationError]"), "f");
         __classPrivateFieldSet(this, _Client_L$initConncetion, L.branch("#initConnection"), "f");
+        __classPrivateFieldSet(this, _Client_Lmin, L.branch("min"), "f");
         __classPrivateFieldSet(this, _Client_cdn, params?.cdn ?? false, "f");
         const c = {
             id,
@@ -809,7 +811,7 @@ export class Client extends Composer {
         }
         await __classPrivateFieldGet(this, _Client_client, "f").reconnect();
     }
-    async [(_Client_client = new WeakMap(), _Client_guaranteeUpdateDelivery = new WeakMap(), _Client_updateManager = new WeakMap(), _Client_networkStatisticsManager = new WeakMap(), _Client_botInfoManager = new WeakMap(), _Client_fileManager = new WeakMap(), _Client_reactionManager = new WeakMap(), _Client_videoChatManager = new WeakMap(), _Client_businessConnectionManager = new WeakMap(), _Client_messageManager = new WeakMap(), _Client_storyManager = new WeakMap(), _Client_callbackQueryManager = new WeakMap(), _Client_inlineQueryManager = new WeakMap(), _Client_chatListManager = new WeakMap(), _Client_accountManager = new WeakMap(), _Client_paymentManager = new WeakMap(), _Client_storage_ = new WeakMap(), _Client_messageStorage_ = new WeakMap(), _Client_parseMode = new WeakMap(), _Client_apiId = new WeakMap(), _Client_apiHash = new WeakMap(), _Client_publicKeys = new WeakMap(), _Client_outgoingMessages = new WeakMap(), _Client_persistCache = new WeakMap(), _Client_disableUpdates = new WeakMap(), _Client_authString = new WeakMap(), _Client_cdn = new WeakMap(), _Client_L = new WeakMap(), _Client_LsignIn = new WeakMap(), _Client_LpingLoop = new WeakMap(), _Client_LhandleMigrationError = new WeakMap(), _Client_L$initConncetion = new WeakMap(), _Client_reconnecting = new WeakMap(), _Client_constructContext = new WeakMap(), _Client_lastPropagatedConnectionState = new WeakMap(), _Client_stateChangeHandler = new WeakMap(), _Client_storageInited = new WeakMap(), _Client_connectMutex = new WeakMap(), _Client_lastConnect = new WeakMap(), _Client_connectionInited = new WeakMap(), _Client_lastPropagatedAuthorizationState = new WeakMap(), _Client_connectionInsuranceLoopStarted = new WeakMap(), _Client_connectionInsuranceLoopAbortController = new WeakMap(), _Client_pingLoopAbortController = new WeakMap(), _Client_pingInterval = new WeakMap(), _Client_lastUpdates = new WeakMap(), _Client_handleInvokeError = new WeakMap(), _Client_authStringImported = new WeakMap(), _Client_lastGetMe = new WeakMap(), _Client_instances = new WeakSet(), _Client_reconnect = async function _Client_reconnect() {
+    async [(_Client_client = new WeakMap(), _Client_guaranteeUpdateDelivery = new WeakMap(), _Client_updateManager = new WeakMap(), _Client_networkStatisticsManager = new WeakMap(), _Client_botInfoManager = new WeakMap(), _Client_fileManager = new WeakMap(), _Client_reactionManager = new WeakMap(), _Client_videoChatManager = new WeakMap(), _Client_businessConnectionManager = new WeakMap(), _Client_messageManager = new WeakMap(), _Client_storyManager = new WeakMap(), _Client_callbackQueryManager = new WeakMap(), _Client_inlineQueryManager = new WeakMap(), _Client_chatListManager = new WeakMap(), _Client_accountManager = new WeakMap(), _Client_paymentManager = new WeakMap(), _Client_storage_ = new WeakMap(), _Client_messageStorage_ = new WeakMap(), _Client_parseMode = new WeakMap(), _Client_apiId = new WeakMap(), _Client_apiHash = new WeakMap(), _Client_publicKeys = new WeakMap(), _Client_outgoingMessages = new WeakMap(), _Client_persistCache = new WeakMap(), _Client_disableUpdates = new WeakMap(), _Client_authString = new WeakMap(), _Client_cdn = new WeakMap(), _Client_L = new WeakMap(), _Client_LsignIn = new WeakMap(), _Client_LpingLoop = new WeakMap(), _Client_LhandleMigrationError = new WeakMap(), _Client_L$initConncetion = new WeakMap(), _Client_Lmin = new WeakMap(), _Client_reconnecting = new WeakMap(), _Client_constructContext = new WeakMap(), _Client_lastPropagatedConnectionState = new WeakMap(), _Client_stateChangeHandler = new WeakMap(), _Client_storageInited = new WeakMap(), _Client_connectMutex = new WeakMap(), _Client_lastConnect = new WeakMap(), _Client_connectionInited = new WeakMap(), _Client_lastPropagatedAuthorizationState = new WeakMap(), _Client_connectionInsuranceLoopStarted = new WeakMap(), _Client_connectionInsuranceLoopAbortController = new WeakMap(), _Client_pingLoopAbortController = new WeakMap(), _Client_pingInterval = new WeakMap(), _Client_lastUpdates = new WeakMap(), _Client_handleInvokeError = new WeakMap(), _Client_authStringImported = new WeakMap(), _Client_lastGetMe = new WeakMap(), _Client_instances = new WeakSet(), _Client_reconnect = async function _Client_reconnect() {
         if (this.connected) {
             return;
         }
@@ -1177,10 +1179,10 @@ export class Client extends Composer {
      */
     async getInputChannel(id) {
         const inputPeer = await this.getInputPeer(id);
-        if (!(is("inputPeerChannel", inputPeer))) {
+        if (!canBeInputChannel(inputPeer)) {
             throw new TypeError(`The chat ${id} is not a channel neither a supergroup.`);
         }
-        return { ...inputPeer, _: "inputChannel" };
+        return toInputChannel(inputPeer);
     }
     /**
      * Get a user's inputUser. Useful when calling API functions directly.
@@ -1189,10 +1191,10 @@ export class Client extends Composer {
      */
     async getInputUser(id) {
         const inputPeer = await this.getInputPeer(id);
-        if (!(is("inputPeerUser", inputPeer))) {
+        if (!canBeInputUser(inputPeer)) {
             throw new TypeError(`The chat ${id} is not a private chat.`);
         }
-        return { ...inputPeer, _: "inputUser" };
+        return toInputUser(inputPeer);
     }
     async [(_Client_propagateAuthorizationState = async function _Client_propagateAuthorizationState(authorized) {
         if (__classPrivateFieldGet(this, _Client_lastPropagatedAuthorizationState, "f") != authorized) {
@@ -1338,6 +1340,8 @@ export class Client extends Composer {
         if (!isNaN(idn)) {
             id = idn;
         }
+        __classPrivateFieldGet(this, _Client_Lmin, "f").debug("gipi A", id);
+        let peer;
         if (typeof id === "string") {
             id = getUsername(id);
             let resolvedId = 0;
@@ -1348,8 +1352,8 @@ export class Client extends Composer {
             }
             else {
                 const resolved = await this.invoke({ _: "contacts.resolveUsername", username: id });
-                await __classPrivateFieldGet(this, _Client_updateManager, "f").processChats(resolved.chats);
-                await __classPrivateFieldGet(this, _Client_updateManager, "f").processUsers(resolved.users);
+                await __classPrivateFieldGet(this, _Client_updateManager, "f").processChats(resolved.chats, resolved);
+                await __classPrivateFieldGet(this, _Client_updateManager, "f").processUsers(resolved.users, resolved);
                 if (is("peerUser", resolved.peer)) {
                     resolvedId = peerToChatId(resolved.peer);
                 }
@@ -1361,13 +1365,14 @@ export class Client extends Composer {
                 }
             }
             const resolvedIdType = getChatIdPeerType(resolvedId);
+            __classPrivateFieldGet(this, _Client_Lmin, "f").debug({ resolvedId });
             if (resolvedIdType == "user") {
                 const accessHash = await this.messageStorage.getUserAccessHash(resolvedId);
-                return { _: "inputPeerUser", user_id: chatIdToPeerId(resolvedId), access_hash: accessHash ?? 0n };
+                peer = { _: "inputPeerUser", user_id: chatIdToPeerId(resolvedId), access_hash: accessHash ?? 0n };
             }
             else if (resolvedIdType == "channel") {
                 const accessHash = await this.messageStorage.getChannelAccessHash(resolvedId);
-                return { _: "inputPeerChannel", channel_id: chatIdToPeerId(resolvedId), access_hash: accessHash ?? 0n };
+                peer = { _: "inputPeerChannel", channel_id: chatIdToPeerId(resolvedId), access_hash: accessHash ?? 0n };
             }
             else {
                 unreachable();
@@ -1375,17 +1380,43 @@ export class Client extends Composer {
         }
         else if (id > 0) {
             const accessHash = await this.messageStorage.getUserAccessHash(id);
-            return { _: "inputPeerUser", user_id: chatIdToPeerId(id), access_hash: accessHash ?? 0n };
+            peer = { _: "inputPeerUser", user_id: chatIdToPeerId(id), access_hash: accessHash ?? 0n };
         }
         else if (-MAX_CHAT_ID <= id) {
-            return { _: "inputPeerChat", chat_id: BigInt(Math.abs(id)) };
+            peer = { _: "inputPeerChat", chat_id: BigInt(Math.abs(id)) };
         }
         else if (ZERO_CHANNEL_ID - MAX_CHANNEL_ID <= id && id != ZERO_CHANNEL_ID) {
             const accessHash = await this.messageStorage.getChannelAccessHash(id);
-            return { _: "inputPeerChannel", channel_id: chatIdToPeerId(id), access_hash: accessHash ?? 0n };
+            peer = { _: "inputPeerChannel", channel_id: chatIdToPeerId(id), access_hash: accessHash ?? 0n };
         }
         else {
             throw new InputError("The ID is of an format unknown.");
+        }
+        if (!is("inputPeerChat", peer) && !peer.access_hash) {
+            const chatId = peerToChatId(peer);
+            const minPeerReference = await this.messageStorage.getLastMinPeerReference(chatId);
+            if (minPeerReference) {
+                const minInputPeer = await __classPrivateFieldGet(this, _Client_instances, "m", _Client_getMinInputPeer).call(this, canBeInputChannel(peer) ? "channel" : "user", { ...minPeerReference, senderId: chatId });
+                if (minInputPeer) {
+                    __classPrivateFieldGet(this, _Client_Lmin, "f").debug("resolved input min peer", minInputPeer);
+                    peer = minInputPeer;
+                }
+            }
+        }
+        return peer;
+    }, _Client_getMinInputPeer = async function _Client_getMinInputPeer(type, reference) {
+        const entity = await this.messageStorage.getEntity(reference.chatId);
+        if (isOneOf(["channel", "channelForbidden"], entity) && entity.access_hash) {
+            const peer = { _: "inputPeerChannel", channel_id: entity.id, access_hash: entity.access_hash };
+            if (type == "user") {
+                return { _: "inputPeerUserFromMessage", peer, msg_id: reference.messageId, user_id: chatIdToPeerId(reference.senderId) };
+            }
+            else {
+                return { _: "inputPeerChannelFromMessage", peer, msg_id: reference.messageId, channel_id: chatIdToPeerId(reference.senderId) };
+            }
+        }
+        else {
+            return null;
         }
     }, getEntity)](peer) {
         const id = peerToChatId(peer);

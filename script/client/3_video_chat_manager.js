@@ -37,6 +37,7 @@ const _0_errors_js_1 = require("../0_errors.js");
 const _1_utilities_js_1 = require("../1_utilities.js");
 const _2_tl_js_1 = require("../2_tl.js");
 const _3_types_js_1 = require("../3_types.js");
+const _0_utilities_js_1 = require("./0_utilities.js");
 const videoChatManagerUpdates = [
     "updateGroupCall",
 ];
@@ -164,7 +165,7 @@ class VideoChatManager {
 exports.VideoChatManager = VideoChatManager;
 _VideoChatManager_c = new WeakMap(), _VideoChatManager_instances = new WeakSet(), _VideoChatManager_createGroupCall = async function _VideoChatManager_createGroupCall(chatId, title, liveStream, scheduleDate) {
     const peer = await __classPrivateFieldGet(this, _VideoChatManager_c, "f").getInputPeer(chatId);
-    if ((0, _2_tl_js_1.is)("inputPeerUser", peer)) {
+    if ((0, _0_utilities_js_1.canBeInputUser)(peer)) {
         throw new _0_errors_js_1.InputError("Video chats are only available for groups and channels.");
     }
     const { updates } = await __classPrivateFieldGet(this, _VideoChatManager_c, "f").invoke({ _: "phone.createGroupCall", peer, random_id: (0, _1_utilities_js_1.getRandomId)(true), title, rtmp_stream: liveStream, schedule_date: scheduleDate ? (0, _1_utilities_js_1.toUnixTimestamp)(scheduleDate) : undefined }).then((v) => (0, _2_tl_js_1.as)("updates", v));
