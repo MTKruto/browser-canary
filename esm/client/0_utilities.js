@@ -162,7 +162,7 @@ export function isCdnFunction(value) {
     return isOneOf(CDN_FUNCTIONS, value);
 }
 export function canBeInputUser(inputPeer) {
-    return isOneOf(["inputUser", "inputUserFromMessage"], inputPeer);
+    return isOneOf(["inputPeerUser", "inputPeerUserFromMessage"], inputPeer);
 }
 export function toInputUser(inputPeer) {
     let id;
@@ -178,7 +178,7 @@ export function toInputUser(inputPeer) {
     return id;
 }
 export function canBeInputChannel(inputPeer) {
-    return isOneOf(["inputChannel", "inputChannelFromMessage"], inputPeer);
+    return isOneOf(["inputPeerChannel", "inputPeerChannelFromMessage"], inputPeer);
 }
 export function toInputChannel(inputPeer) {
     let id;

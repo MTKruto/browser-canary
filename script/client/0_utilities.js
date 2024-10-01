@@ -177,7 +177,7 @@ function isCdnFunction(value) {
 }
 exports.isCdnFunction = isCdnFunction;
 function canBeInputUser(inputPeer) {
-    return (0, _2_tl_js_1.isOneOf)(["inputUser", "inputUserFromMessage"], inputPeer);
+    return (0, _2_tl_js_1.isOneOf)(["inputPeerUser", "inputPeerUserFromMessage"], inputPeer);
 }
 exports.canBeInputUser = canBeInputUser;
 function toInputUser(inputPeer) {
@@ -195,7 +195,7 @@ function toInputUser(inputPeer) {
 }
 exports.toInputUser = toInputUser;
 function canBeInputChannel(inputPeer) {
-    return (0, _2_tl_js_1.isOneOf)(["inputChannel", "inputChannelFromMessage"], inputPeer);
+    return (0, _2_tl_js_1.isOneOf)(["inputPeerChannel", "inputPeerChannelFromMessage"], inputPeer);
 }
 exports.canBeInputChannel = canBeInputChannel;
 function toInputChannel(inputPeer) {
