@@ -2,7 +2,9 @@
 // Copyright 2018-2024 the Deno authors. All rights reserved. MIT license.
 // This module is browser compatible.
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.assertArgs = exports.lastPathSegment = exports.stripSuffix = void 0;
+exports.stripSuffix = stripSuffix;
+exports.lastPathSegment = lastPathSegment;
+exports.assertArgs = assertArgs;
 const assert_path_js_1 = require("./assert_path.js");
 function stripSuffix(name, suffix) {
     if (suffix.length >= name.length) {
@@ -16,7 +18,6 @@ function stripSuffix(name, suffix) {
     }
     return name.slice(0, -suffix.length);
 }
-exports.stripSuffix = stripSuffix;
 function lastPathSegment(path, isSep, start = 0) {
     let matchedNonSeparator = false;
     let end = path.length;
@@ -34,7 +35,6 @@ function lastPathSegment(path, isSep, start = 0) {
     }
     return path.slice(start, end);
 }
-exports.lastPathSegment = lastPathSegment;
 function assertArgs(path, suffix) {
     (0, assert_path_js_1.assertPath)(path);
     if (path.length === 0)
@@ -43,4 +43,3 @@ function assertArgs(path, suffix) {
         throw new TypeError(`Suffix must be a string, received "${JSON.stringify(suffix)}"`);
     }
 }
-exports.assertArgs = assertArgs;

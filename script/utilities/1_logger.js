@@ -20,24 +20,25 @@
  */
 // deno-lint-ignore-file no-explicit-any
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getLogger = exports.OUT_BIN = exports.IN_BIN = exports.OUT = exports.IN = exports.TRACE = exports.DEBUG = exports.INFO = exports.WARNING = exports.ERROR = exports.setLoggingProvider = exports.setLogFilter = exports.setLogVerbosity = void 0;
+exports.OUT_BIN = exports.IN_BIN = exports.OUT = exports.IN = exports.TRACE = exports.DEBUG = exports.INFO = exports.WARNING = exports.ERROR = void 0;
+exports.setLogVerbosity = setLogVerbosity;
+exports.setLogFilter = setLogFilter;
+exports.setLoggingProvider = setLoggingProvider;
+exports.getLogger = getLogger;
 const _0_env_js_1 = require("./0_env.js");
 let verbosity = (0, _0_env_js_1.getNumber)("LOG_VERBOSITY") || 0;
 function setLogVerbosity(verbosity_) {
     verbosity = verbosity_;
 }
-exports.setLogVerbosity = setLogVerbosity;
 const LOG_FILTER = (0, _0_env_js_1.getString)("LOG_FILTER");
 let filter = LOG_FILTER == null ? null : new RegExp(LOG_FILTER);
 function setLogFilter(filter_) {
     filter = filter_;
 }
-exports.setLogFilter = setLogFilter;
 let provider = console;
 function setLoggingProvider(provider_) {
     provider = provider_;
 }
-exports.setLoggingProvider = setLoggingProvider;
 exports.ERROR = 1;
 exports.WARNING = 2;
 exports.INFO = 3;
@@ -125,4 +126,3 @@ function getLogger(scope) {
         },
     };
 }
-exports.getLogger = getLogger;

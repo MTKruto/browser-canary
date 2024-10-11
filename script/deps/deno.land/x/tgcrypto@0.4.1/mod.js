@@ -3,7 +3,16 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.cbc256Decrypt = exports.cbc256Encrypt = exports.ctr256 = exports.__settCtr256StateState = exports.__getCtr256StateValues = exports.destroyCtr256State = exports.createCtr256State = exports.ige256Decrypt = exports.ige256Encrypt = exports.init = void 0;
+exports.init = init;
+exports.ige256Encrypt = ige256Encrypt;
+exports.ige256Decrypt = ige256Decrypt;
+exports.createCtr256State = createCtr256State;
+exports.destroyCtr256State = destroyCtr256State;
+exports.__getCtr256StateValues = __getCtr256StateValues;
+exports.__settCtr256StateState = __settCtr256StateState;
+exports.ctr256 = ctr256;
+exports.cbc256Encrypt = cbc256Encrypt;
+exports.cbc256Decrypt = cbc256Decrypt;
 const tgcrypto_js_1 = __importDefault(require("./tgcrypto.js"));
 // deno-lint-ignore no-explicit-any
 let module_;
@@ -11,7 +20,6 @@ const promise = (0, tgcrypto_js_1.default)().then((v) => module_ = v);
 async function init() {
     await promise;
 }
-exports.init = init;
 function checkIgeParams(data, key, iv) {
     if (data.byteLength == 0) {
         throw new TypeError("data must not be empty");
@@ -47,7 +55,6 @@ function ige256Encrypt(data, key, iv) {
         module_._free(datap);
     }
 }
-exports.ige256Encrypt = ige256Encrypt;
 /**
  * Performs IGE-256 decryption.
  *
@@ -69,7 +76,6 @@ function ige256Decrypt(data, key, iv) {
         module_._free(datap);
     }
 }
-exports.ige256Decrypt = ige256Decrypt;
 function checkCtrParams(data, key) {
     if (data.byteLength == 0) {
         throw new TypeError("data must not be empty");
@@ -90,26 +96,22 @@ function createCtr256State(iv) {
     module_.HEAPU8[state.statep] = 0;
     return state;
 }
-exports.createCtr256State = createCtr256State;
 function destroyCtr256State(state) {
     module_._free(state.ivp);
     module_._free(state.statep);
 }
-exports.destroyCtr256State = destroyCtr256State;
 function __getCtr256StateValues(state) {
     return {
         iv: module_.HEAPU8.slice(state.ivp, state.ivp + 16),
         state: module_.HEAPU8.slice(state.statep, state.statep + 1),
     };
 }
-exports.__getCtr256StateValues = __getCtr256StateValues;
 function __settCtr256StateState(state, state_) {
     if (state_.byteLength != 1) {
         throw new Error("state_ must be 1 byte");
     }
     module_.HEAPU8.set(state_, state.statep);
 }
-exports.__settCtr256StateState = __settCtr256StateState;
 /**
  * Performs CTR-256 encryption/decryption.
  *
@@ -126,7 +128,6 @@ function ctr256(data, key, state) {
     data.set(module_.HEAPU8.slice(datap, datap + data.byteLength));
     module_._free(datap);
 }
-exports.ctr256 = ctr256;
 function checkCbcParams(data, key, iv) {
     if (data.byteLength == 0) {
         throw new TypeError("data must not be empty");
@@ -160,7 +161,6 @@ function cbc256Encrypt(data, key, iv) {
         module_._free(datap);
     }
 }
-exports.cbc256Encrypt = cbc256Encrypt;
 /**
  * Performs CBC-256 decryption.
  *
@@ -180,4 +180,3 @@ function cbc256Decrypt(data, key, iv) {
         module_._free(datap);
     }
 }
-exports.cbc256Decrypt = cbc256Decrypt;

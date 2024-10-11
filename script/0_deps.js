@@ -45,7 +45,8 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Parser = exports.SocksClient = exports.gzip = exports.gunzip = exports.initTgCrypto = exports.ige256Encrypt = exports.ige256Decrypt = exports.destroyCtr256State = exports.ctr256 = exports.createCtr256State = exports.extension = exports.contentType = exports.encodeBase64 = exports.decodeBase64 = exports.iterateReader = exports.concat = exports.path = void 0;
+exports.Parser = exports.SocksClient = exports.gzip = exports.gunzip = exports.initTgCrypto = exports.ige256Encrypt = exports.ige256Decrypt = exports.destroyCtr256State = exports.ctr256 = exports.createCtr256State = exports.contentType = exports.encodeBase64 = exports.decodeBase64 = exports.iterateReader = exports.concat = exports.path = void 0;
+exports.extension = extension;
 __exportStar(require("./deps/jsr.io/@std/assert/1.0.6/mod.js"), exports);
 exports.path = __importStar(require("./deps/jsr.io/@std/path/1.0.6/mod.js"));
 var concat_js_1 = require("./deps/jsr.io/@std/bytes/1.0.2/concat.js");
@@ -74,7 +75,6 @@ function extension(mimeType) {
         return (0, extension_js_1.extension)(mimeType) || "unknown";
     }
 }
-exports.extension = extension;
 var mod_js_1 = require("./deps/deno.land/x/tgcrypto@0.4.1/mod.js");
 Object.defineProperty(exports, "createCtr256State", { enumerable: true, get: function () { return mod_js_1.createCtr256State; } });
 Object.defineProperty(exports, "ctr256", { enumerable: true, get: function () { return mod_js_1.ctr256; } });

@@ -19,7 +19,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.parseHtml = void 0;
+exports.parseHtml = parseHtml;
 const _0_deps_js_1 = require("../0_deps.js");
 const _0_errors_js_1 = require("../0_errors.js");
 function parseHtml(html) {
@@ -103,4 +103,3 @@ function parseHtml(html) {
     parser.end();
     return [text, entities];
 }
-exports.parseHtml = parseHtml;

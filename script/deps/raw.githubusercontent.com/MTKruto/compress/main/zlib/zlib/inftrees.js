@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.default = inflate_table;
 const MAXBITS = 15;
 const ENOUGH_LENS = 852;
 const ENOUGH_DISTS = 592;
@@ -355,4 +356,3 @@ function inflate_table(type, lens, lens_index, codes, table, table_index, work, 
     opts.bits = root;
     return 0;
 }
-exports.default = inflate_table;

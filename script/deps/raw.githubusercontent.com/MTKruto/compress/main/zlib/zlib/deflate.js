@@ -26,7 +26,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deflateSetDictionary = exports.deflateEnd = exports.deflate = exports.deflateInit2 = exports.deflateSetHeader = exports.DeflateState = void 0;
+exports.DeflateState = void 0;
+exports.deflateSetHeader = deflateSetHeader;
+exports.deflateInit2 = deflateInit2;
+exports.deflate = deflate;
+exports.deflateEnd = deflateEnd;
+exports.deflateSetDictionary = deflateSetDictionary;
 const messages_js_1 = require("./messages.js");
 const trees = __importStar(require("./trees.js"));
 const adler32_js_1 = __importDefault(require("./adler32.js"));
@@ -1490,7 +1495,6 @@ function deflateSetHeader(strm, head) {
     strm.state.gzhead = head;
     return Z_OK;
 }
-exports.deflateSetHeader = deflateSetHeader;
 function deflateInit2(strm, level, method, windowBits, memLevel, strategy) {
     if (!strm) { // === Z_NULL
         return status_js_1.default.Z_STREAM_ERROR;
@@ -1549,7 +1553,6 @@ function deflateInit2(strm, level, method, windowBits, memLevel, strategy) {
     s.method = method;
     return deflateReset(strm);
 }
-exports.deflateInit2 = deflateInit2;
 function deflateInit(strm, level) {
     return deflateInit2(strm, level, Z_DEFLATED, MAX_WBITS, DEF_MEM_LEVEL, Z_DEFAULT_STRATEGY);
 }
@@ -1874,7 +1877,6 @@ function deflate(strm, flush) {
     /* write the trailer only once! */
     return s.pending !== 0 ? Z_OK : Z_STREAM_END;
 }
-exports.deflate = deflate;
 function deflateEnd(strm) {
     let status;
     if (!strm /*== Z_NULL*/ || !strm.state /*== Z_NULL*/) {
@@ -1893,7 +1895,6 @@ function deflateEnd(strm) {
     strm.state = null;
     return status === BUSY_STATE ? err(strm, status_js_1.default.Z_DATA_ERROR) : Z_OK;
 }
-exports.deflateEnd = deflateEnd;
 /* =========================================================================
  * Initializes the compression dictionary from the given byte
  * sequence without producing any compressed output.
@@ -1973,4 +1974,3 @@ function deflateSetDictionary(strm, dictionary) {
     s.wrap = wrap;
     return Z_OK;
 }
-exports.deflateSetDictionary = deflateSetDictionary;

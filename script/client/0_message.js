@@ -19,7 +19,11 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.decryptMessage = exports.encryptMessage = exports.unpackUnencryptedMessage = exports.packUnencryptedMessage = exports.getMessageId = void 0;
+exports.getMessageId = getMessageId;
+exports.packUnencryptedMessage = packUnencryptedMessage;
+exports.unpackUnencryptedMessage = unpackUnencryptedMessage;
+exports.encryptMessage = encryptMessage;
+exports.decryptMessage = decryptMessage;
 const _0_deps_js_1 = require("../0_deps.js");
 const _1_utilities_js_1 = require("../1_utilities.js");
 const _2_tl_js_1 = require("../2_tl.js");
@@ -34,7 +38,6 @@ function getMessageId(lastMsgId, difference) {
     }
     return newMsgId;
 }
-exports.getMessageId = getMessageId;
 function packUnencryptedMessage(data, messageId) {
     const writer = new _2_tl_js_1.TLWriter();
     writer.writeInt64(0n); // auth key
@@ -43,7 +46,6 @@ function packUnencryptedMessage(data, messageId) {
     writer.write(data);
     return writer.buffer;
 }
-exports.packUnencryptedMessage = packUnencryptedMessage;
 function unpackUnencryptedMessage(buffer) {
     const reader = new _2_tl_js_1.TLReader(buffer);
     const _authKeyId = reader.readInt64();
@@ -52,7 +54,6 @@ function unpackUnencryptedMessage(buffer) {
     const message = reader.read(messageLength);
     return { messageId, message };
 }
-exports.unpackUnencryptedMessage = unpackUnencryptedMessage;
 async function encryptMessage(message, authKey, authKeyId, salt, sessionId) {
     const payloadWriter = new _2_tl_js_1.TLWriter();
     payloadWriter.writeInt64(salt);
@@ -71,7 +72,6 @@ async function encryptMessage(message, authKey, authKeyId, salt, sessionId) {
     messageWriter.write((0, _0_deps_js_1.ige256Encrypt)(payload, aesKey, aesIV));
     return messageWriter.buffer;
 }
-exports.encryptMessage = encryptMessage;
 async function decryptMessage(buffer, authKey, authKeyId, _sessionId) {
     const reader = new _2_tl_js_1.TLReader(buffer);
     (0, _0_deps_js_1.assertEquals)(reader.readInt64(false), authKeyId);
@@ -88,4 +88,3 @@ async function decryptMessage(buffer, authKey, authKeyId, _sessionId) {
     const _sessionId_ = plainReader.readInt64(false);
     return (0, _2_tl_js_1.deserializeMessage)(plainReader);
 }
-exports.decryptMessage = decryptMessage;

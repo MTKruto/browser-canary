@@ -19,7 +19,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.constructInlineQueryAnswer = void 0;
+exports.constructInlineQueryAnswer = constructInlineQueryAnswer;
 const _1_utilities_js_1 = require("../1_utilities.js");
 const _4_inline_query_result_js_1 = require("./4_inline_query_result.js");
 function constructInlineQueryAnswer(results) {
@@ -29,4 +29,3 @@ function constructInlineQueryAnswer(results) {
         nextOffset: results.next_offset,
     });
 }
-exports.constructInlineQueryAnswer = constructInlineQueryAnswer;

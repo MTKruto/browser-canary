@@ -2,7 +2,7 @@
 // Copyright 2018-2024 the Deno authors. All rights reserved. MIT license.
 // This module is browser compatible.
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.relative = void 0;
+exports.relative = relative;
 const constants_js_1 = require("../_common/constants.js");
 const resolve_js_1 = require("./resolve.js");
 const relative_js_1 = require("../_common/relative.js");
@@ -132,4 +132,3 @@ function relative(from, to) {
         return toOrig.slice(toStart, toEnd);
     }
 }
-exports.relative = relative;

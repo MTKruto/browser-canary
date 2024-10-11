@@ -19,7 +19,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getPhotoSizes = exports.constructPhoto = void 0;
+exports.constructPhoto = constructPhoto;
+exports.getPhotoSizes = getPhotoSizes;
 const _2_tl_js_1 = require("../2_tl.js");
 const _file_id_js_1 = require("./_file_id.js");
 const _0_thumbnail_js_1 = require("./0_thumbnail.js");
@@ -33,7 +34,6 @@ function constructPhoto(photo) {
         thumbnails: sizes.slice(0, -1).map((v) => (0, _0_thumbnail_js_1.constructThumbnail)(v, photo)),
     };
 }
-exports.constructPhoto = constructPhoto;
 function getPhotoSizes(photo) {
     const sizes = photo.sizes
         .map((v) => {
@@ -49,4 +49,3 @@ function getPhotoSizes(photo) {
     const largest = sizes.slice(-1)[0];
     return { sizes, largest };
 }
-exports.getPhotoSizes = getPhotoSizes;

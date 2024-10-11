@@ -19,7 +19,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.constructUser = void 0;
+exports.constructUser = constructUser;
 const _1_utilities_js_1 = require("../1_utilities.js");
 const _2_tl_js_1 = require("../2_tl.js");
 const _0_chat_photo_js_1 = require("./0_chat_photo.js");
@@ -48,4 +48,3 @@ function constructUser(user_) {
     }
     return (0, _1_utilities_js_1.cleanObject)(user);
 }
-exports.constructUser = constructUser;

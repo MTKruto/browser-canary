@@ -2,7 +2,7 @@
 // Copyright 2018-2024 the Deno authors. All rights reserved. MIT license.
 // This module is browser compatible.
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.contentType = void 0;
+exports.contentType = contentType;
 const parse_media_type_js_1 = require("./parse_media_type.js");
 const get_charset_js_1 = require("./get_charset.js");
 const format_media_type_js_1 = require("./format_media_type.js");
@@ -58,4 +58,3 @@ function contentType(extensionOrType) {
     }
     return undefined;
 }
-exports.contentType = contentType;

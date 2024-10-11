@@ -1,6 +1,13 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.prevElementSibling = exports.nextElementSibling = exports.getName = exports.hasAttrib = exports.getAttributeValue = exports.getSiblings = exports.getParent = exports.getChildren = void 0;
+exports.getChildren = getChildren;
+exports.getParent = getParent;
+exports.getSiblings = getSiblings;
+exports.getAttributeValue = getAttributeValue;
+exports.hasAttrib = hasAttrib;
+exports.getName = getName;
+exports.nextElementSibling = nextElementSibling;
+exports.prevElementSibling = prevElementSibling;
 const Node_js_1 = require("../Node.js");
 const emptyArray = [];
 /**
@@ -12,7 +19,6 @@ const emptyArray = [];
 function getChildren(elem) {
     return elem.children ?? emptyArray;
 }
-exports.getChildren = getChildren;
 /**
  * Get a node's parent.
  *
@@ -22,7 +28,6 @@ exports.getChildren = getChildren;
 function getParent(elem) {
     return elem.parent || null;
 }
-exports.getParent = getParent;
 /**
  * Gets an elements siblings, including the element itself.
  *
@@ -49,7 +54,6 @@ function getSiblings(elem) {
     }
     return siblings;
 }
-exports.getSiblings = getSiblings;
 /**
  * Gets an attribute from an element.
  *
@@ -60,7 +64,6 @@ exports.getSiblings = getSiblings;
 function getAttributeValue(elem, name) {
     return elem.attribs?.[name];
 }
-exports.getAttributeValue = getAttributeValue;
 /**
  * Checks whether an element has an attribute.
  *
@@ -73,7 +76,6 @@ function hasAttrib(elem, name) {
         Object.prototype.hasOwnProperty.call(elem.attribs, name) &&
         elem.attribs[name] != null);
 }
-exports.hasAttrib = hasAttrib;
 /**
  * Get the tag name of an element.
  *
@@ -83,7 +85,6 @@ exports.hasAttrib = hasAttrib;
 function getName(elem) {
     return elem.name;
 }
-exports.getName = getName;
 /**
  * Returns the next element sibling of a node.
  *
@@ -96,7 +97,6 @@ function nextElementSibling(elem) {
         ({ next } = next);
     return next;
 }
-exports.nextElementSibling = nextElementSibling;
 /**
  * Returns the previous element sibling of a node.
  *
@@ -109,4 +109,3 @@ function prevElementSibling(elem) {
         ({ prev } = prev);
     return prev;
 }
-exports.prevElementSibling = prevElementSibling;

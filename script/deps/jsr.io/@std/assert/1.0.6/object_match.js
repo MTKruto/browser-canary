@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.assertObjectMatch = void 0;
+exports.assertObjectMatch = assertObjectMatch;
 // Copyright 2018-2024 the Deno authors. All rights reserved. MIT license.
 // This module is browser compatible.
 const equals_js_1 = require("./equals.js");
@@ -41,7 +41,6 @@ actual, expected, msg) {
     // see https://github.com/denoland/deno_std/pull/1419
     filter(expected, expected), msg);
 }
-exports.assertObjectMatch = assertObjectMatch;
 function isObject(val) {
     return typeof val === "object" && val !== null;
 }

@@ -19,7 +19,9 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getDc = exports.getDcId = exports.getDcIps = void 0;
+exports.getDcIps = getDcIps;
+exports.getDcId = getDcId;
+exports.getDc = getDc;
 const _0_deps_js_1 = require("../0_deps.js");
 function getDcIps(dc, version) {
     switch (version) {
@@ -71,17 +73,14 @@ function getDcIps(dc, version) {
             (0, _0_deps_js_1.unreachable)();
     }
 }
-exports.getDcIps = getDcIps;
 function getDcId(dc, cdn) {
-    return Number(dc[0]) + (dc.endsWith("-test") ? 10000 : 0) * (cdn ? -1 : 1);
+    return Number(dc[0]) + (dc.endsWith("-test") ? 10_000 : 0) * (cdn ? -1 : 1);
 }
-exports.getDcId = getDcId;
 function getDc(dcId) {
     dcId = Math.abs(dcId);
-    const test = dcId >= 10000;
-    if (dcId >= 10000) {
-        dcId -= 10000;
+    const test = dcId >= 10_000;
+    if (dcId >= 10_000) {
+        dcId -= 10_000;
     }
     return `${dcId}${test ? "-test" : ""}`;
 }
-exports.getDc = getDc;

@@ -19,7 +19,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.constructChatP = void 0;
+exports.constructChatP = constructChatP;
 const _0_deps_js_1 = require("../0_deps.js");
 const _1_utilities_js_1 = require("../1_utilities.js");
 const _2_tl_js_1 = require("../2_tl.js");
@@ -109,4 +109,3 @@ function constructChatP(chat) {
         (0, _0_deps_js_1.unreachable)();
     }
 }
-exports.constructChatP = constructChatP;

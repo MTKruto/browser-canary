@@ -1,6 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports._tr_tally = exports._tr_flush_block = exports._tr_align = exports._tr_stored_block = exports._tr_init = void 0;
+exports._tr_init = _tr_init;
+exports._tr_stored_block = _tr_stored_block;
+exports._tr_align = _tr_align;
+exports._tr_flush_block = _tr_flush_block;
+exports._tr_tally = _tr_tally;
 //const Z_FILTERED          = 1;
 //const Z_HUFFMAN_ONLY      = 2;
 //const Z_RLE               = 3;
@@ -971,7 +975,6 @@ function _tr_init(s) {
     /* Initialize the first block of the first file: */
     init_block(s);
 }
-exports._tr_init = _tr_init;
 /* ===========================================================================
  * Send a stored block
  */
@@ -979,7 +982,6 @@ function _tr_stored_block(s, buf, stored_len, last) {
     send_bits(s, (STORED_BLOCK << 1) + (last ? 1 : 0), 3); /* send block type */
     copy_block(s, buf, stored_len, true); /* with header */
 }
-exports._tr_stored_block = _tr_stored_block;
 /* ===========================================================================
  * Send one empty static block to give enough lookahead for inflate.
  * This takes 10 bits, of which 7 may remain in the bit buffer.
@@ -989,7 +991,6 @@ function _tr_align(s) {
     send_code(s, END_BLOCK, static_ltree);
     bi_flush(s);
 }
-exports._tr_align = _tr_align;
 /* ===========================================================================
  * Determine the best encoding for the current block: dynamic trees, static
  * trees or store, and output the encoded block to the zip file.
@@ -1060,7 +1061,6 @@ function _tr_flush_block(s, buf, stored_len, last) {
     // Tracev((stderr,"\ncomprlen %lu(%lu) ", s->compressed_len>>3,
     //       s->compressed_len-7*last));
 }
-exports._tr_flush_block = _tr_flush_block;
 /* ===========================================================================
  * Save the match info and tally the frequency counts. Return true if
  * the current block must be flushed.
@@ -1112,4 +1112,3 @@ function _tr_tally(s, dist, lc) {
      * 64K-1 bytes.
      */
 }
-exports._tr_tally = _tr_tally;

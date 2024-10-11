@@ -19,7 +19,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.constructGiveawayParameters = void 0;
+exports.constructGiveawayParameters = constructGiveawayParameters;
 const _1_utilities_js_1 = require("../1_utilities.js");
 const _2_tl_js_1 = require("../2_tl.js");
 function constructGiveawayParameters(g) {
@@ -30,4 +30,3 @@ function constructGiveawayParameters(g) {
     const winnerSelectionDate = (0, _1_utilities_js_1.fromUnixTimestamp)(g.until_date);
     return { boostedChatId, additionalChatIds, winnerSelectionDate, onlyNewMembers, countries };
 }
-exports.constructGiveawayParameters = constructGiveawayParameters;

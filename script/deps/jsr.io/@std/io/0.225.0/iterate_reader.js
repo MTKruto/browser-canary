@@ -2,7 +2,8 @@
 // Copyright 2018-2024 the Deno authors. All rights reserved. MIT license.
 // This module is browser compatible.
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.iterateReaderSync = exports.iterateReader = void 0;
+exports.iterateReader = iterateReader;
+exports.iterateReaderSync = iterateReaderSync;
 const _constants_js_1 = require("./_constants.js");
 /**
  * Turns a {@linkcode Reader} into an async iterator.
@@ -46,7 +47,6 @@ async function* iterateReader(reader, options) {
         yield b.slice(0, result);
     }
 }
-exports.iterateReader = iterateReader;
 /**
  * Turns a {@linkcode ReaderSync} into an iterator.
  *
@@ -98,4 +98,3 @@ function* iterateReaderSync(reader, options) {
         yield b.slice(0, result);
     }
 }
-exports.iterateReaderSync = iterateReaderSync;

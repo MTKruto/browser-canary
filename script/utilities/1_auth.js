@@ -19,7 +19,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.rsaPad = void 0;
+exports.rsaPad = rsaPad;
 const _0_deps_js_1 = require("../0_deps.js");
 const _0_bigint_js_1 = require("./0_bigint.js");
 const _0_buffer_js_1 = require("./0_buffer.js");
@@ -48,4 +48,3 @@ async function rsaPad(data, [serverKey, exponent]) {
     (0, _0_deps_js_1.assertEquals)(encryptedData.length, 256);
     return encryptedData;
 }
-exports.rsaPad = rsaPad;

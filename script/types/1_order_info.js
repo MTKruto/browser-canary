@@ -19,7 +19,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.constructOrderInfo = void 0;
+exports.constructOrderInfo = constructOrderInfo;
 const _1_utilities_js_1 = require("../1_utilities.js");
 const _0_shipping_address_js_1 = require("./0_shipping_address.js");
 function constructOrderInfo(info) {
@@ -30,4 +30,3 @@ function constructOrderInfo(info) {
         shippingAddress: info.shipping_address ? (0, _0_shipping_address_js_1.constructShippingAddress)(info.shipping_address) : undefined,
     });
 }
-exports.constructOrderInfo = constructOrderInfo;

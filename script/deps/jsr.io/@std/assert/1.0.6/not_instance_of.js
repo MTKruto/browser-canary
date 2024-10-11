@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.assertNotInstanceOf = void 0;
+exports.assertNotInstanceOf = assertNotInstanceOf;
 // Copyright 2018-2024 the Deno authors. All rights reserved. MIT license.
 // This module is browser compatible.
 const false_js_1 = require("./false.js");
@@ -30,4 +30,3 @@ unexpectedType, msg) {
         `Expected object to not be an instance of "${typeof unexpectedType}"${msgSuffix}`;
     (0, false_js_1.assertFalse)(actual instanceof unexpectedType, msg);
 }
-exports.assertNotInstanceOf = assertNotInstanceOf;

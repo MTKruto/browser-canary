@@ -19,7 +19,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.constructGame = void 0;
+exports.constructGame = constructGame;
 const _1_utilities_js_1 = require("../1_utilities.js");
 const _2_tl_js_1 = require("../2_tl.js");
 const _file_id_js_1 = require("./_file_id.js");
@@ -45,4 +45,3 @@ function constructGame(media_) {
             : undefined,
     });
 }
-exports.constructGame = constructGame;

@@ -19,7 +19,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.constructMessageReactions = void 0;
+exports.constructMessageReactions = constructMessageReactions;
 const _1_utilities_js_1 = require("../1_utilities.js");
 const _2_tl_js_1 = require("../2_tl.js");
 const _0_reaction_js_1 = require("./0_reaction.js");
@@ -57,4 +57,3 @@ async function constructMessageReactions(update, getEntity) {
         newReactions,
     });
 }
-exports.constructMessageReactions = constructMessageReactions;

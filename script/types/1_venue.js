@@ -19,7 +19,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.constructVenue = void 0;
+exports.constructVenue = constructVenue;
 const _2_tl_js_1 = require("../2_tl.js");
 function constructVenue(media_) {
     const geo = (0, _2_tl_js_1.as)("geoPoint", media_.geo);
@@ -35,4 +35,3 @@ function constructVenue(media_) {
         foursquareType: media_.venue_type,
     };
 }
-exports.constructVenue = constructVenue;

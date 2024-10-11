@@ -2,7 +2,7 @@
 // Copyright 2018-2024 the Deno authors. All rights reserved. MIT license.
 // This module is browser compatible.
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.toFileUrl = void 0;
+exports.toFileUrl = toFileUrl;
 const _os_js_1 = require("./_os.js");
 const to_file_url_js_1 = require("./posix/to_file_url.js");
 const to_file_url_js_2 = require("./windows/to_file_url.js");
@@ -29,4 +29,3 @@ const to_file_url_js_2 = require("./windows/to_file_url.js");
 function toFileUrl(path) {
     return _os_js_1.isWindows ? (0, to_file_url_js_2.toFileUrl)(path) : (0, to_file_url_js_1.toFileUrl)(path);
 }
-exports.toFileUrl = toFileUrl;

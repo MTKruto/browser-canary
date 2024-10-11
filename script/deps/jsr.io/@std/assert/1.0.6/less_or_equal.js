@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.assertLessOrEqual = void 0;
+exports.assertLessOrEqual = assertLessOrEqual;
 // Copyright 2018-2024 the Deno authors. All rights reserved. MIT license.
 // This module is browser compatible.
 const format_js_1 = require("../../internal/1.0.4/format.js");
@@ -30,4 +30,3 @@ function assertLessOrEqual(actual, expected, msg) {
     const expectedString = (0, format_js_1.format)(expected);
     throw new assertion_error_js_1.AssertionError(msg ?? `Expect ${actualString} <= ${expectedString}`);
 }
-exports.assertLessOrEqual = assertLessOrEqual;

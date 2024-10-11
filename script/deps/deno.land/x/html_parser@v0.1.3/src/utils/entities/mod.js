@@ -1,6 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.decodeXMLStrict = exports.decodeHTML5Strict = exports.decodeHTML4Strict = exports.decodeHTML5 = exports.decodeHTML4 = exports.decodeHTMLStrict = exports.decodeHTML = exports.decodeXML = exports.encodeHTML5 = exports.encodeHTML4 = exports.escapeUTF8 = exports.escape = exports.encodeNonAsciiHTML = exports.encodeHTML = exports.encodeXML = exports.encode = exports.decodeStrict = exports.decode = exports.EncodingMode = exports.DecodingMode = exports.EntityLevel = void 0;
+exports.decodeXMLStrict = exports.decodeHTML5Strict = exports.decodeHTML4Strict = exports.decodeHTML5 = exports.decodeHTML4 = exports.decodeHTMLStrict = exports.decodeHTML = exports.decodeXML = exports.encodeHTML5 = exports.encodeHTML4 = exports.escapeUTF8 = exports.encodeNonAsciiHTML = exports.encodeHTML = exports.encodeXML = exports.EncodingMode = exports.DecodingMode = exports.EntityLevel = void 0;
+exports.decode = decode;
+exports.decodeStrict = decodeStrict;
+exports.encode = encode;
 const decode_js_1 = require("./decode.js");
 const encode_js_1 = require("./encode.js");
 /** The level of entities to support. */
@@ -54,7 +57,6 @@ function decode(data, options = EntityLevel.XML) {
     }
     return (0, decode_js_1.decodeXML)(data);
 }
-exports.decode = decode;
 /**
  * Decodes a string with entities. Does not allow missing trailing semicolons for entities.
  *
@@ -72,7 +74,6 @@ function decodeStrict(data, options = EntityLevel.XML) {
     }
     return (0, decode_js_1.decodeXML)(data);
 }
-exports.decodeStrict = decodeStrict;
 /**
  * Encodes a string with entities.
  *
@@ -92,7 +93,6 @@ function encode(data, options = EntityLevel.XML) {
     // ASCII and Extensive are equivalent
     return (0, encode_js_1.encodeXML)(data);
 }
-exports.encode = encode;
 var encode_js_2 = require("./encode.js");
 Object.defineProperty(exports, "encodeXML", { enumerable: true, get: function () { return encode_js_2.encodeXML; } });
 Object.defineProperty(exports, "encodeHTML", { enumerable: true, get: function () { return encode_js_2.encodeHTML; } });

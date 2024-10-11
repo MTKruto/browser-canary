@@ -19,7 +19,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.constructInviteLink = void 0;
+exports.constructInviteLink = constructInviteLink;
 const _0_deps_js_1 = require("../0_deps.js");
 const _1_utilities_js_1 = require("../1_utilities.js");
 const _1_user_js_1 = require("./1_user.js");
@@ -47,4 +47,3 @@ async function constructInviteLink(inviteLink_, getEntity) {
         pendingJoinRequestCount,
     });
 }
-exports.constructInviteLink = constructInviteLink;

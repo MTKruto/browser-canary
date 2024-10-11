@@ -19,7 +19,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.constructMessage = exports.assertMessageType = void 0;
+exports.assertMessageType = assertMessageType;
+exports.constructMessage = constructMessage;
 const _0_deps_js_1 = require("../0_deps.js");
 const _1_utilities_js_1 = require("../1_utilities.js");
 const _2_tl_js_1 = require("../2_tl.js");
@@ -104,7 +105,6 @@ function assertMessageType(message, type) {
     }
     return message;
 }
-exports.assertMessageType = assertMessageType;
 async function getSender(message_, getEntity) {
     if ((0, _2_tl_js_1.is)("peerUser", message_.from_id)) {
         const entity = await getEntity(message_.from_id);
@@ -535,4 +535,3 @@ async function constructMessage(message_, getEntity, getMessage, getStickerSetNa
     }
     return (0, _1_utilities_js_1.cleanObject)(m);
 }
-exports.constructMessage = constructMessage;

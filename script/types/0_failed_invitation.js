@@ -19,7 +19,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.constructFailedInvitation = void 0;
+exports.constructFailedInvitation = constructFailedInvitation;
 function constructFailedInvitation(missingInvitee) {
     return {
         userId: Number(missingInvitee.user_id),
@@ -27,4 +27,3 @@ function constructFailedInvitation(missingInvitee) {
         premiumRequiredToSendMessage: !!missingInvitee.premium_required_for_pm,
     };
 }
-exports.constructFailedInvitation = constructFailedInvitation;

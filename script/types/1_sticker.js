@@ -19,7 +19,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.constructSticker = void 0;
+exports.constructSticker = constructSticker;
 const _1_utilities_js_1 = require("../1_utilities.js");
 const _2_tl_js_1 = require("../2_tl.js");
 const _0_mask_position_js_1 = require("./0_mask_position.js");
@@ -48,4 +48,3 @@ async function constructSticker(document, fileId, fileUniqueId, getStickerSetNam
         fileSize: Number(document.size),
     });
 }
-exports.constructSticker = constructSticker;

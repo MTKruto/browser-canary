@@ -2,7 +2,7 @@
 // Copyright 2018-2024 the Deno authors. All rights reserved. MIT license.
 // This module is browser compatible.
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.normalizeGlob = void 0;
+exports.normalizeGlob = normalizeGlob;
 const _os_js_1 = require("./_os.js");
 const normalize_glob_js_1 = require("./posix/normalize_glob.js");
 const normalize_glob_js_2 = require("./windows/normalize_glob.js");
@@ -36,4 +36,3 @@ function normalizeGlob(glob, options = {}) {
         ? (0, normalize_glob_js_2.normalizeGlob)(glob, options)
         : (0, normalize_glob_js_1.normalizeGlob)(glob, options);
 }
-exports.normalizeGlob = normalizeGlob;

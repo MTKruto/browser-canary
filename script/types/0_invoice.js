@@ -19,7 +19,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.constructInvoice = void 0;
+exports.constructInvoice = constructInvoice;
 function constructInvoice(invoice) {
     return {
         title: invoice.title,
@@ -29,4 +29,3 @@ function constructInvoice(invoice) {
         totalAmount: Number(invoice.total_amount),
     };
 }
-exports.constructInvoice = constructInvoice;

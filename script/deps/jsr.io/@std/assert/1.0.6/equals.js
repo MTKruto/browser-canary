@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.assertEquals = void 0;
+exports.assertEquals = assertEquals;
 // Copyright 2018-2024 the Deno authors. All rights reserved. MIT license.
 // This module is browser compatible.
 const equal_js_1 = require("./equal.js");
@@ -46,4 +46,3 @@ function assertEquals(actual, expected, msg) {
     message = `${message}\n${diffMsg}`;
     throw new assertion_error_js_1.AssertionError(message);
 }
-exports.assertEquals = assertEquals;

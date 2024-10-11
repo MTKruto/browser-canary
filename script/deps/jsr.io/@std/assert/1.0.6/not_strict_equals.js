@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.assertNotStrictEquals = void 0;
+exports.assertNotStrictEquals = assertNotStrictEquals;
 // Copyright 2018-2024 the Deno authors. All rights reserved. MIT license.
 // This module is browser compatible.
 const assertion_error_js_1 = require("./assertion_error.js");
@@ -33,4 +33,3 @@ function assertNotStrictEquals(actual, expected, msg) {
     const msgSuffix = msg ? `: ${msg}` : ".";
     throw new assertion_error_js_1.AssertionError(`Expected "actual" to not be strictly equal to: ${(0, format_js_1.format)(actual)}${msgSuffix}\n`);
 }
-exports.assertNotStrictEquals = assertNotStrictEquals;

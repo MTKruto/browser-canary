@@ -19,7 +19,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.constructLiveStreamChannel = void 0;
+exports.constructLiveStreamChannel = constructLiveStreamChannel;
 function constructLiveStreamChannel(channel) {
     return {
         id: channel.channel,
@@ -27,4 +27,3 @@ function constructLiveStreamChannel(channel) {
         timestamp: Number(channel.last_timestamp_ms),
     };
 }
-exports.constructLiveStreamChannel = constructLiveStreamChannel;

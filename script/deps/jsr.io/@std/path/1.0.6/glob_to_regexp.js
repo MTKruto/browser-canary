@@ -2,7 +2,7 @@
 // Copyright 2018-2024 the Deno authors. All rights reserved. MIT license.
 // This module is browser compatible.
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.globToRegExp = void 0;
+exports.globToRegExp = globToRegExp;
 const _os_js_1 = require("./_os.js");
 const glob_to_regexp_js_1 = require("./posix/glob_to_regexp.js");
 const glob_to_regexp_js_2 = require("./windows/glob_to_regexp.js");
@@ -84,4 +84,3 @@ function globToRegExp(glob, options = {}) {
         ? (0, glob_to_regexp_js_2.globToRegExp)(glob, options)
         : (0, glob_to_regexp_js_1.globToRegExp)(glob, options);
 }
-exports.globToRegExp = globToRegExp;

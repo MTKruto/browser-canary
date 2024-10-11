@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.assertIsError = void 0;
+exports.assertIsError = assertIsError;
 // Copyright 2018-2024 the Deno authors. All rights reserved. MIT license.
 // This module is browser compatible.
 const assertion_error_js_1 = require("./assertion_error.js");
@@ -54,4 +54,3 @@ ErrorClass, msgMatches, msg) {
         throw new assertion_error_js_1.AssertionError(msg);
     }
 }
-exports.assertIsError = assertIsError;

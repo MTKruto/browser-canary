@@ -1,6 +1,11 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.findAll = exports.existsOne = exports.findOne = exports.findOneChild = exports.find = exports.filter = void 0;
+exports.filter = filter;
+exports.find = find;
+exports.findOneChild = findOneChild;
+exports.findOne = findOne;
+exports.existsOne = existsOne;
+exports.findAll = findAll;
 const Node_js_1 = require("../Node.js");
 /**
  * Search a node and its children for nodes passing a test function.
@@ -16,7 +21,6 @@ function filter(test, node, recurse = true, limit = Infinity) {
         node = [node];
     return find(test, node, recurse, limit);
 }
-exports.filter = filter;
 /**
  * Search an array of node and its children for nodes passing a test function.
  *
@@ -44,7 +48,6 @@ function find(test, nodes, recurse, limit) {
     }
     return result;
 }
-exports.find = find;
 /**
  * Finds the first element inside of an array that matches a test function.
  *
@@ -55,7 +58,6 @@ exports.find = find;
 function findOneChild(test, nodes) {
     return nodes.find(test);
 }
-exports.findOneChild = findOneChild;
 /**
  * Finds one element in a tree that passes a test.
  *
@@ -80,7 +82,6 @@ function findOne(test, nodes, recurse = true) {
     }
     return elem;
 }
-exports.findOne = findOne;
 /**
  * @param test Function to test nodes on.
  * @param nodes Array of nodes to search.
@@ -92,7 +93,6 @@ function existsOne(test, nodes) {
             (checked.children.length > 0 &&
                 existsOne(test, checked.children))));
 }
-exports.existsOne = existsOne;
 /**
  * Search and array of nodes and its children for nodes passing a test function.
  *
@@ -116,4 +116,3 @@ function findAll(test, nodes) {
     }
     return result;
 }
-exports.findAll = findAll;

@@ -2,7 +2,7 @@
 // Copyright 2018-2024 the Deno authors. All rights reserved. MIT license.
 // This module is browser compatible.
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.extname = void 0;
+exports.extname = extname;
 const constants_js_1 = require("../_common/constants.js");
 const assert_path_js_1 = require("../_common/assert_path.js");
 const _util_js_1 = require("./_util.js");
@@ -82,4 +82,3 @@ function extname(path) {
     }
     return path.slice(startDot, end);
 }
-exports.extname = extname;

@@ -20,7 +20,7 @@
  */
 // deno-lint-ignore-file no-explicit-any
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deserialize = void 0;
+exports.deserialize = deserialize;
 const _0_deps_js_1 = require("../0_deps.js");
 const _1_utilities_js_1 = require("./1_utilities.js");
 const _0_api_js_1 = require("./0_api.js");
@@ -96,4 +96,3 @@ function deserialize(reader, paramDesc, name) {
     }
     return type_;
 }
-exports.deserialize = deserialize;

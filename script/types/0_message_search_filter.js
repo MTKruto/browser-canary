@@ -19,7 +19,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.messageSearchFilterToTlObject = void 0;
+exports.messageSearchFilterToTlObject = messageSearchFilterToTlObject;
 const _0_deps_js_1 = require("../0_deps.js");
 function messageSearchFilterToTlObject(filter) {
     switch (filter) {
@@ -55,4 +55,3 @@ function messageSearchFilterToTlObject(filter) {
             (0, _0_deps_js_1.unreachable)();
     }
 }
-exports.messageSearchFilterToTlObject = messageSearchFilterToTlObject;

@@ -3,7 +3,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.escapeUTF8 = exports.escape = exports.encodeNonAsciiHTML = exports.encodeHTML = exports.encodeXML = void 0;
+exports.encodeNonAsciiHTML = exports.encodeHTML = exports.encodeXML = void 0;
+exports.escape = escape;
+exports.escapeUTF8 = escapeUTF8;
 const xml_js_1 = __importDefault(require("./maps/xml.js"));
 const inverseXML = getInverseObj(xml_js_1.default);
 const xmlReplacer = getInverseReplacer(inverseXML);
@@ -111,7 +113,6 @@ const reEscapeChars = new RegExp(`${xmlReplacer.source}|${reNonASCII.source}`, '
 function escape(data) {
     return data.replace(reEscapeChars, singleCharReplacer);
 }
-exports.escape = escape;
 /**
  * Encodes all characters not valid in XML documents using numeric hexadecimal
  * reference (eg. `&#xfc;`).
@@ -123,7 +124,6 @@ exports.escape = escape;
 function escapeUTF8(data) {
     return data.replace(xmlReplacer, singleCharReplacer);
 }
-exports.escapeUTF8 = escapeUTF8;
 function getASCIIEncoder(obj) {
     return (data) => data.replace(reEscapeChars, c => obj[c] || singleCharReplacer(c));
 }

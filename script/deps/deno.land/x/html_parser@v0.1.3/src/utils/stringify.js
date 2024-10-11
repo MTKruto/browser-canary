@@ -3,7 +3,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.innerText = exports.textContent = exports.getText = exports.getInnerHTML = exports.getOuterHTML = void 0;
+exports.getOuterHTML = getOuterHTML;
+exports.getInnerHTML = getInnerHTML;
+exports.getText = getText;
+exports.textContent = textContent;
+exports.innerText = innerText;
 const Node_js_1 = require("../Node.js");
 const DomSerializer_js_1 = __importDefault(require("../DomSerializer.js"));
 const ElementType_js_1 = require("../ElementType.js");
@@ -16,7 +20,6 @@ const ElementType_js_1 = require("../ElementType.js");
 function getOuterHTML(node, options) {
     return (0, DomSerializer_js_1.default)(node, options);
 }
-exports.getOuterHTML = getOuterHTML;
 /**
  * @param node Node to get the inner HTML of.
  * @param options Options for serialization.
@@ -28,7 +31,6 @@ function getInnerHTML(node, options) {
         ? node.children.map(node => getOuterHTML(node, options)).join('')
         : '';
 }
-exports.getInnerHTML = getInnerHTML;
 /**
  * Get a node's inner text. Same as `textContent`, but inserts newlines for `<br>` tags.
  *
@@ -47,7 +49,6 @@ function getText(node) {
         return node.data;
     return '';
 }
-exports.getText = getText;
 /**
  * Get a node's text content.
  *
@@ -65,7 +66,6 @@ function textContent(node) {
         return node.data;
     return '';
 }
-exports.textContent = textContent;
 /**
  * Get a node's inner text.
  *
@@ -83,4 +83,3 @@ function innerText(node) {
         return node.data;
     return '';
 }
-exports.innerText = innerText;

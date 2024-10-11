@@ -19,7 +19,12 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.gcd = exports.getRandomId = exports.getRandomBigInt = exports.bigIntFromBuffer = exports.mod = exports.modExp = void 0;
+exports.modExp = modExp;
+exports.mod = mod;
+exports.bigIntFromBuffer = bigIntFromBuffer;
+exports.getRandomBigInt = getRandomBigInt;
+exports.getRandomId = getRandomId;
+exports.gcd = gcd;
 function modExp(a, b, n) {
     a %= n;
     let result = 1n;
@@ -36,13 +41,11 @@ function modExp(a, b, n) {
     }
     return result;
 }
-exports.modExp = modExp;
 function mod(n, m) {
     // deno-lint-ignore ban-ts-comment
     // @ts-ignore
     return ((n % m) + m) % m;
 }
-exports.mod = mod;
 function bigIntFromBuffer(buffer, little = true, signed = false) {
     let randomBuffer = buffer;
     const bytesLength = randomBuffer.length;
@@ -55,13 +58,11 @@ function bigIntFromBuffer(buffer, little = true, signed = false) {
     }
     return bigIntVar;
 }
-exports.bigIntFromBuffer = bigIntFromBuffer;
 function getRandomBigInt(byteLength, little, signed) {
     const randomBytes = new Uint8Array(byteLength);
     crypto.getRandomValues(randomBytes);
     return bigIntFromBuffer(randomBytes, little, signed);
 }
-exports.getRandomBigInt = getRandomBigInt;
 function getRandomId(number) {
     if (number) {
         return Number(getRandomBigInt(4, true, true));
@@ -70,7 +71,6 @@ function getRandomId(number) {
         return getRandomBigInt(8, true, true);
     }
 }
-exports.getRandomId = getRandomId;
 function gcd(a, b) {
     if (a == 0n) {
         return b;
@@ -96,4 +96,3 @@ function gcd(a, b) {
         }
     }
 }
-exports.gcd = gcd;

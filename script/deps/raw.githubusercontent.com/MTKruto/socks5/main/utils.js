@@ -23,7 +23,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.readN = void 0;
+exports.readN = readN;
 const dntShim = __importStar(require("../../../../../_dnt.shims.js"));
 async function readN(reader, n) {
     const out = new Uint8Array(n);
@@ -37,4 +37,3 @@ async function readN(reader, n) {
     }
     return out;
 }
-exports.readN = readN;

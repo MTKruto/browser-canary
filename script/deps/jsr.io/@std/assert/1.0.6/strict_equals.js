@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.assertStrictEquals = void 0;
+exports.assertStrictEquals = assertStrictEquals;
 // Copyright 2018-2024 the Deno authors. All rights reserved. MIT license.
 // This module is browser compatible.
 const build_message_js_1 = require("../../internal/1.0.4/build_message.js");
@@ -58,4 +58,3 @@ function assertStrictEquals(actual, expected, msg) {
     }
     throw new assertion_error_js_1.AssertionError(message);
 }
-exports.assertStrictEquals = assertStrictEquals;

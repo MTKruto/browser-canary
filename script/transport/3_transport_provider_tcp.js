@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.transportProviderTcp = void 0;
+exports.transportProviderTcp = transportProviderTcp;
 const _0_deps_js_1 = require("../0_deps.js");
 const _1_connection_tcp_js_1 = require("../connection/1_connection_tcp.js");
 const _1_transport_abridged_js_1 = require("./1_transport_abridged.js");
@@ -16,4 +16,3 @@ function transportProviderTcp(params) {
         return { connection, transport, dcId: (0, _2_transport_provider_js_1.getDcId)(dc, cdn) };
     };
 }
-exports.transportProviderTcp = transportProviderTcp;

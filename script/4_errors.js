@@ -33,7 +33,8 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
     for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.constructTelegramError = exports.StatsMigrate = exports.FileMigrate = exports.PhoneMigrate = exports.UserMigrate = exports.Migrate = exports.FloodWait = void 0;
+exports.StatsMigrate = exports.FileMigrate = exports.PhoneMigrate = exports.UserMigrate = exports.Migrate = exports.FloodWait = void 0;
+exports.constructTelegramError = constructTelegramError;
 const _0_deps_js_1 = require("./0_deps.js");
 const _3_errors_js_1 = require("./3_errors.js");
 __exportStar(require("./3_errors.js"), exports);
@@ -101,4 +102,3 @@ function constructTelegramError(error, call) {
     }
     return new _3_errors_js_1.TelegramError({ ...error, call });
 }
-exports.constructTelegramError = constructTelegramError;

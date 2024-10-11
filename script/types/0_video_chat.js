@@ -19,7 +19,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.constructVideoChat = void 0;
+exports.constructVideoChat = constructVideoChat;
 const _1_utilities_js_1 = require("../1_utilities.js");
 const _2_tl_js_1 = require("../2_tl.js");
 function constructVideoChat(call) {
@@ -57,4 +57,3 @@ function constructVideoChat(call) {
         }
     }
 }
-exports.constructVideoChat = constructVideoChat;

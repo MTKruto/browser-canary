@@ -19,7 +19,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.storyInteractiveAreaToTlObject = exports.constructStoryInteractiveArea = void 0;
+exports.constructStoryInteractiveArea = constructStoryInteractiveArea;
+exports.storyInteractiveAreaToTlObject = storyInteractiveAreaToTlObject;
 const _0_deps_js_1 = require("../0_deps.js");
 const _2_tl_js_1 = require("../2_tl.js");
 const _0_location_js_1 = require("./0_location.js");
@@ -70,7 +71,6 @@ function constructStoryInteractiveArea(area) {
         (0, _0_deps_js_1.unreachable)();
     }
 }
-exports.constructStoryInteractiveArea = constructStoryInteractiveArea;
 function storyInteractiveAreaPositionToTlObject(position) {
     return { _: "mediaAreaCoordinates", x: position.xPercentage, y: position.yPercentage, w: position.widthPercentage, h: position.heightPercentage, rotation: position.rotationAngle };
 }
@@ -109,4 +109,3 @@ async function storyInteractiveAreaToTlObject(area, getEntity) {
         (0, _0_deps_js_1.unreachable)();
     }
 }
-exports.storyInteractiveAreaToTlObject = storyInteractiveAreaToTlObject;

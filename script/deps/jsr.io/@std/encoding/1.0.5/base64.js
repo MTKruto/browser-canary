@@ -2,7 +2,8 @@
 // Copyright 2018-2024 the Deno authors. All rights reserved. MIT license.
 // This module is browser compatible.
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.decodeBase64 = exports.encodeBase64 = void 0;
+exports.encodeBase64 = encodeBase64;
+exports.decodeBase64 = decodeBase64;
 /**
  * Utilities for
  * {@link https://www.rfc-editor.org/rfc/rfc4648.html#section-4 | base64}
@@ -136,7 +137,6 @@ function encodeBase64(data) {
     }
     return result;
 }
-exports.encodeBase64 = encodeBase64;
 /**
  * Decodes a base64-encoded string.
  *
@@ -165,4 +165,3 @@ function decodeBase64(b64) {
     }
     return bytes;
 }
-exports.decodeBase64 = decodeBase64;

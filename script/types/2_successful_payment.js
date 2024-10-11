@@ -19,7 +19,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.constructSuccessfulPayment = void 0;
+exports.constructSuccessfulPayment = constructSuccessfulPayment;
 const _1_utilities_js_1 = require("../1_utilities.js");
 const _1_order_info_js_1 = require("./1_order_info.js");
 function constructSuccessfulPayment(action) {
@@ -33,4 +33,3 @@ function constructSuccessfulPayment(action) {
         orderInfo: action.info ? (0, _1_order_info_js_1.constructOrderInfo)(action.info) : undefined,
     });
 }
-exports.constructSuccessfulPayment = constructSuccessfulPayment;

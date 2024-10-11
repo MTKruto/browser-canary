@@ -19,7 +19,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deserializeRpcResult = exports.RPC_RESULT_ID = void 0;
+exports.RPC_RESULT_ID = void 0;
+exports.deserializeRpcResult = deserializeRpcResult;
 const _3_tl_reader_js_1 = require("./3_tl_reader.js");
 // rpc_result#f35c6d01 req_msg_id:long result:Object = RpcResult;
 exports.RPC_RESULT_ID = 0xF35C6D01;
@@ -29,4 +30,3 @@ function deserializeRpcResult(buffer) {
     const result = reader.readObject();
     return { _: "rpc_result", req_msg_id: messageId, result };
 }
-exports.deserializeRpcResult = deserializeRpcResult;

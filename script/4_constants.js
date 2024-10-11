@@ -105,9 +105,9 @@ exports.LANG_PACK = "";
 exports.SYSTEM_LANG_CODE = exports.LANG_CODE;
 // @ts-ignore: lib
 exports.SYSTEM_VERSION = typeof navigator === "undefined" ? typeof process === "undefined" ? "Unknown" : "Node.js/" + process.versions.node : navigator.userAgent;
-exports.USERNAME_TTL = 86400;
-exports.STICKER_SET_NAME_TTL = 172800;
+exports.USERNAME_TTL = 86_400;
+exports.STICKER_SET_NAME_TTL = 172_800;
 exports.MAX_CHAT_ID = 999999999999;
 exports.MAX_CHANNEL_ID = 997852516352;
 exports.CHANNEL_DIFFERENCE_LIMIT_USER = 100;
-exports.CHANNEL_DIFFERENCE_LIMIT_BOT = 100000;
+exports.CHANNEL_DIFFERENCE_LIMIT_BOT = 100_000;

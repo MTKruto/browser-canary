@@ -19,7 +19,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.constructInlineQuery = void 0;
+exports.constructInlineQuery = constructInlineQuery;
 const _0_deps_js_1 = require("../0_deps.js");
 const _2_tl_js_1 = require("../2_tl.js");
 const _0_location_js_1 = require("./0_location.js");
@@ -61,4 +61,3 @@ async function constructInlineQuery(query_, getEntity) {
         location,
     };
 }
-exports.constructInlineQuery = constructInlineQuery;

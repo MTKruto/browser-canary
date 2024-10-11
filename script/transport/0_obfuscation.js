@@ -19,7 +19,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getObfuscationParameters = void 0;
+exports.getObfuscationParameters = getObfuscationParameters;
 const _0_deps_js_1 = require("../0_deps.js");
 const _1_utilities_js_1 = require("../1_utilities.js");
 async function getObfuscationParameters(protocol, connection) {
@@ -52,4 +52,3 @@ async function getObfuscationParameters(protocol, connection) {
     await connection.write((0, _0_deps_js_1.concat)([init.subarray(0, 56), encryptedInit.subarray(56, 56 + 8)]));
     return { encryptionCTR, decryptionCTR };
 }
-exports.getObfuscationParameters = getObfuscationParameters;

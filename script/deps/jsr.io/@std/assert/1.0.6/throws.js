@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.assertThrows = void 0;
+exports.assertThrows = assertThrows;
 // Copyright 2018-2024 the Deno authors. All rights reserved. MIT license.
 // This module is browser compatible.
 const is_error_js_1 = require("./is_error.js");
@@ -45,4 +45,3 @@ function assertThrows(fn, errorClassOrMsg, msgIncludesOrMsg, msg) {
     }
     return err;
 }
-exports.assertThrows = assertThrows;

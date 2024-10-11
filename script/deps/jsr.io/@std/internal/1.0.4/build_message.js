@@ -2,7 +2,9 @@
 // Copyright 2018-2024 the Deno authors. All rights reserved. MIT license.
 // This module is browser compatible.
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.buildMessage = exports.createSign = exports.createColor = void 0;
+exports.createColor = createColor;
+exports.createSign = createSign;
+exports.buildMessage = buildMessage;
 const styles_js_1 = require("./styles.js");
 /**
  * Colors the output of assertion diffs.
@@ -38,7 +40,6 @@ background = false) {
             return styles_js_1.white;
     }
 }
-exports.createColor = createColor;
 /**
  * Prefixes `+` or `-` in diff output.
  *
@@ -66,7 +67,6 @@ function createSign(diffType) {
             return "    ";
     }
 }
-exports.createSign = createSign;
 /**
  * Builds a message based on the provided diff result.
  *
@@ -113,4 +113,3 @@ function buildMessage(diffResult, options = {}) {
     messages.push(...(stringDiff ? [diffMessages.join("")] : diffMessages), "");
     return messages;
 }
-exports.buildMessage = buildMessage;

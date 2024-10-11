@@ -19,7 +19,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.constructVoice = void 0;
+exports.constructVoice = constructVoice;
 function constructVoice(document, audioAttributes, fileId, fileUniqueId) {
     return {
         fileId,
@@ -29,4 +29,3 @@ function constructVoice(document, audioAttributes, fileId, fileUniqueId) {
         fileSize: Number(document.size),
     };
 }
-exports.constructVoice = constructVoice;

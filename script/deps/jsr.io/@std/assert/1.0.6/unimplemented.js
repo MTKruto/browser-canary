@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.unimplemented = void 0;
+exports.unimplemented = unimplemented;
 // Copyright 2018-2024 the Deno authors. All rights reserved. MIT license.
 // This module is browser compatible.
 const assertion_error_js_1 = require("./assertion_error.js");
@@ -21,4 +21,3 @@ function unimplemented(msg) {
     const msgSuffix = msg ? `: ${msg}` : ".";
     throw new assertion_error_js_1.AssertionError(`Unimplemented${msgSuffix}`);
 }
-exports.unimplemented = unimplemented;

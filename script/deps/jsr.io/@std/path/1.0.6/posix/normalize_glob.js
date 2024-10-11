@@ -2,7 +2,7 @@
 // Copyright 2018-2024 the Deno authors. All rights reserved. MIT license.
 // This module is browser compatible.
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.normalizeGlob = void 0;
+exports.normalizeGlob = normalizeGlob;
 const normalize_js_1 = require("./normalize.js");
 const constants_js_1 = require("./constants.js");
 /**
@@ -32,4 +32,3 @@ function normalizeGlob(glob, { globstar = false } = {}) {
     const badParentPattern = new RegExp(`(?<=(${s}|^)\\*\\*${s})\\.\\.(?=${s}|$)`, "g");
     return (0, normalize_js_1.normalize)(glob.replace(badParentPattern, "\0")).replace(/\0/g, "..");
 }
-exports.normalizeGlob = normalizeGlob;

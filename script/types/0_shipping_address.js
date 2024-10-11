@@ -19,7 +19,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.constructShippingAddress = void 0;
+exports.constructShippingAddress = constructShippingAddress;
 function constructShippingAddress(shippingAddress) {
     return {
         countryCode: shippingAddress.country_iso2,
@@ -30,4 +30,3 @@ function constructShippingAddress(shippingAddress) {
         postCode: shippingAddress.post_code,
     };
 }
-exports.constructShippingAddress = constructShippingAddress;

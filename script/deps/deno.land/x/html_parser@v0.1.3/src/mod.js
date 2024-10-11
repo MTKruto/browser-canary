@@ -29,7 +29,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.RssHandler = exports.DefaultHandler = exports.DomUtils = exports.ElementType = exports.Tokenizer = exports.createDomStream = exports.parseDOM = exports.parseDocument = exports.DomHandler = exports.Parser = void 0;
+exports.RssHandler = exports.DefaultHandler = exports.DomUtils = exports.ElementType = exports.Tokenizer = exports.DomHandler = exports.Parser = void 0;
+exports.parseDocument = parseDocument;
+exports.parseDOM = parseDOM;
+exports.createDomStream = createDomStream;
 const Parser_js_1 = require("./Parser.js");
 Object.defineProperty(exports, "Parser", { enumerable: true, get: function () { return Parser_js_1.Parser; } });
 const DomHandler_js_1 = require("./DomHandler.js");
@@ -47,7 +50,6 @@ function parseDocument(data, options) {
     new Parser_js_1.Parser(handler, options).end(data);
     return handler.root;
 }
-exports.parseDocument = parseDocument;
 /**
  * Parses data, returns an array of the root nodes.
  *
@@ -61,7 +63,6 @@ exports.parseDocument = parseDocument;
 function parseDOM(data, options) {
     return parseDocument(data, options).children;
 }
-exports.parseDOM = parseDOM;
 /**
  * Creates a parser instance, with an attached DOM handler.
  *
@@ -73,7 +74,6 @@ function createDomStream(cb, options, elementCb) {
     const handler = new DomHandler_js_1.DomHandler(cb, options, elementCb);
     return new Parser_js_1.Parser(handler, options);
 }
-exports.createDomStream = createDomStream;
 var Tokenizer_js_1 = require("./Tokenizer.js");
 Object.defineProperty(exports, "Tokenizer", { enumerable: true, get: function () { return __importDefault(Tokenizer_js_1).default; } });
 const ElementType = __importStar(require("./ElementType.js"));

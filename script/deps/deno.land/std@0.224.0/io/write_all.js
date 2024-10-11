@@ -2,7 +2,8 @@
 // Copyright 2018-2024 the Deno authors. All rights reserved. MIT license.
 // This module is browser compatible.
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.writeAllSync = exports.writeAll = void 0;
+exports.writeAll = writeAll;
+exports.writeAllSync = writeAllSync;
 /**
  * Write all the content of the array buffer (`arr`) to the writer (`w`).
  *
@@ -26,7 +27,6 @@ async function writeAll(writer, data) {
         nwritten += await writer.write(data.subarray(nwritten));
     }
 }
-exports.writeAll = writeAll;
 /**
  * Synchronously write all the content of the array buffer (`arr`) to the
  * writer (`w`).
@@ -51,4 +51,3 @@ function writeAllSync(writer, data) {
         nwritten += writer.writeSync(data.subarray(nwritten));
     }
 }
-exports.writeAllSync = writeAllSync;

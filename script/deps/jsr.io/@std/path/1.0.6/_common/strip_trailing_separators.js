@@ -4,7 +4,7 @@
 // Ported from https://github.com/browserify/path-browserify/
 // This module is browser compatible.
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.stripTrailingSeparators = void 0;
+exports.stripTrailingSeparators = stripTrailingSeparators;
 function stripTrailingSeparators(segment, isSep) {
     if (segment.length <= 1) {
         return segment;
@@ -20,4 +20,3 @@ function stripTrailingSeparators(segment, isSep) {
     }
     return segment.slice(0, end);
 }
-exports.stripTrailingSeparators = stripTrailingSeparators;

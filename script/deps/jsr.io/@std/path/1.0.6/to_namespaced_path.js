@@ -2,7 +2,7 @@
 // Copyright 2018-2024 the Deno authors. All rights reserved. MIT license.
 // This module is browser compatible.
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.toNamespacedPath = void 0;
+exports.toNamespacedPath = toNamespacedPath;
 const _os_js_1 = require("./_os.js");
 const to_namespaced_path_js_1 = require("./posix/to_namespaced_path.js");
 const to_namespaced_path_js_2 = require("./windows/to_namespaced_path.js");
@@ -30,4 +30,3 @@ function toNamespacedPath(path) {
         ? (0, to_namespaced_path_js_2.toNamespacedPath)(path)
         : (0, to_namespaced_path_js_1.toNamespacedPath)(path);
 }
-exports.toNamespacedPath = toNamespacedPath;

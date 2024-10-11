@@ -19,7 +19,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.constructAnimation = void 0;
+exports.constructAnimation = constructAnimation;
 const _2_tl_js_1 = require("../2_tl.js");
 const _0_thumbnail_js_1 = require("./0_thumbnail.js");
 function constructAnimation(document, videoAttribute, fileAttribute, fileId, fileUniqueId) {
@@ -35,4 +35,3 @@ function constructAnimation(document, videoAttribute, fileAttribute, fileId, fil
         fileSize: Number(document.size),
     };
 }
-exports.constructAnimation = constructAnimation;

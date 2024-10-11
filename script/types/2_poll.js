@@ -19,7 +19,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.constructPoll = void 0;
+exports.constructPoll = constructPoll;
 const _1_utilities_js_1 = require("../1_utilities.js");
 const _0_message_entity_js_1 = require("./0_message_entity.js");
 const _1_poll_option_js_1 = require("./1_poll_option.js");
@@ -44,4 +44,3 @@ function constructPoll(media_) {
         closeDate: poll.close_date ? new Date(poll.close_date * 1000) : undefined,
     });
 }
-exports.constructPoll = constructPoll;

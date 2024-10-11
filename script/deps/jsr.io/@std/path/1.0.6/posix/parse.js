@@ -2,7 +2,7 @@
 // Copyright 2018-2024 the Deno authors. All rights reserved. MIT license.
 // This module is browser compatible.
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.parse = void 0;
+exports.parse = parse;
 const constants_js_1 = require("../_common/constants.js");
 const strip_trailing_separators_js_1 = require("../_common/strip_trailing_separators.js");
 const assert_path_js_1 = require("../_common/assert_path.js");
@@ -116,4 +116,3 @@ function parse(path) {
         ret.dir = "/";
     return ret;
 }
-exports.parse = parse;

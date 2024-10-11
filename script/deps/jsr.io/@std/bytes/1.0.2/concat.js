@@ -2,7 +2,7 @@
 // Copyright 2018-2024 the Deno authors. All rights reserved. MIT license.
 // This module is browser compatible.
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.concat = void 0;
+exports.concat = concat;
 /**
  * Concatenate an array of byte slices into a single slice.
  *
@@ -33,4 +33,3 @@ function concat(buffers) {
     }
     return output;
 }
-exports.concat = concat;

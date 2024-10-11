@@ -19,7 +19,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.constructRefundedPayment = void 0;
+exports.constructRefundedPayment = constructRefundedPayment;
 const _1_utilities_js_1 = require("../1_utilities.js");
 function constructRefundedPayment(action) {
     return (0, _1_utilities_js_1.cleanObject)({
@@ -30,4 +30,3 @@ function constructRefundedPayment(action) {
         providerPaymentChargeId: action.charge.provider_charge_id,
     });
 }
-exports.constructRefundedPayment = constructRefundedPayment;

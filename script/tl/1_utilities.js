@@ -20,13 +20,20 @@
  */
 // deno-lint-ignore-file no-explicit-any
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.isGenericFunction = exports.as = exports.isOfEnum = exports.isOneOf = exports.is = exports.assertIsValidType = exports.isValidType = exports.analyzeOptionalParam = exports.isOptionalParam = void 0;
+exports.isOptionalParam = isOptionalParam;
+exports.analyzeOptionalParam = analyzeOptionalParam;
+exports.isValidType = isValidType;
+exports.assertIsValidType = assertIsValidType;
+exports.is = is;
+exports.isOneOf = isOneOf;
+exports.isOfEnum = isOfEnum;
+exports.as = as;
+exports.isGenericFunction = isGenericFunction;
 const _0_deps_js_1 = require("../0_deps.js");
 const _0_api_js_1 = require("./0_api.js");
 function isOptionalParam(ntype) {
     return ntype.includes("?");
 }
-exports.isOptionalParam = isOptionalParam;
 function analyzeOptionalParam(ntype) {
     if (!isOptionalParam(ntype)) {
         throw new Error("Parameter not optional");
@@ -37,17 +44,14 @@ function analyzeOptionalParam(ntype) {
     (0, _0_deps_js_1.assertFalse)(isNaN(bitIndex));
     return { flagField, bitIndex };
 }
-exports.analyzeOptionalParam = analyzeOptionalParam;
 function isValidType(object) {
     return object != null && typeof object === "object" && typeof object._ === "string" && (0, _0_api_js_1.getType)(object._) !== undefined;
 }
-exports.isValidType = isValidType;
 function assertIsValidType(object) {
     if (!isValidType(object)) {
         throw new Error("Invalid object");
     }
 }
-exports.assertIsValidType = assertIsValidType;
 function is(typeName, value) {
     if (!isValidType(value)) {
         return false;
@@ -56,15 +60,12 @@ function is(typeName, value) {
         return value._ === typeName;
     }
 }
-exports.is = is;
 function isOneOf(typeNames, value) {
     return typeNames.some((v) => is(v, value));
 }
-exports.isOneOf = isOneOf;
 function isOfEnum(enumName, value) {
     return isOneOf((0, _0_api_js_1.getEnum)(enumName) ?? [], value);
 }
-exports.isOfEnum = isOfEnum;
 function as(typeName, value) {
     if (is(typeName, value)) {
         return value;
@@ -73,7 +74,6 @@ function as(typeName, value) {
         (0, _0_deps_js_1.unreachable)();
     }
 }
-exports.as = as;
 const GENERIC_FUNCTIONS = [
     "invokeAfterMsg",
     "invokeAfterMsgs",
@@ -86,4 +86,3 @@ const GENERIC_FUNCTIONS = [
 function isGenericFunction(value) {
     return isOneOf(GENERIC_FUNCTIONS, value);
 }
-exports.isGenericFunction = isGenericFunction;

@@ -19,7 +19,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.constructAudio = void 0;
+exports.constructAudio = constructAudio;
 const _2_tl_js_1 = require("../2_tl.js");
 const _0_thumbnail_js_1 = require("./0_thumbnail.js");
 function constructAudio(document, audioAttribute, fileId, fileUniqueId) {
@@ -34,4 +34,3 @@ function constructAudio(document, audioAttribute, fileId, fileUniqueId) {
         thumbnails: document.thumbs ? document.thumbs.map((v) => (0, _2_tl_js_1.is)("photoSize", v) ? (0, _0_thumbnail_js_1.constructThumbnail)(v, document) : null).filter((v) => v) : [],
     };
 }
-exports.constructAudio = constructAudio;

@@ -1346,6 +1346,12 @@ _MessageManager_c = new WeakMap(), _MessageManager_LresolveFileId = new WeakMap(
     const message = await __classPrivateFieldGet(this, _MessageManager_instances, "m", _MessageManager_sendMedia).call(this, chatId, media, params);
     return message;
 }, _MessageManager_sendMedia = async function _MessageManager_sendMedia(chatId, media, params) {
+    if (params?.starCount !== undefined) {
+        if (params.starCount <= 0) {
+            throw new _0_errors_js_1.InputError("starCount cannot be zero or negative");
+        }
+        media = { _: "inputMediaPaidMedia", stars_amount: BigInt(params.starCount), extended_media: [media] };
+    }
     const peer = await __classPrivateFieldGet(this, _MessageManager_c, "f").getInputPeer(chatId);
     const randomId = (0, _1_utilities_js_1.getRandomId)();
     const silent = params?.disableNotification ? true : undefined;

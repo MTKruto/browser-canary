@@ -19,7 +19,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.constructMessageReaction = void 0;
+exports.constructMessageReaction = constructMessageReaction;
 const _0_deps_js_1 = require("../0_deps.js");
 const _2_tl_js_1 = require("../2_tl.js");
 const _0_reaction_js_1 = require("./0_reaction.js");
@@ -42,4 +42,3 @@ function constructMessageReaction(reaction_, recentReactions) {
     const chosen = reaction_.chosen_order !== undefined ? true : false;
     return { reaction, count, choosers, chosen };
 }
-exports.constructMessageReaction = constructMessageReaction;

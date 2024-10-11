@@ -19,7 +19,11 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.constructChatListItem4 = exports.constructChatListItem3 = exports.constructChatListItem2 = exports.constructChatListItem = exports.getChatListItemOrder = void 0;
+exports.getChatListItemOrder = getChatListItemOrder;
+exports.constructChatListItem = constructChatListItem;
+exports.constructChatListItem2 = constructChatListItem2;
+exports.constructChatListItem3 = constructChatListItem3;
+exports.constructChatListItem4 = constructChatListItem4;
 const _0_deps_js_1 = require("../0_deps.js");
 const _2_tl_js_1 = require("../2_tl.js");
 const _1_chat_p_js_1 = require("./1_chat_p.js");
@@ -31,7 +35,6 @@ function getChatListItemOrder(lastMessage, pinned) {
     }
     return p + String((BigInt(Math.floor(lastMessage.date.getTime())) << 32n) + BigInt(lastMessage.id));
 }
-exports.getChatListItemOrder = getChatListItemOrder;
 async function constructChatListItem(chatId, pinned, lastMessageId, getEntity, getMessage) {
     const entity = await getEntity((0, _2_tl_js_1.chatIdToPeer)(chatId));
     if (entity == null) {
@@ -46,7 +49,6 @@ async function constructChatListItem(chatId, pinned, lastMessageId, getEntity, g
         lastMessage,
     };
 }
-exports.constructChatListItem = constructChatListItem;
 function constructChatListItem2(entity, pinned, lastMessage) {
     return {
         chat: (0, _1_chat_p_js_1.constructChatP)(entity),
@@ -55,7 +57,6 @@ function constructChatListItem2(entity, pinned, lastMessage) {
         lastMessage,
     };
 }
-exports.constructChatListItem2 = constructChatListItem2;
 async function constructChatListItem3(chatId, pinned, lastMessage, getEntity) {
     const entity = await getEntity((0, _2_tl_js_1.chatIdToPeer)(chatId));
     if (entity == null) {
@@ -68,7 +69,6 @@ async function constructChatListItem3(chatId, pinned, lastMessage, getEntity) {
         lastMessage,
     };
 }
-exports.constructChatListItem3 = constructChatListItem3;
 async function constructChatListItem4(dialog, dialogs, pinnedChats, getEntity, getMessage, getStickerSetName) {
     const topMessage_ = dialogs.messages.find((v) => "id" in v && v.id == dialog.top_message);
     if (!topMessage_) {
@@ -91,4 +91,3 @@ async function constructChatListItem4(dialog, dialogs, pinnedChats, getEntity, g
         pinned,
     };
 }
-exports.constructChatListItem4 = constructChatListItem4;

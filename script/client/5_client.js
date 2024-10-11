@@ -940,7 +940,7 @@ class Client extends Composer {
         }
     }, exports.handleMigrationError)](err) {
         let newDc = String(err.dc);
-        if (Math.abs(__classPrivateFieldGet(this, _Client_client, "f").dcId) >= 10000) {
+        if (Math.abs(__classPrivateFieldGet(this, _Client_client, "f").dcId) >= 10_000) {
             newDc += "-test";
         }
         await this.reconnect(newDc);
@@ -970,7 +970,7 @@ class Client extends Composer {
             return;
         }
         catch (err) {
-            if (!(err instanceof _4_errors_js_1.AuthKeyUnregistered)) {
+            if (!(err instanceof _4_errors_js_1.AuthKeyUnregistered) && !(err instanceof _4_errors_js_1.SessionRevoked)) {
                 throw err;
             }
         }

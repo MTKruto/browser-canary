@@ -19,7 +19,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.keyboardButtonToTlObject = exports.constructKeyboardButton = void 0;
+exports.constructKeyboardButton = constructKeyboardButton;
+exports.keyboardButtonToTlObject = keyboardButtonToTlObject;
 const _0_deps_js_1 = require("../0_deps.js");
 const _2_tl_js_1 = require("../2_tl.js");
 const _0_chat_administrator_rights_js_1 = require("./0_chat_administrator_rights.js");
@@ -100,7 +101,6 @@ function constructKeyboardButton(button_) {
         (0, _0_deps_js_1.unreachable)();
     }
 }
-exports.constructKeyboardButton = constructKeyboardButton;
 function keyboardButtonToTlObject(button) {
     if ("requestUser" in button) {
         return { _: "keyboardButtonRequestPeer", text: button.text, button_id: button.requestUser.requestId, peer_type: ({ _: "requestPeerTypeUser", bot: button.requestUser.userIsBot, premium: button.requestUser.userIsPremium }), max_quantity: 1 };
@@ -129,4 +129,3 @@ function keyboardButtonToTlObject(button) {
         return { _: "keyboardButton", text: button.text };
     }
 }
-exports.keyboardButtonToTlObject = keyboardButtonToTlObject;

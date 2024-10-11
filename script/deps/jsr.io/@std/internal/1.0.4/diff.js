@@ -2,7 +2,11 @@
 // Copyright 2018-2024 the Deno authors. All rights reserved. MIT license.
 // This module is browser compatible.
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.diff = exports.createFp = exports.backTrace = exports.assertFp = exports.createCommon = void 0;
+exports.createCommon = createCommon;
+exports.assertFp = assertFp;
+exports.backTrace = backTrace;
+exports.createFp = createFp;
+exports.diff = diff;
 const REMOVED = 1;
 const COMMON = 2;
 const ADDED = 3;
@@ -43,7 +47,6 @@ function createCommon(A, B) {
     }
     return common;
 }
-exports.createCommon = createCommon;
 /**
  * Asserts that the value is a {@linkcode FarthestPoint}.
  * If not, an error is thrown.
@@ -71,7 +74,6 @@ function assertFp(value) {
         throw new Error(`Unexpected value, expected 'FarthestPoint': received ${typeof value}`);
     }
 }
-exports.assertFp = assertFp;
 /**
  * Creates an array of backtraced differences.
  *
@@ -133,7 +135,6 @@ function backTrace(A, B, current, swapped, routes, diffTypesPtrOffset) {
     }
     return result;
 }
-exports.backTrace = backTrace;
 /**
  * Creates a {@linkcode FarthestPoint}.
  *
@@ -189,7 +190,6 @@ function createFp(k, M, routes, diffTypesPtrOffset, ptr, slide, down) {
     }
     throw new Error("Unexpected missing FarthestPoint");
 }
-exports.createFp = createFp;
 /**
  * Renders the differences between the actual and expected values.
  *
@@ -281,4 +281,3 @@ function diff(A, B) {
         ...backTrace(A, B, currentFp, swapped, routes, diffTypesPtrOffset),
     ];
 }
-exports.diff = diff;

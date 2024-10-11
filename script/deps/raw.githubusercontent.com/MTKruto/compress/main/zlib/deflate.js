@@ -26,7 +26,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.gzip = exports.Deflate = void 0;
+exports.Deflate = void 0;
+exports.gzip = gzip;
 // from https://github.com/nodeca/pako
 const zlibDeflate = __importStar(require("./zlib/deflate.js"));
 const uint8_js_1 = require("../utils/uint8.js");
@@ -163,4 +164,3 @@ function gzip(input, options = {}) {
     options.gzip = true;
     return deflate(input, options);
 }
-exports.gzip = gzip;

@@ -19,7 +19,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.constructThumbnail = void 0;
+exports.constructThumbnail = constructThumbnail;
 const _2_tl_js_1 = require("../2_tl.js");
 const _file_id_js_1 = require("./_file_id.js");
 function constructThumbnail(size, file) {
@@ -39,4 +39,3 @@ function constructThumbnail(size, file) {
         fileSize: size.size,
     };
 }
-exports.constructThumbnail = constructThumbnail;

@@ -1,6 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getElementsByTagType = exports.getElementsByTagName = exports.getElementById = exports.getElements = exports.testElement = void 0;
+exports.testElement = testElement;
+exports.getElements = getElements;
+exports.getElementById = getElementById;
+exports.getElementsByTagName = getElementsByTagName;
+exports.getElementsByTagType = getElementsByTagType;
 const Node_js_1 = require("../Node.js");
 const querying_js_1 = require("./querying.js");
 const Checks = {
@@ -69,7 +73,6 @@ function testElement(options, node) {
     const test = compileTest(options);
     return test ? test(node) : true;
 }
-exports.testElement = testElement;
 /**
  * @param options An object describing nodes to look for.
  * @param nodes Nodes to search through.
@@ -81,7 +84,6 @@ function getElements(options, nodes, recurse, limit = Infinity) {
     const test = compileTest(options);
     return test ? (0, querying_js_1.filter)(test, nodes, recurse, limit) : [];
 }
-exports.getElements = getElements;
 /**
  * @param id The unique ID attribute value to look for.
  * @param nodes Nodes to search through.
@@ -93,7 +95,6 @@ function getElementById(id, nodes, recurse = true) {
         nodes = [nodes];
     return (0, querying_js_1.findOne)(getAttribCheck('id', id), nodes, recurse);
 }
-exports.getElementById = getElementById;
 /**
  * @param tagName Tag name to search for.
  * @param nodes Nodes to search through.
@@ -104,7 +105,6 @@ exports.getElementById = getElementById;
 function getElementsByTagName(tagName, nodes, recurse = true, limit = Infinity) {
     return (0, querying_js_1.filter)(Checks.tag_name(tagName), nodes, recurse, limit);
 }
-exports.getElementsByTagName = getElementsByTagName;
 /**
  * @param type Element type to look for.
  * @param nodes Nodes to search through.
@@ -115,4 +115,3 @@ exports.getElementsByTagName = getElementsByTagName;
 function getElementsByTagType(type, nodes, recurse = true, limit = Infinity) {
     return (0, querying_js_1.filter)(Checks.tag_type(type), nodes, recurse, limit);
 }
-exports.getElementsByTagType = getElementsByTagType;

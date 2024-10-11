@@ -19,7 +19,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.constructPreCheckoutQuery = void 0;
+exports.constructPreCheckoutQuery = constructPreCheckoutQuery;
 const _0_deps_js_1 = require("../0_deps.js");
 const _1_utilities_js_1 = require("../1_utilities.js");
 const _1_order_info_js_1 = require("./1_order_info.js");
@@ -40,4 +40,3 @@ async function constructPreCheckoutQuery(query, getEntity) {
         orderInfo: query.info ? (0, _1_order_info_js_1.constructOrderInfo)(query.info) : undefined,
     });
 }
-exports.constructPreCheckoutQuery = constructPreCheckoutQuery;

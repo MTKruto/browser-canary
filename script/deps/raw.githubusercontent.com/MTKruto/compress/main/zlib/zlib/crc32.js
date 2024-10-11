@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.crc32 = exports.makeTable = void 0;
+exports.makeTable = makeTable;
+exports.crc32 = crc32;
 function makeTable() {
     let c;
     const table = [];
@@ -14,7 +15,6 @@ function makeTable() {
     }
     return table;
 }
-exports.makeTable = makeTable;
 // Create table on load. Just 255 signed longs. Not a problem.
 const crcTable = makeTable();
 function crc32(crc, buf, len, pos) {
@@ -27,4 +27,3 @@ function crc32(crc, buf, len, pos) {
     }
     return (crc ^ (-1)); // >>> 0;
 }
-exports.crc32 = crc32;

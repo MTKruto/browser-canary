@@ -2,7 +2,7 @@
 // Copyright 2018-2024 the Deno authors. All rights reserved. MIT license.
 // This module is browser compatible.
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.dirname = void 0;
+exports.dirname = dirname;
 const dirname_js_1 = require("../_common/dirname.js");
 const strip_trailing_separators_js_1 = require("../_common/strip_trailing_separators.js");
 const _util_js_1 = require("./_util.js");
@@ -51,4 +51,3 @@ function dirname(path) {
     }
     return (0, strip_trailing_separators_js_1.stripTrailingSeparators)(path.slice(0, end), _util_js_1.isPosixPathSeparator);
 }
-exports.dirname = dirname;

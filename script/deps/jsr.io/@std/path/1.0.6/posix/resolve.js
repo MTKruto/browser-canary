@@ -23,7 +23,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.resolve = void 0;
+exports.resolve = resolve;
 // Copyright 2018-2024 the Deno authors. All rights reserved. MIT license.
 // This module is browser compatible.
 const dntShim = __importStar(require("../../../../../../_dnt.shims.js"));
@@ -83,4 +83,3 @@ function resolve(...pathSegments) {
     else
         return ".";
 }
-exports.resolve = resolve;

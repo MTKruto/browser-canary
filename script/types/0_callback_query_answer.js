@@ -19,7 +19,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.constructCallbackQueryAnswer = void 0;
+exports.constructCallbackQueryAnswer = constructCallbackQueryAnswer;
 function constructCallbackQueryAnswer(answer) {
     return {
         alert: !!answer.alert,
@@ -27,4 +27,3 @@ function constructCallbackQueryAnswer(answer) {
         url: answer.url ?? "",
     };
 }
-exports.constructCallbackQueryAnswer = constructCallbackQueryAnswer;

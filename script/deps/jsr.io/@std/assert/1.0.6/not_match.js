@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.assertNotMatch = void 0;
+exports.assertNotMatch = assertNotMatch;
 // Copyright 2018-2024 the Deno authors. All rights reserved. MIT license.
 // This module is browser compatible.
 const assertion_error_js_1 = require("./assertion_error.js");
@@ -27,4 +27,3 @@ function assertNotMatch(actual, expected, msg) {
     msg = `Expected actual: "${actual}" to not match: "${expected}"${msgSuffix}`;
     throw new assertion_error_js_1.AssertionError(msg);
 }
-exports.assertNotMatch = assertNotMatch;

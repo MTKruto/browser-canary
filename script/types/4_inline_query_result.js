@@ -19,7 +19,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.inlineQueryResultToTlObject = exports.constructInlineQueryResult = void 0;
+exports.constructInlineQueryResult = constructInlineQueryResult;
+exports.inlineQueryResultToTlObject = inlineQueryResultToTlObject;
 const _0_deps_js_1 = require("../0_deps.js");
 const _1_utilities_js_1 = require("../1_utilities.js");
 const _2_tl_js_1 = require("../2_tl.js");
@@ -207,7 +208,6 @@ function constructInlineQueryResult(result) {
     }
     (0, _0_deps_js_1.unreachable)();
 }
-exports.constructInlineQueryResult = constructInlineQueryResult;
 // deno-lint-ignore no-explicit-any
 async function inlineQueryResultToTlObject(result_, parseText, usernameResolver) {
     let document = null;
@@ -382,4 +382,3 @@ async function inlineQueryResultToTlObject(result_, parseText, usernameResolver)
         (0, _0_deps_js_1.unreachable)();
     }
 }
-exports.inlineQueryResultToTlObject = inlineQueryResultToTlObject;

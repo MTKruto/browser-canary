@@ -19,8 +19,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.constructMiniAppInfo = void 0;
+exports.constructMiniAppInfo = constructMiniAppInfo;
 function constructMiniAppInfo(url) {
     return { url };
 }
-exports.constructMiniAppInfo = constructMiniAppInfo;

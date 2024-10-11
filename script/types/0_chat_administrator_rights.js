@@ -19,7 +19,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.chatAdministratorRightsToTlObject = exports.constructChatAdministratorRights = void 0;
+exports.constructChatAdministratorRights = constructChatAdministratorRights;
+exports.chatAdministratorRightsToTlObject = chatAdministratorRightsToTlObject;
 function constructChatAdministratorRights(rights_) {
     const rights = {
         isAnonymous: rights_.anonymous || false,
@@ -45,8 +46,6 @@ function constructChatAdministratorRights(rights_) {
     }
     return rights;
 }
-exports.constructChatAdministratorRights = constructChatAdministratorRights;
 function chatAdministratorRightsToTlObject(rights) {
     return { _: "chatAdminRights", anonymous: rights.isAnonymous || undefined, other: rights.canManageChat || undefined, delete_messages: rights.canDeleteMessages || undefined, manage_call: rights.canManageChat || undefined, ban_users: rights.canRestrictMembers || undefined, add_admins: rights.canPromoteMembers || undefined, change_info: rights.canChangeInfo || undefined, invite_users: rights.canInviteUsers || undefined };
 }
-exports.chatAdministratorRightsToTlObject = chatAdministratorRightsToTlObject;

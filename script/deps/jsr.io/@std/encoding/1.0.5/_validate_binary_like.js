@@ -1,7 +1,7 @@
 "use strict";
 // Copyright 2018-2024 the Deno authors. All rights reserved. MIT license.
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.validateBinaryLike = void 0;
+exports.validateBinaryLike = validateBinaryLike;
 const encoder = new TextEncoder();
 function getTypeName(value) {
     const type = typeof value;
@@ -27,4 +27,3 @@ function validateBinaryLike(source) {
     }
     throw new TypeError(`Cannot validate the input as it must be a Uint8Array, a string, or an ArrayBuffer: received a value of the type ${getTypeName(source)}`);
 }
-exports.validateBinaryLike = validateBinaryLike;

@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.constructForwardHeader = void 0;
+exports.constructForwardHeader = constructForwardHeader;
 const _0_deps_js_1 = require("../0_deps.js");
 const _1_utilities_js_1 = require("../1_utilities.js");
 const _1_chat_p_js_1 = require("./1_chat_p.js");
@@ -56,4 +56,3 @@ async function constructForwardHeader(fwdHeader, getEntity) {
         };
     }
 }
-exports.constructForwardHeader = constructForwardHeader;

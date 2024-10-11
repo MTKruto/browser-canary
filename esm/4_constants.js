@@ -79,9 +79,9 @@ export const LANG_PACK = "";
 export const SYSTEM_LANG_CODE = LANG_CODE;
 // @ts-ignore: lib
 export const SYSTEM_VERSION = typeof navigator === "undefined" ? typeof process === "undefined" ? "Unknown" : "Node.js/" + process.versions.node : navigator.userAgent;
-export const USERNAME_TTL = 86400;
-export const STICKER_SET_NAME_TTL = 172800;
+export const USERNAME_TTL = 86_400;
+export const STICKER_SET_NAME_TTL = 172_800;
 export const MAX_CHAT_ID = 999999999999;
 export const MAX_CHANNEL_ID = 997852516352;
 export const CHANNEL_DIFFERENCE_LIMIT_USER = 100;
-export const CHANNEL_DIFFERENCE_LIMIT_BOT = 100000;
+export const CHANNEL_DIFFERENCE_LIMIT_BOT = 100_000;

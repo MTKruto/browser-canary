@@ -2,7 +2,7 @@
 // Copyright 2018-2024 the Deno authors. All rights reserved. MIT license.
 // This module is browser compatible.
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.assertNotEquals = void 0;
+exports.assertNotEquals = assertNotEquals;
 const equal_js_1 = require("./equal.js");
 const assertion_error_js_1 = require("./assertion_error.js");
 /**
@@ -33,4 +33,3 @@ function assertNotEquals(actual, expected, msg) {
     const msgSuffix = msg ? `: ${msg}` : ".";
     throw new assertion_error_js_1.AssertionError(`Expected actual: ${actualString} not to be: ${expectedString}${msgSuffix}`);
 }
-exports.assertNotEquals = assertNotEquals;

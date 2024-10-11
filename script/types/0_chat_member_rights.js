@@ -19,7 +19,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.chatMemberRightsToTlObject = exports.constructChatMemberRights = void 0;
+exports.constructChatMemberRights = constructChatMemberRights;
+exports.chatMemberRightsToTlObject = chatMemberRightsToTlObject;
 const _1_utilities_js_1 = require("../1_utilities.js");
 function constructChatMemberRights(rights) {
     return {
@@ -42,7 +43,6 @@ function constructChatMemberRights(rights) {
         canManageTopics: rights.manage_topics ? true : undefined,
     };
 }
-exports.constructChatMemberRights = constructChatMemberRights;
 function chatMemberRightsToTlObject(rights, untilDate) {
     return {
         _: "chatBannedRights",
@@ -66,4 +66,3 @@ function chatMemberRightsToTlObject(rights, untilDate) {
         manage_topics: rights?.canManageTopics ? true : undefined,
     };
 }
-exports.chatMemberRightsToTlObject = chatMemberRightsToTlObject;

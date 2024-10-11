@@ -2,7 +2,7 @@
 // Copyright 2018-2024 the Deno authors. All rights reserved. MIT license.
 // This module is browser compatible.
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.join = void 0;
+exports.join = join;
 const assert_path_js_1 = require("../_common/assert_path.js");
 const normalize_js_1 = require("./normalize.js");
 /**
@@ -30,4 +30,3 @@ function join(...paths) {
     const joined = paths.filter((path) => path.length > 0).join("/");
     return joined === "" ? "." : (0, normalize_js_1.normalize)(joined);
 }
-exports.join = join;

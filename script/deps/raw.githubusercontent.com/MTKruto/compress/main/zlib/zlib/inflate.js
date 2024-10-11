@@ -3,7 +3,16 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.inflateSetDictionary = exports.inflateGetHeader = exports.inflateEnd = exports.inflate = exports.inflateInit = exports.inflateInit2 = exports.inflateReset2 = exports.inflateReset = exports.inflateResetKeep = exports.InflateState = void 0;
+exports.InflateState = void 0;
+exports.inflateResetKeep = inflateResetKeep;
+exports.inflateReset = inflateReset;
+exports.inflateReset2 = inflateReset2;
+exports.inflateInit2 = inflateInit2;
+exports.inflateInit = inflateInit;
+exports.inflate = inflate;
+exports.inflateEnd = inflateEnd;
+exports.inflateGetHeader = inflateGetHeader;
+exports.inflateSetDictionary = inflateSetDictionary;
 const adler32_js_1 = __importDefault(require("./adler32.js"));
 const crc32_js_1 = require("./crc32.js");
 const inffast_js_1 = __importDefault(require("./inffast.js"));
@@ -335,7 +344,6 @@ function inflateResetKeep(strm) {
     //Tracev((stderr, "inflate: reset\n"));
     return Z_OK;
 }
-exports.inflateResetKeep = inflateResetKeep;
 function inflateReset(strm) {
     let state;
     if (!strm || !strm.state)
@@ -346,7 +354,6 @@ function inflateReset(strm) {
     state.wnext = 0;
     return inflateResetKeep(strm);
 }
-exports.inflateReset = inflateReset;
 function inflateReset2(strm, windowBits) {
     let wrap;
     let state;
@@ -377,7 +384,6 @@ function inflateReset2(strm, windowBits) {
     state.wbits = windowBits;
     return inflateReset(strm);
 }
-exports.inflateReset2 = inflateReset2;
 function inflateInit2(strm, windowBits) {
     let ret;
     let state;
@@ -395,11 +401,9 @@ function inflateInit2(strm, windowBits) {
     }
     return ret;
 }
-exports.inflateInit2 = inflateInit2;
 function inflateInit(strm) {
     return inflateInit2(strm, DEF_WBITS);
 }
-exports.inflateInit = inflateInit;
 /*
  Return state with length and distance decoding tables and index sizes set to
  fixed code decoding.  Normally this returns fixed tables from inffixed.h.
@@ -1613,7 +1617,6 @@ function inflate(strm, flush) {
     }
     return ret;
 }
-exports.inflate = inflate;
 function inflateEnd(strm) {
     if (!strm || !strm.state /*|| strm->zfree == (free_func)0*/) {
         return Z_STREAM_ERROR;
@@ -1625,7 +1628,6 @@ function inflateEnd(strm) {
     strm.state = null;
     return Z_OK;
 }
-exports.inflateEnd = inflateEnd;
 function inflateGetHeader(strm, head) {
     let state;
     /* check state */
@@ -1639,7 +1641,6 @@ function inflateGetHeader(strm, head) {
     head.done = false;
     return Z_OK;
 }
-exports.inflateGetHeader = inflateGetHeader;
 function inflateSetDictionary(strm, dictionary) {
     let dictLength = dictionary.length;
     let state;
@@ -1673,4 +1674,3 @@ function inflateSetDictionary(strm, dictionary) {
     // Tracev((stderr, "inflate:   dictionary set\n"));
     return Z_OK;
 }
-exports.inflateSetDictionary = inflateSetDictionary;

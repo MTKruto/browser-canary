@@ -19,7 +19,12 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deserializeMsgContainer = exports.serializeMsgContainer = exports.MSG_CONTAINER_ID = exports.deserializeMessage = exports.serializeMessage = exports.calculateLength = void 0;
+exports.MSG_CONTAINER_ID = void 0;
+exports.calculateLength = calculateLength;
+exports.serializeMessage = serializeMessage;
+exports.deserializeMessage = deserializeMessage;
+exports.serializeMsgContainer = serializeMsgContainer;
+exports.deserializeMsgContainer = deserializeMsgContainer;
 const _2_serialize_js_1 = require("./2_serialize.js");
 const _3_tl_reader_js_1 = require("./3_tl_reader.js");
 const _4_rpc_result_js_1 = require("./4_rpc_result.js");
@@ -44,7 +49,6 @@ function calculateLength(object) {
     }
     return length;
 }
-exports.calculateLength = calculateLength;
 function serializeMessage(message) {
     if (message.body._ == "rpc_result") {
         throw new Error("Not applicable");
@@ -61,7 +65,6 @@ function serializeMessage(message) {
     }
     return writer.buffer;
 }
-exports.serializeMessage = serializeMessage;
 function deserializeMessage(reader) {
     const id_ = reader.readInt64();
     const seqno = reader.readInt32();
@@ -82,7 +85,6 @@ function deserializeMessage(reader) {
     }
     return { _: "message", msg_id: id_, seqno, body };
 }
-exports.deserializeMessage = deserializeMessage;
 exports.MSG_CONTAINER_ID = 0x73F1F8DC;
 function serializeMsgContainer(msgContainer) {
     const writer = new _4_tl_writer_js_1.TLWriter();
@@ -93,7 +95,6 @@ function serializeMsgContainer(msgContainer) {
     }
     return writer.buffer;
 }
-exports.serializeMsgContainer = serializeMsgContainer;
 function deserializeMsgContainer(buffer) {
     const reader = new _3_tl_reader_js_1.TLReader(buffer);
     const length = reader.readInt32();
@@ -103,4 +104,3 @@ function deserializeMsgContainer(buffer) {
     }
     return { _: "msg_container", messages };
 }
-exports.deserializeMsgContainer = deserializeMsgContainer;

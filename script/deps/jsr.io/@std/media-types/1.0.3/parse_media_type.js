@@ -2,7 +2,7 @@
 // Copyright 2018-2024 the Deno authors. All rights reserved. MIT license.
 // This module is browser compatible.
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.parseMediaType = void 0;
+exports.parseMediaType = parseMediaType;
 const _util_js_1 = require("./_util.js");
 const SEMICOLON_REGEXP = /^\s*;\s*$/;
 /**
@@ -115,4 +115,3 @@ function parseMediaType(type) {
     }
     return [mediaType, Object.keys(params).length ? params : undefined];
 }
-exports.parseMediaType = parseMediaType;

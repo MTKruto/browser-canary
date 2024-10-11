@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.concatUint8Array = void 0;
+exports.concatUint8Array = concatUint8Array;
 function concatUint8Array(arr) {
     const length = arr.reduce((pre, next) => pre + next.length, 0);
     const result = new Uint8Array(length);
@@ -11,4 +11,3 @@ function concatUint8Array(arr) {
     }
     return result;
 }
-exports.concatUint8Array = concatUint8Array;

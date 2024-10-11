@@ -4,7 +4,7 @@
 // Ported from https://github.com/browserify/path-browserify/
 // This module is browser compatible.
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.normalizeString = void 0;
+exports.normalizeString = normalizeString;
 const constants_js_1 = require("./constants.js");
 // Resolves . and .. elements in a path with directory names
 function normalizeString(path, allowAboveRoot, separator, isPathSeparator) {
@@ -78,4 +78,3 @@ function normalizeString(path, allowAboveRoot, separator, isPathSeparator) {
     }
     return res;
 }
-exports.normalizeString = normalizeString;

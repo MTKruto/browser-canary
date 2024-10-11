@@ -2,7 +2,7 @@
 // Copyright 2018-2024 the Deno authors. All rights reserved. MIT license.
 // This module is browser compatible.
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.basename = void 0;
+exports.basename = basename;
 const _os_js_1 = require("./_os.js");
 const basename_js_1 = require("./posix/basename.js");
 const basename_js_2 = require("./windows/basename.js");
@@ -37,4 +37,3 @@ function basename(path, suffix = "") {
         ? (0, basename_js_2.basename)(path, suffix)
         : (0, basename_js_1.basename)(path, suffix);
 }
-exports.basename = basename;

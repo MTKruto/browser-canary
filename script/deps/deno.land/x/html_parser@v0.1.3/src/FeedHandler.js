@@ -26,7 +26,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.parseFeed = exports.FeedHandler = void 0;
+exports.FeedHandler = void 0;
+exports.parseFeed = parseFeed;
 const DomHandler_js_1 = __importDefault(require("./DomHandler.js"));
 const DomUtils = __importStar(require("./utils/mod.js"));
 const Parser_js_1 = require("./Parser.js");
@@ -219,4 +220,3 @@ function parseFeed(feed, options = { xmlMode: true }) {
     new Parser_js_1.Parser(handler, options).end(feed);
     return handler.feed;
 }
-exports.parseFeed = parseFeed;

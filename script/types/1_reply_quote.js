@@ -19,7 +19,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.constructReplyQuote = void 0;
+exports.constructReplyQuote = constructReplyQuote;
 const _0_message_entity_js_1 = require("./0_message_entity.js");
 function constructReplyQuote(quoteText, quoteOffset, quoteEntities) {
     quoteText ??= "";
@@ -31,4 +31,3 @@ function constructReplyQuote(quoteText, quoteOffset, quoteEntities) {
         entities: quoteEntities.map(_0_message_entity_js_1.constructMessageEntity).filter((v) => !!v),
     };
 }
-exports.constructReplyQuote = constructReplyQuote;

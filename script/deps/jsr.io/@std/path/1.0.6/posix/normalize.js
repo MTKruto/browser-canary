@@ -2,7 +2,7 @@
 // Copyright 2018-2024 the Deno authors. All rights reserved. MIT license.
 // This module is browser compatible.
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.normalize = void 0;
+exports.normalize = normalize;
 const normalize_js_1 = require("../_common/normalize.js");
 const normalize_string_js_1 = require("../_common/normalize_string.js");
 const _util_js_1 = require("./_util.js");
@@ -40,4 +40,3 @@ function normalize(path) {
         return `/${path}`;
     return path;
 }
-exports.normalize = normalize;

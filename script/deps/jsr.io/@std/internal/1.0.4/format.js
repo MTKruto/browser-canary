@@ -25,7 +25,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.format = void 0;
+exports.format = format;
 /**
  * Converts the input into a string. Objects, Sets and Maps are sorted so as to
  * make tests less flaky.
@@ -61,4 +61,3 @@ function format(v) {
         })
         : `"${String(v).replace(/(?=["\\])/g, "\\")}"`;
 }
-exports.format = format;

@@ -19,7 +19,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.constructMaskPosition = void 0;
+exports.constructMaskPosition = constructMaskPosition;
 function constructMaskPosition({ n, x, y, zoom }) {
     return {
         point: n == 0 ? "forehead" : n == 1 ? "eyes" : n == 2 ? "mouth" : "chin",
@@ -28,4 +28,3 @@ function constructMaskPosition({ n, x, y, zoom }) {
         scale: zoom,
     };
 }
-exports.constructMaskPosition = constructMaskPosition;

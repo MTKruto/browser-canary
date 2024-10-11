@@ -2,7 +2,7 @@
 // Copyright 2018-2024 the Deno authors. All rights reserved. MIT license.
 // This module is browser compatible.
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.relative = void 0;
+exports.relative = relative;
 const _os_js_1 = require("./_os.js");
 const relative_js_1 = require("./posix/relative.js");
 const relative_js_2 = require("./windows/relative.js");
@@ -31,4 +31,3 @@ const relative_js_2 = require("./windows/relative.js");
 function relative(from, to) {
     return _os_js_1.isWindows ? (0, relative_js_2.relative)(from, to) : (0, relative_js_1.relative)(from, to);
 }
-exports.relative = relative;

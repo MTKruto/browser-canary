@@ -19,7 +19,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.constructContact = void 0;
+exports.constructContact = constructContact;
 function constructContact(contact) {
     return {
         phoneNumber: contact.phone_number,
@@ -29,4 +29,3 @@ function constructContact(contact) {
         vcard: contact.vcard || undefined,
     };
 }
-exports.constructContact = constructContact;

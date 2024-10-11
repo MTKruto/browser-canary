@@ -19,7 +19,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.selfDestructOptionToInt = void 0;
+exports.selfDestructOptionToInt = selfDestructOptionToInt;
 const _0_errors_js_1 = require("../0_errors.js");
 function selfDestructOptionToInt(option) {
     if (option == "afterOpen") {
@@ -40,4 +40,3 @@ function selfDestructOptionToInt(option) {
         throw new _0_errors_js_1.InputError("Invalid self destruct option.");
     }
 }
-exports.selfDestructOptionToInt = selfDestructOptionToInt;

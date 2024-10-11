@@ -1,6 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.uniqueSort = exports.compareDocumentPosition = exports.DocumentPosition = exports.removeSubsets = void 0;
+exports.DocumentPosition = void 0;
+exports.removeSubsets = removeSubsets;
+exports.compareDocumentPosition = compareDocumentPosition;
+exports.uniqueSort = uniqueSort;
 const Node_js_1 = require("../Node.js");
 /**
  * Given an array of nodes, remove any member that is contained by another.
@@ -34,7 +37,6 @@ function removeSubsets(nodes) {
     }
     return nodes;
 }
-exports.removeSubsets = removeSubsets;
 // Source: http://dom.spec.whatwg.org/#dom-node-comparedocumentposition
 var DocumentPosition;
 (function (DocumentPosition) {
@@ -108,7 +110,6 @@ function compareDocumentPosition(nodeA, nodeB) {
     }
     return DocumentPosition.PRECEDING;
 }
-exports.compareDocumentPosition = compareDocumentPosition;
 /**
  * Sort an array of nodes based on their relative position in the document and
  * remove any duplicate nodes. If the array contains nodes that do not belong
@@ -131,4 +132,3 @@ function uniqueSort(nodes) {
     });
     return nodes;
 }
-exports.uniqueSort = uniqueSort;

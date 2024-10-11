@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Doctype = exports.CDATA = exports.Tag = exports.Style = exports.Script = exports.Comment = exports.Directive = exports.Text = exports.Root = exports.isTag = exports.ElementType = void 0;
+exports.Doctype = exports.CDATA = exports.Tag = exports.Style = exports.Script = exports.Comment = exports.Directive = exports.Text = exports.Root = exports.ElementType = void 0;
+exports.isTag = isTag;
 /** Types of elements found in htmlparser2's DOM */
 var ElementType;
 (function (ElementType) {
@@ -33,7 +34,6 @@ function isTag(elem) {
         elem.type === ElementType.Script ||
         elem.type === ElementType.Style);
 }
-exports.isTag = isTag;
 // Exports for backwards compatibility
 /** Type for the root element of a document */
 exports.Root = ElementType.Root;

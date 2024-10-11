@@ -1,7 +1,14 @@
 "use strict";
 // Copyright 2018-2024 the Deno authors. All rights reserved. MIT license.
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.needsEncoding = exports.isTSpecial = exports.isToken = exports.isIterator = exports.decode2331Encoding = exports.consumeMediaParam = exports.consumeValue = exports.consumeToken = void 0;
+exports.consumeToken = consumeToken;
+exports.consumeValue = consumeValue;
+exports.consumeMediaParam = consumeMediaParam;
+exports.decode2331Encoding = decode2331Encoding;
+exports.isIterator = isIterator;
+exports.isToken = isToken;
+exports.isTSpecial = isTSpecial;
+exports.needsEncoding = needsEncoding;
 function consumeToken(v) {
     const notPos = indexOf(v, isNotTokenChar);
     if (notPos === -1) {
@@ -12,7 +19,6 @@ function consumeToken(v) {
     }
     return [v.slice(0, notPos), v.slice(notPos)];
 }
-exports.consumeToken = consumeToken;
 function consumeValue(v) {
     if (!v) {
         return ["", v];
@@ -39,7 +45,6 @@ function consumeValue(v) {
     }
     return ["", v];
 }
-exports.consumeValue = consumeValue;
 function consumeMediaParam(v) {
     let rest = v.trimStart();
     if (!rest.startsWith(";")) {
@@ -62,7 +67,6 @@ function consumeMediaParam(v) {
     rest = rest2;
     return [param, value, rest];
 }
-exports.consumeMediaParam = consumeMediaParam;
 function decode2331Encoding(v) {
     const sv = v.split(`'`, 3);
     if (sv.length !== 3) {
@@ -82,7 +86,6 @@ function decode2331Encoding(v) {
     }
     return encv;
 }
-exports.decode2331Encoding = decode2331Encoding;
 function indexOf(s, fn) {
     let i = -1;
     for (const v of s) {
@@ -100,14 +103,12 @@ function isIterator(obj) {
     // deno-lint-ignore no-explicit-any
     return typeof obj[Symbol.iterator] === "function";
 }
-exports.isIterator = isIterator;
 function isToken(s) {
     if (!s) {
         return false;
     }
     return indexOf(s, isNotTokenChar) < 0;
 }
-exports.isToken = isToken;
 function isNotTokenChar(r) {
     return !isTokenChar(r);
 }
@@ -118,7 +119,6 @@ function isTokenChar(r) {
 function isTSpecial(r) {
     return r[0] ? `()<>@,;:\\"/[]?=`.includes(r[0]) : false;
 }
-exports.isTSpecial = isTSpecial;
 const CHAR_CODE_SPACE = " ".charCodeAt(0);
 const CHAR_CODE_TILDE = "~".charCodeAt(0);
 function needsEncoding(s) {
@@ -130,4 +130,3 @@ function needsEncoding(s) {
     }
     return false;
 }
-exports.needsEncoding = needsEncoding;

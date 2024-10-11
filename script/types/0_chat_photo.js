@@ -19,7 +19,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.constructChatPhoto = void 0;
+exports.constructChatPhoto = constructChatPhoto;
 const _1_utilities_js_1 = require("../1_utilities.js");
 const _2_tl_js_1 = require("../2_tl.js");
 const _file_id_js_1 = require("./_file_id.js");
@@ -59,4 +59,3 @@ function constructChatPhoto(photo, chatId, chatAccessHash) {
         });
     }
 }
-exports.constructChatPhoto = constructChatPhoto;

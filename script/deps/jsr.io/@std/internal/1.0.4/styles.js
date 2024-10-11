@@ -27,7 +27,16 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.stripAnsiCode = exports.bgGreen = exports.bgRed = exports.brightBlack = exports.gray = exports.white = exports.yellow = exports.green = exports.red = exports.bold = void 0;
+exports.bold = bold;
+exports.red = red;
+exports.green = green;
+exports.yellow = yellow;
+exports.white = white;
+exports.gray = gray;
+exports.brightBlack = brightBlack;
+exports.bgRed = bgRed;
+exports.bgGreen = bgGreen;
+exports.stripAnsiCode = stripAnsiCode;
 // This code is vendored from `fmt/colors.ts`.
 // deno-lint-ignore no-explicit-any
 const dntShim = __importStar(require("../../../../../_dnt.shims.js"));
@@ -67,7 +76,6 @@ function run(str, code) {
 function bold(str) {
     return run(str, code([1], 22));
 }
-exports.bold = bold;
 /**
  * Sets the color of text to be printed to red.
  *
@@ -87,7 +95,6 @@ exports.bold = bold;
 function red(str) {
     return run(str, code([31], 39));
 }
-exports.red = red;
 /**
  * Sets the color of text to be printed to green.
  *
@@ -107,7 +114,6 @@ exports.red = red;
 function green(str) {
     return run(str, code([32], 39));
 }
-exports.green = green;
 /**
  * Sets the color of text to be printed to yellow.
  *
@@ -127,7 +133,6 @@ exports.green = green;
 function yellow(str) {
     return run(str, code([33], 39));
 }
-exports.yellow = yellow;
 /**
  * Sets the color of text to be printed to white.
  *
@@ -145,7 +150,6 @@ exports.yellow = yellow;
 function white(str) {
     return run(str, code([37], 39));
 }
-exports.white = white;
 /**
  * Sets the color of text to be printed to gray.
  *
@@ -163,7 +167,6 @@ exports.white = white;
 function gray(str) {
     return brightBlack(str);
 }
-exports.gray = gray;
 /**
  * Sets the color of text to be printed to bright-black.
  *
@@ -181,7 +184,6 @@ exports.gray = gray;
 function brightBlack(str) {
     return run(str, code([90], 39));
 }
-exports.brightBlack = brightBlack;
 /**
  * Sets the background color of text to be printed to red.
  *
@@ -199,7 +201,6 @@ exports.brightBlack = brightBlack;
 function bgRed(str) {
     return run(str, code([41], 49));
 }
-exports.bgRed = bgRed;
 /**
  * Sets the background color of text to be printed to green.
  *
@@ -217,7 +218,6 @@ exports.bgRed = bgRed;
 function bgGreen(str) {
     return run(str, code([42], 49));
 }
-exports.bgGreen = bgGreen;
 // https://github.com/chalk/ansi-regex/blob/02fa893d619d3da85411acc8fd4e2eea0e95a9d9/index.js
 const ANSI_PATTERN = new RegExp([
     "[\\u001B\\u009B][[\\]()#;?]*(?:(?:(?:(?:;[-a-zA-Z\\d\\/#&.:=?%@~_]+)*|[a-zA-Z\\d]+(?:;[-a-zA-Z\\d\\/#&.:=?%@~_]*)*)?\\u0007)",
@@ -240,4 +240,3 @@ const ANSI_PATTERN = new RegExp([
 function stripAnsiCode(string) {
     return string.replace(ANSI_PATTERN, "");
 }
-exports.stripAnsiCode = stripAnsiCode;

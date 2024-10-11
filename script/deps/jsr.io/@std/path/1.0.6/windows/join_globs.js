@@ -2,7 +2,7 @@
 // Copyright 2018-2024 the Deno authors. All rights reserved. MIT license.
 // This module is browser compatible.
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.joinGlobs = void 0;
+exports.joinGlobs = joinGlobs;
 const join_js_1 = require("./join.js");
 const constants_js_1 = require("./constants.js");
 const normalize_glob_js_1 = require("./normalize_glob.js");
@@ -41,4 +41,3 @@ function joinGlobs(globs, { extended = true, globstar = false } = {}) {
         return ".";
     return (0, normalize_glob_js_1.normalizeGlob)(joined, { extended, globstar });
 }
-exports.joinGlobs = joinGlobs;

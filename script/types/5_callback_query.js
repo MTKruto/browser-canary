@@ -19,7 +19,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.constructCallbackQuery = exports.deserializeInlineMessageId = void 0;
+exports.deserializeInlineMessageId = deserializeInlineMessageId;
+exports.constructCallbackQuery = constructCallbackQuery;
 const _0_deps_js_1 = require("../0_deps.js");
 const _0_errors_js_1 = require("../0_errors.js");
 const _1_utilities_js_1 = require("../1_utilities.js");
@@ -40,7 +41,6 @@ function deserializeInlineMessageId(inlineMessageId) {
     }
     throw ERR_INVALID_INLINE_MESSAGE_ID;
 }
-exports.deserializeInlineMessageId = deserializeInlineMessageId;
 async function constructCallbackQuery(callbackQuery, getEntity, getMessage) {
     const user_ = await getEntity({ _: "peerUser", user_id: callbackQuery.user_id });
     if (!user_) {
@@ -62,4 +62,3 @@ async function constructCallbackQuery(callbackQuery, getEntity, getMessage) {
         return (0, _1_utilities_js_1.cleanObject)({ id, from: user, inlineMessageId: (0, _1_utilities_js_1.base64EncodeUrlSafe)((0, _2_tl_js_1.serialize)(callbackQuery.msg_id)), chatInstance, data, gameShortName });
     }
 }
-exports.constructCallbackQuery = constructCallbackQuery;

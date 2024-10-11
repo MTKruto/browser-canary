@@ -19,7 +19,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.botCommandScopeToTlObject = void 0;
+exports.botCommandScopeToTlObject = botCommandScopeToTlObject;
 const _0_deps_js_1 = require("../0_deps.js");
 const _2_tl_js_1 = require("../2_tl.js");
 async function botCommandScopeToTlObject(scope, getInputPeer) {
@@ -47,4 +47,3 @@ async function botCommandScopeToTlObject(scope, getInputPeer) {
             (0, _0_deps_js_1.unreachable)();
     }
 }
-exports.botCommandScopeToTlObject = botCommandScopeToTlObject;

@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.assertExists = void 0;
+exports.assertExists = assertExists;
 // Copyright 2018-2024 the Deno authors. All rights reserved. MIT license.
 // This module is browser compatible.
 const assertion_error_js_1 = require("./assertion_error.js");
@@ -28,4 +28,3 @@ function assertExists(actual, msg) {
         throw new assertion_error_js_1.AssertionError(msg);
     }
 }
-exports.assertExists = assertExists;

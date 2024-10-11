@@ -2,7 +2,7 @@
 // Copyright 2018-2024 the Deno authors. All rights reserved. MIT license.
 // This module is browser compatible.
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.common = void 0;
+exports.common = common;
 const common_js_1 = require("./_common/common.js");
 const constants_js_1 = require("./constants.js");
 /**
@@ -34,4 +34,3 @@ const constants_js_1 = require("./constants.js");
 function common(paths) {
     return (0, common_js_1.common)(paths, constants_js_1.SEPARATOR);
 }
-exports.common = common;

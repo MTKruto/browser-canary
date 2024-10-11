@@ -2,7 +2,7 @@
 // Copyright 2018-2024 the Deno authors. All rights reserved. MIT license.
 // This module is browser compatible.
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.assertArg = void 0;
+exports.assertArg = assertArg;
 function assertArg(url) {
     url = url instanceof URL ? url : new URL(url);
     if (url.protocol !== "file:") {
@@ -10,4 +10,3 @@ function assertArg(url) {
     }
     return url;
 }
-exports.assertArg = assertArg;

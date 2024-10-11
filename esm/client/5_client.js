@@ -37,7 +37,7 @@ import { as, chatIdToPeerId, getChatIdPeerType, is, isOneOf, peerToChatId } from
 import { getDc } from "../3_transport.js";
 import { constructUser } from "../3_types.js";
 import { APP_VERSION, DEVICE_MODEL, LANG_CODE, LANG_PACK, LAYER, MAX_CHANNEL_ID, MAX_CHAT_ID, SYSTEM_LANG_CODE, SYSTEM_VERSION, USERNAME_TTL } from "../4_constants.js";
-import { AuthKeyUnregistered, ConnectionNotInited, FloodWait, Migrate, PasswordHashInvalid, PhoneNumberInvalid, SessionPasswordNeeded } from "../4_errors.js";
+import { AuthKeyUnregistered, ConnectionNotInited, FloodWait, Migrate, PasswordHashInvalid, PhoneNumberInvalid, SessionPasswordNeeded, SessionRevoked } from "../4_errors.js";
 import { PhoneCodeInvalid } from "../4_errors.js";
 import { checkPassword } from "./0_password.js";
 import { StorageOperations } from "./0_storage_operations.js";
@@ -936,7 +936,7 @@ export class Client extends Composer {
         }
     }, handleMigrationError)](err) {
         let newDc = String(err.dc);
-        if (Math.abs(__classPrivateFieldGet(this, _Client_client, "f").dcId) >= 10000) {
+        if (Math.abs(__classPrivateFieldGet(this, _Client_client, "f").dcId) >= 10_000) {
             newDc += "-test";
         }
         await this.reconnect(newDc);
@@ -966,7 +966,7 @@ export class Client extends Composer {
             return;
         }
         catch (err) {
-            if (!(err instanceof AuthKeyUnregistered)) {
+            if (!(err instanceof AuthKeyUnregistered) && !(err instanceof SessionRevoked)) {
                 throw err;
             }
         }

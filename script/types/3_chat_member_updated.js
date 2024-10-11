@@ -19,7 +19,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.constructChatMemberUpdated = void 0;
+exports.constructChatMemberUpdated = constructChatMemberUpdated;
 const _0_deps_js_1 = require("../0_deps.js");
 const _1_utilities_js_1 = require("../1_utilities.js");
 const _2_tl_js_1 = require("../2_tl.js");
@@ -54,4 +54,3 @@ async function constructChatMemberUpdated(update, getEntity) {
         inviteLink,
     });
 }
-exports.constructChatMemberUpdated = constructChatMemberUpdated;

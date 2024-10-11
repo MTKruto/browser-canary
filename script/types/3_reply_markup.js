@@ -19,7 +19,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.replyMarkupToTlObject = exports.constructReplyMarkup = void 0;
+exports.constructReplyMarkup = constructReplyMarkup;
+exports.replyMarkupToTlObject = replyMarkupToTlObject;
 const _0_deps_js_1 = require("../0_deps.js");
 const _1_utilities_js_1 = require("../1_utilities.js");
 const _2_tl_js_1 = require("../2_tl.js");
@@ -111,7 +112,6 @@ function constructReplyMarkup(replyMarkup) {
         (0, _0_deps_js_1.unreachable)();
     }
 }
-exports.constructReplyMarkup = constructReplyMarkup;
 async function replyMarkupToTlObject(replyMarkup, usernameResolver) {
     if ("inlineKeyboard" in replyMarkup) {
         return await inlineKeyboardMarkupToTlObject(replyMarkup, usernameResolver);
@@ -129,4 +129,3 @@ async function replyMarkupToTlObject(replyMarkup, usernameResolver) {
         (0, _0_deps_js_1.unreachable)();
     }
 }
-exports.replyMarkupToTlObject = replyMarkupToTlObject;

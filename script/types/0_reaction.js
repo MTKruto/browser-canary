@@ -19,7 +19,9 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.reactionEqual = exports.reactionToTlObject = exports.constructReaction = void 0;
+exports.constructReaction = constructReaction;
+exports.reactionToTlObject = reactionToTlObject;
+exports.reactionEqual = reactionEqual;
 const _0_deps_js_1 = require("../0_deps.js");
 const _2_tl_js_1 = require("../2_tl.js");
 function constructReaction(reaction) {
@@ -36,11 +38,9 @@ function constructReaction(reaction) {
         (0, _0_deps_js_1.unreachable)();
     }
 }
-exports.constructReaction = constructReaction;
 function reactionToTlObject(reaction) {
     return reaction.type == "emoji" ? ({ _: "reactionEmoji", emoticon: reaction.emoji }) : reaction.type == "custom" ? ({ _: "reactionCustomEmoji", document_id: BigInt(reaction.id) }) : { _: "reactionPaid" };
 }
-exports.reactionToTlObject = reactionToTlObject;
 function reactionEqual(left, right) {
     if (left.type == "emoji") {
         if (right.type == "emoji" && left.emoji == right.emoji) {
@@ -54,4 +54,3 @@ function reactionEqual(left, right) {
     }
     return false;
 }
-exports.reactionEqual = reactionEqual;

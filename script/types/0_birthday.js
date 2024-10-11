@@ -19,7 +19,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.constructBirthday = void 0;
+exports.constructBirthday = constructBirthday;
 function constructBirthday(birthday) {
     return {
         day: birthday.day,
@@ -27,4 +27,3 @@ function constructBirthday(birthday) {
         year: birthday.year,
     };
 }
-exports.constructBirthday = constructBirthday;

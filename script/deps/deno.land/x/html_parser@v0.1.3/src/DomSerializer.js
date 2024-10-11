@@ -24,6 +24,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.attributeNames = exports.elementNames = void 0;
+exports.default = render;
 /*
  * Module dependencies
  */
@@ -207,7 +208,6 @@ function render(node, options = {}) {
     }
     return output;
 }
-exports.default = render;
 function renderNode(node, options) {
     switch (node.type) {
         case ElementType.Root:

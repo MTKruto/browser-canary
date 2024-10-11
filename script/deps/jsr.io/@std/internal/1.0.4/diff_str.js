@@ -1,6 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.diffStr = exports.createDetails = exports.tokenize = exports.unescape = void 0;
+exports.unescape = unescape;
+exports.tokenize = tokenize;
+exports.createDetails = createDetails;
+exports.diffStr = diffStr;
 const diff_js_1 = require("./diff.js");
 /**
  * Unescape invisible characters.
@@ -28,7 +31,6 @@ function unescape(string) {
         // This does not remove line breaks
         .replaceAll(/\r\n|\r|\n/g, (str) => str === "\r" ? "\\r" : str === "\n" ? "\\n\n" : "\\r\\n\r\n");
 }
-exports.unescape = unescape;
 const WHITESPACE_SYMBOLS = /([^\S\r\n]+|[()[\]{}'"\r\n]|\b)/;
 /**
  * Tokenizes a string into an array of tokens.
@@ -64,7 +66,6 @@ function tokenize(string, wordDiff = false) {
     }
     return tokens;
 }
-exports.tokenize = tokenize;
 /**
  * Create details by filtering relevant word-diff for current line and merge
  * "space-diff" if surrounded by word-diff for cleaner displays.
@@ -104,7 +105,6 @@ function createDetails(line, tokens) {
         return result;
     });
 }
-exports.createDetails = createDetails;
 const NON_WHITESPACE_REGEXP = /\S/;
 /**
  * Renders the differences between the actual and expected strings. Partially
@@ -183,4 +183,3 @@ function diffStr(A, B) {
     }
     return diffResult;
 }
-exports.diffStr = diffStr;

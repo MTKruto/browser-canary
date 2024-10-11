@@ -2,7 +2,7 @@
 // Copyright 2018-2024 the Deno authors. All rights reserved. MIT license.
 // This module is browser compatible.
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.typeByExtension = void 0;
+exports.typeByExtension = typeByExtension;
 const _db_js_1 = require("./_db.js");
 /**
  * Returns the media type associated with the file extension, or `undefined` if
@@ -32,4 +32,3 @@ function typeByExtension(extension) {
     // @ts-ignore Work around https://github.com/denoland/dnt/issues/148
     return _db_js_1.types.get(extension.toLowerCase());
 }
-exports.typeByExtension = typeByExtension;

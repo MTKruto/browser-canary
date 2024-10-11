@@ -2,7 +2,7 @@
 // Copyright 2018-2024 the Deno authors. All rights reserved. MIT license.
 // This module is browser compatible.
 Object.defineProperty(exports, "__esModule", { value: true });
-exports._globToRegExp = void 0;
+exports._globToRegExp = _globToRegExp;
 const REG_EXP_ESCAPE_CHARS = [
     "!",
     "$",
@@ -235,4 +235,3 @@ caseInsensitive = false, } = {}) {
     regExpString = `^${regExpString}$`;
     return new RegExp(regExpString, caseInsensitive ? "i" : "");
 }
-exports._globToRegExp = _globToRegExp;

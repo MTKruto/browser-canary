@@ -393,7 +393,7 @@ class UpdateManager {
                     const Ti = Date.now();
                     const timeout = await __classPrivateFieldGet(this, _UpdateManager_instances, "m", _UpdateManager_recoverChannelUpdateGap).call(this, channelId, "openChat");
                     const dT = Date.now() - Ti;
-                    const delay = Math.max(timeout * 1000 - dT, 0);
+                    const delay = Math.max(timeout * 1_000 - dT, 0);
                     logger.debug("timeout=", timeout, "delay=", delay, "dT=", dT);
                     if (delay) {
                         await new Promise((r) => {

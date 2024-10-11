@@ -19,7 +19,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.bufferFromBigInt = void 0;
+exports.bufferFromBigInt = bufferFromBigInt;
 const bufferFromHexString = (hexString) => Uint8Array.from(hexString.match(/.{1,2}/g).map((byte) => parseInt(byte, 16)));
 function bufferFromBigInt(int, byteCount, littleEndian = true, signed = false) {
     const actualByteCount = Math.ceil(int.toString(2).length / 8);
@@ -52,4 +52,3 @@ function bufferFromBigInt(int, byteCount, littleEndian = true, signed = false) {
     }
     return buffer;
 }
-exports.bufferFromBigInt = bufferFromBigInt;

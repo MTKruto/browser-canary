@@ -2,7 +2,7 @@
 // Copyright 2018-2024 the Deno authors. All rights reserved. MIT license.
 // This module is browser compatible.
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.equal = void 0;
+exports.equal = equal;
 function isKeyedCollection(x) {
     return x instanceof Set || x instanceof Map;
 }
@@ -137,4 +137,3 @@ function equal(c, d) {
         return false;
     })(c, d);
 }
-exports.equal = equal;

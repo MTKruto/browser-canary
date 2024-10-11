@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.assertArrayIncludes = void 0;
+exports.assertArrayIncludes = assertArrayIncludes;
 // Copyright 2018-2024 the Deno authors. All rights reserved. MIT license.
 // This module is browser compatible.
 const equal_js_1 = require("./equal.js");
@@ -47,4 +47,3 @@ function assertArrayIncludes(actual, expected, msg) {
     msg = `Expected actual: "${(0, format_js_1.format)(actual)}" to include: "${(0, format_js_1.format)(expected)}"${msgSuffix}\nmissing: ${(0, format_js_1.format)(missing)}`;
     throw new assertion_error_js_1.AssertionError(msg);
 }
-exports.assertArrayIncludes = assertArrayIncludes;

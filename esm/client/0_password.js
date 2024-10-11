@@ -65,7 +65,7 @@ export async function pbkdf2(password, salt, iterations) {
     return new Uint8Array(buffer);
 }
 // PH2(password, salt1, salt2) := SH(pbkdf2(sha512, PH1(password, salt1, salt2), salt1, 100000), salt2)
-export const ph2 = async (password, salt1, salt2) => await sh(await pbkdf2(await ph1(password, salt1, salt2), salt1, 100000), salt2);
+export const ph2 = async (password, salt1, salt2) => await sh(await pbkdf2(await ph1(password, salt1, salt2), salt1, 100_000), salt2);
 export function isGoodModExpFirst(modexp, prime) {
     const diff = prime - modexp;
     const minDiffBitsCount = 2048 - 64;
@@ -120,7 +120,7 @@ export async function checkPassword(password_, ap) {
     let u = 0n;
     let a = 0n;
     let gA = 0n;
-    for (let i = 0; i < 1000; i++) {
+    for (let i = 0; i < 1_000; i++) {
         a = getRandomBigInt(256, false);
         // g_a := pow(g, a) mod p
         gA = modExp(BigInt(g), a, p);

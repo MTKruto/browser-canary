@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.default = inflate_fast;
 // See state defs from inflate.js
 const BAD = 30; /* got a data error -- remain here until reset */
 const TYPE = 12; /* i: waiting for type bits, including last-flag bit */
@@ -321,4 +322,3 @@ function inflate_fast(strm, start) {
     state.bits = bits;
     return;
 }
-exports.default = inflate_fast;

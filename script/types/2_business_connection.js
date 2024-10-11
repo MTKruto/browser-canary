@@ -19,7 +19,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.constructBusinessConnection = void 0;
+exports.constructBusinessConnection = constructBusinessConnection;
 const _1_utilities_js_1 = require("../1_utilities.js");
 const _1_user_js_1 = require("./1_user.js");
 async function constructBusinessConnection(connection, getEntity) {
@@ -31,4 +31,3 @@ async function constructBusinessConnection(connection, getEntity) {
         isEnabled: !connection.disabled,
     };
 }
-exports.constructBusinessConnection = constructBusinessConnection;

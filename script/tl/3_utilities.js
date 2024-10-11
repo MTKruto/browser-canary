@@ -19,13 +19,17 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.inputPeerToPeer = exports.getChatIdPeerType = exports.chatIdToPeerId = exports.chatIdToPeer = exports.peerToChatId = exports.getChannelChatId = void 0;
+exports.getChannelChatId = getChannelChatId;
+exports.peerToChatId = peerToChatId;
+exports.chatIdToPeer = chatIdToPeer;
+exports.chatIdToPeerId = chatIdToPeerId;
+exports.getChatIdPeerType = getChatIdPeerType;
+exports.inputPeerToPeer = inputPeerToPeer;
 const _0_deps_js_1 = require("../0_deps.js");
 const _1_utilities_js_1 = require("../1_utilities.js");
 function getChannelChatId(channelId) {
     return _1_utilities_js_1.ZERO_CHANNEL_ID + -Number(channelId);
 }
-exports.getChannelChatId = getChannelChatId;
 function peerToChatId(peer) {
     if (("_" in peer && (peer._ == "peerUser" || peer._ == "inputPeerUser" || peer._ == "inputPeerUserFromMessage" || peer._ == "user" || peer._ == "userFull")) || "user_id" in peer) {
         return Number("user_id" in peer ? peer.user_id : peer.id);
@@ -40,7 +44,6 @@ function peerToChatId(peer) {
         (0, _0_deps_js_1.unreachable)();
     }
 }
-exports.peerToChatId = peerToChatId;
 function chatIdToPeer(chatId) {
     if (chatId > 0) {
         return { _: "peerUser", user_id: BigInt(chatId) };
@@ -52,7 +55,6 @@ function chatIdToPeer(chatId) {
         return { _: "peerChannel", channel_id: BigInt(_1_utilities_js_1.ZERO_CHANNEL_ID - chatId) };
     }
 }
-exports.chatIdToPeer = chatIdToPeer;
 function chatIdToPeerId(chatId) {
     const peer = chatIdToPeer(chatId);
     if ("user_id" in peer) {
@@ -68,7 +70,6 @@ function chatIdToPeerId(chatId) {
         (0, _0_deps_js_1.unreachable)();
     }
 }
-exports.chatIdToPeerId = chatIdToPeerId;
 function getChatIdPeerType(chatId) {
     if (chatId > 0) {
         return "user";
@@ -80,7 +81,6 @@ function getChatIdPeerType(chatId) {
         return "channel";
     }
 }
-exports.getChatIdPeerType = getChatIdPeerType;
 function inputPeerToPeer(inputPeer) {
     if ("user_id" in inputPeer) {
         return { ...inputPeer, _: "peerUser" };
@@ -95,4 +95,3 @@ function inputPeerToPeer(inputPeer) {
         (0, _0_deps_js_1.unreachable)();
     }
 }
-exports.inputPeerToPeer = inputPeerToPeer;

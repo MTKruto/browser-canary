@@ -2,7 +2,7 @@
 // Copyright 2018-2024 the Deno authors. All rights reserved. MIT license.
 // This module is browser compatible.
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.toNamespacedPath = void 0;
+exports.toNamespacedPath = toNamespacedPath;
 const constants_js_1 = require("../_common/constants.js");
 const _util_js_1 = require("./_util.js");
 const resolve_js_1 = require("./resolve.js");
@@ -50,4 +50,3 @@ function toNamespacedPath(path) {
     }
     return path;
 }
-exports.toNamespacedPath = toNamespacedPath;

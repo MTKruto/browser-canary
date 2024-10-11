@@ -23,7 +23,8 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getNumber = exports.getString = void 0;
+exports.getString = getString;
+exports.getNumber = getNumber;
 const dntShim = __importStar(require("../_dnt.shims.js"));
 const prefix = "MTKRUTO__";
 // deno-lint-ignore no-explicit-any
@@ -50,7 +51,6 @@ function getString(name) {
         return null;
     }
 }
-exports.getString = getString;
 function getNumber(name) {
     const value = getString(name);
     if (value == null) {
@@ -64,4 +64,3 @@ function getNumber(name) {
         return number;
     }
 }
-exports.getNumber = getNumber;

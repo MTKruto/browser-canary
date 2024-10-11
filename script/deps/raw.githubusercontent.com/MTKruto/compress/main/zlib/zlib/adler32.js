@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.default = adler32;
 function adler32(adler, buf, len, pos) {
     let s1 = (adler & 0xffff) | 0;
     let s2 = ((adler >>> 16) & 0xffff) | 0;
@@ -19,4 +20,3 @@ function adler32(adler, buf, len, pos) {
     }
     return (s1 | (s2 << 16)) | 0;
 }
-exports.default = adler32;

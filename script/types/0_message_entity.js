@@ -19,7 +19,9 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.sortMessageEntities = exports.messageEntityToTlObject = exports.constructMessageEntity = void 0;
+exports.constructMessageEntity = constructMessageEntity;
+exports.messageEntityToTlObject = messageEntityToTlObject;
+exports.sortMessageEntities = sortMessageEntities;
 const _0_deps_js_1 = require("../0_deps.js");
 const _1_utilities_js_1 = require("../1_utilities.js");
 const _2_tl_js_1 = require("../2_tl.js");
@@ -85,7 +87,6 @@ function constructMessageEntity(obj) {
         return null;
     }
 }
-exports.constructMessageEntity = constructMessageEntity;
 async function messageEntityToTlObject(entity, getEntity) {
     const { offset, length } = entity;
     switch (entity.type) {
@@ -151,7 +152,6 @@ async function messageEntityToTlObject(entity, getEntity) {
             return { _: "messageEntityCustomEmoji", offset, length, document_id: BigInt(entity.customEmojiId) };
     }
 }
-exports.messageEntityToTlObject = messageEntityToTlObject;
 const priorities = {
     "mention": 50,
     "hashtag": 50,
@@ -186,4 +186,3 @@ function sortMessageEntities(entities) {
         return priority < otherPriority ? -1 : 1;
     });
 }
-exports.sortMessageEntities = sortMessageEntities;

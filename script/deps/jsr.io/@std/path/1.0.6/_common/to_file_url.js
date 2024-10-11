@@ -2,7 +2,7 @@
 // Copyright 2018-2024 the Deno authors. All rights reserved. MIT license.
 // This module is browser compatible.
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.encodeWhitespace = void 0;
+exports.encodeWhitespace = encodeWhitespace;
 const WHITESPACE_ENCODINGS = {
     "\u0009": "%09",
     "\u000A": "%0A",
@@ -16,4 +16,3 @@ function encodeWhitespace(string) {
         return WHITESPACE_ENCODINGS[c] ?? c;
     });
 }
-exports.encodeWhitespace = encodeWhitespace;

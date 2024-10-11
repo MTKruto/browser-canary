@@ -2,7 +2,7 @@
 // Copyright 2018-2024 the Deno authors. All rights reserved. MIT license.
 // This module is browser compatible.
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.globToRegExp = void 0;
+exports.globToRegExp = globToRegExp;
 const glob_to_reg_exp_js_1 = require("../_common/glob_to_reg_exp.js");
 const constants = {
     sep: "/+",
@@ -83,4 +83,3 @@ const constants = {
 function globToRegExp(glob, options = {}) {
     return (0, glob_to_reg_exp_js_1._globToRegExp)(constants, glob, options);
 }
-exports.globToRegExp = globToRegExp;

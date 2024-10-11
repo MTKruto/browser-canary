@@ -2,7 +2,7 @@
 // Copyright 2018-2024 the Deno authors. All rights reserved. MIT license.
 // This module is browser compatible.
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.toNamespacedPath = void 0;
+exports.toNamespacedPath = toNamespacedPath;
 /**
  * Converts a path to a namespaced path. This function returns the path as is on posix.
  *
@@ -21,4 +21,3 @@ function toNamespacedPath(path) {
     // Non-op on posix systems
     return path;
 }
-exports.toNamespacedPath = toNamespacedPath;

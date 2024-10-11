@@ -2,7 +2,7 @@
 // Copyright 2018-2024 the Deno authors. All rights reserved. MIT license.
 // This module is browser compatible.
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.resolve = void 0;
+exports.resolve = resolve;
 const _os_js_1 = require("./_os.js");
 const resolve_js_1 = require("./posix/resolve.js");
 const resolve_js_2 = require("./windows/resolve.js");
@@ -31,4 +31,3 @@ function resolve(...pathSegments) {
         ? (0, resolve_js_2.resolve)(...pathSegments)
         : (0, resolve_js_1.resolve)(...pathSegments);
 }
-exports.resolve = resolve;

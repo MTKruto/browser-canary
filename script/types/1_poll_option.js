@@ -19,7 +19,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.constructPollOption = void 0;
+exports.constructPollOption = constructPollOption;
 const _0_message_entity_js_1 = require("./0_message_entity.js");
 function constructPollOption(option, results) {
     return {
@@ -28,4 +28,3 @@ function constructPollOption(option, results) {
         voterCount: results.find((v) => v.option.every((v, i) => option.option[i] == v))?.voters ?? 0,
     };
 }
-exports.constructPollOption = constructPollOption;

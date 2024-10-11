@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.assertAlmostEquals = void 0;
+exports.assertAlmostEquals = assertAlmostEquals;
 // Copyright 2018-2024 the Deno authors. All rights reserved. MIT license.
 // This module is browser compatible.
 const assertion_error_js_1 = require("./assertion_error.js");
@@ -47,4 +47,3 @@ function assertAlmostEquals(actual, expected, tolerance, msg) {
     throw new assertion_error_js_1.AssertionError(`Expected actual: "${f(actual)}" to be close to "${f(expected)}": \
 delta "${f(delta)}" is greater than "${f(tolerance)}"${msgSuffix}`);
 }
-exports.assertAlmostEquals = assertAlmostEquals;

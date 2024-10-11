@@ -19,7 +19,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.inlineKeyboardButtonToTlObject = exports.constructInlineKeyboardButton = void 0;
+exports.constructInlineKeyboardButton = constructInlineKeyboardButton;
+exports.inlineKeyboardButtonToTlObject = inlineKeyboardButtonToTlObject;
 const _0_deps_js_1 = require("../0_deps.js");
 const _0_errors_js_1 = require("../0_errors.js");
 const _1_utilities_js_1 = require("../1_utilities.js");
@@ -66,7 +67,6 @@ function constructInlineKeyboardButton(button_) {
         (0, _0_deps_js_1.unreachable)();
     }
 }
-exports.constructInlineKeyboardButton = constructInlineKeyboardButton;
 async function inlineKeyboardButtonToTlObject(button, usernameResolver) {
     if ("url" in button) {
         return { _: "keyboardButtonUrl", text: button.text, url: button.url };
@@ -113,4 +113,3 @@ async function inlineKeyboardButtonToTlObject(button, usernameResolver) {
         (0, _0_deps_js_1.unreachable)();
     }
 }
-exports.inlineKeyboardButtonToTlObject = inlineKeyboardButtonToTlObject;

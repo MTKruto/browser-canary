@@ -1,6 +1,14 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.cloneNode = exports.hasChildren = exports.isDocument = exports.isDirective = exports.isComment = exports.isText = exports.isCDATA = exports.isTag = exports.Element = exports.Document = exports.NodeWithChildren = exports.ProcessingInstruction = exports.Comment = exports.Text = exports.DataNode = exports.Node = void 0;
+exports.Element = exports.Document = exports.NodeWithChildren = exports.ProcessingInstruction = exports.Comment = exports.Text = exports.DataNode = exports.Node = void 0;
+exports.isTag = isTag;
+exports.isCDATA = isCDATA;
+exports.isText = isText;
+exports.isComment = isComment;
+exports.isDirective = isDirective;
+exports.isDocument = isDocument;
+exports.hasChildren = hasChildren;
+exports.cloneNode = cloneNode;
 const ElementType_js_1 = require("./ElementType.js");
 const nodeTypes = new Map([
     [ElementType_js_1.ElementType.Tag, 1],
@@ -287,7 +295,6 @@ exports.Element = Element;
 function isTag(node) {
     return (0, ElementType_js_1.isTag)(node);
 }
-exports.isTag = isTag;
 /**
  * @param node Node to check.
  * @returns `true` if the node has the type `CDATA`, `false` otherwise.
@@ -295,7 +302,6 @@ exports.isTag = isTag;
 function isCDATA(node) {
     return node.type === ElementType_js_1.ElementType.CDATA;
 }
-exports.isCDATA = isCDATA;
 /**
  * @param node Node to check.
  * @returns `true` if the node has the type `Text`, `false` otherwise.
@@ -303,7 +309,6 @@ exports.isCDATA = isCDATA;
 function isText(node) {
     return node.type === ElementType_js_1.ElementType.Text;
 }
-exports.isText = isText;
 /**
  * @param node Node to check.
  * @returns `true` if the node has the type `Comment`, `false` otherwise.
@@ -311,7 +316,6 @@ exports.isText = isText;
 function isComment(node) {
     return node.type === ElementType_js_1.ElementType.Comment;
 }
-exports.isComment = isComment;
 /**
  * @param node Node to check.
  * @returns `true` if the node has the type `ProcessingInstruction`, `false` otherwise.
@@ -319,7 +323,6 @@ exports.isComment = isComment;
 function isDirective(node) {
     return node.type === ElementType_js_1.ElementType.Directive;
 }
-exports.isDirective = isDirective;
 /**
  * @param node Node to check.
  * @returns `true` if the node has the type `ProcessingInstruction`, `false` otherwise.
@@ -327,7 +330,6 @@ exports.isDirective = isDirective;
 function isDocument(node) {
     return node.type === ElementType_js_1.ElementType.Root;
 }
-exports.isDocument = isDocument;
 /**
  * @param node Node to check.
  * @returns `true` if the node is a `NodeWithChildren` (has children), `false` otherwise.
@@ -335,7 +337,6 @@ exports.isDocument = isDocument;
 function hasChildren(node) {
     return Object.prototype.hasOwnProperty.call(node, 'children');
 }
-exports.hasChildren = hasChildren;
 /**
  * Clone a node, and optionally its children.
  *
@@ -393,7 +394,6 @@ function cloneNode(node, recursive = false) {
     result.endIndex = node.endIndex;
     return result;
 }
-exports.cloneNode = cloneNode;
 function cloneChildren(childs) {
     const children = childs.map(child => cloneNode(child, true));
     for (let i = 1; i < children.length; i++) {

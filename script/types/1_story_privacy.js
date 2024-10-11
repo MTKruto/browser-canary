@@ -19,7 +19,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.constructStoryPrivacy = exports.storyPrivacyToTlObject = void 0;
+exports.storyPrivacyToTlObject = storyPrivacyToTlObject;
+exports.constructStoryPrivacy = constructStoryPrivacy;
 const _0_deps_js_1 = require("../0_deps.js");
 const _2_tl_js_1 = require("../2_tl.js");
 async function resolveUsers(ids, getEntity) {
@@ -63,7 +64,6 @@ async function storyPrivacyToTlObject(privacy, getEntity) {
     }
     return rules;
 }
-exports.storyPrivacyToTlObject = storyPrivacyToTlObject;
 function constructStoryPrivacy(privacy) {
     const except = privacy.find((v) => (0, _2_tl_js_1.is)("privacyValueDisallowUsers", v))?.users?.map(Number) ?? [];
     if (privacy.some((v) => (0, _2_tl_js_1.is)("privacyValueAllowAll", v))) {
@@ -78,4 +78,3 @@ function constructStoryPrivacy(privacy) {
     const only = privacy.find((v) => (0, _2_tl_js_1.is)("privacyValueAllowUsers", v))?.users?.map(Number) ?? [];
     return { only };
 }
-exports.constructStoryPrivacy = constructStoryPrivacy;

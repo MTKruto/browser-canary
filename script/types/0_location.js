@@ -19,7 +19,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.constructLocation = void 0;
+exports.constructLocation = constructLocation;
 const _2_tl_js_1 = require("../2_tl.js");
 function constructLocation(geo_) {
     if ((0, _2_tl_js_1.is)("messageMediaGeo", geo_)) {
@@ -50,4 +50,3 @@ function constructLocation(geo_) {
         };
     }
 }
-exports.constructLocation = constructLocation;

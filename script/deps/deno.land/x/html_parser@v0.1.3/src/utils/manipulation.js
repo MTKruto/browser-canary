@@ -1,6 +1,11 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.prepend = exports.prependChild = exports.append = exports.appendChild = exports.replaceElement = exports.removeElement = void 0;
+exports.removeElement = removeElement;
+exports.replaceElement = replaceElement;
+exports.appendChild = appendChild;
+exports.append = append;
+exports.prependChild = prependChild;
+exports.prepend = prepend;
 /**
  * Remove an element from the dom
  *
@@ -16,7 +21,6 @@ function removeElement(elem) {
         childs.splice(childs.lastIndexOf(elem), 1);
     }
 }
-exports.removeElement = removeElement;
 /**
  * Replace an element in the dom
  *
@@ -38,7 +42,6 @@ function replaceElement(elem, replacement) {
         childs[childs.lastIndexOf(elem)] = replacement;
     }
 }
-exports.replaceElement = replaceElement;
 /**
  * Append a child to an element.
  *
@@ -58,7 +61,6 @@ function appendChild(elem, child) {
         child.prev = null;
     }
 }
-exports.appendChild = appendChild;
 /**
  * Append an element after another.
  *
@@ -84,7 +86,6 @@ function append(elem, next) {
         parent.children.push(next);
     }
 }
-exports.append = append;
 /**
  * Prepend a child to an element.
  *
@@ -104,7 +105,6 @@ function prependChild(elem, child) {
         child.next = null;
     }
 }
-exports.prependChild = prependChild;
 /**
  * Prepend an element before another.
  *
@@ -126,4 +126,3 @@ function prepend(elem, prev) {
     prev.next = elem;
     elem.prev = prev;
 }
-exports.prepend = prepend;

@@ -2,7 +2,7 @@
 // Copyright 2018-2024 the Deno authors. All rights reserved. MIT license.
 // This module is browser compatible.
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.formatMediaType = void 0;
+exports.formatMediaType = formatMediaType;
 const _util_js_1 = require("./_util.js");
 /**
  * Serializes the media type and the optional parameters as a media type
@@ -78,4 +78,3 @@ function formatMediaType(type, param) {
     }
     return serializedMediaType;
 }
-exports.formatMediaType = formatMediaType;

@@ -2,7 +2,7 @@
 // Copyright 2018-2024 the Deno authors. All rights reserved. MIT license.
 // This module is browser compatible.
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.basename = void 0;
+exports.basename = basename;
 const basename_js_1 = require("../_common/basename.js");
 const constants_js_1 = require("../_common/constants.js");
 const strip_trailing_separators_js_1 = require("../_common/strip_trailing_separators.js");
@@ -45,4 +45,3 @@ function basename(path, suffix = "") {
     const strippedSegment = (0, strip_trailing_separators_js_1.stripTrailingSeparators)(lastSegment, _util_js_1.isPathSeparator);
     return suffix ? (0, basename_js_1.stripSuffix)(strippedSegment, suffix) : strippedSegment;
 }
-exports.basename = basename;

@@ -19,8 +19,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.constructDice = void 0;
+exports.constructDice = constructDice;
 function constructDice(dice_) {
     return { emoji: dice_.emoticon, value: dice_.value };
 }
-exports.constructDice = constructDice;
