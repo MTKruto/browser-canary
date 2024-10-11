@@ -50,7 +50,7 @@ __exportStar(require("./deps/jsr.io/@std/assert/1.0.6/mod.js"), exports);
 exports.path = __importStar(require("./deps/jsr.io/@std/path/1.0.6/mod.js"));
 var concat_js_1 = require("./deps/jsr.io/@std/bytes/1.0.2/concat.js");
 Object.defineProperty(exports, "concat", { enumerable: true, get: function () { return concat_js_1.concat; } });
-var iterate_reader_js_1 = require("./deps/jsr.io/@std/io/0.224.9/iterate_reader.js");
+var iterate_reader_js_1 = require("./deps/jsr.io/@std/io/0.225.0/iterate_reader.js");
 Object.defineProperty(exports, "iterateReader", { enumerable: true, get: function () { return iterate_reader_js_1.iterateReader; } });
 var base64_js_1 = require("./deps/jsr.io/@std/encoding/1.0.5/base64.js");
 Object.defineProperty(exports, "decodeBase64", { enumerable: true, get: function () { return base64_js_1.decodeBase64; } });

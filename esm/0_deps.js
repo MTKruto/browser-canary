@@ -20,7 +20,7 @@
 export * from "./deps/jsr.io/@std/assert/1.0.6/mod.js";
 export * as path from "./deps/jsr.io/@std/path/1.0.6/mod.js";
 export { concat } from "./deps/jsr.io/@std/bytes/1.0.2/concat.js";
-export { iterateReader } from "./deps/jsr.io/@std/io/0.224.9/iterate_reader.js";
+export { iterateReader } from "./deps/jsr.io/@std/io/0.225.0/iterate_reader.js";
 export { decodeBase64, encodeBase64 } from "./deps/jsr.io/@std/encoding/1.0.5/base64.js";
 import { contentType as contentType_ } from "./deps/jsr.io/@std/media-types/1.0.3/content_type.js";
 export const contentType = (extentionOrType) => {
